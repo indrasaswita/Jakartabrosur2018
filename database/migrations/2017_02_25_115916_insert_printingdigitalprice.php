@@ -1,0 +1,47 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class InsertPrintingdigitalprice extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        DB::unprepared("
+            INSERT INTO printingdigitalprices VALUES('1', '5', '1', '6000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('2', '5', '10', '5500', now(), now());
+            INSERT INTO printingdigitalprices VALUES('3', '5', '20', '5000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('4', '5', '30', '4500', now(), now());
+            INSERT INTO printingdigitalprices VALUES('5', '5', '50', '4000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('6', '5', '100', '3500', now(), now());
+            INSERT INTO printingdigitalprices VALUES('7', '5', '150', '3000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('8', '5', '200', '2500', now(), now());
+            INSERT INTO printingdigitalprices VALUES('9', '5', '250', '2000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('10', '8', '1', '60000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('11', '8', '40', '50000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('12', '8', '100', '40000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('13', '8', '200', '30000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('14', '8', '500', '25000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('15', '9', '1', '20000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('16', '9', '40', '16000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('17', '9', '100', '13000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('18', '9', '200', '11000', now(), now());
+            INSERT INTO printingdigitalprices VALUES('19', '9', '500', '10000', now(), now());
+        ");
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
+}
