@@ -65,7 +65,7 @@ module.exports = function(app){
 			}
 
 			$scope.checkChanged = function($item){
-				if($item.filestatus == 1)
+				//if($item.filestatus == 1)
 					if($item.checked == true)
 					{
 						$scope.selectedPush($item);
@@ -79,7 +79,7 @@ module.exports = function(app){
 						}
 						$scope.countSelectedPrice();
 					}
-				else
+				/*else
 				{
 					$item.checked = false;
 					$scope.error = "Sebelum Anda dapat memilih, Jakartabrosur harus melakukan pengecekan file.";
@@ -87,7 +87,7 @@ module.exports = function(app){
 					$timeout(function(){
 						$("html, body").stop().animate({scrollTop:$('#errorfocus').offset().top-20}, 500, 'swing');
 					});
-				}
+				}*/
 			}
 
 			$scope.initData = function($input){

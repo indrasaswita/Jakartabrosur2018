@@ -58,9 +58,6 @@
 							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="deletecart(item)">
 								<span class="fas fa-trash"></span>
 							</button>
-							<!-- <button class="btn btn-outline-purple btn-sm margin-5-0" ng-click="setSelectedFiles(item)" ng-show="item.files.length>0">
-								<span class="fas fa-arrow-right"></span>
-							</button> -->
 							<button class="btn btn-sm" ng-click="setFileOK(item)" ng-show="item.filestatus==0">
 								<span class="fas fa-check"></span>
 							</button>
@@ -307,23 +304,14 @@
 							<table class="table table-cartdetail">
 								<thead>
 									<tr>
-										<th class="width-15">Preview</th>
-										<th class="width-85">File</th>
+										<th class="width-min text-xs-center">Preview</th>
+										<th class="">File</th>
 									</tr>
 								</thead>
 								<tbody ng-repeat="item2 in item.cartfile">
 									<tr>
-										<td rowspan="3">
-											<div class="break-word">
-												<img ng-src="{{URL::asset('[[item2.file.preview]]')}}" alt="No Preview" width="100%" class="img-rounded">
-												<br>
-												<a class="a-purple" href="" ng-click="uploadpreviewClick(item2.file)">
-													<span class="fas fa-cloud-upload"></span> Upload
-												</a>
-											</div>
-											<div class="tx-red line-11 margin-5-0 size-80p" ng-hide="uploaderror==''">
-												[[uploaderror]]
-											</div>
+										<td rowspan="2" class="break-word text-center">
+											<img ng-src="{{URL::asset('[[item2.file.icon]]')}}" alt="No Preview" width="40px" height="40px" class="img-rounded margin-5">
 										</td>
 										<td class="text-xs-left break-word">
 											<i class="fas fa-angle-double-right tx-purple"></i> 
@@ -335,17 +323,16 @@
 											File Asli : 
 											<a href="{{URL::asset('')}}[[item2.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item2.file.path]] --> Link</a> 
 											<a class="a-purple" ng-href="{{URL::asset('cartdetails/cartfiles/download')}}/[[item2.file.id]]">
-												<span class="fas fa-cloud-download tx-purple"></span> Download
+												<span class="far fa-arrow-alt-circle-down tx-purple"></span> Download
 											</a>
 										</td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<td class="text-xs-left break-word">
 											Icon : 
-											<img ng-src="{{URL::asset('')}}[[item2.file.icon]]">
-											<a href="{{URL::asset('')}}[[item2.file.icon]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item2.file.icon]] --> Link</a>
+											<a href="{{URL::asset('')}}[[item2.file.icon]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i>Link</a>
 										</td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>
@@ -359,70 +346,11 @@
 
 
 	</div>
-	<div class="col-xs-3 padding-0">
-		<div class="card card-outline-purple" ng-show="selectedcart.files.length>0">
-			<div class="card-header bg-purple">
-				<div class="size-20">
-					Files
-				</div>
-			</div>
-			<div class="card-block padding-0">
-				<table class="table table-sm size-12">
-					<tbody>
-						<tr ng-repeat="item in selectedcart.files">	
-							<td>	
-								<table class="table-clear width-100">
-									<tbody>
-										<tr>
-											<td>
-												<span class="tag tag-pill tag-default text-regular size-12 rockwell">
-													#[[$index+1]]
-												</span> 
-												[[item.filename]] ([[item.size/1024/1024|number:2]]MB)
-											</td>
-										</tr>
-										<tr class="size-14">
-											<!-- <td><span class="tag tag-purple text-regular">rev : [[item.revision]]</span></td> -->
-											<td class="text-xs-right">
-												<span class="tag text-regular" ng-class="{'tag-danger':item.icon=='', 'tag-success':item.icon!=''}">ICON</span>
-												<span class="tag text-regular" ng-class="{'tag-danger':item.path=='', 'tag-success':item.path!=''}">ORI</span>
-												<span class="tag text-regular" ng-class="{'tag-danger':item.preview=='', 'tag-success':item.preview!=''}">VIEW</span>
-											</td>
-										</tr>
-										<tr>
-											<td class="text-xs-right">
-												<a class="btn btn-sm btn-outline-purple" ng-href="{{URL::asset('cartdetails/cartfiles/download')}}/[[item.fileID]]">
-													<span class="fas fa-cloud-download"></span>
-												</a>
-												<button class="btn btn-sm btn-outline-purple" ng-click="uploadpreviewClick(item.fileID)">
-													<span class="fas fa-cloud-upload"></span>
-												</button>
-												<button class="btn btn-sm btn-outline-red">
-													<span class="fas fa-trash"></span>
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="card-footer size-12" ng-show="selectedcart.customernote!=''">
-				<strong>Keterangan</strong><br>
-				[[selectedcart.customernote]]<br>
-				<strong>Deskripsi</strong><br>
-				[[selectedcart.itemdescription]]
-			</div>
-		</div>
-	</div>
+	
 
 	<!-- HARUS DI DALAM IF, KARENA KALO GA ADA DATA - ERROR -->
 	@include('pages.admin.cartdetails.modals.cartreject')
-	@include('pages.admin.cartdetails.modals.addfilebyadmin')
 	
-	<input type="file" id="uploadpreview" class="uploadpreview-btn" hidden>
 	<input id="uploadoriginal" type="file" hidden>
 
 	@else

@@ -11947,6 +11947,9 @@ ol {
   width: 25%;
   text-align: center;
   background-color: #fff;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .orderlist .ordersublist li:hover {
   cursor: pointer;

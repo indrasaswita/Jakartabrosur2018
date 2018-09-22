@@ -163,7 +163,7 @@ Route::post("API/calc/planosize", "Calculation@calcPlanoSize_url");
 /*** EMPLOYEE API ***/
 /*** EMPLOYEE API ***/
 Route::group(['middleware'=>"employeeAPI"], function(){
-	Route::post	('API/upload/preview/{id}',	['as' => 'upload-post', 'uses' =>'ImageController@uploadPreview']);
+	Route::post	('API/upload/preview/{cartid}',	['as' => 'upload-post', 'uses' =>'ImageController@previewUploadEmployee']);
 	Route::post	('API/upload/original/{custid}/{cartid}',	['as' => 'upload-post', 'uses' =>'ImageController@originalUploadEmployee']);
 
 	//change status tracking
@@ -207,7 +207,6 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post('API/order/tracking/chstdone', 'ChangeTrackingAPI@changeStatusDone');
 
 	Route::post	('API/upload',	['as' => 'upload-post', 'uses' =>'ImageController@originalUploadCustomer']);
-	//Route::post	('API/upload/throw', 'ImageController@dzThrow');
 	Route::post	('API/upload/delete', ['as' => 'upload-remove', 'uses' =>'ImageController@deleteUpload']);
 	Route::get	('API/pendimg', ['as'=>'upload-pendimg', 'uses' => 'ImageController@getPendingImage']);
 	Route::post	('API/profile/update/{id}', "ProfileAPI@apiUpdateAll");

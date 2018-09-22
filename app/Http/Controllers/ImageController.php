@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Logic\Image\ImageRepository;
 use App\Http\Requests;
 use App\Cartfile;
+use App\Cartpreview;
 use App\CartHeader;
 use File;
 use App\Files;
@@ -19,40 +20,52 @@ class ImageController extends Controller
 		$this->image = $imageRepository;
 	}
 
-	public function uploadPreview($id, Request $request)
+	public function previewUploadEmployee(Request $request, $cartid)
 	{
+		//BY ADMIN (UPLOAD PROOF FILE)
+
 		$data = $request->all();
-		//$length = count($photo['files']);
-		$length = 0; // DEPRECATED
-		//return array('photo'=>$photo['files'][0]->getClientOriginalName());
-
-		//CEK DULU ID FILENYA ADA ATAU KAGAK
-		$file = Files::find($id);
-
-		if($file == null){
-			//UNTUK PREVIEW harus ada data Filenya di DB.. kalo ga ada brarti ID salah
-			return 'Source File Not Found - Error di Database Tidak Tersedia';
-		}
-
-		if (array_key_exists("files", $form_data))
+		
+		if (array_key_exists("files", $data))
 		{
-			//SAVE DATANYA buat 1 FILE doang, kalo mau banyak file harus looping
-			$response = $this->image->uploadPreviewFile($id, $form_data['files'][0]);
+			$response = $this->image->uploadImageOnly($data['files'][0]);
+			if($response instanceof Files)
+			{
+				//response ini file yang mau di input ke database
+				$response->customerID = 1; // default buat employee // harusnya employeeID
+				$response->save(); // jika response dalam bentuk Object Files
+
+				$file = Files::orderBy('id', 'desc')
+								->first();
+				$fileID = -1;
+				if($file != null)
+				{
+					$fileID = $file['id'];
+				}
+
+				$cartpreview = new Cartpreview();
+				$cartpreview->fileID = $fileID;
+				$cartpreview->cartID = $cartid;
+				$cartpreview->commit = 0;
+				$cartpreview->save();
+			}
+			else
+			{
+				//jika response berupa kode error - string
+				return $response;
+			}
+		}
+		else{
+			return "File is not found.. Error from code, need to be resolved by Admin, call us ASAP..";
+			//KALO DATA FILENYA GA ADA
 		}
 
-		//responsenya juga buat 1 data doang, kalo banyak data mesti pindah function
-		if(strpos($response,'images/preview/')==0){
-			$file->preview = $response;
-			$file->save();
-
-			return $response;
-		}
-
-		return "Not Saved!";
+		return $this->getCartPreviews($cartid);
 	}
 
 	public function originalUploadCustomerByCart(Request $request, $cartid)
 	{
+
 		return $this->originalUploadEmployee($request, session()->get('userid'), $cartid);
 	}
 
@@ -67,7 +80,7 @@ class ImageController extends Controller
 
 		if (array_key_exists("files", $data))
 		{
-			$response = $this->image->upload($data['files'][0]);
+			$response = $this->image->uploadSelective($data['files'][0]);
 			if($response instanceof Files)
 			{
 				$response->customerID = session()->get('userid');
@@ -78,6 +91,10 @@ class ImageController extends Controller
 				//jika response berupa kode error
 				return $response;
 			}
+		}
+		else{
+			return "File is not found.. Error from code, need to be resolved by Admin, call us ASAP..";
+			//KALO DATA FILENYA GA ADA
 		}
 
 		return $this->getPendingImage();
@@ -93,7 +110,7 @@ class ImageController extends Controller
 		//return array('photo'=>$photo['files'][0]->getClientOriginalName());
 		if (array_key_exists("files", $data))
 		{
-			$response = $this->image->upload($data['files'][0]);
+			$response = $this->image->uploadSelective($data['files'][0]);
 			if($response instanceof Files)
 			{
 				$response->customerID = $custid;
@@ -128,6 +145,14 @@ class ImageController extends Controller
 								->get();
 
 		return $cartfiles;
+	}
+
+	public function getCartpreviews($cartID){
+		$cartpreviews = Cartpreview::with('file')
+								->where('cartID', '=', $cartID)
+								->get();
+
+		return $cartpreviews;
 	}
 
 	public function getPendingImage(){
@@ -198,8 +223,4 @@ class ImageController extends Controller
 		return $this->getPendingImage();
 	}
 
-	public function dzThrow(Request $request)
-	{
-		return "nothing";
-	}
 }

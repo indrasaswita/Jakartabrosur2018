@@ -13,44 +13,58 @@ use App\UtilImage;
 
 class ImageRepository
 {
-	public function uploadPreviewFile($photo)
-	{
-			$validator = Validator::make(
-				[ 'files' => $photo ], 
-				[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|max:52428800'  ]
-			);
-
-			$previewName = $photo->getClientOriginalName();
-			$extension = $photo->getClientOriginalExtension();
-
-			$previewNameWithoutExt = substr($previewName, 0, strlen($previewName) - strlen($extension) - 1);
-
-			$filename = $this->sanitizeFilename($previewNameWithoutExt);
-			$allowed_filename = $this->createUniqueFilename( 'preview', $filename, $extension );
-
-			if(!$validator->fails())
-			{
-
-				$uploadSuccess1 = $this->preview( $photo, $allowed_filename );
-				//$uploadSuccess1 = true;
-
-				if( !$uploadSuccess1 ) 
-					return "Tidak bisa upload Gambar Preview - GAGAL..";
-
-			}
-			else
-			{
-				return "Validasi Gagal ( Ext & harus bentuk File )";
-			}
-
-			return "images/preview/".$allowed_filename;
-	}
-
-	public function upload( $photo )
+	public function uploadImageOnly($photo)
 	{
 		$validator = Validator::make(
 			[ 'files' => $photo ], 
 			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|max:52428800'  ]
+			//MAXIMUM 50MB
+		);
+
+
+
+		$file = new Files();
+
+		$originalName = $photo->getClientOriginalName();
+		$extension = $photo->getClientOriginalExtension();
+
+		$originalNameWithoutExt = substr($originalName, 0, strlen($originalName) - strlen($extension) - 1);
+
+		$filename = $this->sanitizeFilename($originalNameWithoutExt);
+		$allowed_filename = $this->createUniqueFilename( 'original', $filename, $extension );
+
+		if(!$validator->fails())
+		{
+			$uploadSuccess1 = $this->original( $photo, $allowed_filename );
+			$uploadSuccess2 = $this->icon( $photo, $allowed_filename );
+
+			if( !$uploadSuccess1 || !$uploadSuccess2 ) {
+
+				return 'Server error while uploading';
+
+			}
+			$file->size = $uploadSuccess1->filesize();
+			$file->icon= "images/icon/".$allowed_filename;
+		}
+		else
+		{
+			return "File is not an image.. Failed to proceed..";
+		}
+
+
+		$file->path= "images/original/".$allowed_filename;
+		$file->detail = "";
+		$file->filename = $originalName;
+		$file->revision = 1;
+		return $file;
+	}
+
+	public function uploadSelective( $photo )
+	{
+		$validator = Validator::make(
+			[ 'files' => $photo ], 
+			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|max:104857600'  ]
+			// MAXIMUM FILE 100MB
 		);
 
 

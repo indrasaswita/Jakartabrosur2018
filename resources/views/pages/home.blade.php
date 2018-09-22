@@ -1,6 +1,7 @@
 @extends('layouts.default')
 @section('title', 'Beranda')
 @section('description', 'Jakarta Brosur mencetak segala Kebutuhan Kantor dan Promosi. Sedia mesin Offset & Digital, juga terima jasa cetak. Dijamin murah! Percetakan Paling Murah di Jakarta.')
+@section('robots', 'index,follow')
 @section('content')
 <div ng-controller="HomePageController">
   <div class="hm-header">

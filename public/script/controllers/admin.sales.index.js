@@ -3,7 +3,6 @@ module.exports = function(app){
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
 			$scope.initHeader = function($headers, $deliveries, $couriers, $activeemployee){
 				$scope.headers = JSON.parse($headers);
-				console.log($scope.headers);
 				$scope.deliveries = JSON.parse($deliveries);
 				$scope.couriers = JSON.parse($couriers);
 				$activeemployee = parseInt($activeemployee);
@@ -785,6 +784,39 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.resetCommitPreview = function($cartpreview){
+				$http({
+					method: "POST",
+					url: API_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
+				}).then(function(response){
+					if(response.data != null){
+						if(response.data.constructor === String){
+							if(response.data == "success")
+								$cartpreview.commit = 0;
+						}
+					}else{
+						console.log("Error, tidak ada return value..");
+					}
+				});
+			}
+
+			$scope.deletePreview = function($cartpreviewID, $salesdetail){
+				$http({
+					method: "POST",
+					url: API_URL+"admin/cartpreview/"+$cartpreviewID+"/delete"
+				}).then(function(response){
+					if(response.data != null){
+						if(reponse.data.constructor !== String){
+							$scope.selectedsalesdetail = response.data;
+						}else{
+							console.log(response.data);
+						}
+					}else{
+						console.log("Error, tidak ada return value..");
+					}
+				});
+			}
+
 			$scope.addprooffile = function($item){
 				$scope.selectedsalesdetail = $item;
 				$("#addprooffileModal").modal("show");
@@ -830,47 +862,35 @@ module.exports = function(app){
 
 
 			//UPLOAD ON modals/ADDPROOFFILE.blade.php
-			$scope.uploadoriginalClick = function($custID, $cartID, $index)
+			$scope.uploadpreviewClick = function($cartID, $index)
 			{
-				$("#uploadoriginal").click();
-				$scope.activeCustomerID = $custID;
+				$("#uploadpreview").click();
+				//$scope.activeCustomerID = $custID;
 				$scope.activeCartID = $cartID;
-				$scope.activeCartIndex = $index;
 			}
 			
-			$('#uploadoriginal').on('change', function(e) 
+			$('#uploadpreview').on('change', function(e) 
 			{ 
+				console.log($(this)[0].files);
 				if ($(this)[0].files){
 					if ($(this)[0].files.length > 0) {
-						$scope.uploadoriginal($(this)[0].files, $scope.activeCustomerID, $scope.activeCartID);
+						$scope.uploadpreview($(this)[0].files, $scope.activeCartID);
 					}
 				} 
 				return false;
 			});
 
-			$scope.uploadoriginal = function(){
+			$scope.uploadpreview = function(files, cartID){
 				var data = new FormData();
 				$scope.uploaderror = '';
 				$scope.uploadwaiting = true;
 
 				angular.forEach(files, function(value){
 					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
-					if ($ext != 'cdr' &&
-						$ext != 'zip' &&
-						$ext != 'rar' &&
-						$ext != 'ai' &&
-						$ext != 'xls' &&
-						$ext != 'xlsx' &&
-						$ext != 'doc' &&
-						$ext != 'docx' &&
-						$ext != 'tiff' &&
+					if ($ext != 'tiff' &&
 						$ext != 'tif' &&
-						$ext != 'pdf' &&
 						$ext != 'jpg' &&
-						$ext != 'jpeg' &&
-						$ext != 'psd' &&
-						$ext != '7z' &&
-						$ext != 'indd') //indesign
+						$ext != 'jpeg') //indesign
 					{
 						//FORMAT NGACOK
 						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
@@ -891,18 +911,17 @@ module.exports = function(app){
 				
 				$http({
 					method: 'POST',
-					url: API_URL+'upload/original/'+custID+'/'+cartID,
+					url: API_URL+'upload/preview/'+cartID,
 					data: data,
 					withCredentials: true,
 					headers: {'Content-Type': undefined },
 					transformRequest: angular.identity
 				}).then(function(response) {
-					if(response!=null)
+					if(response.data!=null)
 					{
-						console.log(response);
-						if(response.constructor === Array)
+						if(response.data.constructor === Array)
 						{
-							$scope.carts[$scope.activeCartIndex].cartfile = response.data;
+							$scope.selectedsalesdetail.cartheader.cartpreview = response.data;
 						}
 						else
 							console.log(response);
@@ -913,15 +932,8 @@ module.exports = function(app){
 					}
 					$scope.uploadwaiting = false;
 					$scope.allowed();
-				}).error(function(response, code) {
-					if(code==403)
-					{
-						$scope.restrictNotLogined();
-					}
-					else
-					{
-						$scope.error.files = "Error file (error not detected), call customer service for this error";
-					}
+				}).error(function(error) {
+					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
 

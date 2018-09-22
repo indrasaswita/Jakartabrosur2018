@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="loginModal" ng-controller="LoginModal">
+<div class="modal fade" id="loginModal" ng-controller="LoginModal" disabled hidden>
   <form>
     <div class="modal-dialog modal-sm" id="loginModalSize" role="document">
       <div class="modal-content">
@@ -21,7 +21,7 @@
             [[alertmessage]]
           </div>
           <div ng-show="localselected.logintab=='login'">
-          @include('includes.login')
+          <!-- @include('includes.login') -->
           </div>
           <div ng-show="localselected.logintab=='register'" class="size-14">
           @include('includes.signup')

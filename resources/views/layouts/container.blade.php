@@ -1,13 +1,14 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="csrf_token" content="{ csrf_token() }" />
     <title>JB | @yield('title')</title>
+    <meta name="csrf_token" content="{ csrf_token() }" />
     <meta name="title" content="@yield('title')">
+    <meta name="description" content="@yield('description')">
+    <meta name="robots" content="@yield('robots')">
     @include('includes.head')
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">
-
     @include('layouts.preloader-wrapper')
 
     <div ng-controller="HandOfGod as god" id="content-wrapper" style='display:none'>

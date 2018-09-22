@@ -1,5 +1,7 @@
 @extends('layouts.container')
 @section('title', 'Log In')
+@section('description', 'Masuk sebagai Pengguna ke account Jakartabrosur agar dapat memesan.')
+@section('robots', 'index')
 @section('content')
 
 <div ng-controller="LoginModal">

@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Files extends Model
 {
+    //use SoftDeletes;
     protected $fillable = ['customerID', 'jobsubtypeID', 'filename', 'size', 'detail', 'revision', 'preview', 'path', 'icon'];
     protected $guarded = ['id'];
     protected $table = "files";
