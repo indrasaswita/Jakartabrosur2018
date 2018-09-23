@@ -9,7 +9,8 @@ class Paper extends Model
     protected $fillable = ['papertypeID', 'name', 'color', 'gramature', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation'];
 
     protected $hidden = ['created_at', 'updated_at', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation'];
-
+    protected $guarded = ['id'];
+    protected $dates = ['created_at','updated_at'];
 
     public function papertype(){
     	return $this->belongsTo('App\Papertype', 'papertypeID')->select('id', 'name', 'category');

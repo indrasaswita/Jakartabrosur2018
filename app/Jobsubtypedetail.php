@@ -9,6 +9,7 @@ class Jobsubtypedetail extends Model
     protected $fillable = ['jobsubtypeID', 'detailname', 'sizetype', 'detailquantity', 'sisicetak', 'defaultmultip', 'stepmultip', 'minmultip', 'maxmultip'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function jobsubtype(){
     	return $this->belongsTo('App\Jobsubtype', 'jobsubtypeID');

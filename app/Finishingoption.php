@@ -9,6 +9,7 @@ class Finishingoption extends Model
     protected $fillable = ['finishingID', 'optionname', 'price', 'priceper', 'priceminim', 'pricebase', 'processdays', 'info'];
     protected $guarded = ['id'];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function finishing()
     {

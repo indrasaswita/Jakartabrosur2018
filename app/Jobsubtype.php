@@ -9,7 +9,8 @@ class Jobsubtype extends Model
 	protected $fillable=['jobtypeID', 'name', 'printtype', 'subname', 'description', 'link', 'digitaloffset', 'minoffset', 'maxoffset', 'stepoffset', 'defaultoffset', 'mindigital', 'maxdigital', 'stepdigital', 'defaultdigital', 'satuan', 'infoqty', 'infosize', 'infomaterial', 'infosisicetak', 'infoproses', 'infodelivery', 'infoperbungkus', 'inforeseller', 'infosponsor', 'qtyoffsettype', 'qtydigitaltype', 'sizetype', 'sisicetak', 'warnacetak', 'stdoffset', 'expoffset', 'stddigital', 'expdigital', 'numerator', 'idcard', 'rangkap', 'active', 'icon', 'sicon1', 'sicon2', 'printerIDoffset', 'printerIDdigital'];
 
 	protected $guarded = ['id'];
-	protected $hidden=	['created_at', 'updated_at'];
+	protected $hidden =	['created_at', 'updated_at'];
+	protected $dates = ['created_at', 'updated_at']; 
 
 	public function printeroffset(){
 		return $this->belongsTo('App\Printingmachine', 'printerIDoffset');

@@ -9,6 +9,7 @@ class Jobsubtypepaper extends Model
     protected $fillable = ['jobsubtypeID', 'paperID', 'ofdg', 'favourite'];
     protected $guarded = ['id'];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function paper(){
     	return $this->belongsTo('App\Paper', 'paperID')->with('paperdetail');

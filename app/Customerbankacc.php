@@ -10,6 +10,10 @@ class Customerbankacc extends Model
     protected $guarded = ['id'];
     protected $dates = ['created_at', 'updated_at'];
 
+    public function customer(){
+    	return $this->belongsTo('App\Customer', 'customerID');
+    }
+
     public function bank(){
     	return $this->belongsTo('App\Bank', 'bankID');
     }

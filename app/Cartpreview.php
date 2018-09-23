@@ -10,10 +10,8 @@ class Cartpreview extends Model
 	use SoftDeletes;
 
   protected $fillable = ['cartID', 'fileID', 'commit', 'comment'];
-  protected $datas = ['created_at', 'updated_at', 'deleted_at'];
+  protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $guarded = ['id'];
-
-
 
   public function file(){
   	return $this->belongsTo('App\Files', 'fileID');
