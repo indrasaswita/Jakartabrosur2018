@@ -229,7 +229,7 @@ module.exports = function(app){
 					  queryTokenizer: Bloodhound.tokenizers.whitespace,
 					  // `states` is an array of state names defined in "The Basics"
 					  //local: $asdf
-					  local: response
+					  local: response.data
 					});
 					$scope.setcustomerautocomplete();
 				})

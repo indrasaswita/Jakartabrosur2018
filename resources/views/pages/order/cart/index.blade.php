@@ -1,5 +1,7 @@
 @extends('layouts.container')
-@section('title', 'Detail Belanja')
+@section('title', 'Keranjang Belanja')
+@section('description', 'Data belanja yang belum dipilih kedalam pembelian.')
+@section('robots', 'noindex,nofollow')
 @section('content')
 
 
@@ -265,10 +267,10 @@
 					</tr>
 					<tr>
 						<td class="" colspan="6" ng-show="item.filestatus==0||item.filestatus==null">
-							<i class="fa fa-warning tx-red"></i> File belum di cek! Butuh pengecekan dari Jakartabrosur untuk lanjut. Hub. 0813-1551-9889 <i class="fa fa-warning tx-red"></i>
+							<i class="fas fa-ban tx-red"></i> File belum di cek! <!-- Butuh pengecekan dari Jakartabrosur untuk lanjut. Hub. 0813-1551-9889 --> <i class="fas fa-ban tx-red"></i>
 						</td>
 						<td class="" colspan="6" ng-hide="item.filestatus==0||item.filestatus==null">
-							<i class="fa fa-user-lock tx-success"></i> Selamat! Pesanan sudah bisa dipilih, silahkan pilih pada kotak disebelah kiri. <i class="fa fa-user-lock tx-success"></i>
+							<i class="fas fa-user-lock tx-success"></i> Selamat! File sudah dicek oleh pihak Jakarta Brosur.<!-- Pesanan sudah bisa dipilih, silahkan pilih pada kotak disebelah kiri. --> <i class="fa fa-user-lock tx-success"></i>
 						</td>
 					</tr>
 				</tbody>

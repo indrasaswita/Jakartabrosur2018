@@ -27,9 +27,6 @@
 											<span class="fas fa-cloud-upload"></span> Upload
 										</a> -->
 									</div>
-									<div class="tx-red line-11 margin-5-0 size-80p" ng-hide="uploaderror==''">
-										[[uploaderror]]
-									</div>
 								</td>
 								<td class="text-xs-left break-word">
 									<span>
@@ -49,7 +46,7 @@
 							<tr>
 								<td class="text-xs-left break-word">
 									File Asli : 
-									<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.path]] --> Link</a> 
+									<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> Link</a> 
 									<a class="a-purple" ng-href="{{URL::asset('cartheaders/cartfiles/download')}}/[[item3.file.id]]">
 										<span class="fas fa-cloud-download-alt tx-purple"></span> Download
 									</a>
@@ -58,7 +55,7 @@
 							<tr>
 								<td class="text-xs-left break-word">
 									Icon : 
-									<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.icon]] --> Link</a> 
+									<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> Link</a> 
 									<a class="a-purple" href="">
 										<span class="fas fa-cloud-upload-alt tx-purple"></span> Upload
 									</a>
@@ -66,11 +63,16 @@
 							</tr>
 						</tbody>
 					</table>
-					<div class="alert alert-lightmagenta">
-						<button class="btn btn-primary" ng-click="uploadoriginalClick(0, 0, 0)">
-							Add
+					<div class="alert alert-warning text-xs-center">
+						<div class="tx-danger line-11 margin-5-0 size-110p" ng-if="uploaderror!=''">
+							[[uploaderror]]
+						</div>
+						<button class="btn btn-outline-primary" ng-click="uploadpreviewClick(selectedsalesdetail.cartheader.id)">
+							Tambah Gambar Proof
 						</button>
-						<
+						<div class="tx-gray margin-5-0">
+							File yg diperbolehkan: <b>JPEG (.jpg/.jpeg), TIFF (.tiff)</b>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

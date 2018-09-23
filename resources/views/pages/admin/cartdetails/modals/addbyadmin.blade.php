@@ -13,7 +13,7 @@
 					<div class="customer-wrapper">
 						<div class="find-customer" id="find-customer">
 							Pilih Pelanggan
-							<input class="typeahead form-control" type="text" placeholder="Hello World">
+							<input class="typeahead form-control" type="text" placeholder="Nama Cust.">
 						</div>
 						<div class="customer-detail" ng-show="newcart.customersales!=null&&!customerloading">
 							<table class="table table-sm">

@@ -16,7 +16,7 @@
 
 
 	<div class="">
-		<input id="uploadoriginal" type="file" hidden>
+		<input id="uploadpreview" type="file" hidden>
 		
 		<div class="size-16 margin-10-0">
 			<small class="fas fa-shopping-bag tx-lightgray"></small> Proses kerja & Alur penjualan
@@ -336,10 +336,6 @@
 														<td rowspan="3">
 															<div class="break-word">
 																<img ng-src="{{URL::asset('[[item3.file.icon]]')}}" alt="No Preview" height="70px" width="70px" class="img-rounded margin-5">
-																<br>
-																<!-- <a class="a-purple" href="" ng-click="uploadpreviewClick(item3.file.id)">
-																	<span class="fas fa-cloud-upload"></span> Upload
-																</a> -->
 															</div>
 															<div class="tx-red line-11 margin-5-0 size-80p" ng-hide="uploaderror==''">
 																[[uploaderror]]
@@ -401,9 +397,6 @@
 																	<span class="fas fa-cloud-upload"></span> Upload
 																</a> -->
 															</div>
-															<div class="tx-red line-11 margin-5-0 size-80p" ng-hide="uploaderror==''">
-																[[uploaderror]]
-															</div>
 														</td>
 														<td class="text-xs-left break-word">
 															<span>
@@ -421,10 +414,10 @@
 														</td>
 														<td rowspan="3">
 															<div class="btn-group-vertical">
-																<button class="btn btn-sm btn-danger">
+																<button class="btn btn-sm btn-danger" ng-click="deletePreview(item3.id, item2)">
 																	<i class="far fa-trash-alt"></i> Delete
 																</button>
-																<button class="btn btn-sm btn-outline-danger">
+																<button class="btn btn-sm btn-outline-danger" ng-if="item3.commit!=0" ng-click="resetCommitPreview(item3)">
 																	<i class="fas fa-history"></i> Reset
 																</button>
 															</div>
@@ -432,20 +425,27 @@
 													</tr>
 													<tr>
 														<td class="text-xs-left break-word">
-															File Asli : 
+															Orig. : 
 															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.path]] --> Link</a> 
 															<a class="a-purple" ng-href="{{URL::asset('cartheaders/cartfiles/download')}}/[[item3.file.id]]">
 																<span class="fas fa-cloud-download-alt tx-purple"></span> Download
 															</a>
+															<!-- &nbsp;&nbsp;
+															Icon : 
+															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> Link</a> 
+															<a class="a-purple" href="">
+																<span class="fas fa-cloud-upload-alt tx-purple"></span> Upload
+															</a> -->
 														</td>
 													</tr>
 													<tr>
 														<td class="text-xs-left break-word">
-															Icon : 
-															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.icon]] --> Link</a> 
-															<a class="a-purple" href="">
-																<span class="fas fa-cloud-upload-alt tx-purple"></span> Upload
-															</a>
+															<span ng-if="item3.comment.length>0 && item3.comment!=null">
+																Pesan Pelanggan: <b class="tx-primary">[[item3.comment]]</b>
+															</span>
+															<span ng-if="item3.comment.length==0 || item3.comment==null" class="tx-lightgray">
+																Tidak ada pesan-pesan dari Pelanggan
+															</span>
 														</td>
 													</tr>
 												</tbody>

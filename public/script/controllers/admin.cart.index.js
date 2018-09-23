@@ -2,8 +2,6 @@ module.exports = function(app){
 	app.controller('AdminCartController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
 			$scope.carts = [];
-			$scope.selectedfiles = [];
-			$scope.activefile = null;
 			$scope.rejectbtns = [
 				{
 					'label' : 'Not HIGHRES',
@@ -40,11 +38,11 @@ module.exports = function(app){
 					method: "get",
 					url: API_URL+"admin/cart/"+$item.id+"/delete"
 				}).then(function(response){
-					if(response!=null)
+					if(response.data!=null)
 					{
-						if(response.constructor === String)
+						if(response.data.constructor === String)
 						{
-							if(response == 'deleted')
+							if(response.data == 'deleted')
 							{
 								//DELETED in return string
 								$.each($scope.carts, function($i, $ii){
@@ -116,7 +114,7 @@ module.exports = function(app){
 						url:API_URL+"cartheaders/filestatus/setOK/"+$item.id
 					}
 				).then(function(response){
-					if(response.status == "success")
+					if(response.data.status == "success")
 						$scope.carts = response.data;
 					else
 						console.log('ERROR di Set File status => OK')
@@ -127,23 +125,12 @@ module.exports = function(app){
 				$('#cartRejectModal').modal('show');
 			}
 
-			$scope.setSelectedFiles = function($item)
-			{
-				$scope.selectedcart = $item;
-			}
-
 			$scope.uploadoriginalClick = function($custID, $cartID, $index)
 			{
 				$("#uploadoriginal").click();
 				$scope.activeCustomerID = $custID;
 				$scope.activeCartID = $cartID;
 				$scope.activeCartIndex = $index;
-			}
-
-			$scope.uploadpreviewClick = function($file)
-			{
-				$("#uploadpreview").click();
-				$activefile = $file;
 			}
 
 			$('#uploadoriginal').on('change', function(e) 
@@ -156,16 +143,7 @@ module.exports = function(app){
 				return false;
 			});
 
-			$('#uploadpreview').on('change', function(e) 
-			{ 
-				if ($(this)[0].files){
-					if ($(this)[0].files.length > 0) {
-						$scope.uploadpreview($(this)[0].files);
-					}
-				} 
-				return false;
-			});
-
+			//TAMBAH FILE BARU BY ADMIN
 			$scope.uploadoriginal = function(files, custID, cartID){
 				var data = new FormData();
 				$scope.uploaderror = '';
@@ -215,105 +193,25 @@ module.exports = function(app){
 					headers: {'Content-Type': undefined },
 					transformRequest: angular.identity
 				}).then(function(response) {
-					if(response!=null)
+					if(response.data!=null)
 					{
-						console.log(response);
-						if(response.constructor === Array)
+						console.log(response.data);
+						if(response.data.constructor === Array)
 						{
 							$scope.carts[$scope.activeCartIndex].cartfile = response.data;
 						}
 						else
-							console.log(response);
+							console.log(response.data);
 					}
 					else
 					{
-						console.log(response);
+						console.log(response.data);
 					}
 					$scope.uploadwaiting = false;
 					$scope.allowed();
-				}).error(function(response, code) {
-					if(code==403)
-					{
-						$scope.restrictNotLogined();
-					}
-					else
-					{
-						$scope.error.files = "Error file (error not detected), call customer service for this error";
-					}
-					$scope.uploadwaiting = false;
-				});
-
-				//buat apus file abis d input
-				//$scope.clearFileInput('file');
-			}
-
-			$scope.uploadpreview = function(files)
-			{
-				var data = new FormData();
-				$scope.uploaderror = '';
-				$scope.uploadwaiting = true;
-
-				angular.forEach(files, function(value){
-					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
-					if ($ext != 'tiff' &&
-						$ext != 'tif' &&
-						$ext != 'jpg' &&
-						$ext != 'jpeg')
-					{
-						//console.log('format ngacoook');
-						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
-					}
-					else if(value.size > 50 * 1024 * 1024)
-					{
-						$scope.uploaderror = value.name+" : file terlalu besar.";
-					}
-					else 
-					{
-						$scope.uploaderror = "";
-						//BERHASIL -> ADD files[] ke data
-						data.append("files[]", value);
-					}
-				});
-				
-				$http({
-					method: 'POST',
-					url: API_URL+'upload/preview/'+$activefile.id,
-					data: data,
-					withCredentials: true,
-					headers: {'Content-Type': undefined },
-					transformRequest: angular.identity
-				}).then(function(response) {
-					if(response!=null)
-					{
-						if(response.constructor === String)
-						{
-							$activefile.preview = response.data;
-							//if ($scope.uploadedfiles.length > 0) 
-								//$scope.tableshow = true;
-						}
-						else
-						{
-							$scope.uploadedfiles = [];
-							$scope.uploaderror = "Gagal Upload";
-						}
-					}
-					else
-					{
-						$scope.uploadedfiles = [];
-						//console.log	('NO DATA in PendIMG');
-					}
-					$scope.uploadwaiting = false;
-				}).error(function(response, code) {
-					if(code==403)
-					{
-						$scope.error.files = "Anda harus login untuk upload file!";
-						$scope.error.savecart = "Anda harus login untuk melakukan pemesanan..";
-						$scope.error.description = "Anda harus login untuk membuat deskripsi pekerjaan..";
-					}
-					else
-					{
-						$scope.error.files = "Error file (error not detected), call customer service for this error";
-					}
+				}).error(function(error) {
+					
+					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
 			}

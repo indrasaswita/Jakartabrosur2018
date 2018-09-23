@@ -4,11 +4,13 @@ require("angular-route");
 require("angular-resource");
 require("angular-cookies");
 require("angular-sanitize");
+require("node-gzip");
+//require("ngx-pagination");
+
 
 var app = require("./init");
+
 require('./constants/variable')(app);
-
-
 
 //require("./route")(app);
 
@@ -31,6 +33,8 @@ require("./controllers/order.shop.create.page")(app);
 require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/account.notification")(app);
+require("./controllers/account.profiles")(app);
 require("./controllers/createheader")(app);
 require("./controllers/trackingcustomer")(app);
 require("./controllers/description")(app);
@@ -38,13 +42,11 @@ require("./controllers/main")(app);
 require("./controllers/godhands")(app);
 
 
-require("./controllers/account.profiles")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
 require("./controllers/admin.cart.index")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
-require("./controllers/admin.cart.addfilebyadmin")(app);
 require("./controllers/admin.sales.index")(app);
 require("./controllers/admin.master.paper.index")(app);
 require("./controllers/admin.master.customer.index")(app);
@@ -67,3 +69,4 @@ Dropzone.call(this);*/
 
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
+require("./directives/pagination/dirPagination")(app);

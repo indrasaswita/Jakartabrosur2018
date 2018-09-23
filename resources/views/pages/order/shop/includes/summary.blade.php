@@ -11,8 +11,8 @@
 	<div class="panel-block" ng-hide="waitingprice==true">
 
 		<div class="block-list-error" ng-hide="error.savecartval==''">
-			<i class="far fa-bell tx-danger"></i>&nbsp;
-			[[error.savecartval]]
+			<i class="fas fa-bell tx-danger"></i>&nbsp;
+			<span class="tx-red">[[error.savecartval]]</span>
 		</div>
 
 		<div class="block-flex">

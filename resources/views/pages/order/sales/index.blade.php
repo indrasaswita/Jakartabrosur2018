@@ -1,5 +1,6 @@
 @extends('layouts.container')
 @section('title', 'Proses & Pembayaran')
+@section('robots', 'noindex,nofollow')
 @section('content')
 	<!-- <form> -->
 <div ng-controller = "AllSalesController" class="">
@@ -28,8 +29,8 @@
 			<thead class="text-center">
 				<tr>
 					<th class="width-min">#Job</th>
-					<th>Waktu</th>
-					<th>Total</th>
+					<th class="width-min">Waktu</th>
+					<th></th>
 					<th>
 						<i class="fas fa-cog"></i> 
 						Action
@@ -39,11 +40,38 @@
 			<tbody ng-repeat="item in sales">
 				<tr class="content-header text-center">
 					<td class="">#[[zeroFill(item.id, 5)]]</td>
-					<td>
-						[[item.created_at|date:'dd-MM-yy HH:mm']]
+					<td class="line-1 size-80p">
+						<b>[[item.created_at|date:'dd/MM']]</b><span class="tx-lightgray">[[item.created_at|date:'/yy']]</span>
+						<br>
+						[[item.created_at|date:'HH:mm']]
 					</td>
 					<td class="">
-						Rp [[item.totalprice|number:0]]
+						<!-- <span class="tx-lightgray">
+							Rp 
+						</span>
+						[[item.totalprice|number:0]] -->
+
+						<div class="line-12 text-left">
+							<div class="" ng-repeat="item2 in item.salesdetail">
+								<span class="tx-lightgray">
+									[[($index+1)|number:0]].
+								</span>
+								<span class="">
+									[[item2.cartheader.quantity]] [[item2.cartheader.quantitytypename]]
+								</span>
+								<span class="tx-primary">
+									[[item2.cartheader.jobsubtype.name]] [[item2.cartheader.jobtitle]]
+								</span>
+								<span class="tx-success" ng-if="item2.commited">
+									<i class="fas fa-check-circle"></i>
+									Sudah Commit
+								</span>
+								<span class="tx-danger" ng-if="!item2.commited" data-toggle="tooltip" data-placement="top" data-html="true" data-title="<b>BELUM COMMIT</b><br><br>Agar dapat dicetak, harus ada <br><b class='tx-primary'>persetujuan cetak (commit)</b><br> untuk setiap hasil proof yang kami upload.<br><br>Jika belum dibuatkan file proof, silahkan hubungi <br><b>0859-5971-7175</b><br> untuk mempercepat pengerjaan.">
+									<i class="fas fa-ban"></i>
+									Belum Commit
+								</span>
+							</div>
+						</div>
 					</td>
 					<td class="th-action act-3">
 						<div class="btn-group btn-header">
@@ -397,7 +425,7 @@
 											</span>
 										</td>
 										<td class="width-min">
-											<a class="a-purple" href="" data-toggle="tooltip" data-placement="top" data-title="edit delivery">
+											<a class="a-purple" href="" data-toggle="tooltip" data-placement="top" data-title="edit delivery" hidden>
 												<i class="fas fa-edit text-bold"></i>
 											</a>
 										</td>

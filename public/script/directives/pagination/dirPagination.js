@@ -14,7 +14,7 @@
  * Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>
  */
 
-(function() {
+module.exports = function(app) {
 
     /**
      * Config
@@ -636,4 +636,4 @@
             };
         };
     }
-})();
+};

@@ -176,7 +176,7 @@ class ShopController extends Controller
 		
 		$header->totalpackage = MathHelper::ceil($data['quantity']/$data['perbungkus'], 1);
 		$header->totalweight = $total['weight'];
-		$header->filestatus = 0;
+		$header->filestatus = 0; 
 
 		$header->save();
 
