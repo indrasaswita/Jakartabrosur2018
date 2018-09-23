@@ -34,6 +34,8 @@ require("./controllers/order.shop.create.page")(app);
 require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/account.notification")(app);
+require("./controllers/account.profiles")(app);
 require("./controllers/createheader")(app);
 require("./controllers/trackingcustomer")(app);
 require("./controllers/description")(app);
@@ -41,7 +43,6 @@ require("./controllers/main")(app);
 require("./controllers/godhands")(app);
 
 
-require("./controllers/account.profiles")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -70,7 +71,7 @@ Dropzone.call(this);*/
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/variable":2,"./controllers/account.profiles":3,"./controllers/admin.cart.addbyadmin":4,"./controllers/admin.cart.index":5,"./controllers/admin.master.customer.index":6,"./controllers/admin.master.customer.pendingcompany":7,"./controllers/admin.master.paper.index":8,"./controllers/admin.sales.index":9,"./controllers/admin.tracking.index":10,"./controllers/aice.index":11,"./controllers/createheader":12,"./controllers/description":13,"./controllers/godhands":14,"./controllers/home":15,"./controllers/includes.modals.compaccno":16,"./controllers/login-modal":17,"./controllers/main":18,"./controllers/order.cart.index":19,"./controllers/order.sales.commit":20,"./controllers/order.sales.index":21,"./controllers/order.shop.calculation.customer":22,"./controllers/order.shop.create.page":23,"./controllers/order.shop.lists.customer":24,"./controllers/roles":25,"./controllers/salespaymentconfirm":26,"./controllers/salespayments":27,"./controllers/trackingcustomer":28,"./controllers/viewfile-modal":29,"./customs/sidebar-affix":30,"./customs/sticky-button":31,"./customs/sticky-cart-review":32,"./customs/sticky-shop-total":33,"./directives/bootstrap-select-addon":34,"./directives/bootstrap-tooltip":35,"./directives/pagination/dirPagination":36,"./init":37,"angular":47,"angular-cookies":39,"angular-resource":41,"angular-route":43,"angular-sanitize":45,"node-gzip":63}],2:[function(require,module,exports){
+},{"./constants/variable":2,"./controllers/account.notification":3,"./controllers/account.profiles":4,"./controllers/admin.cart.addbyadmin":5,"./controllers/admin.cart.index":6,"./controllers/admin.master.customer.index":7,"./controllers/admin.master.customer.pendingcompany":8,"./controllers/admin.master.paper.index":9,"./controllers/admin.sales.index":10,"./controllers/admin.tracking.index":11,"./controllers/aice.index":12,"./controllers/createheader":13,"./controllers/description":14,"./controllers/godhands":15,"./controllers/home":16,"./controllers/includes.modals.compaccno":17,"./controllers/login-modal":18,"./controllers/main":19,"./controllers/order.cart.index":20,"./controllers/order.sales.commit":21,"./controllers/order.sales.index":22,"./controllers/order.shop.calculation.customer":23,"./controllers/order.shop.create.page":24,"./controllers/order.shop.lists.customer":25,"./controllers/roles":26,"./controllers/salespaymentconfirm":27,"./controllers/salespayments":28,"./controllers/trackingcustomer":29,"./controllers/viewfile-modal":30,"./customs/sidebar-affix":31,"./customs/sticky-button":32,"./customs/sticky-cart-review":33,"./customs/sticky-shop-total":34,"./directives/bootstrap-select-addon":35,"./directives/bootstrap-tooltip":36,"./directives/pagination/dirPagination":37,"./init":38,"angular":48,"angular-cookies":40,"angular-resource":42,"angular-route":44,"angular-sanitize":46,"node-gzip":64}],2:[function(require,module,exports){
 module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
@@ -82,6 +83,34 @@ module.exports = function(app){
 	app.constant("API_URL", $public_path+'API/');
 }
 },{}],3:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('NotificationController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
+			//$scope.notifications = null;
+
+			$scope.initData = function($datas){
+				$scope.notifications = JSON.parse($datas);
+			}
+
+			/*$scope.loadnotif = function($role, $custID){
+				$scope.notifications = null;
+				$http({
+					method: "POST",
+					url: API_URL+'notifications/'+$role+'/'+$custID
+				}).then(function(response){
+					if(response.data != null){
+						if(response.data.constructor === String){
+							console.log('error bro');
+						}else{
+							$scope.notifications = response.data;
+						}
+					}
+				});
+			}*/
+		}
+	]);
+};
+},{}],4:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('ProfileController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -151,7 +180,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartAddbyadminController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -464,7 +493,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -685,7 +714,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -740,7 +769,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompanyPendingController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -758,7 +787,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -963,7 +992,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -1909,7 +1938,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -2090,7 +2119,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -2328,7 +2357,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -2342,7 +2371,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -2401,7 +2430,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -2529,6 +2558,33 @@ module.exports = function(app){
 			}
 			$scope.globalSubnav();
 
+			$scope.role = function($role, $custID){
+				if($role!=null){
+					if($role == 'customer'){
+						$scope.notifcounting('customer', $custID);
+					}else if($role != 'customer' && $role != ''){
+						$scope.notifcounting('employee', $custID);
+					}
+				}
+			}
+
+			$scope.notifcount = 0;
+			$scope.notifcounting = function($role, $custID){
+				$scope.notifcount = 0;
+				$http({
+					method: "POST",
+					url: API_URL+'notifications/'+$role+'/'+$custID+'/count'
+				}).then(function(response){
+					if(response.data != null){
+						if(response.data.constructor === String){
+							$scope.notifcount = parseInt(response.data);
+						}else{
+							console.log('error');
+						}
+					}
+				});
+			}
+
 			$(document).ready(function(){
 				$('#preloader-wrapper').hide();
 				$('#content-wrapper').fadeIn();
@@ -2590,6 +2646,10 @@ module.exports = function(app){
 					}
 				}
 			}
+
+			String.prototype.toTitleCase = function () {
+			  	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+			};
 
 			$scope.togglerClicked = function(){
 				$timeout(function(){
@@ -2781,7 +2841,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -2923,7 +2983,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -2934,7 +2994,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -3139,7 +3199,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -3155,7 +3215,7 @@ module.exports = function(app){
 	})
 
 }
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -3548,7 +3608,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -3721,7 +3781,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, $window){
@@ -3963,7 +4023,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -5269,7 +5329,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -6511,7 +6571,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -6519,7 +6579,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -6595,7 +6655,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, $window){
@@ -6749,7 +6809,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -6808,7 +6868,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -6852,7 +6912,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('ViewfileModal', ['$scope', '$http', 'API_URL',
 		function($scope, $http, API_URL){
@@ -6861,7 +6921,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 	    var scrollValue = $(window).scrollTop();
@@ -6902,7 +6962,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		var scrollValue = $(window).scrollTop();
@@ -6926,7 +6986,7 @@ module.exports = function(app){
 
 	});
 }
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.cart-list').length > 0)
@@ -6947,7 +7007,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -6969,7 +7029,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -6984,7 +7044,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -7001,7 +7061,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -7642,7 +7702,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -7662,7 +7722,7 @@ module.exports = angular.module('jakartabrosur',
 /*
 .constant('API_URL', )
 .constant('WEB_URL', 'http://localhost:8000/');*/
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -7917,11 +7977,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":38}],40:[function(require,module,exports){
+},{"./angular-cookies":39}],41:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -8834,11 +8894,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":40}],42:[function(require,module,exports){
+},{"./angular-resource":41}],43:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -10105,11 +10165,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":42}],44:[function(require,module,exports){
+},{"./angular-route":43}],45:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -11024,11 +11084,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":44}],46:[function(require,module,exports){
+},{"./angular-sanitize":45}],47:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -47257,11 +47317,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":46}],48:[function(require,module,exports){
+},{"./angular":47}],49:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -47755,7 +47815,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":51}],49:[function(require,module,exports){
+},{"util/":52}],50:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -47780,14 +47840,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -48377,7 +48437,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":50,"_process":76,"inherits":49}],52:[function(require,module,exports){
+},{"./support/isBuffer":51,"_process":77,"inherits":50}],53:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -48530,9 +48590,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],53:[function(require,module,exports){
-
 },{}],54:[function(require,module,exports){
+
+},{}],55:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 /* eslint camelcase: "off" */
@@ -48944,7 +49004,7 @@ Zlib.prototype._reset = function () {
 
 exports.Zlib = Zlib;
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":76,"assert":48,"buffer":56,"pako/lib/zlib/constants":66,"pako/lib/zlib/deflate.js":68,"pako/lib/zlib/inflate.js":70,"pako/lib/zlib/zstream":74}],55:[function(require,module,exports){
+},{"_process":77,"assert":49,"buffer":57,"pako/lib/zlib/constants":67,"pako/lib/zlib/deflate.js":69,"pako/lib/zlib/inflate.js":71,"pako/lib/zlib/zstream":75}],56:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -49556,7 +49616,7 @@ util.inherits(DeflateRaw, Zlib);
 util.inherits(InflateRaw, Zlib);
 util.inherits(Unzip, Zlib);
 }).call(this,require('_process'))
-},{"./binding":54,"_process":76,"assert":48,"buffer":56,"stream":91,"util":96}],56:[function(require,module,exports){
+},{"./binding":55,"_process":77,"assert":49,"buffer":57,"stream":92,"util":97}],57:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -51335,7 +51395,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":52,"ieee754":59}],57:[function(require,module,exports){
+},{"base64-js":53,"ieee754":60}],58:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -51446,7 +51506,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":61}],58:[function(require,module,exports){
+},{"../../is-buffer/index.js":62}],59:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -51971,7 +52031,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -52057,9 +52117,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],60:[function(require,module,exports){
-arguments[4][49][0].apply(exports,arguments)
-},{"dup":49}],61:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
+arguments[4][50][0].apply(exports,arguments)
+},{"dup":50}],62:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -52082,14 +52142,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');
@@ -52112,7 +52172,7 @@ module.exports = {
     return promise;
   }
 };
-},{"zlib":55}],64:[function(require,module,exports){
+},{"zlib":56}],65:[function(require,module,exports){
 'use strict';
 
 
@@ -52219,7 +52279,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -52272,7 +52332,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -52342,7 +52402,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -52403,7 +52463,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -54279,7 +54339,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":64,"./adler32":65,"./crc32":67,"./messages":72,"./trees":73}],69:[function(require,module,exports){
+},{"../utils/common":65,"./adler32":66,"./crc32":68,"./messages":73,"./trees":74}],70:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -54626,7 +54686,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -56184,7 +56244,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":64,"./adler32":65,"./crc32":67,"./inffast":69,"./inftrees":71}],71:[function(require,module,exports){
+},{"../utils/common":65,"./adler32":66,"./crc32":68,"./inffast":70,"./inftrees":72}],72:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -56529,7 +56589,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":64}],72:[function(require,module,exports){
+},{"../utils/common":65}],73:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -56563,7 +56623,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -57785,7 +57845,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":64}],74:[function(require,module,exports){
+},{"../utils/common":65}],75:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -57834,7 +57894,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -57882,7 +57942,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":76}],76:[function(require,module,exports){
+},{"_process":77}],77:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -58068,10 +58128,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":78}],78:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":79}],79:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -58203,7 +58263,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":80,"./_stream_writable":82,"core-util-is":57,"inherits":60,"process-nextick-args":75}],79:[function(require,module,exports){
+},{"./_stream_readable":81,"./_stream_writable":83,"core-util-is":58,"inherits":61,"process-nextick-args":76}],80:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -58251,7 +58311,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":81,"core-util-is":57,"inherits":60}],80:[function(require,module,exports){
+},{"./_stream_transform":82,"core-util-is":58,"inherits":61}],81:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -59273,7 +59333,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":78,"./internal/streams/BufferList":83,"./internal/streams/destroy":84,"./internal/streams/stream":85,"_process":76,"core-util-is":57,"events":58,"inherits":60,"isarray":62,"process-nextick-args":75,"safe-buffer":90,"string_decoder/":92,"util":53}],81:[function(require,module,exports){
+},{"./_stream_duplex":79,"./internal/streams/BufferList":84,"./internal/streams/destroy":85,"./internal/streams/stream":86,"_process":77,"core-util-is":58,"events":59,"inherits":61,"isarray":63,"process-nextick-args":76,"safe-buffer":91,"string_decoder/":93,"util":54}],82:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -59488,7 +59548,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":78,"core-util-is":57,"inherits":60}],82:[function(require,module,exports){
+},{"./_stream_duplex":79,"core-util-is":58,"inherits":61}],83:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -60178,7 +60238,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":78,"./internal/streams/destroy":84,"./internal/streams/stream":85,"_process":76,"core-util-is":57,"inherits":60,"process-nextick-args":75,"safe-buffer":90,"timers":93,"util-deprecate":94}],83:[function(require,module,exports){
+},{"./_stream_duplex":79,"./internal/streams/destroy":85,"./internal/streams/stream":86,"_process":77,"core-util-is":58,"inherits":61,"process-nextick-args":76,"safe-buffer":91,"timers":94,"util-deprecate":95}],84:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60258,7 +60318,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":90,"util":53}],84:[function(require,module,exports){
+},{"safe-buffer":91,"util":54}],85:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -60333,13 +60393,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":75}],85:[function(require,module,exports){
+},{"process-nextick-args":76}],86:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":58}],86:[function(require,module,exports){
+},{"events":59}],87:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":87}],87:[function(require,module,exports){
+},{"./readable":88}],88:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -60348,13 +60408,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":78,"./lib/_stream_passthrough.js":79,"./lib/_stream_readable.js":80,"./lib/_stream_transform.js":81,"./lib/_stream_writable.js":82}],88:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":79,"./lib/_stream_passthrough.js":80,"./lib/_stream_readable.js":81,"./lib/_stream_transform.js":82,"./lib/_stream_writable.js":83}],89:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":87}],89:[function(require,module,exports){
+},{"./readable":88}],90:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":82}],90:[function(require,module,exports){
+},{"./lib/_stream_writable.js":83}],91:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -60418,7 +60478,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":56}],91:[function(require,module,exports){
+},{"buffer":57}],92:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -60547,7 +60607,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":58,"inherits":60,"readable-stream/duplex.js":77,"readable-stream/passthrough.js":86,"readable-stream/readable.js":87,"readable-stream/transform.js":88,"readable-stream/writable.js":89}],92:[function(require,module,exports){
+},{"events":59,"inherits":61,"readable-stream/duplex.js":78,"readable-stream/passthrough.js":87,"readable-stream/readable.js":88,"readable-stream/transform.js":89,"readable-stream/writable.js":90}],93:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -60844,7 +60904,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":90}],93:[function(require,module,exports){
+},{"safe-buffer":91}],94:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -60923,7 +60983,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":76,"timers":93}],94:[function(require,module,exports){
+},{"process/browser.js":77,"timers":94}],95:[function(require,module,exports){
 (function (global){
 
 /**
@@ -60994,8 +61054,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],95:[function(require,module,exports){
-arguments[4][50][0].apply(exports,arguments)
-},{"dup":50}],96:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 arguments[4][51][0].apply(exports,arguments)
-},{"./support/isBuffer":95,"_process":76,"dup":51,"inherits":60}]},{},[1]);
+},{"dup":51}],97:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"./support/isBuffer":96,"_process":77,"dup":52,"inherits":61}]},{},[1]);

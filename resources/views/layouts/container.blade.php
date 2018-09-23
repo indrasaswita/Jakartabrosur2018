@@ -1,32 +1,37 @@
 <!doctype html>
 <html>
 <head>
-    <title>JB | @yield('title')</title>
-    <meta name="csrf_token" content="{ csrf_token() }" />
-    <meta name="title" content="@yield('title')">
-    <meta name="description" content="@yield('description')">
-    <meta name="robots" content="@yield('robots')">
-    @include('includes.head')
+	<title>JB | @yield('title')</title>
+	<meta name="csrf_token" content="{ csrf_token() }" />
+	<meta name="title" content="@yield('title')">
+	<meta name="description" content="@yield('description')">
+	<meta name="robots" content="@yield('robots')">
+	@include('includes.head')
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">
-    @include('layouts.preloader-wrapper')
+	@include('layouts.preloader-wrapper')
 
-    <div ng-controller="HandOfGod as god" id="content-wrapper" style='display:none'>
-        @include('includes.preheader')
-        @include('includes.header')
-        @include('layouts.loginmodal')
-        @include('layouts.statictooltip')
+	<div ng-controller="HandOfGod as god" id="content-wrapper" class="none">
 
-        <div id="content" class="content">
-            <div class="container">
-                @yield('content')
-            </div>
-        </div>
+	@if(Session::has('role'))
+		<div ng-init="role('{{Session::get('role')}}','{{Session::get('userid')}}')" hidden></div>  <!-- buat set role customer apa admin -->
+	@endif
+	
+		@include('includes.preheader')
+		@include('includes.header')
+		@include('layouts.loginmodal')
+		@include('layouts.statictooltip')
 
-        <footer class="footer">
-            @include('includes.footer')
-        </footer>
+		<div id="content" class="content">
+			<div class="container">
+				@yield('content')
+			</div>
+		</div>
 
-    </div>
+		<footer class="footer">
+			@include('includes.footer')
+		</footer>
+
+	</div>
 </body>
 </html>

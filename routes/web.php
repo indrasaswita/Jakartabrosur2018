@@ -64,6 +64,8 @@ Route::group	(['middleware'=>'customer'], function(){
 	Route::resource ('sales/all', 'AllSalesCustomerView');
 
 	Route::get('sales/commit/{id}/{sid}/{tk}', 'SalesdetailController@showCommitByID');
+
+	Route::get('notification', 'NotificationController@index');
 });
 
 /*** EMPLOYEE WEB ***/
@@ -219,6 +221,7 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::get("API/addresses/customeraddress", 'CustomerAPI@apiGetAddressByActiveCustomer');
 	Route::post("API/sales/{id}/commit", "AllSalesCustomerAPI@commit");
 });
+
 
 
 Route::get('API/bankaccs/customer/{id}', 'CustomerBankAccAPI@getByID');

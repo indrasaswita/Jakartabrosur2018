@@ -1,30 +1,35 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="csrf_token" content="{ csrf_token() }" />
-    <title>JB | Error @yield('title')</title>
-    <meta name="title" content="Error @yield('title')">
-    @include('includes.head')
+	<meta name="csrf_token" content="{ csrf_token() }" />
+	<title>JB | Error @yield('title')</title>
+	<meta name="title" content="Error @yield('title')">
+	@include('includes.head')
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">
 
-    @include('layouts.preloader-wrapper')
+	@include('layouts.preloader-wrapper')
 
-    <div ng-controller="HandOfGod as god" id="content-wrapper" style='display:none'>
-        @include('includes.preheader')
-        @include('includes.header')
-        @include('layouts.loginmodal')
+	<div ng-controller="HandOfGod as god" id="content-wrapper" class="none">
 
-        <div id="content" class="content">
+	@if(Session::has('role'))
+		<div ng-init="role('{{Session::get('role')}}','{{Session::get('userid')}}')" hidden></div>  <!-- buat set role customer apa admin -->
+	@endif
 
-                @yield('content')
+		@include('includes.preheader')
+		@include('includes.header')
+		@include('layouts.loginmodal')
 
-        </div>
+		<div id="content" class="content">
 
-        <footer class="footer margin-0">
-            @include('includes.footer')
-        </footer>
+				@yield('content')
 
-    </div>
+		</div>
+
+		<footer class="footer margin-0">
+			@include('includes.footer')
+		</footer>
+
+	</div>
 </body>
 </html>

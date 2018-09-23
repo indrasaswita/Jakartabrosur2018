@@ -100,6 +100,13 @@
       	<div class="dropdown-menu-center">
       		<div class="wrapper">
 						<div class="dropdown-menu">
+							<a class="dropdown-item" href="{{URL::asset('notification')}}" ng-if="notifcount>0">
+								<span class="fas fa-bell icon"></span> 
+								Notification
+								<div class="badge-notif">
+									[[notifcount]]
+								</div>
+							</a>
 							<a class="dropdown-item" href="{{URL::asset('profile')}}">
 								<span class="fas fa-male icon"></span> 
 								Profil Saya
@@ -108,7 +115,6 @@
 								<span class="fas fa-key icon"></span> 
 								Change Password
 							</a>
-							<!-- <a class="dropdown-item" href="{{URL::asset('ussetting')}}"><span class="glyphicon glyphicon-cog icon"></span>Setting</a> -->
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{URL::asset('logout')}}">
 								<span class="fas fa-lock icon"></span> 

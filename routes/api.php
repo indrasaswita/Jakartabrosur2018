@@ -18,6 +18,11 @@ Route::get('/data/customers/name', 'CustomerAPI@apiGetName');
 
 Route::get('/customer/{id}/sales', 'CustomerAPI@apiGetSalesByCustID');
 
+//LOGIN ONLY
+Route::get('/notifications/employee/{id}/count', 'NotificationAPI@employeeall');
+Route::post('/notifications/customer/{id}/count', 'NotificationAPI@customerall');
+Route::post('/notifications/all/count', 'NotificationAPI@all');
+
 //EMPLOYEE ONLY
 Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');
 Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');

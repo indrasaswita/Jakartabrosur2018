@@ -33,6 +33,8 @@ require("./controllers/order.shop.create.page")(app);
 require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/account.notification")(app);
+require("./controllers/account.profiles")(app);
 require("./controllers/createheader")(app);
 require("./controllers/trackingcustomer")(app);
 require("./controllers/description")(app);
@@ -40,7 +42,6 @@ require("./controllers/main")(app);
 require("./controllers/godhands")(app);
 
 
-require("./controllers/account.profiles")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);

@@ -125,6 +125,33 @@ module.exports = function(app){
 			}
 			$scope.globalSubnav();
 
+			$scope.role = function($role, $custID){
+				if($role!=null){
+					if($role == 'customer'){
+						$scope.notifcounting('customer', $custID);
+					}else if($role != 'customer' && $role != ''){
+						$scope.notifcounting('employee', $custID);
+					}
+				}
+			}
+
+			$scope.notifcount = 0;
+			$scope.notifcounting = function($role, $custID){
+				$scope.notifcount = 0;
+				$http({
+					method: "POST",
+					url: API_URL+'notifications/'+$role+'/'+$custID+'/count'
+				}).then(function(response){
+					if(response.data != null){
+						if(response.data.constructor === String){
+							$scope.notifcount = parseInt(response.data);
+						}else{
+							console.log('error');
+						}
+					}
+				});
+			}
+
 			$(document).ready(function(){
 				$('#preloader-wrapper').hide();
 				$('#content-wrapper').fadeIn();
@@ -186,6 +213,10 @@ module.exports = function(app){
 					}
 				}
 			}
+
+			String.prototype.toTitleCase = function () {
+			  	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+			};
 
 			$scope.togglerClicked = function(){
 				$timeout(function(){
