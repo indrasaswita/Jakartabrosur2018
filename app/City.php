@@ -9,8 +9,9 @@ class City extends Model
     protected $fillable = ['name'];
     protected $guarded = ['id'];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
-    public function customer(){
-    	return $this->hasMany('App\Customer', 'customerID');
+    public function address(){
+    	return $this->hasMany('App\Address', 'addressID');
     }
 }

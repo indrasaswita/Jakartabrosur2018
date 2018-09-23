@@ -9,6 +9,7 @@ class Salesdeliverydetail extends Model
   protected $fillable = ['salesdetailID', 'salesdeliveryID', 'actualprice', 'quantity', 'weight', 'totalpackage', 'status'];
   protected $guarded = ['id'];
   protected $hidden = ['created_at', 'updated_at'];
+  protected $dates = ['created_at', 'updated_at'];
 
   public function salesdelivery(){
   	return $this->belongsTo('App\Salesdelivery', 'salesdeliveryID');

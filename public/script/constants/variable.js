@@ -1,5 +1,5 @@
 module.exports = function(app){
-	$public_path = '/jakartabrosur3/public/'; 
+	$public_path = '/jakartabrosur2018/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
 	//$public_path = '/'; 

@@ -6,23 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'address', 'postcode', 'cityID', 'phone1', 'phone2', 'phone3', 'news', 'balance'];
-    protected $hidden = ['password', 'balance', 'remember_token'];
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'postcode', 'phone1', 'phone2', 'phone3', 'news', 'balance'];
+	protected $guarded = ['id'];
+	protected $hidden = ['password', 'balance', 'remember_token'];
+	protected $dates = ['created_at', 'updated_at'];
 
-    public function company (){
-    	return $this->belongsTo('App\Company', 'companyID')->with('city');
-    }
+	public function company (){
+		return $this->belongsTo('App\Company', 'companyID')->with('address');
+	}
 
-    public function city(){
-    	return $this->belongsTo("App\City", 'cityID');
-    }
+	public function salesheader(){
+		return $this->hasMany('App\Salesheader', 'customerID')->with('salesdetail', 'salespayment', 'salesdelivery');
+	}
 
-    public function salesheader(){
-    	return $this->hasMany('App\Salesheader', 'customerID')->with('salesdetail', 'salespayment', 'salesdelivery');
-    }
+	public function customerbankacc(){
+		return $this->hasMany('App\Customerbankacc', 'customerID')->with('bank');
+	}
 
-    public function customerbankacc(){
-        return $this->hasMany('App\Customerbankacc', 'customerID')->with('bank');
-    }
+	public function customeraddress(){
+		return $this->hasMany('App\CustomerAddress', 'customerID');
+	}
 }

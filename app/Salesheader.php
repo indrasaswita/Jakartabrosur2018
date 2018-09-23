@@ -7,24 +7,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Salesheader extends Model
 {
-    //use SoftDeletes;
+	//use SoftDeletes;
 
-    protected $fillable = ['customerID', 'tempo', 'estdate'];
-    protected $dates = ['tempo', 'estdate', 'created_at', 'updated_at', 'deleted_at'];
+	protected $fillable = ['customerID', 'tempo', 'estdate'];
+	protected $guarded = ['id'];
+	protected $dates = ['tempo', 'estdate', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function customer(){
-    	return $this->belongsTo('App\Customer', 'customerID')->with('company');
-    }
+	public function customer(){
+		return $this->belongsTo('App\Customer', 'customerID')->with('company');
+	}
 
-    public function salesdetail(){
-    	return $this->hasMany("App\Salesdetail", 'salesID')->with('cartheader', 'salesdeliverydetail');
-    }
+	public function salesdetail(){
+		return $this->hasMany("App\Salesdetail", 'salesID')->with('cartheader', 'salesdeliverydetail');
+	}
 
-    public function salespayment(){
-    	return $this->hasMany("App\Salespayment", 'salesID')->with('customeracc', 'companyacc', 'salespaymentverif');
-    }
+	public function salespayment(){
+		return $this->hasMany("App\Salespayment", 'salesID')->with('customeracc', 'companyacc', 'salespaymentverif');
+	}
 
-    public function salesdelivery(){
-        return $this->hasMany("App\Salesdelivery", 'salesID')->with('salesdeliverydetail');
-    }
+	public function salesdelivery(){
+		return $this->hasMany("App\Salesdelivery", 'salesID')->with('salesdeliverydetail');
+	}
 }

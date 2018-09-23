@@ -70,7 +70,7 @@ require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 },{"./constants/variable":2,"./controllers/account.profiles":3,"./controllers/admin.cart.addbyadmin":4,"./controllers/admin.cart.addfilebyadmin":5,"./controllers/admin.cart.index":6,"./controllers/admin.master.customer.index":7,"./controllers/admin.master.customer.pendingcompany":8,"./controllers/admin.master.paper.index":9,"./controllers/admin.sales.index":10,"./controllers/admin.tracking.index":11,"./controllers/aice.index":12,"./controllers/createheader":13,"./controllers/description":14,"./controllers/godhands":15,"./controllers/home":16,"./controllers/includes.modals.compaccno":17,"./controllers/login-modal":18,"./controllers/main":19,"./controllers/order.cart.index":20,"./controllers/order.sales.commit":21,"./controllers/order.sales.index":22,"./controllers/order.shop.calculation.customer":23,"./controllers/order.shop.create.page":24,"./controllers/order.shop.lists.customer":25,"./controllers/roles":26,"./controllers/salespaymentconfirm":27,"./controllers/salespayments":28,"./controllers/trackingcustomer":29,"./controllers/viewfile-modal":30,"./customs/sidebar-affix":31,"./customs/sticky-button":32,"./customs/sticky-cart-review":33,"./customs/sticky-shop-total":34,"./directives/bootstrap-select-addon":35,"./directives/bootstrap-tooltip":36,"./init":37,"angular":47,"angular-cookies":39,"angular-resource":41,"angular-route":43,"angular-sanitize":45}],2:[function(require,module,exports){
 module.exports = function(app){
-	$public_path = '/jakartabrosur3/public/'; 
+	$public_path = '/jakartabrosur2018/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
 	//$public_path = '/'; 
