@@ -2,7 +2,7 @@ module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
-			$scope.initAllSales = function($input){
+			$scope.initAllSales = function($input, $filter){
 				$scope.sales = JSON.parse($input);
 
 				$.each($scope.sales, function($index, $item){
@@ -55,6 +55,7 @@ module.exports = function(app){
 							$item.paymentdetail = "Anda kurang bayar.";
 					}
 				});
+				$scope.filtersales(0);
 			}
 
 			$scope.makeDateTime = function($input){
@@ -230,11 +231,36 @@ module.exports = function(app){
 						alert('tidak bisa delete - cartfiles');
 					}
 				);
-
-
 			}
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
+			}
+			$scope.filtersales = function($id){
+				if (!$scope.loadingfilter) {
+					$scope.loadingfilter = true;
+					$http({
+						method: "GET",
+						url: API_URL + "filtersales/" + $id
+					}).then(function(response) {
+						$scope.sales = [];
+						$scope.sales = response.data;
+						$.each($scope.sales, function($index, $item) {
+							$item.created_at = $scope.makeDateTime($item.created_at);
+						});
+						$("#filter-0").removeClass("active");
+						$("#filter-1").removeClass("active");
+						$("#filter-2").removeClass("active");
+						$("#filter-3").removeClass("active");
+						$("#filter-4").removeClass("active");
+
+						$("#filter-" + $id).addClass("active");
+
+						$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
+						$scope.loadingfilter = false;
+					}, function(error) {
+						$scope.loadingfilter = false;
+					});
+				}	
 			}
 		}
 	]);

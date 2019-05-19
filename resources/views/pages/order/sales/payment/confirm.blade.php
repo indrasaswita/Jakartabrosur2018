@@ -1,4 +1,5 @@
 @extends('layouts.container')
+@section('title', 'Confirmation')
 @section('content')
 		<!-- <form> -->
 <div ng-controller = "PaymentConfirmController" class="margin-top-80">

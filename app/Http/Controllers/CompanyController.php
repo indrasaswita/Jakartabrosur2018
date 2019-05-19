@@ -9,16 +9,7 @@ use App\Http\Requests;
 
 class CompanyController extends Controller
 {
-	public function pendingOnly(){
-		$companies = Company::where('verified', '=', '0')
-				->where('id', '<>', 1)
-				->with('customer', 'city')
-				->get();
-
-		return view('pages.admin.master.customer.pendingcompany', compact('companies'));
-	}
 	
-
 	public function verify($id){
 		$company = Company::findOrFail($id);
 		$company->verified = 1;

@@ -13,7 +13,11 @@ class Jobsubtypefinishing extends Model
 
     public function finishing()
     {
-    	return $this->belongsTo("App\Finishing", 'finishingID')->with('finishingoption');
+    	return $this
+            ->belongsTo("App\Finishing", 'finishingID')
+            ->with(array('finishingoption' => function($query){
+                    $query->orderBy('optionname', 'ASC');
+            }));
     }
 
     public function finishingshop(){

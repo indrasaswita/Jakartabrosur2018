@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Softdeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Notification extends Model
 {
-	use Softdeletes;
+	use SoftDeletes;
 
   protected $fillable = ['owner', 'ownerID', 'icon', 'title', 'content', 'viewed'];
   protected $guarded = ['id'];
@@ -21,4 +21,4 @@ class Notification extends Model
   public function employee(){
   	return $this->belongsTo('App\Employee', 'ownerID');
   }
-}
+} 

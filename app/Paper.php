@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paper extends Model
 {
-    protected $fillable = ['papertypeID', 'name', 'color', 'gramature', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation'];
+    protected $fillable = ['papertypeID', 'name', 'color', 'gramature', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'coatingtypeID'];
 
     protected $hidden = ['created_at', 'updated_at', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation'];
     protected $guarded = ['id'];
@@ -18,5 +18,9 @@ class Paper extends Model
 
     public function paperdetail(){
     	return $this->hasMany("App\Paperdetail", 'paperID')->with('vendor', 'plano');
+    }
+
+    public function coatingtype(){
+        return $this->belongsTo("App\Coatingtype", 'coatingtypeID');
     }
 }

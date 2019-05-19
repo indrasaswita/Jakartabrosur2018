@@ -15,9 +15,11 @@ class ErrorIfNotCustomer
 	 */
 	public function handle($request, Closure $next)
 	{
-		if (session()->has('role'))
-			if (session()->get('role') == "customer")
+		if (session()->has('role')){
+			if (session()->get('role') == "customer"){
 				return $next($request);
+			}
+		}
 		return response("Customer Restriction", 403);
 	}
 }

@@ -11,7 +11,7 @@ class Customerbankacc extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public function customer(){
-    	return $this->belongsTo('App\Customer', 'customerID');
+    	return $this->belongsTo('App\Customer', 'customerID')->with('customeraddress');
     }
 
     public function bank(){

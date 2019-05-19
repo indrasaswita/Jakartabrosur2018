@@ -37,4 +37,6 @@ class NotificationController extends Controller
 
 		return view('pages.account.notification', compact('notifications'));
 	}
+
+	
 }

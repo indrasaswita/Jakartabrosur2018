@@ -1,130 +1,23 @@
 module.exports = function(app){
-	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
+		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.subnavs = [
-				{
-					link		: BASE_URL+'orderlistcustomer',
-					route		: ['orderlistcustomer'],
-					label 		: 'Order List',
-					glyphicon 	: 'fa-th'
-				},
-				{
-					link		: BASE_URL+'orderlistcustomer',
-					route		: ['shop', 'shop/{pages}'],
-					label 		: 'Selection',
-					glyphicon 	: 'fa-crosshairs'
-				},
-				{
-					link		: BASE_URL+'cart',
-					route		: ['cart', 'cart/{cart}'],
-					label 		: 'Keranjang Belanja',
-					glyphicon 	: 'fa-shopping-basket'
-				},
-				{
-					link		: BASE_URL+'sales/all',
-					route		: ['sales/all', 'payment', 'payment/{payment}', 'payment/confirm', 'payment/confirm/{id}', 'addresses', 'addresses/{addresses}'],
-					label 		: 'Proses & Pembayaran',
-					glyphicon 	: 'fa-shopping-bag'
-				}/*,
-				{
-					link		: BASE_URL+'tracking',
-					route		: ['tracking'],
-					label 		: 'Tracking',
-					glyphicon 	: 'fa-tasks'
-				},
-				{
-					link		: BASE_URL+'sales/history',
-					route		: ['sales/history'],
-					label 		: 'History',
-					glyphicon 	: 'fa-history'
-				}*/
-			];
-			$scope.salenavs = [
-				{
-					link 		: BASE_URL+'sales/all',
-					route		: 'sales/all',
-					label		: 'Semua Daftar',
-					label2		: 'All Sales',
-					icon		: ''
-				},
-				{
-					link 		: BASE_URL+'sales/waitingpayment',
-					route		: 'sales/waitingpayment',
-					label		: 'Tunggu Pembayaran',
-					label2		: '',
-					icon		: ''
-				},
-				{
-					link 		: BASE_URL+'sales/waitingverif',
-					route		: 'sales/waitingverif',
-					label		: 'Belum di Verif',
-					label2		: 'Waiting Verification',
-					icon		: ''
-				},
-				{
-					link 		: BASE_URL+'sales/onprocess',
-					route		: 'sales/onprocess',
-					label		: 'Dalam Pencetakan',
-					label2		: 'On Process',
-					icon		: ''
-				},
-				{
-					link 		: BASE_URL+'sales/history',
-					route		: 'sales/history',
-					label		: 'Sudah Selesai',
-					label2		: 'History',
-					icon		: ''
-				}
-			];
+			
+
+			$scope.showAlertOK = function($title, $detail, $login = false){
+				$scope.alertmessage = {
+					'title': $title,
+					'detail': $detail,
+					'login': $login //untuk show button login (if true)
+				};
+				$('#alert-ok').modal('show');
+			}
 
 			$scope.reversestatus = function($input){
 				if(typeof($input) === "boolean")
 					return !$input;
 			}
-			$scope.globalSalesID = function($salesID){
-				$scope.salenavs[1].link = BASE_URL+'payment/'+$salesID;
-				$scope.salenavs[2].link = BASE_URL+'addresses/'+$salesID;
-				$scope.salenavs[3].link = BASE_URL+'payment/confirm/'+$salesID;
-			}
-			$scope.globalSubnav = function($current){
-				$scope.subnavbefore = [];
-				$scope.subnavafter = [];
-				$scope.subnavcurrent = null;
-				$after = false;
-				$.each($scope.subnavs, function($index, $item){
-					if(!$scope.isInside($current, $item.route))
-					{
-						if($after==false)
-						{
-							$scope.subnavbefore.push($item);
-						}
-						else
-						{
-							$scope.subnavafter.push($item);
-						}
-					}
-					else
-					{
-						$after = true;
-						$scope.subnavcurrent = $item;
-					}
-				});
-			}
-			$scope.isInside = function($current, $arr){
-				$result = false;
-				$.each($arr, function($index, $item){
-					//console.log($current +", "+ $item);
-					if($current == $item)
-					{
-						$result = true;
-						return false;
-					}
-				});
-				return $result;
-			}
-			$scope.globalSubnav();
-
+			
 			$scope.role = function($role, $custID){
 				if($role!=null){
 					if($role == 'customer'){
@@ -152,41 +45,20 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.timecount = 0;
+
+			var interval = setInterval(function() {
+				$scope.timecount = 0;
+				console.log("COUNTER: " + $scope.timecount);
+				$scope.timecount++;
+			}, 10);
+
 			$(document).ready(function(){
 				$('#preloader-wrapper').hide();
+				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
 			});
 
-
-			//$scope.webNotification = new Notification("HELLO WORLD");
-			document.addEventListener('DOMContentLoaded', function () {
-				if (!Notification) {
-				console.log('Desktop notifications not available in your browser. Try for the newer version.'); 
-				return;
-				}
-
-				if (Notification.permission !== "granted")
-				Notification.requestPermission();
-			});
-
-			$scope.haha = function () {
-				if (Notification.permission !== "granted")
-				Notification.requestPermission();
-				else {
-					var notification = new Notification('New Cart', {
-						icon: BASE_URL+"image/location-ok.png",
-						body: "Ada Cart Baru",
-						dir: 'ltr',
-						tag: 'hello',
-					});
-					setTimeout(notification.close.bind(notification), 99999999);
-
-					notification.onclick = function () {
-						window.open("http://stackoverflow.com/a/13328397/1269037");      
-					};
-
-				}
-			}
 
 			$scope.singkatText = function($text, $totalhuruf, $simbolakhir)
 			{
@@ -253,14 +125,18 @@ module.exports = function(app){
 					}
 				).then(
 					function(response) {
-						$scope.jobtypes = response.data;
+						if(response!=null)
+							$scope.jobtypes = response.data;
+						else{
+							console.log("NO RESPONSE");
+						}
 					},function(error){
 						console.log("Error (GodHand.js) : " + response.data);
 					}
 				);
 			}
 
-			$scope.afterAngular = function(){
+			/*$scope.afterAngular = function(){
 				$scope.selectpickerrefresh();
 			}
 
@@ -268,9 +144,10 @@ module.exports = function(app){
 				$tmot(function(){
 					$('.selectpicker').selectpicker('refresh');
 				});
-			}
+			}*/
 
 			$scope.clone = function($obj){
+				//GA BISA BUAT ARRAY
 				return jQuery.extend(true, {}, $obj);
 			};
 
@@ -357,19 +234,19 @@ module.exports = function(app){
 				});
 			};
 
-			// $scope.fillCities = function()
-			// {
-			// 	$http(
-			// 		{
-			// 			method : 'GET',
-			// 			url : API_URL + 'cities'
-			// 		}
-			// 	).then(function(response) {
-			// 		if(response.data!=null)
-			// 			if(response.data.length>0)
-			// 				$scope.cities = response.data;
-			// 	});
-			// };
+			$scope.fillCities = function()
+			{
+				$http(
+					{
+						method : 'GET',
+						url : API_URL + 'cities'
+					}
+				).then(function(response) {
+					if(response.data!=null)
+						if(response.data.length>0)
+							$scope.cities = response.data;
+				});
+			};
 
 			$scope.fillCompanyBankAccs = function()
 			{
@@ -402,8 +279,92 @@ module.exports = function(app){
 				}
 			}
 
+			$scope.validateEmail = function(email) {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test(email);
+			}
+
 			$scope.tooltip=function($value){
 				$scope.statictooltipvalue=$value;
+			}
+
+			$scope.updateCompAcc = function($accid){
+				$http({
+					"method":"GET",
+					"url":"https://api.ipify.org"
+				}).then(function(response){
+					if(response.data!=null){
+						if(response.data.constructor === String){
+							//return IP
+							$http({
+								"method":"POST",
+								"url":API_URL+"admin/compaccs/"+$accid+"/bca/refresh",
+								"data":response.data
+							}).then(function(response2){
+								if(response2.data != null){
+
+									$.each(response2.data, function($index, $item){
+										$item.mutationDate = $scope.makeDate($item.mutationDate);
+									});
+
+									$scope.klikbca = response2.data;
+								}
+							}).catch(function(data){
+								$scope.klikbca = data.data.message;
+							});
+						}else{
+							$scope.klikbca = null;
+						}
+					}else{
+						$scope.klikbca = null;
+					}
+				});
+			}
+
+			String.prototype.replaceAll = function(search, replacement) {
+				var target = this;
+				return target.replace(new RegExp(search, 'g'), replacement);
+			}
+
+			$scope.trustAsHtml = function($input){
+				//console.log($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
+				return ($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
+			}
+
+			$scope.stripTagsWA = function($input){
+				$hasil = $input.replace(/<br\s*\/?>/ig, '%0A'); //buat replace br jadi 1x enter
+				$hasil = $hasil.replace(/<hr[^>]*>/ig, '%0A%0A'); //buat replace hr jadi 2x enter
+				$hasil = $hasil.replace(/<b[^>]*>|<\/b>/ig, '*'); //buat b dan /b jadi *
+				$hasil = $hasil.replace(/[ \t]/ig, '%20'); //buat replace hr jadi 2x enter
+				$hasil = $hasil.replace(/&sup2;/ig, '2'); //kuardrat jadi 2
+				$hasil = $hasil.replace(/(<([^>]+)>)/ig, ''); //buat replace semua html tag jadi hilang
+				return $hasil;
+			}
+
+			$scope.DateDiff = {
+				inDays: function (d1, d2){
+					var t2 = d2.getTime();
+					var t1 = d1.getTime();
+					return parseInt((t2-t1)/(24*3600*1000));
+				},
+				inWeeks: function(d1, d2) {
+					var t2 = d2.getTime();
+					var t1 = d1.getTime();
+					return parseInt((t2 - t1) / (24 * 3600 * 1000*7));
+				},
+				inMonths: function(d1, d2) {
+					var d1Y = d1.getFullYear();
+					var d2Y = d2.getFullYear();
+					var d1M = d1.getMonth();
+					var d2M = d2.getMonth();
+					return (d2M+12*d2Y)-(d1M+12*d1Y);
+				},
+				inDays: function(d1, d2) {
+					var d1Y = d1.getFullYear();
+					var d2Y = d2.getFullYear();
+
+					return d2Y-d1Y;
+				}
 			}
 		}
 	]);

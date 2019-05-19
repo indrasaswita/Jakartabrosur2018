@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Salesdetail;
+use App\Customer;
+use App\Salesheader;
 
 class SalesdetailController extends Controller
 {
@@ -27,11 +29,27 @@ class SalesdetailController extends Controller
   			->first();
 
   	if($salesdetail!=null){
-  		$salesdetail['cartheader']['cartfile']->makeVisible(['created_at']);
+
+      foreach ($salesdetail['cartheader']['cartfile'] as $i => $ii) {
+        $salesdetail['cartheader']['cartfile'][$i]->makeVisible(['created_at']);
+        $salesdetail['cartheader']['cartfile'][$i]['created_at'] = $salesdetail['cartheader']['cartfile'][$i]['created_at']->format('Y-m-d H:i:s');
+      }
 
 	  	return view('pages.order.sales.commit', compact('salesdetail'));
 	  }else{
 	  	return view('errors.forbidden');
 	  }
+  }
+
+  function historySalesCustomer()
+  {
+    $customerID = session()->get('userid');
+    $headers = Salesheader::orderBy("salesheaders.id", "desc")
+       ->with('customer')
+       ->with('salesdetail')
+       ->where('customerID', $customerID)
+       ->get();
+
+    return view('pages.order.sales.customersaleshistory', compact('headers'));
   }
 }

@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 
 
 Route::get('/jobsubtype/{pages}', 'JobsubtypeAPI@showbylink');
+Route::post('/pricetext/save', 'PricetextAPI@insert');
 Route::get('/admin/papershop', 'VendorAPI@papershop');
+Route::get('/coatingtypes', 'CoatingtypeAPI@getAll');
 
 Route::post('/commit/cartpreview/{id}/accept', 'CartpreviewAPI@acceptfile');
 Route::post('/commit/cartpreview/{id}/reject', 'CartpreviewAPI@rejectfile');
@@ -17,12 +19,48 @@ Route::post('/customer/{id}/makesession', 'CustomerAPI@makesession');
 Route::get('/data/customers/name', 'CustomerAPI@apiGetName');
 
 Route::get('/customer/{id}/sales', 'CustomerAPI@apiGetSalesByCustID');
+Route::get('/cities', 'CityAPI@getAll');
+Route::get('/banks',	'BankAPI@getAll');
+
+//user signup
+Route::post('/register', 'CustomerAPI@store');
+Route::post('/resendverif', 'CustomerAPI@resend');
+//
+
+Route::get('/papersizes', 'PaperSizeAPI@all');
+Route::get('/papers/OF', 'PaperAPI@showFlyer');
+Route::get('/papers', 'PaperAPI@getAll');
+Route::get('/custaccs', 'CustomeraccountAPI@all');
+
+Route::post('/custadds/store/{custid}', 'CustomeraddressAPI@store');
+Route::post('/custadds/edit/{id}', 'CustomeraddressAPI@editaddress');
+Route::get('/custadds/{custid}', 'CustomeraddressAPI@bycustid');
+Route::get('/custadds', 'CustomeraddressAPI@all');
+
+//Route::post("cekharga", 'Calculation@calcPrice');
 
 //LOGIN ONLY
-Route::get('/notifications/employee/{id}/count', 'NotificationAPI@employeeall');
+Route::post('/notifications/employee/{id}/count', 'NotificationAPI@employeeall');
 Route::post('/notifications/customer/{id}/count', 'NotificationAPI@customerall');
 Route::post('/notifications/all/count', 'NotificationAPI@all');
 
 //EMPLOYEE ONLY
 Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');
 Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');
+Route::post('/admin/compaccs/{accid}/bca/refresh', 'AdmCompanyaccountsAPI@mutasi_bca');
+Route::get('/admin/compaccs/{accid}/bca/read', 'AdmCompanyaccountsAPI@read_bca');
+
+//PROFILE
+Route::post('/profile/delete/{id}', "ProfileAPI@apiDeleteAddress");
+Route::post('/profile/deletecompany/{id}', "ProfileAPI@apiDeleteAddressCompany");
+Route::post('/profile/strcompanyaddr/{custid}', "CompanyaddressAPI@store");
+
+
+Route::get('/io/carts/all', 'AdmCartAPI@getAll');
+//Route::get('/io/carts/pending', 'AdmCartAPI@getCartOnly');
+//Route::get('/io/sales/all', 'AdmAllSalesAPI@getAll');
+//Route::get('/customers/all', 'AdmCustomerAPI@getAll');
+Route::post('/io/login', 'MobileappsAPI@login');
+Route::post('/io/select/{value}', 'MobileappsAPI@select');
+Route::post('/io/update/{value}', 'MobileappsAPI@update');
+Route::post('/io/insert/{value}', 'MobileappsAPI@insert');

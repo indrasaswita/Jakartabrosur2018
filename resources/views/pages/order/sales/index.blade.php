@@ -3,13 +3,13 @@
 @section('robots', 'noindex,nofollow')
 @section('content')
 	<!-- <form> -->
-<div ng-controller = "AllSalesController" class="">
+<div ng-controller = "AllSalesController" class="all-sales-customer">
 
 @if(isset($allsales))      
 	<?php
 		$temp = str_replace(array('\r', '\"', '\n', '\''), '?', $allsales);
 	?>
-	<div ng-init="initAllSales('{{$temp}}')"></div>
+	<div ng-init="initAllSales('{{$temp, 0}}')"></div>
 	@if ($allsales != null)
 		@if(count($allsales) != 0)
 			<div ng-init="globalSalesID('{{$allsales[0]['id']}}')"></div>
@@ -25,6 +25,29 @@
 			@include('includes.nav.salenav')
 
 	<div class="margin-0">
+		<div class="btn-filtercusttrans">
+			<button data-html="true" ng-click="filtersales(0)" class="btn" id="filter-0">
+				<i class="fal fa-filter hidden-xs-down"></i>
+				Semua
+			</button>
+			<button data-html="true" ng-click="filtersales(1)" class="btn" id="filter-1">
+				<i class="fal fa-wallet hidden-xs-down"></i> 
+				Belum Bayar
+			</button>
+			<button data-html="true" ng-click="filtersales(2)" class="btn" id="filter-2">
+				<i class="fal fa-tasks hidden-xs-down"></i> Diproses
+			</button>
+			<button data-html="true" ng-click="filtersales(3)" class="btn" id="filter-3">
+				<i class="fal fa-truck-loading hidden-xs-down"></i> Dikirim
+			</button>
+			<button data-html="true" ng-click="filtersales(4)" class="btn" id="filter-4">
+				<i class="fal fa-box-check hidden-xs-down"></i> Selesai
+			</button>
+		</div>
+
+		<div class="page-title margin-10-0 text-xs-center" ng-bind-html="allsalespagetitle">
+		</div>
+
 		<table class="table table-sm table-custom-allsales">
 			<thead class="text-center">
 				<tr>
@@ -37,7 +60,16 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody ng-repeat="item in sales">
+			<tbody ng-if="loadingfilter">
+				<tr>
+					<td coslpan="10" class="text-xs-center">
+						<i class="fas fa-spin fa-spinner fa-3x"></i>
+						<br>
+						L O A D I N G ...
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-repeat="item in sales" ng-if="!loadingfilter">
 				<tr class="content-header text-center">
 					<td class="">#[[zeroFill(item.id, 5)]]</td>
 					<td class="line-1 size-80p">
@@ -229,7 +261,7 @@
 																	<div class="label">
 																		<i class="fas fa-print"></i>
 																	</div>
-																	<div class="text">	
+																	<div class="text">  
 																		[[item3.printer.machinename]] 
 																	</div>
 																</div>
@@ -237,7 +269,7 @@
 																	<div class="label">
 																		<i class="fas fa-expand-arrows-alt"></i>
 																	</div>
-																	<div class="text">	
+																	<div class="text">  
 																		<b>[[item3.imagewidth|number:1]] </b>
 																		&nbsp;x&nbsp; 
 																		<b> [[item3.imagelength|number:1]]</b> cm
@@ -249,7 +281,7 @@
 																			side
 																		</i>
 																	</div>
-																	<div class="text">	
+																	<div class="text">  
 																		<b>
 																			[[item3.side1]]
 																		</b>
@@ -274,7 +306,7 @@
 																		[[item4.finishing.name]]
 																		<span class="far fa-question-circle" data-title="[[item4.finishing.info]]" data-toggle="tooltip" data-placement="top" data-html="true"></span>
 																	</div>
-																	<div class="text">	
+																	<div class="text">  
 																		[[item4.finishingoption.optionname]]
 																	</div>
 																</div>
@@ -514,12 +546,20 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="text-xs-right" colspan="3">
+										<td class="text-xs-right" colspan="3" ng-if="(item.totalprice-item.totalpay)>0">
 											Sisa Bayar
 										</td>
-										<td><b>=</b></td>
-										<td class="text-xs-right tx-purple text-bold">
-											[[(item.totalprice-item.totalpay)|number:0]]
+										<td class="text-xs-right" colspan="3" ng-if="(item.totalprice-item.totalpay)<0">
+											Kelebihan Bayar
+										</td>
+										<td ng-if="(item.totalprice-item.totalpay)!=0"><b>=</b></td>
+										<td class="text-xs-right text-bold" ng-class="{'tx-purple':(item.totalprice-item.totalpay)>0, 'tx-red':(item.totalprice-item.totalpay)<0, 'tx-success':(item.totalprice-item.totalpay)==0}">
+											<span ng-if="(item.totalprice-item.totalpay)!=0">
+												[[(item.totalprice-item.totalpay)|number:0]]
+											</span>
+											<span ng-if="(item.totalprice-item.totalpay)==0">
+												LUNAS
+											</span>
 										</td>
 									</tr>
 								</tbody>

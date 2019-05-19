@@ -27,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-text-left" ng-hide="error.files==''">
+		<div class="block-text-left" ng-hide="error.files==''" hidden>
 			<span class="txt">
 				<span class="far fa-exclamation tx-warning"></span> 
 				[[error.files]]
@@ -96,7 +96,7 @@
 					<div class="alert alert-lightgray alert-sm margin-0">
 						<i class="fa fa-exclamation tx-warning"></i>
 						Hello, Anda belum login! <br> 
-						Silahkan <a class="a-purple" href="{{URL::asset('login?url=').(substr(Request::getPathInfo(),1).(Request::getQueryString()?('?'.Request::getQueryString()):''))}}">login</a> terlebih dahulu untuk Pesan.
+						Silahkan <a class="a-purple" href="{{URL::asset('login?url=').(substr(Request::getPathInfo(),1).(Request::getQueryString()?('?'.Request::getQueryString()):''))}}">LOG-IN</a> terlebih dahulu untuk Pesan.
 					</div>
 				</div>
 			</div>
@@ -124,30 +124,94 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-list" ng-hide="selected.deliverylocked">
+		<div class="block-list" ng-hide="selected.deliverylocked" ng-if="error.message==''">
 			<div class="txt">
 				Tujuan
 			</div>
 			<div class="input">
-				<div class="input-block" ng-class="{'danger': selected.deliveryaddress.length == 0, 'warning': selected.deliveryaddress.length < 10,  'success': selected.deliveryaddress.length >= 10}">
-					<div class="input-group">
-						<input class="form-control" type="text" ng-model="selected.deliveryaddress" placeholder="Alamat pengiriman + Info Penerima + Patokan">
-						<span class="input-group-btn" ng-show="defaultaddress!=null">
-							<button class="btn brd-transp bg-danger" type="button" ng-click="selected.deliveryaddress=defaultaddress" ng-show="selected.deliveryaddress!=defaultaddress">
-								<i class="fas fa-bookmark tx-white"></i>
-							</button>
-							<button class="btn brd-transp bg-danger" type="button" ng-click="selected.deliveryaddress=''" ng-show="selected.deliveryaddress==defaultaddress">
-								<i class="fas fa-times tx-white"></i>
-							</button>
-						</span>
-					</div>
+				<div class="select">
+					<select class="form-control" type="text" ng-model="selected.deliveryaddress" ng-options="item as item.address.name+', '+item.address.address for item in customeraddresses" ng-change="addresschanged()"></select>
 				</div>
-				<div class="info" data-toggle="tooltip" data-title="<b>Masukkan alamat lengkap beserta patokannya!</b>" data-html="true" data-placement="left">
+				<div class="info" data-toggle="tooltip" data-title="Pilih alamat tujuan pengiriman." data-html="true" data-placement="left">
 					<span class="far fa-question-circle"></span>
 				</div>
 			</div>
 		</div>
-
+	</div>
+	<div class="panel-block" ng-if="error.message!=''">
+		<div class="block-list">
+			<div class="input text-xs-center">
+				<div class="input-block">
+					<div class="alert alert-lightgray alert-sm margin-0">
+						<i class="fa fa-exclamation tx-warning"></i>
+						Hello, Anda belum login! <br> 
+						Silahkan <a class="a-purple" href="{{URL::asset('login?url=').(substr(Request::getPathInfo(),1).(Request::getQueryString()?('?'.Request::getQueryString()):''))}}">LOG-IN</a> terlebih dahulu untuk Pilih Alamat.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-block highlight" ng-if="selected.deliveryaddress.id==0">
+		<div class="block-subdetail">
+			<div class="txt">TAMBAH ALAMAT BARU</div>
+			<div class="line"></div>
+		</div>
+		<div class="block-list">
+			<div class="txt">
+				Nama
+			</div>
+			<div class="input">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="newaddress.name" placeholder="Name Alamat Baru">
+				</div>
+			</div>
+		</div>
+		<div class="block-list">
+			<div class="txt">
+				Alamat Baru
+			</div>
+			<div class="input">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="newaddress.location" placeholder="Lokasi Alamat Baru">
+				</div>
+			</div>
+		</div>
+		<div class="block-list">
+			<div class="txt">
+				Catatan
+			</div>
+			<div class="input">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="newaddress.note" placeholder="Catatan u/ di Alamat Baru">
+				</div>
+			</div>
+		</div>
+		<div class="block-list">
+			<div class="txt">
+				Kota
+			</div>
+			<div class="input">
+				<div class="select">
+					<select class="form-control" type="text" ng-model="newaddress.city" ng-options="item as item.name for item in cities" ng-change="newcitychanged()"></select>
+				</div>
+			</div>
+		</div>
+		<div class="block-list">
+			<div class="txt"></div>
+			<div class="input">
+				<button class="btn btn-sm btn-outline-purple" ng-click="addnewaddress('{{Session::get('userid')}}')">
+					<span ng-if="!waitingaddnewadds && !errornewaddress">
+						Tambah Data
+					</span>
+					<span ng-if="!waitingaddnewadds && errornewaddress">
+						Error
+					</span>
+					<span ng-if="waitingaddnewadds">
+						<i class="fas fa-spinner fa-spin"></i>
+					</span>
+				</button>
+			</div>
+		</div>
 	</div>
 	<div class="panel-footer">
 		<div class="txt">

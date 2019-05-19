@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>JB | @yield('title')</title>
+	<title>@yield('title') | jakartabrosur.com</title>
 	<meta name="csrf_token" content="{ csrf_token() }" />
 	<meta name="title" content="@yield('title')">
 	<meta name="description" content="@yield('description')">
@@ -18,7 +18,6 @@
 
 		@include('includes.preheader')
 		@include('includes.header')
-		@include('layouts.loginmodal')
 		@include('layouts.statictooltip')
 
 		<div id="content" class="content">

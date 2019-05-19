@@ -4,7 +4,7 @@
 @section('robots', 'index')
 @section('content')
 
-<div ng-controller="LoginModal">
+<div ng-controller="LoginController">
 <?php
 	if(isset($url)){
 		if($url != ''){
@@ -22,9 +22,15 @@
 			<div class="login-block">
 				<div class="form-group">
 					<input type="text" id="login-username" class="login-text-input" data-toggle="tooltip" data-placement="top" title="email@example.com" placeholder="Email Anda" ng-model="customerData.email" name="email">
+					<div class="login-text-error">
+						[[error.email]]
+					</div>
 				</div>
 				<div class="form-group">
 					<input type="password" id="login-password" class="login-text-input" data-toggle="tooltip" data-placement="bottom" title="min. 6 digits" placeholder="Password Anda" ng-model="customerData.password" name="password">
+					<div class="login-text-error">
+						[[error.password]]
+					</div>
 				</div>
 			</div>
 			<div class="login-error" ng-show="alertshow">

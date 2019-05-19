@@ -14,12 +14,12 @@
 
 <div ng-init="initData_2('{{$jobsubtypes_2}}', '{{$printers_2}}', '{{$papers_2}}', '{{$deliveries_2}}')"></div>
 
-	<div class="size-16 margin-10-0">
-		<small class="fas fa-shopping-cart tx-lightgray"></small> Data di keranjang belanja 
-
-		<small class="fas fa-angle-right tx-lightmagenta"></small>
-
-		<span class="fas fa-universal-access tx-lightgray"></span> Hak Admin
+	<div class="page-title">
+		<i class="fas fa-shopping-basket fa-fw"></i>
+		Keranjang Belanja
+		<i class="fas fa-fw fa-angle-double-right">
+		</i>
+		Admin
 	</div>
 
 @if(isset($carts))

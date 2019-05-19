@@ -18,6 +18,6 @@ class RedirectIfCustomer
 		if (session()->has('role'))
 			if (session()->get('role') == "customer")
 				return $next($request);
-		return redirect()->route('pages.home');
+		return redirect()->route('pages.account.login');
 	}
 }

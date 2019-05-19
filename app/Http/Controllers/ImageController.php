@@ -10,6 +10,7 @@ use App\Cartpreview;
 use App\CartHeader;
 use File;
 use App\Files;
+use Illuminate\Support\Facades\Cache;
 
 class ImageController extends Controller
 {
@@ -192,35 +193,15 @@ class ImageController extends Controller
 		if($file!=null)$file->delete();
 
 		//UNTUK DELETE FILE DI STORAGE
+
 		File::delete($path);
-		File::delete($preview);
-		if (strstr($icon, public_path("image/ext-")) != $icon) File::delete($icon);
+		//File::delete($preview);
+		if (strstr($icon, "image/ext-") != $icon) File::delete($icon);
 		//------------------------------
 
-		//$response = $this->image->delete( $filename );
-		/*if(session()->has('cartfile')) $files = session()->get('cartfile');
-		else $files = null;
-		foreach ($files as $i=>$item) {
-			if($item['id']==$id){
-				unset($files[$i]);
-			}
-		}
-		for ($i=0; $i < count($files); $i++) { 
-			return $files;
-			if($files[$i]['id'] == $id){
-				unset($files[$i]);
-			}
-		}*/
-		/*if(count($files)>0){
-			session()->put('cartfile', $files);
-			return $files;
-		}
-		else{
-			session()->forget('cartfile');
-			return '';
-		}*/
 
 		return $this->getPendingImage();
 	}
+
 
 }

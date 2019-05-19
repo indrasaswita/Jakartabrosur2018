@@ -97,6 +97,17 @@ module.exports = function(app){
 				});
 			};
 
+			$scope.refreshAllAccount = function(){
+				$scope.updateCompAcc(1);
+				//datanya di store di $scope.klikbca;
+			}
+
+			$scope.refreshAllAccount();
+
+			$scope.typeoff = function($input){
+				return typeof $input;
+			}
+
 			$scope.tick = 0;
 			$scope.updateCounter = function(){
 				if($scope.tick > 99999) 
@@ -493,7 +504,7 @@ module.exports = function(app){
 				$scope.selectedverif = $payment;
 				$scope.selectedverif.note = "#job"+$scope.zeroFill($payment.salesID, 5);
 				$scope.selectedverif.selectedindex = $selectedindex;
-				console.log($scope.selectedverif);
+				//console.log($scope.selectedverif);
 				//default variable will be shown from $scope.selectedverif;
 				$('#paymentVerifModal').modal('show');
 			}

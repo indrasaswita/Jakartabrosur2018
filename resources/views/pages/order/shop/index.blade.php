@@ -11,15 +11,15 @@
 	<div class="order-panel-tabs">
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#calculation">
-					<span class="fa fa-calculator"></span>	
+				<a class="nav-link active" id="calc-headtab" data-toggle="tab" href="#calculation">
+					<i class="fas fa-calculator"></i>	
 					<span class="hidden-xs-down">Kalkulasi</span>
 					<span class="hidden-sm-up">Calc</span>
 				</a>
 			</li>
 	    <li class="nav-item">
-	    	<a class="nav-link" data-toggle="tab" href="#description">
-	    		<span class="fa fa-edit"></span>
+	    	<a class="nav-link" id="desc-headtab" data-toggle="tab" href="#description">
+	    		<i class="fas fa-edit"></i>
 	    		<span class="hidden-xs-down">Deskripsi</span>
 	    		<span class="hidden-sm-up">Desc</span>
 	    	</a>

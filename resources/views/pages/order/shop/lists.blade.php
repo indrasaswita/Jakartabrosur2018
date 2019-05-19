@@ -5,7 +5,29 @@
 @section('content')
 
 <div ng-controller="OrderListCustomerController">
+
 	@include('includes.nav.subnav')
+
+	<br><div class="page-title text-xs-center">
+		<i>Mau pesan apa?</i>
+		<div class="lowercase line-11 text-muted size-60p">Cek harga maupun pesan, <br>silahkan pilih salah satu tipe cetakan dibawah ini.</div>
+	</div><br>
+
+	<!-- BAKAL DIPAKE INI, JANGAN DIHAPUS -->
+	<div class="viewer" hidden>
+		<div class="title">
+			VIEW TYPE
+		</div>
+		<div class="btn-group">
+			<button class="btn btn-secondary btn-sm">
+				<i class="fas fa-bars fa-fw"></i>
+			</button>
+			<button class="btn btn-secondary btn-sm">
+				<i class="fas fa-th fa-fw"></i>
+			</button>
+		</div>
+	</div>
+
 	<div class="waitingorderlist" ng-show="jobtypes.length == 0 || jobtypes == null">
 		<i class="fas fa-spin fa-spinner fa-5x tx-lightgray"></i>
 		<br><br>
@@ -13,10 +35,14 @@
 		Tunggu sebentar untuk memilih jenis cetakan...
 	</div>
 	<div class="orderlist" ng-repeat="jobtype in jobtypes" ng-show="jobtypes.length > 0">
-		<div class="orderlist-header">[[jobtype.name]]</div>
+		<div class="orderlist-header">
+			<span class="tx-lightgray">[[$index+1]]. </span>
+			[[jobtype.name]]
+			<i class="fas fa-circle size-80p" style="color:[[jobtype.colorcode]];"></i>
+		</div>
 		<div class="ordersublist-wrapper">
 			<ul class="ordersublist">
-				<li ng-repeat="item in jobtype.subtypes" ng-mouseover="tooltip('<b>'+item.name+'</b><br>'+item.description)" ng-mouseleave="tooltip('')">
+				<li ng-repeat="item in jobtype.subtypes" ng-mouseover="tooltip('<b class=\'tx-purple\'>'+item.name+'</b><br>'+item.description)" ng-mouseleave="tooltip('')">
 					<a href="{{URL::asset('shop/[[item.link]]')}}">
 						<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/[[item.icon]]')}}" ng-if="item.icon!=''">
 						<div class="list-image-addon" hidden>

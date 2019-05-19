@@ -3,21 +3,22 @@ module.exports = function(app){
 		function($scope, $http, API_URL, BASE_URL, $window){
 
 			$scope.initData = function($datas){
-				$scope.salesdetail = JSON.parse($datas);
+
+				$scope.salesdetail = (JSON.parse($datas));
+				console.log($scope.salesdetail);
+
 				$scope.salesdetail.created_at = $scope.makeDateTime($scope.salesdetail.created_at);
+
 				$scope.salesdetail.cartheader.created_at = $scope.makeDateTime($scope.salesdetail.cartheader.created_at);
+
 				$.each($scope.salesdetail.cartheader.cartfile, function($index, $item){
 					$item.created_at = $scope.makeDateTime($item.created_at);
-					$.each($item.file, function($index2, $item2){
-						$item2.created_at = $scope.makeDateTime($item2.created_at);
-					});
+					$item.file.created_at = $scope.makeDateTime($item.file.created_at);
 				});
 				$.each($scope.salesdetail.cartheader.cartpreview, function($index, $item){
 					$item.waiting = false;
 					$item.created_at = $scope.makeDateTime($item.created_at);
-					$.each($item.file, function($index2, $item2){
-						$item2.created_at = $scope.makeDateTime($item2.created_at);
-					});
+					$item.file.created_at = $scope.makeDateTime($item.file.created_at);
 				});
 			}
 

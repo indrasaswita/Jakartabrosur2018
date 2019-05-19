@@ -17,38 +17,42 @@
 
 		<div class="block-flex">
 			<div class="block-list">
-				<div class="list-title">
-					Cetak
-				</div>
-				<div class="list-data">
-					[[total.price|number:0]]
-				</div>
-				<div class="list-data-small tx-danger" ng-hide="total.disc==0">
-					<span class="text-muted">
-						disc
-					</span> 
-					- [[total.disc|number:0]]
-				</div>
-				<div class="list-data-small tx-danger" ng-show="total.disc==0">
-					no discount
-				</div>
+				<a href="" class="a-inherit a-noline" ng-click="calcheadtabclick()">
+					<div class="list-title">
+						Cetak
+					</div>
+					<div class="list-data">
+						[[total.price|number:0]]
+					</div>
+					<div class="list-data-small tx-danger" ng-hide="total.disc==0">
+						<span class="text-muted">
+							disc
+						</span> 
+						- [[total.disc|number:0]]
+					</div>
+					<div class="list-data-small tx-danger" ng-show="total.disc==0">
+						no discount
+					</div>
+				</a>
 			</div>
 			<div class="block-sign">
 				+
 			</div>
 			<div class="block-list">
-				<div class="list-title">
-					Ongkir
-				</div>
-				<div class="list-data">
-					[[total.deliv|number:0]]
-				</div>
-				<div class="list-data-small tx-primary">
-					<span class="text-muted">
-						<i class="fas fa-truck fa-flip-horizontal"></i>
-					</span> 
-					[[selected.delivery.deliveryname]]
-				</div>
+				<a href="" class="a-inherit a-noline" ng-click="descheadtabclick()">
+					<div class="list-title">
+						Ongkir
+					</div>
+					<div class="list-data">
+						[[total.deliv|number:0]]
+					</div>
+					<div class="list-data-small tx-primary">
+						<span class="text-muted">
+							<i class="fas fa-truck fa-flip-horizontal"></i>
+						</span> 
+						[[selected.delivery.deliveryname]]
+					</div>
+				</a>
 			</div>
 			<div class="block-sign">
 				=
@@ -67,7 +71,7 @@
 					</span> 
 					[[((total.price+total.deliv-total.disc) / selected.quantity)|number:1]]
 				</div>
-				<div class="list-data-small notfixed tx-primary">
+				<div class="list-data-small notfixed tx-primary" ng-if="datas.satuan=='lembar'">
 					<span class="text-muted">
 						@ream
 					</span> 
@@ -76,7 +80,7 @@
 			</div>
 
 			<div class="block-sign submit" ng-show="error.message!=''">
-				<a href="" class="" ng-click="showsavedialog()" ng-disabled="error.savecart!=''" ng-mouseover="tooltip('<b class=\'tx-danger\'><small class=\'far fa-bell\'></small>&nbsp;Log-In Required</b>')" ng-mouseleave="tooltip('')">
+				<a href="" class="" ng-click="showsavedialog()" ng-disabled="error.savecart!=''" ng-mouseover="tooltip('<b class=\'tx-danger\'><small class=\'far fa-bell\'></small>&nbsp;Dibutuhkan Log-In..</b>')" ng-mouseleave="tooltip('')">
 					<div class="">
 						<span class="fas fa-print"> </span>
 						<span class="size-40p">NEXT</span>
@@ -153,12 +157,12 @@
 
 			<button class="btn btn-purple btn-sm" ng-click="showsavedialog()">
 				<i class="fas fa-print"></i>
-				Add to Cart
+				Masukkan keranjang
 			</button>
 
 			<div class="info" ng-show="error.message!=''">
 				<small class="fas fa-exclamation"></small>
-				Log-In Required
+				Log-In Dulu!
 			</div>
 
 		</div>

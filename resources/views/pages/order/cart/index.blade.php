@@ -31,17 +31,17 @@
 @if(isset($carts))
 	@if($carts != null)
 		@if(count($carts) != 0)
+	<div class="page-title">
+		<i class="fas fa-shopping-basket fa-fw"></i>
+		Keranjang Belanja
+	</div>
 	<div class="cart-list">
 		<div class="tx-header">
-			<span hidden>
-				<i class="fas fa-shopping-basket"></i>
-				Keranjang Belanja
-			</span>
 			<a class="btn btn-sm btn-outline-primary pull-xs-right" href="{{URL::asset('orderlistcustomer')}}" data-toggle="tooltip" data-placement="left" data-title="Tambah Transaksi Baru">
 				<span class="fas fa-plus-square"></span> Belanja Lagi
 			</a>
 			<div class="size-70p padding-5">
-				<i class="fas fa-info-circle tx-info"></i> 
+				<i class="fas fa-question-circle tx-info"></i> 
 				<span class="tx-gray">
 					Anda dapat memilih > 1 item untuk 1 transaksi yang sama.
 				</span>
@@ -119,9 +119,7 @@
 								</div>
 								<div class="description-item">
 									<div class="label">
-										Deliv.&nbsp;<span class="hidden-sm-down tx-lightgray"  data-toggle="tooltip" data-title="[[item.deliveryaddress]]" data-placement="bottom" data-html="true">
-											<i class="fas fa-info-circle"></i>
-										</span>
+										Deliv.
 									</div>
 									<div class="text">
 										[[item.delivery.deliveryname]] 
@@ -138,8 +136,8 @@
 								</div>
 								<div class="description-item">
 									<div class="label">
-										Pengirim.&nbsp;<span class="tx-lightgray"  data-toggle="tooltip" data-title="<b>Dropship</b><br>dikirim oleh Jakartabrosur dengan label pengirim custom sesuai nama & kontak pemesan" data-placement="bottom" data-html="true" ng-show="item.resellername.length>0">
-											<i class="fa fa-info-circle"></i>
+										Pengirim.&nbsp;<span class="tx-lightgray"  data-toggle="tooltip" data-title="<b>Dropship</b><br>dikirim oleh Jakartabrosur dengan label pengirim custom sesuai nama & kontak pemesan" data-placement="bottom" data-html="true" ng-show="item.resellername.length>0" tooltip>
+											<i class="fa fa-question-circle"></i>
 										</span>
 									</div>
 									<div class="text" ng-show="item.resellername.length>0">
@@ -172,30 +170,6 @@
 									</div>
 									<div class="text">
 										[[item.totalweight]] kg
-									</div>
-								</div>
-								<div class="description-item">
-									<div class="label">
-										Deliv Rp.
-									</div>
-									<div class="text">
-										[[item.deliveryprice|number:0]]
-									</div>
-								</div>
-								<div class="description-item">
-									<div class="label">
-										Print Rp.
-									</div>
-									<div class="text">
-										[[(item.printprice-item.discount)|number:0]]
-									</div>
-								</div>
-								<div class="description-item">
-									<div class="label">
-										Total Rp.
-									</div>
-									<div class="text text-bold">
-										[[(item.printprice-item.discount+item.deliveryprice)|number:0]]
 									</div>
 								</div>
 								<div class="description-item">
@@ -255,11 +229,37 @@
 										<div class="label">
 											[[detailfinishing.finishing.name]]
 
-											<span class="far fa-question-circle" data-title="[[detailfinishing.finishing.info]]" data-toggle="tooltip" data-placement="top" data-html="true"></span>
+											<span data-title="[[detailfinishing.finishing.info]]" data-toggle="tooltip" data-placement="top" data-html="true" tooltip>
+												<i class="far fa-question-circle"></i>
+											</span>
 										</div>
 										<div class="text">
 											[[detailfinishing.finishingoption.optionname]]
 										</div>
+									</div>
+								</div>
+								<div class="description-item">
+									<div class="label">
+										Deliv Rp.
+									</div>
+									<div class="text">
+										[[item.deliveryprice|number:0]]
+									</div>
+								</div>
+								<div class="description-item">
+									<div class="label">
+										Print Rp.
+									</div>
+									<div class="text">
+										[[(item.printprice-item.discount)|number:0]]
+									</div>
+								</div>
+								<div class="description-item">
+									<div class="label">
+										Total Rp.
+									</div>
+									<div class="text text-bold">
+										[[(item.printprice-item.discount+item.deliveryprice)|number:0]]
 									</div>
 								</div>
 							</div>

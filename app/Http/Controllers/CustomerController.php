@@ -5,43 +5,78 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Customer;
+use App\Mail\VerifyMail;
 use App\Http\Requests;
 use App\Http\Requests\CustomerRequest;
 use Hash;
+use Mail;
+use Carbon\Carbon;
+use DB;
 
 class CustomerController extends Controller
 {
 	
 	public function index()
 	{
-		$customers = Customer::with('company', 'salesheader', 'city', 'customerbankacc')
+		$customers = Customer::with('company', 'salesheader', 'customerbankacc')
 				->orderBy('name', 'asc')
-				->get();
+				->get(); 
 		/*$role = Cache::get('role');
 		$fullname = Cache::get('name');
 		$email = Cache::get('email');*/
 		$customers->makeVisible(['balance']);
 		return view('pages.admin.master.customer.index', compact('customers'));
 	}
-	public function store(CustomerRequest $request)
+
+	public function verifyEmail($token)
 	{
-		//CustomerModel::create(Request::all());
-		$data = $request->all();
-		$data['password'] = Hash::make($data['password']);
+		$verifyUser = Customer::where('verify_token', $token)
+				->first();
 
-		$hasil = Customer::where('email', '=', $data['email'])
-							->first();
-		if($hasil != null){
-			$result = array("message"=>"Anda sudah pernah daftar! Jika lupa password, silahkan ke bagian 'forgot password.'", "type"=>"alert-danger");
-			return $result;
+		if($verifyUser!=null){
+			$a = Carbon::now();
+			$b = Carbon::parse($verifyUser['updated_at']);
+			$diff = $b->diffInSeconds($a);
+			if($diff >= 100)
+			{
+				return redirect('/login');	
+			}
+			else
+			{
+				DB::table('customers')->where('id', '=', $verifyUser['id'])
+					->update(['verify_token' => null]);
+				$status = "Email anda sudah diverifikasi";
+			}
 		}
+		else{
+			return view('pages.account.resendemail');	
+		}
+		 return redirect('/home');
+	}
 
-		Customer::create($data);
+	public function verification()
+	{
+		if(session()->get('email')==null){
+			return redirect()->route('pages.home');
+		}else{
 
-		$msg = "Berhasil! Silahkan Log-in.";
-		$type = "alert-success";
-		$result = array("message"=>$msg, "type"=>$type);
-		//echo json_encode($result);
-		return $result;
+			$email = session()->get('email');
+
+			$customer = null;
+			if(session()->get('userid')!=null)
+				$customer = Customer::findOrFail(session()->get('userid'));
+
+			if($customer==null)
+				return redirect()->route('pages.home');
+			else if($customer['verify_token']==null)
+				return redirect()->route('pages.home');
+			else
+				return view('pages.account.resendemail', compact('email'));	
+		}
+	}
+
+	public function panggilemail()
+	{
+		return view('mails.verifymail');
 	}
 }

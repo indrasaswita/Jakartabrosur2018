@@ -10,24 +10,55 @@
 		</h4>
 	  </div>
 		<div class="modal-body">
-			<div class="form-group" ng-show="uploadwaiting==false">
-				
+			<div class="margin-bottom-10">
+				<button class="btn width-100" ng-class="{'btn-outline-purple':!uploadwaiting, 'btn-secondary':uploadwaiting}" ng-click="choosefileclicked()" ng-disabled="uploadwaiting">
+					<span ng-if="!uploadwaiting">
+						<i class="fas fa-search"></i>
+						Pilih File
+					</span>
+					<span ng-if="uploadwaiting">
+						WAITING
+					</span>
+				</button>
+
 				<form action="/" method="post" id="real-dropzonew" enctype="multipart/form-data">
 					@method('patch')
 					@csrf
 
-
-					<input name="file" id="file" type="file">
+					<input name="file" id="file" type="file" hidden ng-disabled="uploadwaiting">
 
 				</form>
 			</div>
-			<div ng-show="uploadwaiting==true" class="text-xs-center amaranth tx-success">
+			<div ng-show="uploadwaiting==true" class="text-xs-center amaranth tx-success" hidden>
 				<span class="fas fa-spinner fa-pulse fa-fw fa-3x"></span><br>
 				w a i t i n g . . . .
 			</div>
-			<div class="text-xs-center alert alert-danger" ng-show="uploaderror!=''">
-				<i class="fa fa-filter"></i>[[uploaderror]]
+			<div class="text-xs-center alert alert-danger size-100p" ng-show="uploaderror!=''">
+				<i class="fas fa-file-signature"></i> [[uploaderror]]
 			</div>
+
+			<div class="text-xs-center alert alert-danger size-100p" ng-show="uploaderror==''&&error.files!=''">
+				<i class="fas fa-exclamation-circle"></i> [[error.files]]
+			</div>
+
+			<div class="progress">
+			  <div class="progress-bar progress-bar-striped bg-purple" ng-class="{'progress-bar-animated':uploadwaiting}" role="progressbar" style="width: 100%"></div>
+			</div>
+
+			<progress value="" max="" hidden></progress>
+
+			<div ng-if="filesize>0&&!uploadwaiting">
+				<div ng-if="filesize<1024">
+					[[filesize|number:0]] byte uploaded.
+				</div>
+				<div ng-if="filesize>=1024&&filesize<(1024*1024)">
+					[[(filesize/1024)|number:1]] KB uploaded.
+				</div>
+				<div ng-if="filesize>=(1024*1024)">
+					[[(filesize/1024/1024)|number:2]] MB uploaded.
+				</div>
+			</div>
+
 			<div class="subtitle margin-top-20">
 				Urutan File yang sudah di Upload:
 			</div>
@@ -75,14 +106,14 @@
 								</td>
 								<td class="width-min">
 									<a href="" class="a-purple" ng-click="addSelectedFiles(item)">
-										<span class="fas fa-link"></span>
+										<span class="far fa-arrow-alt-circle-right"></span>
 									</a>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="width-40 padding-5 margin-left-5 border-purple-1 bg-softpurple">
+				<div class="width-40 padding-5 margin-left-5 border-purple-1">
 					<table class="table table-sm">
 						<thead class="bg-purple">
 							<tr>
@@ -92,8 +123,8 @@
 						<tbody>
 							<tr ng-repeat="item in selected.files">
 								<td class="width-min">
-									<a href="" class="a-purple" ng-click="remSelectedFiles(item)">
-										<span class="fas fa-unlink"></span>
+									<a href="" class="a-danger" ng-click="remSelectedFiles(item)">
+										<span class="far fa-times-circle"></span>
 									</a>
 								</td>
 								<td class="width-min">

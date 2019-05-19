@@ -30,20 +30,20 @@ module.exports = function(app){
 				return 0;
 			}
 			$scope.selected={
-                'companyID' : '1',
-                'email' : '',
-                'password' : '',
-                'name' : '',
-                'type' : '',
-                'title' : '', 
-                'address' : '', 
-                'postcode' : '',
-                'cityID' : '1',
-                'phone1' : '',
-                'phone2' : '',
-                'phone3' : '',
-                'news' : 0,
-                'balance' : 0
+				'companyID' : '1',
+				'email' : '',
+				'password' : '',
+				'name' : '',
+				'type' : '',
+				'title' : '', 
+				'address' : '', 
+				'postcode' : '',
+				'cityID' : '1',
+				'phone1' : '',
+				'phone2' : '',
+				'phone3' : '',
+				'news' : 0,
+				'balance' : 0
 			};
 			$scope.fillCompanies = function()
 			{

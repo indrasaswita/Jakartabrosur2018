@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jobtype extends Model
 {
-    protected $fillable = ['name', 'shortname', 'code'];
+    protected $fillable = ['name', 'indoname', 'colorcode'];
     protected $guarded = ['id'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="csrf_token" content="{ csrf_token() }" />
-	<title>JB | Error @yield('title')</title>
+	<title>@yield('title') | jakartabrosur.com</title>
 	<meta name="title" content="Error @yield('title')">
 	@include('includes.head')
 </head>
@@ -18,7 +18,7 @@
 
 		@include('includes.preheader')
 		@include('includes.header')
-		@include('layouts.loginmodal')
+		<!-- include('layouts.loginmodal') -->
 
 		<div id="content" class="content">
 

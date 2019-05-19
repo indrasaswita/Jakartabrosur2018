@@ -12,6 +12,6 @@ class City extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public function address(){
-    	return $this->hasMany('App\Address', 'addressID');
+    	return $this->hasMany('App\Address', 'cityID');
     }
 }

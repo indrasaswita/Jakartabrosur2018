@@ -11,6 +11,27 @@ use Carbon\Carbon;
 
 class AdmCartAPI extends Controller
 {
+	public function getAll(){
+		$datas = Cartheader::with('cartdetail')
+				->with('customer')
+				->with('jobsubtype')
+				->orderBy('id', 'desc')
+				->get();
+
+		return $datas;
+	}
+
+	public function getCartOnly(){
+		$datas = Cartheader::with('cartdetail')
+				->with('customer')
+				->with('jobsubtype')
+				->doesntHave('salesdetail')
+				->orderBy('id', 'desc')
+				->get();
+
+		return $datas;
+	}
+
 	public function updateEmployeeNote(Request $request)
 	{
 		$data = $request->all();

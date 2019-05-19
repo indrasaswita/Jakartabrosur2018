@@ -16,7 +16,9 @@ class CreatePapersizes extends Migration
             CREATE TABLE papersizes(
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 width NUMERIC(7,2) UNSIGNED,
-                length NUMERIC(10,2) UNSIGNED
+                length NUMERIC(10,2) UNSIGNED,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NULL
             );
         ");
     }

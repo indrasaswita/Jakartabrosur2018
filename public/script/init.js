@@ -11,9 +11,4 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
     }
-) //'http://localhost:8000/API/');
-
-
-/*
-.constant('API_URL', )
-.constant('WEB_URL', 'http://localhost:8000/');*/
+)
