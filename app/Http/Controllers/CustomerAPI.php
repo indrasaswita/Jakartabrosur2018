@@ -10,6 +10,10 @@ use App\City;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Mail;
+use App\Mail\VerifyMail;
+use App\Logic\Curl\OneSignal;
+use App\Helpers\MathHelper;
 
 class CustomerAPI extends Controller
 {
@@ -113,5 +117,106 @@ class CustomerAPI extends Controller
       return null;
     }
 
+  }
+
+  public function store(Request $request)
+  {
+    //CustomerModel::create(Request::all());
+    $data = $request->all();
+    $data['password'] = Hash::make($data['password']);
+    $data['balance'] = 0;
+    $data['remember_token'] = null;
+
+    $hasil = Customer::where('email', '=', $data['email'])
+        ->first();
+
+    if($hasil != null){
+      $result = array("message"=>"Telah terdaftar! Jika lupa password, silahkan ke bagian 'Forget Password'", "code"=>0);
+      return $result;
+    }
+   
+    // $hasil->makeVisible(["verify_token", "updated_at"]);
+
+    $emptytoken = false;
+    if($hasil["verify_token"]==null){
+      $emptytoken = true;
+    }else{
+      if($hasil["verify_token"]==""){
+        $emptytoken = true;
+      }
+    }
+
+    if($emptytoken == false){
+      $a = Carbon::parse($hasil['updated_at']);
+      $b = Carbon::now();
+      $diff = $a->diffInSeconds($b);
+      
+      if($diff > 600){
+        // kalo lebih dari 10 menit, reset lagi
+        
+      }else{
+        return $item->remember_token;
+      }
+    }
+
+    Customer::create($data);
+
+    $customer = Customer::orderBy('id', 'desc')
+        ->first();
+    $customer->verify_token = str_random(40);
+    $customer->save();
+
+    Mail::to($customer->email)->send(new VerifyMail($customer));
+
+    $notif = new OneSignal();
+    $result = $notif->sendMessage('SIGN-UP: '.$data['email'].' pada '.Carbon::now());
+
+
+    //return $result; //'SIGN-UP: '.$data['email'].' pada '.Carbon::now();
+
+    $msg = "Terimakasih! Silahkan Verifikasi Email Anda.";
+    $result = array("message"=>$msg, "code"=>1);
+    //echo json_encode($result);
+    return $result;
+  }
+
+  public function resend(Request $request)
+  {
+    $data = $request->all();
+
+    if(!isset($data['email'])){
+      return "NO DATA, tidak bisa untuk mengirim ke email,\n mohon hubungi Customer Service kami (code:801).";
+    }
+
+    $email =  $data['email'];
+
+    if($data == null || $email == null){
+      return "NO DATA, tidak bisa untuk mengirim ke email,\n mohon hubungi Customer Service kami (code:802).";
+    }
+
+    $customer = Customer::where('email', $email)
+        ->first();
+
+    if($customer == null){
+      return "ERROR email, tidak ditemukan pada database,\n mohon lakukan registrasi ulang (code:803).";
+    }else{
+      $checkverif = Customer::where('email', '=', $email)
+          ->first();
+
+      if($checkverif != null)
+      {
+        $a = Carbon::now();
+        $b = Carbon::parse($checkverif['updated_at']);
+
+        $difftime = $b->diffInSeconds($a);
+        if($difftime >= 100)
+        {
+          $checkverif->verify_token = MathHelper::numRandom(16);//str_random(40);
+          $checkverif->save();
+        }
+        Mail::to($checkverif->email)->send(new VerifyMail($checkverif));
+      }    
+      return "success";
+    }
   }
 }

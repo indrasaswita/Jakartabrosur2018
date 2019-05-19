@@ -1,6 +1,24 @@
 module.exports = function(app){
-	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($scope, $http, API_URL, BASE_URL, $window){
+	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
+		function($scope, $http, API_URL){
+			$scope.initHeader = function($headers){
+				$scope.headers = JSON.parse($headers);
+
+				$.each($scope.headers, function($index, $item){
+					$item.price = 0;
+					$.each($item.salesdetail, function($index, $item2){
+						if($item2.cartheader != null)
+						{
+							$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
+							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
+							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
+
+							$item.price += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
+						}
+					});
+				});
+			}
+
 			$scope.initAllSales = function($input){
 				$scope.sales = JSON.parse($input);
 				$.each($scope.sales, function($index, $item){
@@ -23,7 +41,7 @@ module.exports = function(app){
 			  width -= number.toString().length;
 			  if ( width > 0 )
 			  {
-			    return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+				return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
 			  }
 			  return number + ""; // always return a string
 			}

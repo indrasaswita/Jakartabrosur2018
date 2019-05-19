@@ -9,3 +9,5 @@
     Call Center &nbsp;<span class="glyphicon glyphicon-phone-alt glyp-bold" aria-hidden="true"></span> <span class="bold"> 0813-1551-9889 </span> Mon-Sat: 8am-6pm
     <span class="pull-right">Any problems? <u>service@jakartabrosur.com</u></span>
 </div> -->
+
+@include('includes.modals.alert-ok')

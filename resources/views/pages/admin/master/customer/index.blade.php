@@ -1,4 +1,4 @@
-@extends('layouts.container')
+@extends('layouts.nofooter')
 @section('title', 'Detail Pelanggan | Admin')
 @section('content')
 

@@ -14,41 +14,46 @@ class GantiDataAddressIDDicustomer extends Migration
 	public function up()
 	{
 		DB::unprepared('
-			ALTER TABLE customers 
-				DROP address;					
-			ALTER TABLE companies 
-				DROP FOREIGN KEY cityID;
+			ALTER TABLE customers
+				DROP FOREIGN KEY customers_cityid_foreign;
+
 			ALTER TABLE companies
-				DROP FOREIGN KEY cityID;	
-			ALTER TABLE companies 
-				DROP address;
-			ALTER TABLE addresses 
-				DROP FOREIGN KEY customerID;
+				DROP FOREIGN KEY companies_cityid_foreign;
+
 			ALTER TABLE addresses
-				DROP TABLE customerID;
+				DROP FOREIGN KEY addresses_customerid_foreign;
+
+			ALTER TABLE customers
+				DROP COLUMN cityID;
+			ALTER TABLE customers
+				DROP COLUMN address;
+			ALTER TABLE companies
+				DROP COLUMN cityID;
+			ALTER TABLE customers
+				DROP COLUMN postcode;		
+			ALTER TABLE companies 
+				DROP  COLUMN address;
+			ALTER TABLE addresses
+				DROP COLUMN customerID;
 			ALTER TABLE addresses 
-				DROP receiver;
+				DROP COLUMN receiver;
 			ALTER TABLE vendors
-				DROP FOREIGN KEY cityID;
+				DROP COLUMN address;
 			ALTER TABLE vendors
-				DROP TABLE cityID;	
-			ALTER TABLE vendors
-				DROP address;
-			ALTER TABLE vendors
-				ADD COLUMN addressID INT UNSIGNED;
+				ADD COLUMN addressID INT UNSIGNED AFTER phone2;
 			CREATE TABLE customeraddresses (
 				id INT AUTO_INCREMENT PRIMARY KEY,
 				customerID INT UNSIGNED,
 				addressID INT UNSIGNED,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+				updated_at TIMESTAMP NULL
 			);
 			CREATE TABLE companyaddresses (
 				id INT AUTO_INCREMENT PRIMARY KEY,
 				companyID INT UNSIGNED,
 				addressID INT UNSIGNED,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+				updated_at TIMESTAMP NULL
 			);
 		');
 	}
@@ -60,6 +65,7 @@ class GantiDataAddressIDDicustomer extends Migration
 	 */
 	public function down()
 	{
-		//
+		Schema::dropIfExists('customeraddresses');
+		Schema::dropIfExists('companyaddresses');
 	}
 }

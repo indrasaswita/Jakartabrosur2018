@@ -10,6 +10,7 @@
 
 		<?php
 			$temp = str_replace(array('\r', '\"', '\n', '\''), '?', $salesdetail);
+		//dd($temp);
 		?>
 
 	<div ng-init="initData('{{$temp}}')"></div>
@@ -34,7 +35,7 @@
 						<div class="image">
 							<div class="list">
 								<a href="">
-									<img ng-src="{{URL::asset('images/original/img20170619101804622.jpg')}}" />
+									<img ng-src="{{URL::asset('image/jobsubtypeicons')}}/[[salesdetail.cartheader.jobsubtype.icon]]" />
 								</a>
 							</div>
 						</div>

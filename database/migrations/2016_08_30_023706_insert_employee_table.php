@@ -13,10 +13,10 @@ class InsertEmployeeTable extends Migration
     public function up()
     {
         DB::table('employees')->insert([
-            'name' => 'Rucil Employee',
-            'email' => 'employee2@test.com',
-            'password' => Hash::make('password'),
-            'roleID' => 2
+            'name' => 'Septiana Dodol Item Idup',
+            'email' => 'windy.dharma2@gmail.com',
+            'password' => Hash::make('123456'),
+            'roleID' => 1
         ]);
         DB::table('employees')->insert([
             'name' => 'Indra Employee',
@@ -28,7 +28,7 @@ class InsertEmployeeTable extends Migration
             'name' => 'Darmono',
             'email' => 'mocil@jakartabrosur.com',
             'password' => Hash::make('password'),
-            'roleID' => 3
+            'roleID' => 2
         ]);
         DB::table('employees')->insert([
             'name' => 'Beni',

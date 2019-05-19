@@ -13,6 +13,10 @@ class BankAPI extends Controller
 		$bank = Bank::orderBy('code', 'asc')
 				->where('alias', '<>', '')
 				->get();
-		return $bank;
+		$bank2 = Bank::orderBy('code', 'asc')
+				->where('alias', '')
+				->get();
+
+		return $bank->merge($bank2);
 	}
 }

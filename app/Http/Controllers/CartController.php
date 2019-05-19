@@ -12,6 +12,7 @@ use App\Salesdetail;
 use App\Cartdetailfinishing;
 use Carbon\Carbon;
 use App\Cartheader;
+use App\Customer;
 
 class CartController extends Controller
 {
@@ -89,9 +90,21 @@ class CartController extends Controller
 
 		$header = new Salesheader();
 		$header->customerID = $customerID;
-		$ponumber = '';
-		$tempo = Carbon::now();
-		$header->save();
+		$header->tempo = Carbon::now();
+		$header->estdate = Carbon::now();
+
+		$customer = Customer::where('id', $customerID)
+		        ->with('company')
+		        ->first();
+		//kalo customernya ga ketemu = hack
+		if($customer!=null){
+		    if($customer['company']['id']!=null){
+		        $header->companyname = $customer['company']['name'];
+		    }else{
+		        $header->companyname = '';
+		    }
+	        $header->save();
+		}
 
 		$headerID = Salesheader::latest()
 					->limit(1)

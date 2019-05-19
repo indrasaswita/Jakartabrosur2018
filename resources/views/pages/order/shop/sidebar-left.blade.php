@@ -1,7 +1,31 @@
 <div class="order-description">
+
+	<div class="description-panel size-80p" ng-if="texttoread.length>0">
+		<div ng-bind-html="texttoread">
+		</div>
+		<hr class="margin-5-0">
+		<div ng-if="savepricetextresult!=null" class="savepriceresult">
+			[[savepricetextresult]]
+			<hr class="margin-5-0">
+		</div>
+		<div class="panel-block text-xs-center uppercase">
+			<button class="btn btn-secondary btn-sm width-100 googleft" ng-click="saveTexttoread()">
+				<i class="fas fa-bookmark tx-lightgray"></i>
+				<span class="tx-purple">Save</span>
+				<span class="tag tag-default size-80p">
+					[[texttoread.length|number:0]] ch
+				</span>
+			</button>
+		</div>
+	</div>
+
 	<div class="description-panel" ng-show="datas.icon!=''">
 		<div class="panel-block">
 			<img ng-src="{{URL::asset('image/jobsubtypeicons/[[datas.icon]]')}}" width="100%">
+		</div>
+		<hr class="margin-5-0">
+		<div class="panel-block text-xs-center tx-gray uppercase">
+			<b>{{$datas['name']}}</b>
 		</div>
 	</div>
 

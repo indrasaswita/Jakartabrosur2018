@@ -19,12 +19,13 @@ class AdmAllSalesAPI extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('employee');
+		//$this->middleware('employee');
 	}
-	public function apiGetAll(){
-		$salesheaders = Salesheader::join('customers', 'customers.id', '=', 'customerID')
-								->select('customers.name as customername', 'salesheaders.*')
-								->get();
+
+	public function getAll(){
+		$salesheaders = Salesheader::with('customer', 'salesdetail')
+				->orderBy('id', 'desc')
+				->get();
 		return $salesheaders;
 	}
 

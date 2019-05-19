@@ -73,9 +73,24 @@ module.exports = function(app){
 			}
 
 			$scope.getPrice = function($gramature, $width, $length, $totalpcs){
-				$newpricebuy = $scope.variable.priceper * $gramature * $width * $length / 20000;
-				$newpricesell = $newpricebuy * (1+$scope.variable.margin/100);
-				$newpriceunit = $newpricesell / $totalpcs;
+
+				if ($scope.variable.selecteduom == "kg") {
+					$newpricebuy = $scope.variable.priceper * $gramature * $width * $length / 20000;
+					$newpricesell = $newpricebuy * (1 + $scope.variable.margin / 100);
+					$newpriceunit = $newpricesell / $totalpcs;
+				}else if ($scope.variable.selecteduom == "pcs") {
+					$buyperlembar = $scope.variable.priceper;
+
+					$newpricebuy = $buyperlembar * $totalpcs;
+					$newpricesell = $newpricebuy * (1 + $scope.variable.margin / 100);
+					$newpriceunit = $newpricesell / $totalpcs;
+				} else if ($scope.variable.selecteduom == "meter") {
+					$buypermeter = $scope.variable.priceper;
+
+					$newpricebuy = $buypermeter * $totalpcs;
+					$newpricesell = $newpricebuy * (1 + $scope.variable.margin / 100);
+					$newpriceunit = $newpricesell / $totalpcs;
+				}
 
 				return {
 					"newpricebuy" : $newpricebuy,

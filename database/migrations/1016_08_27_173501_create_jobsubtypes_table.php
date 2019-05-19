@@ -59,6 +59,8 @@ class CreateJobsubtypesTable extends Migration
 				sicon2 VARCHAR(128) DEFAULT '',
 				printerIDoffset INT UNSIGNED NOT NULL,
 				printerIDdigital INT UNSIGNED NOT NULL,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL,
 				PRIMARY KEY (id),
 				FOREIGN KEY (printerIDdigital) REFERENCES printingmachines(id),
 				FOREIGN KEY (printerIDoffset) REFERENCES printingmachines(id),

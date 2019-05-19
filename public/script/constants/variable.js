@@ -7,4 +7,5 @@ module.exports = function(app){
 
 	app.constant("BASE_URL", $public_path);
 	app.constant("API_URL", $public_path+'API/');
+	app.constant("AJAX_URL", $public_path+'AJAX/');
 }

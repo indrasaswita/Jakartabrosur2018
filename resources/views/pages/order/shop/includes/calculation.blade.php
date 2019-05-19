@@ -93,10 +93,7 @@
 		
 		<div class="block-list">
 			<div class="txt">
-				Ukuran
-				<span class="hidden-xs-down"> 
-					Jadi
-				</span>
+				Uk. (cm)
 			</div>
 			<div class="input">
 				<div class="select" ng-show="!customsize">
@@ -105,7 +102,7 @@
 				</div>
 				<div class="input-block" ng-class="{'border-red':selected.size.width==null||selected.size.width==0||selected.size.length==null||selected.size.length==0}" ng-show="customsize">
 					<div class="input-group">
-						<input type="number" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 1, 10000, 0.01)" ng-blur="getPrice()">
+				<input type="number" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 1, 10000, 0.01)" ng-blur="getPrice()">
 						<span class="input-group-addon">
 							<span class="fas fa-times"></span>
 						</span>
@@ -136,7 +133,7 @@
 			</div>
 			<div class="input">
 				<div class="select">
-					<select class="form-control" data-width="100%" ng-options="item.paper as showMaterialName(item.paper.name, item.paper.gramature) for item in datas.jobsubtypepaper" ng-model="selected.paper" ng-change="matChanged(selected.paper)">
+					<select class="form-control" data-width="100%" ng-options="item.paper as showMaterialName(item.paper.name, item.paper.gramature) for item in datas.jobsubtypepaper" ng-model="selected.paper" ng-change="matChanged(selected.paper, finishings)">
 					</select>
 				</div>
 				<div class="info" data-toggle="tooltip" data-title="[[datas.infomaterial]]" data-html="true" data-placement="left">
@@ -173,8 +170,7 @@
 				<div class="txt">
 					<span class=" tx-lightgray">[[$index+1]].</span>&nbsp;
 					<span class="tx-gray">DETAIL:</span>&nbsp;
-					<span class="tx-lightmagenta signika size-120p">
-						[[detail.detailname]]
+					<span class="tx-lightmagenta signika size-120p" ng-bind-html="selected.jobsubtypedetail[$index].detailname">
 					</span>
 				</div>
 				<div class="line"></div>
@@ -194,7 +190,7 @@
 				<div class="input">
 					<div class="input-block">
 						<div class="input-group">
-							<input type="text" class="form-control text-xs-left" ng-model="detail.detailname" placeholder="Judul Detail">
+							<input type="text" class="form-control text-xs-left" ng-model="selected.jobsubtypedetail[$index].detailname" placeholder="Judul Detail">
 						</div>
 					</div>
 					<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
@@ -240,7 +236,7 @@
 				</div>
 				<div class="input">
 					<div class="select">
-						<select class="form-control" data-width="100%" ng-options="item.paper as showMaterialName(item.paper.name, item.paper.gramature) for item in datas.jobsubtypedetail[$index].jobsubtypedetailpaper" ng-model="selected.jobsubtypedetail[$index].paper" ng-change="matChanged(selected.jobsubtypedetail[$index].paper)">
+						<select class="form-control" data-width="100%" ng-options="item.paper as showMaterialName(item.paper.name, item.paper.gramature) for item in datas.jobsubtypedetail[$index].jobsubtypedetailpaper" ng-model="selected.jobsubtypedetail[$index].paper" ng-change="matChanged(selected.jobsubtypedetail[$index].paper, detail.jobsubtypedetailfinishing)">
 						</select>
 					</div>
 					<div class="info" data-toggle="tooltip" data-title="[[datas.infomaterial]]" data-html="true" data-placement="left">
@@ -278,7 +274,7 @@
 					</div>
 					<div class="input">
 						<div class="select">
-							<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in detailfin.finishing.finishingoption track by option.id" ng-model="selected.jobsubtypedetail[$parent.$index].finishing[$index]" ng-change="finishingdetailchanged(item.finishing.name, selected.finishings[$index])">
+							<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in detailfin.finishing.finishingoption track by option.id" ng-model="selected.jobsubtypedetail[$parent.$index].finishing[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index], detail.jobsubtypedetailfinishing)">
 							</select>
 						</div>
 						<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left">
@@ -306,7 +302,7 @@
 			<div class="txt">[[item.finishing.name]]</div>
 			<div class="input">
 				<div class="select">
-					<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in item.finishing.finishingoption track by option.id" ng-model="selected.finishings[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index])">
+					<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in item.finishing.finishingoption track by option.id" ng-model="selected.finishings[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index], finishings)">
 					</select>
 				</div>
 				<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left">
@@ -337,19 +333,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="block-list">
-			<div class="txt">Pengiriman</div>
-			<div class="select">
-				<select class="selectpicker" data-width="100%" ng-model="selected.deliverytime" ng-change="getPrice()">
-					<option value="std">Standard (ONE DAY)</option>
-					<option value="pup">Pick-up (SAME DAY)</option>
-					<option value="exp">Express (SAME DAY)</option>
-				</select>
-			</div>
-			<div class="info">
-				<span class="far fa-question-circle" data-toggle="tooltip" data-title="[[datas.infodelivery]]" data-html="true" data-placement="left"></span>
-			</div>
-		</div> -->
 		<div class="block-subdetail">
 			<div class="txt">JENIS LAYANAN</div>
 			<div class="line"></div>

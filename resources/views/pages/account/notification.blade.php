@@ -37,24 +37,29 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in notifications" class="content-header" ng-class="{'selected':!item.viewed}">
+				<tr ng-repeat="item in notifications" class="content-header" ng-class="{'selected':!item.viewed&&item.ownerID!=null}" ng-click="view(item)">
 					<td class="number">
-						<i class="fa-2x [[item.icon]]"></i>
+						<i class="fa-2x [[item.icon]] fa-fw"></i>
 					</td>
 					<td class="line-12">
 						<b>[[item.title.toTitleCase()]]</b>
-						<br>
-						[[item.content]] 
+						<small ng-if="item.ownerID==null" class="google uppercase tx-purple"><b><i>BROADCAST</i></b></small>
+						<div ng-bind-html="item.content"></div>
 						<span class="tx-lightgray">
 							[[item.bedawaktu]]
 						</span>
 					</td>
 					<td class="line-12 text-xs-center">
-						<i class="fas fa-eye" ng-class="{'tx-lightgray':item.viewed==0, 'tx-transparent':item.viewed==1}"></i>
+						<span data-html="true" data-placement="left" data-toggle="tooltip" data-title="<small class='text-bold tx-primary'><i>HAS NOT BEEN SEEN YET</i></small><br>Tap/Click this notif to view.." ng-if="item.ownerID!=null&&item.viewed==0">
+							<i class="fas fa-eye fa-fw tx-lightgray"></i>
+						</span>
+						<span data-html="true" data-placement="left" data-toggle="tooltip" data-title="<i class='size-80p text-bold tx-purple'>BROADCAST</i><br>Can be view by <span class='tx-gray text-bold'>all {{Session::get('role')}}</span>" ng-if="item.ownerID==null">
+							<i class="fas fa-bullhorn fa-fw tx-purple"></i>
+						</span>
 					</td>
 					<td>
 						<button class="btn btn-primary btn-sm">
-							<i class="fas fa-search"></i>
+							<i class="fas fa-external-link-alt fa-fw"></i>
 						</button>
 					</td>
 				</tr>

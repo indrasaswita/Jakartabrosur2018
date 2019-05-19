@@ -12,6 +12,7 @@ class Cartheader extends Model
 	protected $fillable = ['customerID', 'jobsubtypeID', 'jobtitle', 'quantity', 'quantitytypename', 'customernote', 'itemdescription', 'resellername', 'resellerphone', 'reselleraddress', 'buyprice', 'printprice', 'deliveryprice', 'discount', 'processtype', 'processtime', 'deliveryID', 'deliveryaddress', 'deliverytime', 'totalpackage', 'totalweight', 'filestatus'];
 	protected $guarded = ['id'];
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $hidden = ['deleted_at'];
 
 	public function customer(){
 		return $this->belongsTo('App\Customer', 'customerID')->with('company');
@@ -30,6 +31,10 @@ class Cartheader extends Model
 
 	public function cartdetail(){
 		return $this->hasMany("App\Cartdetail", 'cartID')->with('plano', 'vendor', 'paper', 'cartdetailfinishing', 'printer');
+	}
+
+	public function salesdetail(){
+		return $this->hasMany('App\Salesdetail', 'cartID')->with('salesheader');
 	}
 
 	public function delivery(){

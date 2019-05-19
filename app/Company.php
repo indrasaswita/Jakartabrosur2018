@@ -11,10 +11,10 @@ class Company extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public function customer(){
-    	return $this->hasMany('App\Customer', 'companyID');
+    	return $this->hasMany('App\Customer', 'companyID')->with('customeraddress');
     }
 
-    public function companyadress(){
-    	return $this->hasMany('App\CompanyAddress','companyID');
+    public function companyaddress(){
+    	return $this->hasMany('App\Companyaddress','companyID')->with('address');
     }
 }

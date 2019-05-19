@@ -8,6 +8,7 @@ class Companybankacc extends Model
 {
 	protected $fillable = ['bankID', 'accname', 'accno', 'acclocation'];
 	protected $guarded = ['id'];
+	protected $hidden = ['userlogin', 'passlogin'];
 	protected $dates = ['created_at', 'updated_at'];
 
 	public function bank(){

@@ -13,7 +13,7 @@ class InsertPrintingmachine extends Migration
     public function up()
     {
         DB::unprepared("
-            INSERT INTO printingmachines(machinename) VALUES('SM52');
+            INSERT INTO printingmachines(machinename, maxwidth, maxlength) VALUES('SM52', '52', '37');
             INSERT INTO printingmachines(machinename) VALUES('SM74');
             INSERT INTO printingmachines(machinename) VALUES('SM102');
             INSERT INTO printingmachines(machinename) VALUES('SM92');

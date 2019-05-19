@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="reviewCartModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 		  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -18,18 +18,21 @@
 						</thead>
 						<tbody ng-repeat="item in selected">
 							<tr class="row-head">
-								<td colspan="2" class="cart-tx-number">
-									<span class="pin-circle">
-										[[zeroFill($index+1, 2)]]
-									</span>
-								</td>
-								<td class="cart-tx-type">
-									[[item.jobsubtype.name]]
+								<td class="data-title text-xs-center" colspan="3">
+									[[zeroFill($index+1, 2)]].
+									<b>[[item.jobsubtype.name]]</b>
+									[[singkatText(item.jobtitle, 35, '')]]
 								</td>
 							</tr>
-							<tr>
-								<td class="data-title" colspan="3">
-									[[singkatText(item.jobtitle, 35, '')]]
+							<tr ng-repeat="item2 in item.cartdetail">
+								<td class="data-detail">
+									[[item2.cartname]]
+								</td>
+								<td class="data-detail">
+									[[item2.printwidth]] x [[item2.printlength]] cm
+								</td>
+								<td class="data-detail text-xs-right">
+									[[item2.paper.name]] "[[item2.paper.color]]" [[item2.paper.gramature]]gsm
 								</td>
 							</tr>
 							<tr>

@@ -1,19 +1,26 @@
 <!doctype html>
 <html>
 <head>
+	<title>@yield('title') | jakartabrosur.com</title>
 	<meta name="csrf_token" content="{ csrf_token() }" />
-  <meta name="title" content="Pesan @yield('title')">
-	<title>JB | Pesan @yield('title')</title>
+	<meta name="title" content="Pesan @yield('title')">
+	<meta name="description" content="@yield('description')">
+	<meta name="robots" content="@yield('robots')">
 	@include('includes.head')
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">
 
-    @include('layouts.preloader-wrapper')
+  @include('layouts.preloader-wrapper')
 
-    <div ng-controller="HandOfGod as god" id="content-wrapper" style='display:none'>
+  <div ng-controller="HandOfGod as god" id="content-wrapper" class='none'>
+
+	@if(Session::has('role'))
+		<div ng-init="role('{{Session::get('role')}}','{{Session::get('userid')}}')" hidden></div>  <!-- buat set role customer apa admin -->
+	@endif
+
 		@include('includes.preheader')
 		@include('includes.header')
-		@include('layouts.loginmodal')
+		<!-- include('layouts.loginmodal') -->
 		@include('layouts.statictooltip')
 
 		<div id="content" class="content">
@@ -21,7 +28,7 @@
 			<!-- <div class="flyer-content" ng-controller = "OffsetPricing"> -->
 				<div ng-controller="OrderShopCalculationController">
 
-				<div ng-init="setUserLogin('{{Session::get('role')}}')">
+				<div ng-init="setUserLogin('{{Session::get('role')}}', '{{Session::get('userid')}}')">
 					
 				</div>
 

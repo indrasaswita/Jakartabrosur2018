@@ -11,7 +11,7 @@ class Address extends Model
 	protected $dates = ['created_at', 'updated_at'];
 
 	public function customeraddress(){
-		return $this->hasMany('App\CustomerAddress','addressID'));
+		return $this->hasMany('App\Customeraddress','addressID')->with('customer');
 	}
 
 	public function city(){
@@ -19,6 +19,6 @@ class Address extends Model
 	}
 
 	public function companyaddress(){
-		return $this->hasMany('App\companyaddress', 'AddressID');
+		return $this->hasMany('App\Companyaddress', 'addressID')->with('company');
 	}
 }

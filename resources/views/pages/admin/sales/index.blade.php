@@ -1,4 +1,3 @@
-
 @extends('layouts.container')
 @section('title', 'Sales & Payment | Admin')
 @section('content')
@@ -764,32 +763,32 @@
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statusfile==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusfile==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusfile==0}" data-toggle="tooltip" data-placement="top" data-title="Check File" data-html="true">
 													<span class="far fa-copy"></span>
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statusctp==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusctp==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusctp==0}" data-toggle="tooltip" data-placement="top" data-title="Cetak Plat" data-html="true">
 													<span class="fab fa-usb"></span>
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statusprint==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusprint==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusprint==0}" data-toggle="tooltip" data-placement="top" data-title="Cetak File" data-html="true">
 													<span class="fas fa-print"></span>
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statuspacking==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statuspacking==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statuspacking==0}" data-toggle="tooltip" data-placement="top" data-title="Pengemasan" data-html="true">
 													<span class="fas fa-boxes"></span>
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statusdelivery==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusdelivery==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusdelivery==0}" data-toggle="tooltip" data-placement="top" data-title="Pengiriman" data-html="true">
 													<span class="fas fa-truck fa-flip-horizontal"></span>
 												</div>
 
 												<div class="line" ng-class="{'state-invisible':item2.statusdone==0}"></div>
-												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusdone==0}">
+												<div class="tracking-ball" ng-class="{'state-invisible':item2.statusdone==0}" data-toggle="tooltip" data-placement="top" data-title="Selesai" data-html="true">
 													<span class="fas fa-check"></span>
 												</div>
 											</div>

@@ -13,38 +13,38 @@ class InsertJobsubtypesizesTable extends Migration
 	public function up()
 	{
 		DB::unprepared("
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '1', '1', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '1', '2', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '1', '4', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '1', '5', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '1', '6', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '2', '7', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '2', '1', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '2', '2', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '2', '5', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '1', '2', '6', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '1', '12', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '1', '13', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '1', '14', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '2', '12', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '2', '13', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '2', '2', '14', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '4', '1', '1', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '4', '2', '1', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '4', '2', '4', '0', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '5', '1', '7', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '6', '1', '15', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '6', '2', '15', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '10', '2', '16', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '10', '2', '18', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '9', '2', '16', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '9', '2', '17', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '1', '19', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '1', '20', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '1', '21', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '2', '19', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypesizes VALUES ('0', '7', '2', '21', '1', now(), now());
+			INSERT INTO `jobsubtypesizes` (`id`, `jobsubtypeID`, `ofdg`, `sizeID`, `favourite`, `created_at`, `updated_at`) VALUES
+				(1, 1, 1, 1, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(2, 1, 1, 2, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(3, 1, 1, 4, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(4, 1, 1, 5, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(5, 1, 1, 6, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(6, 1, 2, 7, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(7, 1, 2, 1, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(8, 1, 2, 2, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(9, 1, 2, 5, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(10, 1, 2, 6, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(11, 7, 1, 12, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(12, 7, 1, 13, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(13, 7, 1, 14, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(14, 7, 2, 12, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(15, 7, 2, 13, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(16, 7, 2, 14, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(17, 10, 1, 1, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(18, 10, 2, 1, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(19, 1, 2, 4, 0, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(20, 1, 1, 7, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(21, 13, 1, 15, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(22, 13, 2, 15, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(23, 15, 2, 16, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(24, 15, 2, 18, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(26, 15, 2, 17, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(27, 14, 1, 19, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(28, 14, 1, 20, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(29, 14, 1, 21, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(30, 14, 2, 19, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(31, 14, 2, 20, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57'),
+				(32, 14, 2, 21, 1, '2019-04-20 09:37:57', '2019-04-20 09:37:57');
 		");
 	}
 

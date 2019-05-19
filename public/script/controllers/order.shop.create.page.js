@@ -5,6 +5,7 @@ module.exports = function(app){
 			//INIT DATA SELECTED
 			$scope.selected = {
 				'paper': 0,
+				//'quantity': 500,
 				'size' : 0,
 				'printtype' : 'DG',
 				'sideprint' : 1,
@@ -14,7 +15,7 @@ module.exports = function(app){
 				'imagewidth' : '21',
 				'imagelength' : '29.7',
 				'jobsubtypeID' : -1,
-				'jobtitle' : '',
+				'jobtitle' : 'Test 1 2 3 4 5 6 6 7777...',
 				'customernote' : '',
 				'itemdescription' : '',
 				'customernote' : '',
@@ -26,7 +27,6 @@ module.exports = function(app){
 			};
 			
 			$finishchanging = false;
-			$scope.selected.quantity = 500;
 			$scope.counter = 0;
 			$scope.underconstruction = false;
 			$scope.uploaderror = "";

@@ -2,19 +2,30 @@
   <div class="modal-dialog modal-md" role="document">
 	<div class="modal-content">
 	  <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		  <span aria-hidden="true">&times;</span>
-		</button>
-		<!-- <h4 class="modal-title" id="myModalLabel">
-			Lihat sekali lagi, sebelum SIMPAN
-		</h4> -->
-		<div class="modal-title text-xs-center">
-			[[datas.name]] ([[selected.printtype]])
+		</button> -->
+		
+		<div class="modal-title">
+			<div class="header">
+				<span class="tx-purple">	
+					[[datas.name]] 
+				</span>
+				<span class="tx-lightgray">
+					[[selected.printtype]]
+				</span>
+			</div>
+			<div class="detail">
+				Periksa kembali detail cetakan anda, beserta file sekali lagi.<br>
+				Pastikan sesuai kriteria Anda.
+			</div>
 		</div>
 	  </div>
 		<div class="modal-body">
 			
-			<div class="panel-block">
+			
+
+ 			<div class="panel-block">
 				<div class="header">
 					<div class="txt tx-lightgray">
 						DETAIL / SPESIFIKASI
@@ -44,7 +55,7 @@
 						Ukuran
 					</div>
 					<div class="input">
-						[[selected.size.width]] x [[selected.size.length]] cm <span ng-show="selected.size.shortname!='Custom'">(selected.size.name)</span>
+						[[selected.size.width]] x [[selected.size.length]] cm <span ng-show="selected.size.shortname!='Custom'">([[selected.size.name]])</span>
 					</div>
 				</div>
 
@@ -68,8 +79,17 @@
 					</div>
 				</div>
 			</div>
+ 
 
-			<div class="panel-block">
+			<div class="panel-block" ng-hide="selected.itemdescription!=''&&selected.customernote!=''">
+				<div class="header">
+					<div class="txt tx-lightgray">
+						TIDAK ADA DESKRIPSI TAMBAHAN
+					</div>
+					<div class="line"></div>
+				</div>
+			</div>
+			<div class="panel-block" ng-hide="selected.itemdescription==''||selected.customernote==''">
 				<div class="header">
 					<div class="txt tx-lightgray">
 						DESKRIPSI TAMBAHAN
@@ -81,7 +101,7 @@
 						Catatan Pekerjaan 
 					</div>
 					<div class="input">
-						<span class="text-regular tx-lightgray" ng-show="result.itemdescription==''">
+						<span class="text-regular tx-lightgray" ng-show="selected.itemdescription==''">
 							Tidak ada catatan tambahan 
 							<span class="glyphicon glyphicon-warning-sign tx-warning"></span>
 						</span>
@@ -93,7 +113,7 @@
 						Pesan Tambahan
 					</div>
 					<div class="input">
-						<span class="text-regular tx-lightgray" ng-show="result.customernote==''">
+						<span class="text-regular tx-lightgray" ng-show="selected.customernote==''">
 							Tidak ada pesan tambahan dari Anda
 							<span class="glyphicon glyphicon-warning-sign tx-warning"></span>
 						</span>
@@ -102,7 +122,15 @@
 				</div>
 			</div>
 
-			<div class="panel-block">
+			<div class="panel-block" ng-if="item.id==0">
+				<div class="header">
+					<div class="txt tx-lightgray">
+						TIDAK ADA FINISHING
+					</div>
+					<div class="line"></div>
+				</div>
+			</div>
+			<div class="panel-block" ng-if="item.id!=0">
 				<div class="header">
 					<div class="txt tx-lightgray">
 						FINISHING
@@ -214,13 +242,13 @@
 			</div>
 
 			<div class="panel-block">
-				<div class="header">
+				<div class="header" hidden>
 					<div class="txt tx-lightgray">
 						HARGA
 					</div>
 					<div class="line"></div>
 				</div>
-				<div class="list">
+				<div class="list margin-top-20">
 					<table class="table table-sm table-center">
 						<thead class="tx-purple">
 							<tr>
@@ -251,13 +279,13 @@
 			</div>
 
 			<div class="panel-block">
-				<div class="header">
+				<div class="header" hidden>
 					<div class="txt tx-lightgray">
 						FILES
 					</div>
 					<div class="line"></div>
 				</div>
-				<div class="list">
+				<div class="list margin-top-20">
 					<table class="table table-sm table-center">
 						<thead class="tx-purple">
 							<tr>
@@ -297,7 +325,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-purple" data-dismiss="modal">BATAL</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">BATAL</button>
 			<button type="button" class="btn btn-purple" data-dismiss="modal" ng-click="saveData()">SIMPAN</button>
 		</div>
 	</div>

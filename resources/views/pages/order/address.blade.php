@@ -12,10 +12,10 @@
 		@endif
 	@endif
 
-    @if ($id != null)
-    	<div ng-init="globalSalesID('{{$id}}')"></div>
+	@if ($id != null)
+		<div ng-init="globalSalesID('{{$id}}')"></div>
 		<div ng-init="initSalesID('{{$id}}')"></div>
-    @endif
+	@endif
 @endif
 
 	@include('includes.nav.subnav')
@@ -56,8 +56,8 @@
 	</div>
 		@else
 	<div class="text-muted margin-40-0 text-xs-center">
-        <span class="size-30">Tidak ada alamat yang terdaftar</span><br>
-    </div>
+		<span class="size-30">Tidak ada alamat yang terdaftar</span><br>
+	</div>
 		@endif
 	@endif
 @endif
@@ -69,10 +69,10 @@
 			<div class="panel-title">
 				<span class="glyphicon glyphicon-chevron-right size-18"></span>
 				 Detail 
-			 	<span data-toggle="tooltip" data-placement="right" title="Stiap pesanan dengan alamat pengiriman yang berbeda akan tercatat secara otomatis.">
-			 		<span class="glyphicon glyphicon-question-sign size-24 normal-clr"></span>
-		 		</span>
-		 		<button class="btn btn-outline-purple century pull-xs-right" ng-click="fillFromCust()">Alamat Default</button>
+				<span data-toggle="tooltip" data-placement="right" title="Stiap pesanan dengan alamat pengiriman yang berbeda akan tercatat secara otomatis.">
+					<span class="glyphicon glyphicon-question-sign size-24 normal-clr"></span>
+				</span>
+				<button class="btn btn-outline-purple century pull-xs-right" ng-click="fillFromCust()">Alamat Default</button>
 			</div>
 		</div>
 	</div>
@@ -129,10 +129,10 @@
 	</div>
 	
 @else
-    <div class="text-muted margin-40-0 text-xs-center">
-        <span class="size-30">Halaman Ini Error</span><br>
-        <span class="size-16">Silahkan hubungi customer service kami.<br></span>
-    </div>
+	<div class="text-muted margin-40-0 text-xs-center">
+		<span class="size-30">Halaman Ini Error</span><br>
+		<span class="size-16">Silahkan hubungi customer service kami.<br></span>
+	</div>
 @endif
 
 </div>

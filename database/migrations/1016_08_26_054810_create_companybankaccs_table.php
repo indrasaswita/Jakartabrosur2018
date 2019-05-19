@@ -20,6 +20,8 @@ class CreateCompanybankaccsTable extends Migration
             $table->string('accname', 32);
             $table->string('accno', 32);
             $table->string('acclocation', 32);
+            $table->string('userlogin', 16);
+            $table->string('passlogin', 32);
             $table->timestamps();
         });
     }

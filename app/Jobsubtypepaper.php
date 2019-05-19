@@ -12,11 +12,11 @@ class Jobsubtypepaper extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public function paper(){
-    	return $this->belongsTo('App\Paper', 'paperID')->with('paperdetail');
+    	return $this->belongsTo('App\Paper', 'paperID')->with('paperdetail', 'papertype', 'coatingtype');
     }
 
     public function papershop(){
-    	return $this->belongsTo('App\Paper', 'paperID')->with('papertype');
+    	return $this->belongsTo('App\Paper', 'paperID')->with('papertype', 'coatingtype');
     }
 
     public function jobsubtype(){

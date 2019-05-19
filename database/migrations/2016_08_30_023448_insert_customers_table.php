@@ -27,6 +27,7 @@ class InsertCustomersTable extends Migration
                 'phone2' => '085959717175',
                 'news' => 1,
                 'remember_token'=>'12345',
+                'remember_token'=>'1234',
                 'balance' => 123456
             ]
         );
@@ -34,17 +35,19 @@ class InsertCustomersTable extends Migration
         DB::table('customers')->insert(
             [
                 'companyID' => 2,
-                'email' => 'rudipriyanto@gmail.com',
-                'password' => Hash::make('rucil'),
-                'name' => 'Rudi Priyanto',
+                'email' => 'windy.dharma@gmail.com',
+                'password' => Hash::make('123456'),
+                'name' => 'Septi Jelek Ilang Ireng Idup',
                 'type' => 'personal',
                 'title' => 'Mr.', 
-                'address' => 'Jl. Pangeran Jayakarta 113 B', 
-                'postcode' => '10730',
-                'cityID' => 2,
-                'phone1' => '0216491502',
-                'phone2' => '0216491502',
+                'address' => 'Jl. Agung Utara 5A no. 26, Sunter, Tanjung Priok', 
+                'postcode' => '10430',
+                'cityID' => 3,
+                'phone1' => '0216555661',
+                'phone2' => '0216661116',
                 'news' => 0,
+                'remember_token'=>'98765',
+                'remember_token'=>'1234',
                 'balance' => 0
             ]
         );

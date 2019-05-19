@@ -10,6 +10,7 @@ use Intervention\Image\ImageManager;
 use App\Cartfile;
 use App\Files;
 use App\UtilImage;
+use Illuminate\Support\Facades\Cache;
 
 class ImageRepository
 {
@@ -61,12 +62,14 @@ class ImageRepository
 
 	public function uploadSelective( $photo )
 	{
+
+
+
 		$validator = Validator::make(
 			[ 'files' => $photo ], 
 			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|max:104857600'  ]
 			// MAXIMUM FILE 100MB
 		);
-
 
 
 		$file = new Files();
@@ -96,11 +99,14 @@ class ImageRepository
 		{
 			$file->size = $photo->getSize();
 			$photo->move(public_path("images/original/"), $allowed_filename);
+
 			$file->icon= "image/ext-".$extension.'.png';
 		}
 
-
 		$file->path= "images/original/".$allowed_filename;
+		//SAVE TO CACHE TO REFRESH THE LOADING BAR
+		Cache::put('filepath', $file->path, 600);
+		Cache::put('filesize', $file->size, 600);
 		$file->detail = "";
 		$file->filename = $originalName;
 		$file->revision = 1;

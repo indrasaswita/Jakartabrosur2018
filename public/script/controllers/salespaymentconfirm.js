@@ -1,6 +1,6 @@
 module.exports = function(app){
-	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
-		function($scope, $http, BASE_URL, API_URL, $window){
+	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
+		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
 			$scope.selected = {};
 			$scope.initData = function($input){
@@ -28,7 +28,7 @@ module.exports = function(app){
 				$scope.selected.confirmnote = '';
 				$scope.selected.salesID = $scope.salesheader.id;
 
-				console.log($scope.salesheader);
+				//console.log($scope.salesheader);
 			}
 			$scope.zeroFill = function ( number, width )
 			{
@@ -60,6 +60,7 @@ module.exports = function(app){
 				{
 					$scope.searchedbanks = [];
 					for ($i = 0; $i < $scope.banks.length; $i++) {
+						console.log($scope.banks[$i]['bankname']);
 						if($scope.isContained($scope.banks[$i]['bankname'], $scope.searchingkey)
 							|| $scope.isContained($scope.banks[$i]['alias'], $scope.searchingkey))
 							$scope.searchedbanks.push($scope.banks[$i]);
@@ -87,36 +88,41 @@ module.exports = function(app){
 				});
 			};
 			$scope.fillBanks.call();
-			$scope.fillAccs = function()
+			$scope.fillCustAccs = function($customerID)
 			{
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'custaccs'
-					}
-				).then(function(response) {
-					$scope.custaccs = response.data;
-					$('#form-custAcc').children().remove();
-					if($scope.custaccs != null)
-						$scope.selected.custacc = $scope.custaccs[0].id;
-				});
-			};
-			$scope.fillAccs.call();
-
-			//darigodhands
-			$scope.fillCompanyBankAccs.call();
-
-			$scope.storeAccs = function()
-			{
-				$http(
-					{
-						method : 'POST',
-						url : API_URL + 'custaccs/store',
-						data : $scope.modal
+						url : AJAX_URL+'custaccs'
 					}
 				).then(function(response) {
 					$scope.custaccs = response.data;
 					//$('#form-custAcc').children().remove();
+					if($scope.custaccs != null)
+						$scope.selected.custacc = $scope.custaccs[0].id;
+				});
+			};
+			$scope.fillCustAccs.call();
+
+			//darigodhands
+			$scope.fillCompanyBankAccs.call();
+
+			$scope.storeAccs = function($customerID)
+			{
+				$http(
+					{
+						method : 'POST',
+						url : AJAX_URL+'custaccs/store',
+						data : $scope.modal
+					}
+				).then(function(response) {
+					if(response.data == null){
+						console.log('error');
+					}else{
+						$scope.custaccs = response.data;
+						if($scope.custaccs != null)
+							$scope.selected.custacc = $scope.custaccs[$scope.custaccs.length-1].id;
+					}
 				});
 			};
 
@@ -130,11 +136,11 @@ module.exports = function(app){
 					}
 				).then(function(response){
 					$done = false;
-					if(response != null)
+					if(response.data != null)
 					{
 						if(response.data.constructor === String)
 						{
-							if(response == "success")
+							if(response.data == "success")
 							{
 								$done = true;
 							}

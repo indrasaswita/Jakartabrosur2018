@@ -13,7 +13,7 @@ class InsertJobsubtypetemplatefinishingsTable extends Migration
 	 */
 	public function up()
 	{
-		DB::unprepared("
+		/*DB::unprepared("
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('1', '6', '21');
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('2', '6', '21');
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('3', '6', '21');
@@ -33,7 +33,7 @@ class InsertJobsubtypetemplatefinishingsTable extends Migration
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('14', '6', '21');
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('14', '1', '2');
 			INSERT INTO jobsubtypetemplatefinishings (jobsubtypetemplateID, finishingID, optionID) VALUES ('15', '6', '21');
-		");
+		");*/
 
 	}
 

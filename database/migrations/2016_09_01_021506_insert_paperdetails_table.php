@@ -14,6 +14,9 @@ class InsertPaperdetailsTable extends Migration
 	{
 		DB::unprepared("
 			INSERT INTO paperdetails VALUES ('0', '1', '1', '1', '354105', '367220', '734.44', 'lembar', '500', '1', now(), now());
+			INSERT INTO paperdetails VALUES ('0', '1', '2', '1', '367105', '367220', '734.44', 'lembar', '500', '1', now(), now());
+			INSERT INTO paperdetails VALUES ('0', '1', '3', '1', '396105', '367220', '734.44', 'lembar', '500', '1', now(), now());
+			INSERT INTO paperdetails VALUES ('0', '1', '4', '1', '315105', '367220', '734.44', 'lembar', '500', '1', now(), now());
 			INSERT INTO paperdetails VALUES ('0', '2', '1', '1', '424926', '440664', '881.328', 'lembar', '500', '1', now(), now());
 			INSERT INTO paperdetails VALUES ('0', '3', '1', '1', '531157.5', '550830', '1101.66', 'lembar', '500', '1', now(), now());
 			INSERT INTO paperdetails VALUES ('0', '1', '1', '2', '362340', '375760', '751.52', 'lembar', '500', '1', now(), now());

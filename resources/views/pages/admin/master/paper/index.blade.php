@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.nofooter')
 @section('title', 'Harga Kertas')
 @section('content')
 

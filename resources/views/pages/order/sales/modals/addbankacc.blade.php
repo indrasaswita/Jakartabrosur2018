@@ -5,7 +5,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Konfirmasi Pembayaran</h4>
+					<h4 class="modal-title" id="myModalLabel">Tambah Rekening Baru</h4>
 				</div>
 				<div class="modal-body">
 					<form>
@@ -20,6 +20,11 @@
 								<td>[[item.alias]]</td>
 								<td>[[item.bankname]]</td>
 								<td class="text-right">[[item.code]]</td>
+							</tr>
+							<tr ng-if="searchedbanks.length==0">
+								<td class="text-xs-center tx-red" colspan="3">
+									CARI LAGI DENGAN KEYWORD YANG BENAR!
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -49,7 +54,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" ng-click="storeAccs()" data-dismiss="modal">Add Account</button>
+					<button type="button" class="btn btn-primary" ng-click="storeAccs('{{Session::get('userid')}}')" data-dismiss="modal">Add Account</button>
 				</div>
 			</div>
 		</div>

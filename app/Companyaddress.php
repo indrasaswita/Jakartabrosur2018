@@ -15,6 +15,6 @@ class Companyaddress extends Model
     }
 
     public function address(){
-    	return $this->belongsTo('App\Address','addressID');
+    	return $this->belongsTo('App\Address','addressID')->with('city');
     }
 }
