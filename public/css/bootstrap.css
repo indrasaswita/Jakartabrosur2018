@@ -1164,6 +1164,19 @@ input[type=number]::-webkit-outer-spin-button {
   white-space: normal;
 }
 
+.disable-select {
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+}
+
 .transition {
   transition-duration: 0.8s;
   transition-property: transform;
@@ -8905,6 +8918,7 @@ div.asset-upload {
 }
 .hm-navigator .nav-button a.nav-link:hover {
   border-color: #bbb;
+  background-color: #fee;
 }
 .hm-navigator .nav-button a.nav-link:hover .ico {
   color: #306;
@@ -9030,7 +9044,10 @@ div.asset-upload {
 .hm-offvsdigi .content-wrapper .content-list .list-item {
   width: 100%;
 }
-.hm-offvsdigi .content-wrapper .content-list .list-item img {
+.hm-offvsdigi .content-wrapper .content-list .list-item a:hover img {
+  border-color: #70a;
+}
+.hm-offvsdigi .content-wrapper .content-list .list-item a img {
   background: white;
   width: 100%;
   border: 2px solid #bbb;
@@ -9105,8 +9122,8 @@ div.asset-upload {
 .hm-stickyorder a {
   border: 2px solid rgba(0, 0, 0, 0.4);
   background-color: rgba(255, 255, 255, 0.6);
-  opacity: 0.7;
-  color: #d9534f;
+  opacity: 0.9;
+  color: #509;
   border-radius: 100px;
   padding: 8px;
   height: 75px;
@@ -9115,12 +9132,22 @@ div.asset-upload {
   justify-content: center;
   align-items: center;
 }
+.hm-stickyorder a .content {
+  line-height: 0.9;
+  text-align: center;
+}
+.hm-stickyorder a .content .text {
+  font-size: 60%;
+  font-family: Google;
+  font-weight: bold;
+}
 .hm-stickyorder a:hover {
-  opacity: 0.9;
+  opacity: 1;
   text-decoration: none;
   color: white;
-  background: #044;
-  border-color: #aaa;
+  background: #509;
+  border-color: #fff;
+  box-shadow: 0 0 20px 20px white;
 }
 
 @media screen and (max-width: 544px) {
@@ -12550,7 +12577,15 @@ ol {
 
 .orderlist .orderlist-header {
   color: #777;
-  font-family: "Amaranth";
+  font-family: Google;
+  text-transform: uppercase;
+  font-size: 120%;
+  font-weight: 100;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px 15px;
+  background-color: white;
+  text-align: center;
 }
 .orderlist .ordersublist {
   list-style: none;
@@ -12565,6 +12600,7 @@ ol {
   padding: 0;
   border-color: #f7f7f9;
   border-style: solid;
+  border-width: 2px;
   width: 25%;
   text-align: center;
   background-color: #fff;
@@ -12572,7 +12608,7 @@ ol {
   display: flex;
   justify-content: center;
 }
-.orderlist .ordersublist li:hover {
+.orderlist .ordersublist li:hover, .orderlist .ordersublist li:focus {
   cursor: pointer;
   border-color: #70a;
 }

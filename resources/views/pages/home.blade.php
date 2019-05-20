@@ -40,7 +40,7 @@
 
 	@if(!Session::has('role') || (Session::has('role') && Session::get('role') != "Administrator"))
 	<div class="hm-navigator" ng-if="'{{Session::get('userid')}}'==''">
-		<div class="logo">
+		<div class="logo disable-select">
 			<div class="img">
 				<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-white-shadow-200px.png')}}" alt="logo" height="70px">
 			</div>
@@ -369,9 +369,12 @@
 		</div>
 	</div>
 
-	<div class="hm-stickyorder" data-toggle='tooltip' data-placement='left' data-title='<div class="text-xs-right"><b class="tx-gray">LIHAT<br>PERHITUNGAN<br>HARGA</b></div>' data-html='true'>
+	<div class="hm-stickyorder">
 		<a href="{{URL::asset('orderlistcustomer')}}">
-			<i class="fas fa-fw fa-3x fa-feather"></i>
+			<div class="content">
+				<i class="far fa-fw fa-2x fa-calculator"></i>
+				<span class="text">Cek Harga</span>
+			</div>
 		</a>
 	</div>
 	@endif

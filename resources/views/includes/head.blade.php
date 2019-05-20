@@ -3,6 +3,7 @@
 <!-- <title>Jakarta Brosur - Percetakan di Jakarta</title> -->
 
 <!-- <meta name="description" content=""> -->
+<meta name="theme-color" content="#550099">
 <meta name="author" content="JakartaBrosurTeam">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

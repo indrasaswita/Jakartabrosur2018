@@ -1,4 +1,4 @@
-<nav class="navbar navbar-purple">
+<nav class="navbar navbar-purple disable-select">
 	<button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" ng-click="togglerClicked()">
 		<span class="fas fa-fw fa-chevron-down transition"></span>
 	</button>

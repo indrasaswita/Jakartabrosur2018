@@ -1,5 +1,5 @@
 <div class="logo-wrapper">
-	<div class="ft-logo">
+	<div class="ft-logo disable-select">
 		<div class="ft-logo-img">
 			<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="70px">
 		</div>

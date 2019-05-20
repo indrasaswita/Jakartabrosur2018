@@ -35,10 +35,8 @@
 		Tunggu sebentar untuk memilih jenis cetakan...
 	</div>
 	<div class="orderlist" ng-repeat="jobtype in jobtypes" ng-show="jobtypes.length > 0">
-		<div class="orderlist-header">
-			<span class="tx-lightgray">[[$index+1]]. </span>
+		<div class="orderlist-header" style="border-color:[[jobtype.colorcode]];">
 			[[jobtype.name]]
-			<i class="fas fa-circle size-80p" style="color:[[jobtype.colorcode]];"></i>
 		</div>
 		<div class="ordersublist-wrapper">
 			<ul class="ordersublist">
