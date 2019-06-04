@@ -48,6 +48,24 @@
 			<div class="txt">DEKSRIPSI</div>
 			<div class="line"></div>
 		</div>
+		<div class="block-list">
+			<div class="txt">
+				Judul
+				<span class="hidden-xs-down"> 
+					Cetakan
+				</span>
+			</div>
+			<div class="input">
+				<div class="input-block">
+					<div class="input-group">
+						<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Judul yang spesifik (min: 10 huruf)" id="input-jobtitle">
+					</div>
+				</div>
+				<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
+					<span class="far fa-question-circle"></span>
+				</div>
+			</div>
+		</div>
 		<div class="block-list" ng-show="error.description!=''">
 			<span class="txt">
 				<span class="fas fa-exclamation tx-warning"></span> 

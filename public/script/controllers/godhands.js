@@ -136,6 +136,25 @@ module.exports = function(app){
 				);
 			}
 
+			$scope.getAllJobSubType = function() {
+				$http(
+					{
+						method: 'GET',
+						url: API_URL + 'jobsubtypes/getall'
+					}
+				).then(
+					function(response) {
+						if (response != null)
+							$scope.jobtypes = response.data;
+						else {
+							console.log("NO RESPONSE");
+						}
+					}, function(error) {
+						console.log("Error (GodHand.js) : " + response.data);
+					}
+				);
+			}
+
 			/*$scope.afterAngular = function(){
 				$scope.selectpickerrefresh();
 			}
@@ -365,6 +384,16 @@ module.exports = function(app){
 
 					return d2Y-d1Y;
 				}
+			}
+
+			$scope.ceil = function($input){
+				return Math.ceil($input);
+			}
+			$scope.floor = function($input) {
+				return Math.floor($input);
+			}
+			$scope.round = function($input) {
+				return Math.round($input);
 			}
 		}
 	]);

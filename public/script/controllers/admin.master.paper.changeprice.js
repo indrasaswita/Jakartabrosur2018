@@ -1,5 +1,5 @@
 module.exports = function(app){
-	app.controller('AdmPaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
+	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
 			$scope.selectedpapers = [];
 			$scope.errorsubmit = "";

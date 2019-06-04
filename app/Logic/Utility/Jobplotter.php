@@ -15,10 +15,9 @@ class Jobplotter extends Job{
 	protected $marginlength = 40;
 	protected $machineID = 0;
 
-	public function __construct($data, $constants, $jobsubtype){
+	public function __construct($data, $constants){
 		$this->data = $data;
 		$this->cs = $constants;
-		$this->jobsubtype = $jobsubtype;
 
 
 		$this->max_print_width = 320; //cm

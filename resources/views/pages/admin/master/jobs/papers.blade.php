@@ -27,19 +27,37 @@
 			<li ng-repeat="item in jobtypes" ng-if="$index==activejobtype">
 				<div class="list-title">
 					<div class="prev">
-						<button class="btn btn-sm btn-secondary" ng-click="prevlist()">
+						<button class="btn btn-sm btn-secondary height-100" ng-click="prevlist()">
 							<i class="fas fa-angle-double-left tx-warning"></i>
 						</button>
 					</div>
-					<div class="core">
-						<b>#[[zeroFill(item.id, 2)]]</b>
-						[[item.name]] (<i class="tx-danger uppercase size-80p text-bold"> [[item.indoname]] </i>)
+					<div class="core line-1">
+						<span class="text-bold tx-gray" data-toggle="tooltip" data-placement="top" data-title="#JobtypeID">
+							<i class="fas fa-hashtag size-80p"></i>[[zeroFill(item.id, 2)]]
+						</span>
 						<b>
-							INDEX: [[$index+1]]/[[jobtypes.length]]
+							[[item.name]]
+						</b>
+						<br>
+						<i class="tx-danger uppercase size-80p text-bold"> 
+							[[item.indoname]] 
+						</i>
+						<br>
+						<b class="size-80p">
+							<i class="far fa-chevron-double-left tx-lightgray"></i>
+							<span class="googleft">
+								<span class="tx-purple">
+									[[$index+1]]
+								</span>
+								<span class="tx-gray">
+									/ [[jobtypes.length]]
+								</span>
+							</span>
+							<i class="far fa-chevron-double-right tx-lightgray"></i>
 						</b>
 					</div>
 					<div class="next">
-						<button class="btn btn-sm btn-secondary" ng-click="nextlist()">
+						<button class="btn btn-sm btn-secondary height-100" ng-click="nextlist()">
 							<i class="fas fa-angle-double-right tx-warning"></i>
 						</button>
 					</div>
@@ -47,11 +65,13 @@
 				<table class="table-sm">
 					<tbody ng-repeat="item2 in item.jobsubtype">
 						<tr>
-							<td class="width-min">
+							<!-- <td class="width-min">
 								<i class="fas fa-chevron-right tx-lightgray"></i>
-							</td>
+							</td> -->
 							<td class="width-min">
-								<b>#[[zeroFill(item.id, 2)]].[[zeroFill(item2.id, 2)]]</b>
+								<b class="tx-gray" data-toggle="tooltip" data-placement="top" data-title="#JobtypeID.JobsubtypeID">
+									#[[zeroFill(item.id, 2)]].[[zeroFill(item2.id, 2)]]
+								</b>
 							</td>
 							<td class="">
 								[[item2.name]] 
@@ -86,18 +106,10 @@
 								</div>
 							</td>
 							<td class="width-min">
-								<div class="" ng-if="item2.active==0" data-toggle="tooltip" data-title="not activated" tooltip>
-									<i class="fas fa-circle tx-red"></i>
-								</div>
-								<div class="" ng-if="item2.active==1" data-toggle="tooltip" data-title="activated" tooltip>
-									<i class="fas fa-circle tx-success"></i>
-								</div>
-							</td>
-							<td class="width-min">
 								<div class="pull-xs-right">
 									<button class="btn btn-xsm btn-secondary" href="" ng-click="toggleedit(item2)" ng-if="!item2.editmode">
 										<span class="size-90p">
-											[[item2.jobsubtypepaper.length]]
+											<span class="tx-purple" ng-if="item2.totalOF>0">[[item2.totalOF]]<small class="tx-gray">OF</small></span><span ng-if="item2.totalDG>0"><small ng-if="item2.totalOF>0">+</small><span  class="tx-purple">[[item2.totalDG]]</span><small class="tx-gray">DG</small></span><small ng-if="item2.jobsubtypepaper.length>0">=</small><span class="tx-purple">[[item2.jobsubtypepaper.length]]</span>
 											<i class="fas fa-chevron-down fa-fw size-80p"></i> 
 										</span>
 									</button>
@@ -109,6 +121,14 @@
 									</button>
 								</div>
 							</td>	
+							<td class="width-min">
+								<div class="" ng-if="item2.active==0" data-toggle="tooltip" data-title="not activated" tooltip>
+									<i class="fas fa-circle tx-red"></i>
+								</div>
+								<div class="" ng-if="item2.active==1" data-toggle="tooltip" data-title="activated" tooltip>
+									<i class="fas fa-circle tx-success"></i>
+								</div>
+							</td>
 						</tr>
 						<tr class="papers" ng-if="item2.editmode">
 							<td colspan="10">
@@ -116,9 +136,19 @@
 									<table class="table table-sm">
 										<tbody ng-repeat="item3 in item2.jobsubtypepaper">
 											<tr>
+												<td class="width-min">
+													<a href="" class="fav-link" ng-click="changefavourite(item3.id, item3)">
+														<i class="fas fa-star tx-orange" ng-if="item3.favourite"></i>
+													</a>
+													<a href="" class="fav-link" ng-click="changefavourite(item3.id, item3)">
+														<i class="fal fa-star tx-darkgray" ng-if="!item3.favourite"></i>
+													</a>
+												</td>
 												<td>
-													#[[zeroFill(item.id, 2)]].[[zeroFill(item2.id, 2)]].[[zeroFill(item3.paper.id, 3)]] 
-
+													<span class="text-bold tx-gray" data-toggle="tooltip" data-placement="top" data-title="#JobtypeID.JobsubtypeID.PaperID">
+														#[[zeroFill(item.id, 2)]].[[zeroFill(item2.id, 2)]].[[zeroFill(item3.paper.id, 3)]]
+													</span>
+													&nbsp;
 													<span class="size-80p uppercase tx-primary" ng-if="item3.ofdg==1">
 														<i class="fas fa-print"></i>
 														<b>OF</b>
@@ -127,7 +157,7 @@
 														<i class="fas fa-print"></i>
 														<b>DG</b>
 													</span>
-
+													&nbsp;
 													[[item3.paper.name]] <span class="text-bold size-80p uppercase tx-purple">[[item3.paper.color]]</span> 
 													<span class="tx-danger size-80p">
 														<b>[[item3.paper.gramature]]</b><span class="tx-lightgray">g</span>
@@ -194,6 +224,14 @@
 			ID Kertas: #[[zeroFill(selectedjobsubtype.id,3)]].<br>
 			Kertas: [[selectedjobsubtype.name]] / [[selectedjobsubtype.subname]] [<i>link: <b>[[selectedjobsubtype.link]]</b></i>]<br>
 			Type: [[jobtypes[activejobtype].name]] / [[jobtypes[activejobtype].indoname]]<br>
+
+			<br>
+			<br>
+			<button class="btn btn-sm btn-purple" ng-click="unselectall()">
+				Unselect All
+			</button>
+			<br>
+			<br>
 
 			<div class="display-flex">
 				<table class="table table-sm width-50 margin-0">

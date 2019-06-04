@@ -22,16 +22,13 @@ module.exports = function(app) {
 
 			$scope.toggleedit = function ($item){
 				$temp = $item.editmode;
-
 				//hideall
 				$scope.hideall();
-
 				$item.editmode = !$temp;
 			}
 
 			$scope.togglesubtype = function($jobsubtype, $subtypeindex, $jobtypeindex){
 				$id = $jobsubtype.id;
-
 				$http({
 					method: "POST",
 					url: AJAX_URL+"jobsubtype/"+$id+"/activate",

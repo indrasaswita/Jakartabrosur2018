@@ -53,6 +53,8 @@ class InsertPapersTable extends Migration
 			INSERT INTO papers (papertypeID, name, color, gramature) VALUES ('10', 'Sticker Transp Premium', 'Transparent', '0');
 			INSERT INTO papers (papertypeID, name, color, gramature) VALUES ('10', 'Sticker HVS', 'Putih', '325');
 			INSERT INTO papers (papertypeID, name, color, gramature) VALUES ('10', 'Sticker Cromo Premium', '', '420');
+			INSERT INTO papers (papertypeID, name, color, gramature) VALUES ('10', 'Sticker Cutting Non-Reflective', '', '420');
+			INSERT INTO papers (papertypeID, name, color, gramature) VALUES ('10', 'Sticker Cutting Reflective', '', '420');
 
 			UPDATE papers
 				SET numerator = 1

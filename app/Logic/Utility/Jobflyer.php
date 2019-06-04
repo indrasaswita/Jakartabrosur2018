@@ -7,10 +7,9 @@ use App\Helpers\MathHelper;
 class Jobflyer extends Job
 {
 
-	public function __construct($data, $constants, $jobsubtype){
+	public function __construct($data, $constants){
 		$this->data = $data;
 		$this->cs = $constants;
-		$this->jobsubtype = $jobsubtype;
 	}
 
 	public function hitungFlyer (){
@@ -62,12 +61,12 @@ class Jobflyer extends Job
 
 
 		//CALC PLANO SIZE
-		$paperID = $data['paper']['id'];
+		$paperID = $data['paperID'];
 		$sdp = $data['sideprint'];
 		$qty = $data['quantity'];
 		$imagewidth = $data['size']['width'];
 		$imagelength = $data['size']['length'];
-		$printtype = $data['printtype'];
+		//$printtype = $data['printtype']; //uda di atas
 		$data = $this->calcPlanoSize($data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype);
 		//hasilnya di store di $data['paper'] & ['calculation']
 

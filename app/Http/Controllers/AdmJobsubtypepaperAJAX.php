@@ -25,6 +25,25 @@ class AdmJobsubtypepaperAJAX extends Controller
 		}
 	}
 
+	public function changefavourite($id){
+		$jobsubtypepaperID = $id;
+
+		$hasil = Jobsubtypepaper::find($id);
+		if($hasil == null){
+			return null;
+		}else{
+			$fav = $hasil->favourite;
+			if($fav==0){
+				$fav = 1;
+			}else{
+				$fav = 0;
+			}
+			$hasil->favourite = $fav;
+			$hasil->save();
+			return $fav;
+		}
+	}
+
 	public function delete(Request $request){
 		$datas = $request->all();
 

@@ -7,6 +7,7 @@ Route::get('/jobsubtype/{pages}', 'JobsubtypeAPI@showbylink');
 Route::post('/pricetext/save', 'PricetextAPI@insert');
 Route::get('/admin/papershop', 'VendorAPI@papershop');
 Route::get('/coatingtypes', 'CoatingtypeAPI@getAll');
+Route::get('/papertypes', 'PapertypeAPI@getAll');
 
 Route::post('/commit/cartpreview/{id}/accept', 'CartpreviewAPI@acceptfile');
 Route::post('/commit/cartpreview/{id}/reject', 'CartpreviewAPI@rejectfile');
@@ -22,18 +23,20 @@ Route::get('/customer/{id}/sales', 'CustomerAPI@apiGetSalesByCustID');
 Route::get('/cities', 'CityAPI@getAll');
 Route::get('/banks',	'BankAPI@getAll');
 
+Route::get("/jobsubtypes/getactive", "JobsubtypeAPI@getActive");
+Route::get("/jobsubtypes/getall", "JobsubtypeAPI@getAll");
+
 //user signup
 Route::post('/register', 'CustomerAPI@store');
 Route::post('/resendverif', 'CustomerAPI@resend');
 //
 
 Route::get('/papersizes', 'PaperSizeAPI@all');
+Route::get("/sizes", "SizesAPI@getall");
 Route::get('/papers/OF', 'PaperAPI@showFlyer');
 Route::get('/papers', 'PaperAPI@getAll');
 Route::get('/custaccs', 'CustomeraccountAPI@all');
 
-Route::post('/custadds/store/{custid}', 'CustomeraddressAPI@store');
-Route::post('/custadds/edit/{id}', 'CustomeraddressAPI@editaddress');
 Route::get('/custadds/{custid}', 'CustomeraddressAPI@bycustid');
 Route::get('/custadds', 'CustomeraddressAPI@all');
 

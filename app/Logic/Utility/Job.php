@@ -14,7 +14,6 @@ class Job
 {
 	protected $cs = null;
 	protected $data = null;
-	protected $jobsubtype = null;
 	protected $calculation = null;
 	protected $texttoread = "";
 	protected $multipledetail = false;
@@ -113,7 +112,7 @@ class Job
 		$calctemp = [];
 		$jj = [];
 
-		$max_count_length = $max_count_width = 10;
+		$max_count_length = $max_count_width = 50;
 
 		for ($i=$max_count_length; $i>0; $i--){ 
 			for ($j=1; $j<=$max_count_width; $j++){ 
@@ -367,8 +366,8 @@ class Job
 		}
 
 		//ukuran area yang kepake ada di mostefficient -> DALAM CM
-		$data['paper']['paperID'] = $data['paper']['id'];
-		unset($data['paper']['id']);
+		$data['paper']['paperID'] = $data['paperID'];
+		unset($data['paperID']);
 		$data['calculation']['totalarea'] = $mostefficient;
 		$data['calculation']['leftratio'] = $temp[0];
 		$data['calculation']['rightratio'] = $temp[1];
@@ -448,7 +447,7 @@ class Job
 
 
 		//CARI UKURAN-UKURAN (result: array)
-		$papers = $this->getUkuranByPaperID($paperID);
+		$papers = $this->getUkuranByPaperID($paperID); //plano
 
 		$themostefficient = 0; 
 		// EFICIENT MULANYA DARI 0 <-- paling boros
@@ -533,7 +532,9 @@ class Job
 
 		//BUAT TEXT TO READ
 		if(!$this->multipledetail) { // kalo ga ada multiple detail
+			if(!isset($thispaper['vendorID'])) dd("TOKO KERTAS BELOM DI DAFTARIN, BELOM BISA DIPAKE");
 			$vendor = Vendor::findOrFail($thispaper['vendorID']);
+
 			$this->texttoread .= "<b>".$data['paper']['name']." ".$data['paper']['gramature']."g</b> -> ".$data['paper']['plano']['width']."x".$data['paper']['plano']['length']." <i class='tx-primary'>".$vendor['name']."</i> <br>";
 
 			$hperkg = (MathHelper::round(floatval($thispaper['hperpcs'])*20000*500/floatval($thispaper['gramature'])/floatval($data['paper']['plano']['width'])/floatval($data['paper']['plano']['length']), 100)/1000)."rb";
@@ -895,6 +896,7 @@ class Job
 	}
 
 
+
 	public function calcFinishing(&$texttoread=""){
 		$data = $this->data;
 
@@ -905,13 +907,14 @@ class Job
 		}
 		$data['total']['finishingprice'] = 0;
 
+		$j=0;
 		foreach ($data['finishings'] as $i => $ii) {
 			$data['total']['price'] += $data['finishings'][$i]['totalprice'];
 			$data['total']['finishingprice'] += $data['finishings'][$i]['totalprice'];
 
 
-			//print_r ();
-			$this->texttoread .= "<b class='tx-success'>".($i+1).".</b> ".$ii['finishingname'].": <span class='tx-purple'>".MathHelper::thseparator(floatval($data['finishings'][$i]['totalprice']))."</span><br>( <b>".$ii['optionname']."</b> <span class='tx-lightgray'>@".MathHelper::thseparator(MathHelper::ceil($data['finishings'][$i]['totalprice']/$data['quantity'], 1))."</span> ) <br>";
+			$j++;
+			$this->texttoread .= "<b class='tx-success'>".($j).".</b> ".$ii['finishing']['name'].": <span class='tx-purple'>".MathHelper::thseparator(floatval($data['finishings'][$i]['totalprice']))."</span><br>( <b>".$ii['option']['optionname']."</b> <span class='tx-lightgray'>@".MathHelper::thseparator(MathHelper::ceil($data['finishings'][$i]['totalprice']/$data['quantity'], 1))."</span> ) <br>";
 		}
 
 
@@ -922,84 +925,40 @@ class Job
 	} 
 
 	public function subCalcFinishing(&$data, $finishingkey, $ppr, &$texttoread=""){
-		//untuk paper cuma ambil data, $ppr
-		$finishingselect = array();
-		foreach ($data[$finishingkey] as $i => $datafinishing) {
-			if($datafinishing['id']!=0)
-				array_push($finishingselect, $datafinishing['finishingID']);
-		}
+		
+		//DARI DEPAN // UDA GA PERLU ADA YANG DI BUANG,ud steril dari Calculation.initDataFromDB (funct)	
+		foreach ($data[$finishingkey] as $i => $ii) {
 
-		//CUMA DI SELECT YANG DI PILIH DOANG
-		$finishings = Finishing::where('status', 1)
-				->with('finishingoption')
-				->whereIn('id', $finishingselect)
-				->get();
-
-		// DARI BELAKANG!!!!
-		for ($i = count($data[$finishingkey])-1; $i >= 0; $i--) {
-			//HAPUS DATA BILA ID = 0 (GA KEPAKE)
-			if($data[$finishingkey][$i]['id'] == 0)
-				array_splice($data[$finishingkey], $i, 1);
-			else{
-				//MASUKIN DATA ID ke $calc (variable)
-				$data[$finishingkey][$i]['optionID'] = $data[$finishingkey][$i]['id'];
-				$data[$finishingkey][$i]['id'] = $data[$finishingkey][$i]['finishingID'];
-				$data[$finishingkey][$i]['quantity'] = 0;
-
-				//DICEK DI DATABASE, termasuk yang mana, trus harganya yang mana, di looping di local, supaya ga berat
-
-
-				foreach ($finishings as $j => $finishing) {
-					if($finishing['id'] == $data[$finishingkey][$i]['finishingID'])
-					{
-						foreach ($finishing['finishingoption'] as $k => $option) {
-							if($option['finishingID'] == $data[$finishingkey][$i]['id']){
-								$data[$finishingkey][$i]['price'] = floatval($option['price']);
-								$data[$finishingkey][$i]['finishingname'] = $finishing['name'];
-								$data[$finishingkey][$i]['priceper'] = $option['priceper'];
-								$data[$finishingkey][$i]['priceminim'] = intval($option['priceminim']);
-								$data[$finishingkey][$i]['pricebase'] = intval($option['pricebase']);
-							}
-						}
-					}
-				}
-				
-
-				//TRUS DI ITUNG KE TOTAL
-				//$ppr = $data['paper'];
-				$clc = $data['calculation'];
-				$datafinishing = $data[$finishingkey][$i];
-				if($datafinishing['priceper'] == "cm")
-				{
-					$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] * $clc['printlength'] * $datafinishing['price'] * $clc['totaldruct'], 1000) + $datafinishing['pricebase'];
-					if($data[$finishingkey][$i]['totalprice'] < $datafinishing['priceminim'])
-						$data[$finishingkey][$i]['totalprice'] = $datafinishing['priceminim'];
-				}
-				else if($datafinishing['priceper'] == 'pcs')
-				{
-					$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($datafinishing['price'] * $clc['totaldruct'], 1000) + $datafinishing['pricebase'];
-					if($data[$finishingkey][$i]['totalprice'] < $datafinishing['priceminim'])
-						$data[$finishingkey][$i]['totalprice'] = $datafinishing['priceminim'];
-				}
-				else if($datafinishing['priceper'] == "m")
-				{
-					//untuk indoor outdoor
-					$data[$finishingkey][$i]['totalprice'] = 0;
-				}
-				else if($datafinishing['priceper'] == "kg")
-				{
-
-					$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $clc['totaldruct'], $datafinishing['price'], $datafinishing['priceminim'], $datafinishing['pricebase']);
-					$data[$finishingkey][$i]['totalprice'] = $temp;
-
-					//$temp = $this->hargaPotong($)
-				}
-
-				//jumlahannya di luar function
+			//TRUS DI ITUNG KE TOTAL
+			//$ppr = $data['paper'];
+			$clc = $data['calculation'];
+			if($ii['option']['priceper'] == "cm")
+			{
+				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] * $clc['printlength'] * $ii['option']['price'] * $clc['totaldruct'], 1000) + $ii['option']['pricebase'];
+				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
+					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
 			}
-		}
+			else if($ii['option']['priceper'] == 'pcs')
+			{
+				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($ii['option']['price'] * $clc['totaldruct'], 1000) + $ii['option']['pricebase'];
+				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
+					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+			}
+			else if($ii['option']['priceper'] == "m")
+			{
+				//untuk indoor outdoor
+				$data[$finishingkey][$i]['totalprice'] = 0;
+			}
+			else if($ii['option']['priceper'] == "kg")
+			{
 
-		unset($finishings); // HAPUS
+				$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $clc['totaldruct'], $ii['option']['price'], $ii['option']['priceminim'], $ii['option']['pricebase']);
+				$data[$finishingkey][$i]['totalprice'] = $temp;
+
+				//$temp = $this->hargaPotong($)
+			}
+
+		}
 
 		return $data;
 	}

@@ -3,7 +3,6 @@
 
 Route::get('anjing', 'CustomerController@verify_mail');
 
-
 /* HOME */
 Route::any  ('home',    function(){ return redirect()->route('pages.home'); });
 Route::any  ('/',   ['as'=>'pages.home', 'uses'=>'HomeController@index']);
@@ -105,12 +104,14 @@ Route::group    (['middleware'=>['employee']], function(){
 
 
     //ADMIN MASTER WEB
-    Route::get("admin/master/paper", 'AdmPaperController@index');
+    Route::get("admin/master/pricepaper", 'AdmPaperController@changeprice');
+    Route::get("admin/master/newpaper", 'AdmPaperController@newpaper');
     Route::get("admin/master/shoppricing", 'AdmShoppricingsController@index');
     Route::get('admin/master/jobeditor', 'AdmJobeditorController@index');
     Route::get('admin/master/jobsizeeditor', 'AdmJobeditorController@jobsizes');
     Route::get('admin/master/jobpapereditor', 'AdmJobeditorController@jobpapers');
     Route::get('admin/master/jobfinishingeditor', 'AdmJobeditorController@jobfinishings');
+    Route::get('admin/master/jobquantityeditor', 'AdmJobeditorController@jobquantities');
     Route::get('admin/master/jobactivation', 'AdmJobeditorController@activationjob');
 
     //belom selesai
@@ -150,7 +151,10 @@ Route::group    (['middleware'=>['employee']], function(){
 // AA           AA  PP            II
 // AA           AA  PP            II
 
-
+//GA PERLU LOGIN?
+Route::get('AJAX/custaccs', 'CustomeraccountAJAX@all');
+Route::post('AJAX/custaccs/store', 'CustomeraccountAJAX@store');
+Route::post("AJAX/cekharga", 'Calculation@calcPrice');
 
 //HARUS SUDAH LOGIN (CUST/ADMIN)
 Route::get("AJAX/company/all", "CompanyAJAX@getAll");
@@ -160,6 +164,9 @@ Route::post ('AJAX/chpass/update/{id}', "ProfileAJAX@updatePassword");
 Route::post('AJAX/notification/view/{id}', 'NotificationAJAX@setviewed');
 Route::post('AJAX/paper/changecoatingtype', 'AdmPaperAJAX@changecoatingtype');
 
+//customer address
+Route::post('AJAX/custadds/edit/{id}', 'CustomeraddressAJAX@editaddress');
+Route::post('AJAX/custadds/store/{custid}', 'CustomeraddressAJAX@store');
 
 Route::get  ("API/cartfiles/{cartID}",  "CartfileAPI@getFileByCartID"); // HARUS SUDAH LOGIN
 Route::get("API/cartfiles/{id}/delete", 'CartfileAPI@deleteCartfileByID'); // harus sudah login
@@ -173,10 +180,20 @@ Route::post("AJAX/shoppricing/constant/insert", 'AdmShoppricingsAJAX@insertconst
 Route::post("AJAX/jobsubtype/{id}/activate", 'AdmJobeditorAJAX@activatejobsubtype');
 Route::post('AJAX/jobsubtypepaper/store', "AdmJobsubtypepaperAJAX@store");
 Route::post('AJAX/jobsubtypepaper/remove', "AdmJobsubtypepaperAJAX@delete");
+Route::post("AJAX/jobsubtypepaper/{id}/changefavourite", "AdmJobsubtypepaperAJAX@changefavourite");
+Route::post("AJAX/jobsubtypefinishing/{id}/changemustdo", "AdmJobsubtypefinishingAJAX@changemustdo");
+Route::post("AJAX/jobsubtypequantity/{id}/changeofdg", "AdmJobsubtypequantityAJAX@changeofdg");
+Route::post("AJAX/jobsubtypequantity/{id}/changequantity", "AdmJobsubtypequantityAJAX@changequantity");
+Route::post("AJAX/jobsubtypequantity/addnewjobquantity", "AdmJobsubtypequantityAJAX@addnewjobquantity");
+Route::post("AJAX/jobsubtypequantity/{id}/delete", "AdmJobsubtypequantityAJAX@deletejobsubtypequantity");
+Route::post("AJAX/jobsubtypesize/store", "AdmJobsubtypesizeAJAX@store");
+
 Route::post("AJAX/finishingoption/priceminim/update", 'AdmFinishingoptionAJAX@updatepriceminim');
 Route::post("AJAX/finishingoption/pricebase/update", 'AdmFinishingoptionAJAX@updatepricebase');
 Route::post("AJAX/finishingoption/price/update", 'AdmFinishingoptionAJAX@updateprice');
-
+Route::post("AJAX/paper/{id}/changepaper/{col}", "AdmPaperAJAX@changepaperdetail"); //semua change paper detail diatur disini
+Route::post("AJAX/paper/{id}/changepapertype", "AdmPaperAJAX@changepapertypeID");
+Route::post("AJAX/paper/savenewpaper", "AdmPaperAJAX@addnewpaper");
 
 /* LOGIN LOGOUT ACCOUNT */
 Route::post ('API/login',   'UserController@login');
@@ -200,7 +217,6 @@ Route::post ("API/cartdetails/title/update", "CartdetailController@apiUpdateTitl
 
 /** GLOBAL CALCULATION ORDER **/
 //dipake di ordercustomerlist
-Route::get("API/jobsubtypes/getactive", "JobsubtypeController@getactive");
 
 //jasa pengiriman dsb
 Route::post("API/delivery", "DeliveryAPI@getAll");
@@ -280,9 +296,6 @@ Route::group(['middleware'=>"customerAPI"], function(){
 
 Route::get('API/bankaccs/customer/{id}', 'CustomerBankAccAPI@getByID');
 Route::get('API/compaccs',  ["as"=>"api.compaccs", "uses"=>"CompanyBankAccAPI@getAll"]);
-Route::get('AJAX/custaccs', 'CustomeraccountAJAX@all');
-Route::post('AJAX/custaccs/store', 'CustomeraccountAJAX@store');
-Route::post("AJAX/cekharga", 'Calculation@calcPrice');
 Route::get('API/banks', ["as"=>"api.bank", "uses"=>"BankAPI@getAll"]);
 //master
 Route::get('API/company/getpending', 'CompanyAPI@getPending');

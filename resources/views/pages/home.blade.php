@@ -15,8 +15,17 @@
 
 	<div class="hm-admin">
 		<div class="title">
-			<span class="size-200p">Welcome,</span> 
-			<br><b>{{ explode(' ',trim( Session::get( 'name' )) )[0] }}</b> <span class="size-80p">as Admininstrator.</span>
+			<span class="welcome">Welcome,</span> 
+			<br>
+			<b class="name">{{ explode(' ',trim( Session::get( 'name' )) )[0] }}</b> 
+			<span class="subwelcome">
+				as Admininstrator.
+			</span>
+				<br>
+				<br>
+			<span class="content-text">
+				Anda bisa ubah semua data penjualan dari panel ini. <br>Hati2 dalam perubahan, bila ada yang tidak dimengerti segera tanyakan terlebih dahulu. Tidak untuk coba-coba, sekali salah, tidak bisa di ulang. <br><br>Happy editing! <i class="fas fa-fw fa-wand-magic tx-lightmagenta"></i>
+			</span>
 		</div>
 		<div class="hm hm-customer">
 			<div class="hm-pretitle">
@@ -27,16 +36,90 @@
 			About <b class="tx-primary">[[totalsignedweek]]</b> customers were <b>signed up</b> this weekend.<br>
 			About <b class="tx-primary">[[totalloggedweek]]</b> customers were <b>logged in</b> this weekend.<br>
 			About XXX customers <b>made transaction</b> this weekend.
+
 		</div>
 		<div class="hm hm-transaction">
 			<div class="hm-pretitle">
 				<i class="fas fa-users fa-fw tx-lightgray"></i>
 				Transaction Overview
 			</div>
+
+
+			<div class="hm-action-title">
+				- Job Editor -
+			</div>
+			<div class="hm-action-link">
+				<ul>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-percentage"></i>
+								<div>Job Price Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-power-off"></i>
+								<div>Job Activation Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-paperclip"></i>
+								<div>Job Detail Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-magic"></i>
+								<div>Job Finishings Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-expand-arrows-alt"></i>
+								<div>Job Sizes Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-copy"></i>
+								<div>Job Papers Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-abacus"></i>
+								<div>Job Quantities Manager</div>
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 			
 		</div>
 	</div>
 	@endif
+
+
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
 
 	@if(!Session::has('role') || (Session::has('role') && Session::get('role') != "Administrator"))
 	<div class="hm-navigator" ng-if="'{{Session::get('userid')}}'==''">
@@ -59,7 +142,7 @@
 		<div class="nav-button">
 			<a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
       	<div class="ico">
-      		<i class="far fa-fw fa-calculator"></i> 
+      		<i class="fal fa-fw fa-calculator-alt"></i> 
       	</div>
       	<div class="txt">cek harga</div>
     	</a>
@@ -372,7 +455,7 @@
 	<div class="hm-stickyorder">
 		<a href="{{URL::asset('orderlistcustomer')}}">
 			<div class="content">
-				<i class="far fa-fw fa-2x fa-calculator"></i>
+				<i class="fas fa-fw fa-2x fa-calculator-alt"></i>
 				<span class="text">Cek Harga</span>
 			</div>
 		</a>

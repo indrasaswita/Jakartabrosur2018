@@ -12,14 +12,14 @@
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
 				<a class="nav-link active" id="calc-headtab" data-toggle="tab" href="#calculation">
-					<i class="fas fa-calculator"></i>	
+					<i class="fal fa-fw fa-calculator"></i>	
 					<span class="hidden-xs-down">Kalkulasi</span>
 					<span class="hidden-sm-up">Calc</span>
 				</a>
 			</li>
 	    <li class="nav-item">
 	    	<a class="nav-link" id="desc-headtab" data-toggle="tab" href="#description">
-	    		<i class="fas fa-edit"></i>
+	    		<i class="fal fa-fw fa-edit"></i>
 	    		<span class="hidden-xs-down">Deskripsi</span>
 	    		<span class="hidden-sm-up">Desc</span>
 	    	</a>

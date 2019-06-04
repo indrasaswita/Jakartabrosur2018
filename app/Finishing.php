@@ -15,7 +15,4 @@ class Finishing extends Model
     	return $this->hasMany('App\Finishingoption', 'finishingID');
     }
 
-    public function finishingoptionShop(){
-    	return $this->hasMany('App\Finishingoption', 'finishingID')->select('id', 'optionname', 'processdays', 'info', 'finishingID');
-    }
 }

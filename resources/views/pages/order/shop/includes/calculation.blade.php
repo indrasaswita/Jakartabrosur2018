@@ -35,24 +35,6 @@
 		</div>
 		<div class="block-list">
 			<div class="txt">
-				Judul
-				<span class="hidden-xs-down"> 
-					Cetakan
-				</span>
-			</div>
-			<div class="input">
-				<div class="input-block">
-					<div class="input-group">
-						<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Judul yang spesifik (min: 10 huruf)" id="input-jobtitle">
-					</div>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
-				</div>
-			</div>
-		</div>
-		<div class="block-list">
-			<div class="txt">
 				Jumlah
 				<span class="hidden-xs-down"> 
 					Print
@@ -298,7 +280,7 @@
 			<div class="txt">FINISHING</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list" ng-repeat="item in finishings">
+		<div class="block-list" ng-repeat="item in datas.jobsubtypefinishing">
 			<div class="txt">[[item.finishing.name]]</div>
 			<div class="input">
 				<div class="select">

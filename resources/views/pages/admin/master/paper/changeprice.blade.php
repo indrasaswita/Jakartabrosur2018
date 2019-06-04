@@ -2,7 +2,7 @@
 @section('title', 'Harga Kertas')
 @section('content')
 
-<div class="paper-admin" ng-controller="AdmPaperController">
+<div class="paper-admin" ng-controller="AdmPricePaperController">
 <?php
 	$temp = str_replace(array('\r', '\"', '\n', '\''), '?', $papers);
 ?>
@@ -16,6 +16,10 @@
 @endif
 
 	<div class="paper-detail-wrapper">
+
+		<div class="page-title margin-10-0">
+			Ganti Harga Kertas menurut Kg, Pcs, Meteran
+		</div>
 		<table class="table table-sm table-custom-allsales">
 			<thead class="text-center">
 				<tr>
@@ -29,16 +33,18 @@
 			<tbody ng-repeat="item in papers">
 				<tr class="content-header">
 					<td class="nomor">#[[zeroFill(item.id, 3)]]</td>
-					<td class="text-xs-left">
+					<td class="text-xs-left googleft">
 						<input type="checkbox" ng-model="item.paperID" ng-change="postcheckedByPaper(item, item.paperID)">
-						<i class="fas fa-angle-left tx-lightmagenta"></i>
-						[[item.name]]
-						<span ng-show="item.gramature!=0">
-							[[item.gramature]]gsm
+						&nbsp;
+						<span class="text-bold">
+							[[item.name]]
 						</span>
-						<i class="fas fa-angle-right tx-lightmagenta"></i>
-						<i class="fas fa-palette"></i>
-						[[item.color]]
+						<span class="uppercase text-bold tx-lightmagenta size-85p">
+							[[item.color]]
+						</span>
+						<span ng-show="item.gramature!=0">
+							<span class="tx-purple">[[item.gramature]]</span><span class="tx-lightgray">g</span>
+						</span>
 					</td>
 					<!-- <td class="th-action act-3"> -->
 					<td class="th-action">

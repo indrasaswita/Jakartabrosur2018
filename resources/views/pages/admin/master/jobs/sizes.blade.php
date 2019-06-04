@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div ng-controller="AdmJobsizesController">
+<div ng-controller="AdmJobsizesController" class="jobsizes-wrapper">
 @if(isset($jobtypes))
 	@if($jobtypes != null)
 
@@ -17,7 +17,7 @@
 	@endif
 @endif
 
-	<div class="jobsizes-wrapper">
+	<div class="">
 		<div class="page-title">
 			<i class="fas fa-code"></i>
 			JOB SIZE MANAGER 
@@ -144,65 +144,10 @@
 													</div>
 												</td>
 											</tr>
-											<!-- <tr class="options" ng-if="item3.showoptions">
-												<td colspan="10">
-													<ul>
-														<li ng-repeat="item4 in item3.size.sizeoption">
-															[[item4.optionname]] <i class="fas fa-quote-left tx-yellow fa-fw"></i>
-																(
-																<b>
-																	<a href="" ng-click="changepricebase(item4)" ng-if="!item4.pricebaseinput">
-																		Rp [[item4.pricebase|number:0]]
-																	</a>
-																	<span ng-if="item4.pricebaseinput">
-																		<input type="number" ng-model="item4.newpricebase">
-																		<button class="btn btn-xsm btn-success" ng-click="savepricebase(item4)">
-																			<i class="fas fa-check size-80p"></i>
-																		</button>
-																	</span>
-																</b>
-																+ 
-																<b>
-																	<a href="" ng-click="changeprice(item4)" ng-if="!item4.priceinput">
-																		@[[item4.price|number:2]]
-																	</a>
-																	<span ng-if="item4.priceinput">
-																		<input type="number" ng-model="item4.newprice">
-																		<button class="btn btn-xsm btn-success" ng-click="saveprice(item4)">
-																			<i class="fas fa-check size-80p"></i>
-																		</button>
-																	</span>
-
-																</b> 
-																) or
-																<span class="tx-primary">
-																min. 
-																<b>
-																	<a href="" ng-click="changepriceminim(item4)" ng-if="!item4.priceminiminput">
-																		Rp [[item4.priceminim|number:0]]
-																	</a>
-																	<span ng-if="item4.priceminiminput">
-																		<input type="number" ng-model="item4.newpriceminim">
-																		<button class="btn btn-xsm btn-success" ng-click="savepriceminim(item4)">
-																			<i class="fas fa-check size-80p"></i>
-																		</button>
-																	</span>
-																</b> 
-															</span>
-														</li>
-													</ul>
-													<div class="actions">
-														<button class="btn btn-sm btn-secondary">
-															<i class="fas fa-plus size-80p"></i>
-															Tambah <b class="size-90p">PILIHAN size (pada [[item3.size.name]])</b>
-														</button>
-													</div>
-												</td>
-											</tr> -->
 										</tbody>
 									</table>
 									<div class="actions">
-										<button class="btn btn-sm btn-secondary">
+										<button class="btn btn-sm btn-secondary" ng-click="addnewjobsize(item2.id)">
 											<i class="fas fa-plus size-80p"></i>&nbsp;
 											Tambah <b class="size-90p">size</b> (pada <b>[[item2.name]]</b>)
 										</button>
@@ -216,6 +161,91 @@
 		</ul>
 	</div>
 
+	@include('modal', 
+		[
+			'modalid' => 'addnewjobsize',
+			'modaltitle' => 'JobsubtypeSize Baru',
+			'modalbody' => '
+				<table class="table table-sm">
+					<thead>
+						<tr class="text-center">
+							<th class="width-min">#</th>
+							<th class="width-min">
+								<i class="far fa-check fa-fw"></i>
+							</th>
+							<th>Name</th>
+							<th>Lebar</th>
+							<th class="width-min"></th>
+							<th>Panjang</th>
+							<th class="width-min"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center" ng-repeat="item in newjobsizes">
+							<td class="text-xs-right">
+								[[zeroFill($index + 1, 2)]].
+							</td>
+							<td class="text-xs-center">
+								<label class="custom-checkbox">
+							  <input type="checkbox" ng-model="item.custominput" ng-checked="selectedchanged(item)">
+							  <span class="checkmark"></span>
+								</label>
+							</td>
+							<td>
+								<div class="" ng-if="item.custominput">
+									<input type="text" placeholder="Custom: Size Name" ng-model="item.name">
+								</div>
+								<div class="" ng-if="!item.custominput">
+									<select class="width-100" ng-options="size as size.name for size in sizes" ng-model="item.size"></select>
+								</div>
+							</td>
+							<!-- KALO GA CUSTOM -->
+							<td ng-if="item.size!=null">
+								<input class="text-xs-right small-number" type="number" step="0.1" ng-model="item.size.width" disabled>
+							</td>
+							<td ng-if="item.size!=null">
+								<i class="far fa-times tx-purple"></i>
+							</td>
+							<td ng-if="item.size!=null">
+								<input class="text-xs-right small-number" type="number" step="0.1" ng-model="item.size.length" disabled>
+							</td>
+							<td ng-if="item.size!=null">
+								cm
+							</td>
+							<!-- SIZE CUSTOM -->
+							<td ng-if="item.size==null">
+								<input class="text-xs-right small-number" type="number" step="0.1" ng-model="item.width">
+							</td>
+							<td ng-if="item.size==null">
+								<i class="far fa-times tx-purple"></i>
+							</td>
+							<td ng-if="item.size==null">
+								<input class="text-xs-right small-number" type="number" step="0.1" ng-model="item.length">
+							</td>
+							<td ng-if="item.size==null">
+								cm
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			',
+			'modalfooter' => '
+				<button class="btn btn-success" ng-click="savenewjobsizes()">
+					<i class="fas fa-save fa-fw"></i>
+					Save
+				</button>
+				<button class="btn btn-primary pull-xs-left" ng-click="addnewjobsizerow()">
+					<i class="fal fa-plus-hexagon fa-fw"></i>
+					Plus New Row
+				</button>
+				<button class="btn btn-secondary" data-dismiss="modal">
+					<i class="fal fa-times-octagon fa-fw"></i>
+					Cancel
+				</button>
+			'
+		]
+	)
+
+	@stop
 </div>
 
-@stop

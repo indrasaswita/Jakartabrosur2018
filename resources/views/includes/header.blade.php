@@ -63,10 +63,10 @@
 				</div>
 			</li>
 			@elseif(Session::get('role') != 'customer')
-			<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='admin/master/paper'||'{{Request::path()}}'=='admin/master/customer'||'{{Request::path()}}'=='admin/allsales'||'{{Request::path()}}'=='admin/cart'}">
+			<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='admin/master/pricepaper'||'{{Request::path()}}'=='admin/master/customer'||'{{Request::path()}}'=='admin/allsales'||'{{Request::path()}}'=='admin/cart'}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-key"></i> 
+        		<i class="fal fa-fw fa-user-cog"></i> 
         	</div>
         	<div class="txt">MASTER</div>
       	</a>
@@ -91,17 +91,56 @@
 							</a>
 							<div class="dropdown-divider"></div>
 							<div class="dropdown-title">
-								Editor  
+								Need to do
+								<i class="fas fa-user-clock fa-fw tx-purple"></i>
+							</div>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/pendingcompany')}}">
+								<span class="far fa-fw fa-circle-notch fa-spin icon"></span>
+								Pending Company
+							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/pendingcustomer')}}">
+								<span class="far fa-fw fa-circle-notch fa-spin icon"></span>
+								Pending Customer
+							</a>
+						</div>
+					</div>
+				</div>
+	    </li>
+	    <li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='admin/master/pricepaper'||'{{Request::path()}}'=='admin/master/customer'||'{{Request::path()}}'=='admin/allsales'||'{{Request::path()}}'=='admin/cart'}">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+        	<div class="ico dropdown-toggle">
+        		<i class="fal fa-fw fa-key"></i> 
+        	</div>
+        	<div class="txt">EDITOR</div>
+      	</a>
+      	<div class="dropdown-menu-center">
+      		<div class="wrapper">
+						<div class="dropdown-menu">
+							<div class="dropdown-title">
+								View 
+								<i class="fas fa-eye fa-fw tx-purple"></i>
+							</div>
+							<div class="dropdown-title">
+								Master Editor  
 								<span class="fas fa-pen-nib fa-fw tx-purple"></span>
 							</div>
-							<a class="dropdown-item" href="{{URL::asset('admin/master/paper')}}">
-								<span class="far fa-fw fa-scroll icon"></span>
-								Detail Kertas
+							<a class="dropdown-item" href="{{URL::asset('admin/master/pricepaper')}}">
+								<span class="far fa-fw fa-tags icon"></span>
+								Harga Kertas
+							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/newpaper')}}">
+								<span class="far fa-fw fa-layer-plus icon"></span>
+								Tambah Kertas
 							</a>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/customer')}}">
 								<span class="far fa-fw fa-users-cog icon"></span>
 								Detail Pelanggan
 							</a>
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-title">
+								JOB detail Editor  
+								<span class="fas fa-pen-nib fa-fw tx-purple"></span>
+							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/shoppricing')}}">
 								<span class="far fa-fw fa-percentage icon"></span>
 								JOB Price Editor
@@ -126,18 +165,9 @@
 								<span class="far fa-fw fa-copy icon"></span>
 								JOB Papers
 							</a>
-							<div class="dropdown-divider"></div>
-							<div class="dropdown-title">
-								Need to do
-								<i class="fas fa-user-clock fa-fw tx-purple"></i>
-							</div>
-							<a class="dropdown-item" href="{{URL::asset('admin/master/pendingcompany')}}">
-								<span class="far fa-fw fa-circle-notch fa-spin icon"></span>
-								Pending Company
-							</a>
-							<a class="dropdown-item" href="{{URL::asset('admin/master/pendingcustomer')}}">
-								<span class="far fa-fw fa-circle-notch fa-spin icon"></span>
-								Pending Customer
+							<a class="dropdown-item" href="{{URL::asset('admin/master/jobquantityeditor')}}">
+								<span class="far fa-fw fa-abacus icon"></span>
+								JOB Quantities
 							</a>
 						</div>
 					</div>

@@ -7,10 +7,9 @@ use App\Helpers\MathHelper;
 
 class Jobbusinesscard extends Jobflyer{
 
-	public function __construct($data, $constants, $jobsubtype){
+	public function __construct($data, $constants){
 		$this->data = $data;
 		$this->cs = $constants;
-		$this->jobsubtype = $jobsubtype;
 	}
 
 

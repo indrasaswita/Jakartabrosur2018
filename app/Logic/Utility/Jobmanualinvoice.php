@@ -5,10 +5,9 @@ namespace App\Logic\Utility;
 use App\Helpers\MathHelper;
 
 class Jobmanualinvoice extends Jobflyer{
-	public function __construct($data, $constants, $jobsubtype){
+	public function __construct($data, $constants){
 		$this->data = $data;
 		$this->cs = $constants;
-		$this->jobsubtype = $jobsubtype;
 	}
 
 	public function hitungManualInvoice(){

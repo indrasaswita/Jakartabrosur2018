@@ -37,11 +37,11 @@ class ShopController extends Controller
 	{
 		//YG LAMA
 		$datas = Jobsubtype::where('link', '=', $pages)
-				->with('jobsubtypepapershop')
+				->with('jobsubtypepaper')
 				->with('jobsubtypesize')
 				->with('jobsubtypequantity')
-				->with('jobsubtypefinishingshop')
-				->with('jobsubtypedetailshop')
+				->with('jobsubtypefinishing')
+				->with('jobsubtypedetail')
 				->with('printeroffset')
 				->with('printerdigital')
 				->with('jobsubtypetemplate')
@@ -54,8 +54,26 @@ class ShopController extends Controller
 		if($customer!=null)
 			$datas['user'] = $customer;
 
-		//$datas->setHidden(['priceper', 'priceminim', 'price', 'pricebase', 'ofdg']);
-		//dd($datas);
+		if(gettype($datas)=="object"){
+			foreach ($datas['jobsubtypefinishing'] as $i => $ii) {
+				foreach ($ii['finishing']['finishingoption'] as $j => $jj) {
+					$jj->setHidden(['priceper', 'price', 'pricebase', 'priceminim']);	
+				}
+			} //HIDE FINISHING
+		}else{
+			return abort(404);
+		}
+
+		if(gettype($datas)=="object"){
+			foreach ($datas['jobsubtypepaper'] as $i => $ii) {
+				foreach ($ii['paper']['paperdetail'] as $j => $jj) {
+					$jj->setHidden(['buyprice', 'sellprice', 'unitprice']);	
+				}
+			} // HIDE PAPER
+		}else{
+			return abort(404);
+		}
+		
 		if($datas != null)
 		{
 			//die (htmlspecialchars($datas['infosize']));
@@ -70,9 +88,9 @@ class ShopController extends Controller
 									->get();
 				$datas['deliveries'] = $deliveries;
 
-				if($datas['jobsubtypedetailshop'] != null)
+				if($datas['jobsubtypedetail'] != null)
 				{
-					if(count($datas['jobsubtypedetailshop']->toArray())==0){
+					if(count($datas['jobsubtypedetail']->toArray())==0){
 						//TIDAK ADA DETAIL JOBSUBTYPE
 						return view('pages.order.shop.index', compact('datas'));
 					}else{
@@ -88,10 +106,8 @@ class ShopController extends Controller
 					return view('pages.order.shop.index', compact('datas'));
 				}
 			}
-		}
-		else
-		{
-			return "$datas is null, from certain Jobsubtype";
+		}else{
+			return view('errors.503');
 		}
 	}
 

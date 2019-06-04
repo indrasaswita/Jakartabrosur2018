@@ -12,6 +12,6 @@ class Jobtype extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public function jobsubtype(){
-    	return $this->hasMany('App\Jobsubtype', 'jobtypeID')->with('jobsubtypesize', 'printeroffset', 'printerdigital', 'jobsubtypedetail', 'jobsubtypequantity', 'jobsubtypepaper', 'jobsubtypefinishing');
+  	return $this->hasMany('App\Jobsubtype', 'jobtypeID')->with('jobsubtypesize', 'printeroffset', 'printerdigital', 'jobsubtypedetail', 'jobsubtypequantity', 'jobsubtypepaper', 'jobsubtypefinishing');
     }
 }

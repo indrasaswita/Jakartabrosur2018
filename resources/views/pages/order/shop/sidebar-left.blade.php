@@ -103,9 +103,11 @@
 		</div>
 		<div class="panel-list">
 			<ul>
-				<li>Ukuran gambar diberi lebihan 2mm setiap sisi.</li>
-				<li>File tidak dengan komposisi RGB.</li>
-				<li>File <i>vector</i> dengan text, harus di <i>convert</i> terlebih dahulu.</li>
+				<li>Harus di beri <b>Bleed</b>: Ukuran gambar diberi lebihan 2mm setiap sisi, dan diberikan <b>Kris Potong</b> (berupa garis pada samping sisi cetaknya).</li>
+				<li>Lebih baik diberikan dengan C-M-Y-K: File <b>tidak</b> dengan komposisi RGB, untuk meminimalisasi perubahan warna pada hasil cetak.</li>
+				<li>File <i>vector</i> dengan text, <b>harus</b> di <i>convert</i> terlebih dahulu, agar meminimalisasi missing font.</li>
+				<li>Pengiriman dalam jumlah besar, bisa melalui link Google Drive (yang sudah di share), atau link share lainnya.</li>
+				<li><b>Tidak</b> terima file untuk print dalam bentuk Microsoft Word, Excel, PowerPoint, dan tidak terima file resolusi rendah ataupun file yang butuh editan khusus lagi.</li>
 			</ul>
 		</div>
 

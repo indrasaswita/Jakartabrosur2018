@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jobsubtypefinishing extends Model
 {
-    protected $fillable = ['jobsubtypeID', 'ofdg', 'finishingID'];
+    protected $fillable = ['jobsubtypeID', 'ofdg', 'finishingID', 'mustdo'];
     protected $guarded = ['id'];
+    protected $casts = ['mustdo'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
 

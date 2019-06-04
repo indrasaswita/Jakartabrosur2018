@@ -47,4 +47,13 @@ class AdmJobeditorController extends Controller
 
 		return view('pages.admin.master.jobs.papers', compact('jobtypes'));
 	}
+
+	public function jobquantities(){
+		$jobtypes = Jobtype::with(array('jobsubtype'=>function($query){
+				$query->orderBy('name', 'ASC');
+		}))
+				->get();
+
+		return view('pages.admin.master.jobs.quantities', compact('jobtypes'));
+	}
 }

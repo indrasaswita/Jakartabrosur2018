@@ -97,13 +97,13 @@ module.exports = function(app){
 			$scope.changeDetailName = function($datas){
 				//SET FINISHING DATA + Paper
 				$datas.jobsubtypedetail = [];
-				$.each($datas.jobsubtypedetailshop, function($index, $item){
+				$.each($datas.jobsubtypedetail, function($index, $item){
 					$datas.jobsubtypedetail[$index] = $scope.changeFinishingDetailName($item);
 					$datas.jobsubtypedetail[$index] = $scope.changePaperDetailName($item);
 				});
 					
 
-				delete $datas.jobsubtypedetailshop;
+				delete $datas.jobsubtypedetail;
 
 				return $datas;
 			}
@@ -186,6 +186,8 @@ module.exports = function(app){
 			}
 
 			$scope.setData = function($datas){
+				//untuk set address di description kalo uda login
+				console.log($datas);
 				if($datas.user != null){
 					$scope.customeraddresses = [];
 					if($datas.user.customeraddress.length>0){
@@ -210,10 +212,6 @@ module.exports = function(app){
 				else if($datas.digitaloffset==2)
 					$scope.selected.printtype = 'DG';
 
-				//SET FINISHING DATA + Paper
-				console.log($datas);
-				$datas = $scope.changeFinishingName($datas);
-				$datas = $scope.changePaperName($datas);
 
 				//CEK JOBSUBTYPEDETAIL
 				if($datas.jobsubtypedetailshop!=null)
@@ -223,18 +221,7 @@ module.exports = function(app){
 					//shop sudah ilang
 				}
 
-				//DIBUAT STORE DATA YANG GA DI UBAH2 di $scope.master
-				//CLONING
-				$scope.master = $datas;
-
-				$scope.selected.jobsubtypeID = $datas.id;
-				$scope.selected.jobsubtypename = $datas.link;
-				$scope.selected.pagename = $datas.name;
-				$scope.selected.satuan = $datas.satuan;
-
-				$scope.deliveries = $datas.deliveries;
-				$scope.setdelivery0();
-
+				$scope.setselecteddata($datas); //set data awal
 				$scope.refreshOfDg();
 				$scope.checkStandardSize();
 
@@ -420,6 +407,7 @@ module.exports = function(app){
 					$result.jobsubtypequantity = $scope.ofdgRemove($result.jobsubtypequantity, 1);
 					$result.jobsubtypefinishing = $scope.ofdgRemove($result.jobsubtypefinishing, 1);
 					$result.jobsubtypepaper = $scope.ofdgRemove($result.jobsubtypepaper, 1);
+					console.log($result.jobsubtypepaper);
 					$result.jobsubtypesize = $scope.ofdgRemove($result.jobsubtypesize, 1);
 					$result.jobsubtypetemplate = $scope.ofdgRemove($result.jobsubtypetemplate, 1);
 
@@ -463,22 +451,30 @@ module.exports = function(app){
 				$scope.finishings = $scope.setFinishingData($scope.datas);
 				//SET SEMUA FINISHING OPTION DI ENABLE
 				$.each($scope.finishings, function($index, $item){
-						$.each($item.finishing.finishingoption, function($index2, $item2){
-								$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
-						});
+					$.each($item.finishing.finishingoption, function($index2, $item2){
+						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
+					});
 				});
 
 				
 				// buat flyer selalu select potong - OF Only
 				// dan disable index ke 0
-				if($scope.selected.jobsubtypeID == 1) { 
-					//FLYER untuk ID jobsubtype = 1
-					if($scope.selected.printtype == "OF"){
-						$scope.finStat0("potong", false);
-					}else if($scope.selected.printtype == "DG"){
-						$scope.finStat0("potong", true);
+				// if($scope.selected.jobsubtypeID == 1) { 
+				// 	//FLYER untuk ID jobsubtype = 1
+				// 	if($scope.selected.printtype == "OF"){
+				// 		$scope.finStat0("potong", false);
+				// 	}else if($scope.selected.printtype == "DG"){
+				// 		$scope.finStat0("potong", true);
+				// 	}
+				// }
+
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
+					if($ii.mustdo){
+						$ii.finishing.finishingoption[0].disabled = true;
+						$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+						//console.log($ii.finishing.finishingoption);
 					}
-				}
+				});
 
 				// 2 ==> CUMA CUSTOM AJA - BANNER!
 				if($scope.datas.sizetype==2)
@@ -608,53 +604,90 @@ module.exports = function(app){
 				}
 			}
 			$scope.getPrice = function(){
-				//console.log($scope.selected);
-
 				if($finishchanging==true)
 				{ //SUPAYA LOADNYA CUMA SEKALI STIAP GANTI
+
+
+					$post = $scope.clone($scope.selected);
+					$post.paperID = $scope.selected.paper.id;
+					delete $post.paper;
+					$post.deliveryID = $scope.selected.delivery.id;
+					delete $post.delivery;
+					delete $post.deliverylocked;
+					delete $post.pagename;
+					delete $post.jobsubtypename;
+					$post.sizeID = $scope.selected.size.id;
+					if ($post.sizeID != 0)
+						delete $post.size;
+					$.each($post.finishings, function($i, $ii){
+						if($ii.id==0)
+							delete $post.finishings[$i];
+						else{
+							delete $ii.created_at;
+							delete $ii.updated_at;
+							delete $ii.info;
+							$ii['optionID'] = $scope.selected.finishings[$i].id;
+							delete $ii.id;
+							delete $ii.optionname;
+							delete $ii.processdays;
+						}
+					});
+
+
 					$scope.counter++;
 					$scope.waitingprice = true;
-					$scope.selected.counter = $scope.counter;
+					$post.counter = $scope.counter;
 
-					//console.log($scope.selected);
+					//console.log($post);
 
 
 					$http({
 						"method" 	: "POST",
 						"url" 		: AJAX_URL+"cekharga",
-						"data"		: $scope.selected,
+						"data"		: $post
 					}).then(
 						function(response){
-							$scope.total = response.data.total;
-							$scope.key = response.data.key;
+							if (typeof response.data == "string") {
+								if (response.data.length > 999) {
+									$scope.error.savecartval = "Error - Menu '" + $scope.datas.name + "' belum bisa digunakan..";
 
-							$scope.texttoread = response.data.texttoread;
-							if(typeof $scope.total ==='undefined')
-							{
-								//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
-								//MUNCULIN UNDER CONSTRUCTION
+
+									$scope.total.price = 0;
+									$scope.total.deliv = 0;
+									$scope.total.disc = 0;
+									$scope.total.price = 0;
+								}
 								$scope.waitingprice = false; //bikin spinner stop
-								//$scope.underconstruction = true;
-							}
-							else
-							{
-								//KALO BELOM BISA KALKULASI TOTAL = ERROR (BELOM DI DEVELOP)
-								if($scope.isNum($scope.total.price))
-									$scope.total.price = parseInt($scope.total.price);
-								else $scope.total.price = 0;
-								$.each($scope.finishings, function($index, $item){
-									if($scope.isNum($item.totalprice))
-									{
-										$item.totalprice = parseInt($item.totalprice);
-										$scope.total.price += $item.totalprice;
-									}
-								});
-								$scope.total.deliv = parseInt($scope.total.deliv);
-								if($scope.total.counter == $scope.counter)
-									$scope.waitingprice = false;
-							}
+							} else {
 
-							$scope.checkerrorstatus();
+								$scope.total = response.data.total;
+								$scope.key = response.data.key;
+
+								$scope.texttoread = response.data.texttoread;
+								if (typeof $scope.total === 'undefined') {
+									//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
+									//MUNCULIN UNDER CONSTRUCTION
+									$scope.waitingprice = false; //bikin spinner stop
+									//$scope.underconstruction = true;
+								}
+								else {
+									//KALO BELOM BISA KALKULASI TOTAL = ERROR (BELOM DI DEVELOP)
+									if ($scope.isNum($scope.total.price))
+										$scope.total.price = parseInt($scope.total.price);
+									else $scope.total.price = 0;
+									$.each($scope.finishings, function($index, $item) {
+										if ($scope.isNum($item.totalprice)) {
+											$item.totalprice = parseInt($item.totalprice);
+											$scope.total.price += $item.totalprice;
+										}
+									});
+									$scope.total.deliv = parseInt($scope.total.deliv);
+									if ($scope.total.counter == $scope.counter)
+										$scope.waitingprice = false;
+								}
+
+								$scope.checkerrorstatus();
+							}
 						},function(error){
 							//console.log("masuk ke ERROR");
 							$scope.waitingprice = false; //bikin spinner stop
@@ -758,6 +791,21 @@ module.exports = function(app){
 
 			$scope.showitemdescription = function(){
 				$("#itemdescriptionModal").modal('show');
+			}
+
+			$scope.setselecteddata = function($datas){
+				//DIJALANIN PAS REFRESH PAGE doang
+
+				//DIBUAT STORE DATA YANG GA DI UBAH2 di $scope.master
+				//CLONING
+				$scope.master = $datas;
+
+				$scope.selected.jobsubtypeID = $datas.id;
+				$scope.selected.pagename = $datas.name;
+				$scope.selected.satuan = $datas.satuan;
+
+				$scope.deliveries = $datas.deliveries;
+				$scope.setdelivery0();
 			}
 
 			$scope.setdelivery0 = function(){

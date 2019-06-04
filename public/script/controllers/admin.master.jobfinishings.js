@@ -30,7 +30,6 @@ module.exports = function(app) {
 						}
 					});
 				}
-
 				$scope.hideall();
 				$scope.closeallchangeprice();
 			}
@@ -93,16 +92,13 @@ module.exports = function(app) {
 
 			$scope.toggleedit = function ($item){
 				$temp = $item.editmode;
-
 				//hideall
 				$scope.hideall();
-
 				$item.editmode = !$temp;
 			}
 
 			$scope.togglesubtype = function($jobsubtype, $subtypeindex, $jobtypeindex){
 				$id = $jobsubtype.id;
-
 				$http({
 					method: "POST",
 					url: AJAX_URL+"jobsubtype/"+$id+"/activate",
@@ -127,8 +123,6 @@ module.exports = function(app) {
 					$jobsubtype.errormessage = "<span class='tx-danger'>ERROR system, read console.</span>";
 				});
 			}
-
-
 
 			$scope.closeallchangeprice = function() {
 				if ($scope.jobtypes != null) {
@@ -245,7 +239,6 @@ module.exports = function(app) {
 							if (typeof response.data == "string") {
 								if (response.data == "success") {
 									//GANTI SEMUA FINISHINGOPTIONID yang sesuai jadi harga itu
-
 									$scope.changeoptionpricebyid($item.id, $item.priceminim, $item.newprice, $item.pricebase);
 
 									console.log("perubahan berhasil");
@@ -266,6 +259,7 @@ module.exports = function(app) {
 					console.log(error);
 				});
 			}
+
 			$scope.savepricebase = function($item) {
 				console.log("SAVE PRICE BASE");
 				$saveloading = true;
@@ -301,6 +295,32 @@ module.exports = function(app) {
 				});
 			}
 
+			$scope.changemustdo = function($id, $item) {
+				$http({
+					method: "POST",
+					url: AJAX_URL + "jobsubtypefinishing/" + $id + "/changemustdo"
+				}).then(function(response) {
+					if (response != null) {
+						if (response.data != null) {
+							if (typeof response.data == "string") {
+								$item.mustdo = response.data == 1 ? true : false;
+							}
+						} else {
+							console.log("ID Not found");
+						}
+					}
+				}, function(error) {
+					console.log(error);
+				});
+			}
+
+			$scope.tambahfinishing = function(){
+				$("#addnewfinishing").modal('show');
+			}
+			$scope.ofdgchanged = function(){
+				$scope.ofdg = false;
+				console.log("abc");
+			}
 		}
 	]);
 };

@@ -2,6 +2,36 @@
 
 return [
 
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'REDIS_PASSWORD',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'REDIS_PASSWORD',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+        ],
+        '_POST' => [
+            'password',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

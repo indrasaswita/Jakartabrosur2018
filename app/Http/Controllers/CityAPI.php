@@ -8,8 +8,7 @@ use App\City;
 class CityAPI extends Controller
 {
 	public function getAll(){
-		$cities = City::with('address')
-				->get();
+		$cities = City::orderBy('name')->get();
 		return $cities;
 	}
 }

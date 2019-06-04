@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paper extends Model
 {
-    protected $fillable = ['papertypeID', 'name', 'color', 'gramature', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'coatingtypeID'];
+    protected $fillable = ['papertypeID', 'name', 'color', 'gramature', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'diecut', 'coatingtypeID'];
 
-    protected $hidden = ['created_at', 'updated_at', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation'];
+    protected $hidden = ['created_at', 'updated_at', 'texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'diecut', 'coatingtypeID'];
     protected $guarded = ['id'];
     protected $dates = ['created_at','updated_at'];
 

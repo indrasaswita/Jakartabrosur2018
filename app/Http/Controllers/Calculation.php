@@ -10,10 +10,13 @@ use App\Papersize;
 use App\Paper;
 use App\Paperdetail;
 use App\Finishing;
+use App\Finishingoption;
 use App\Printingdigitalprice;
 use App\Jobsubtype;
 use App\Delivery;
 use App\Offday;
+use App\Size;
+use App\Printingmachine;
 use App\Helpers\MathHelper;
 use App\Logic\Utility\Jobflyer;
 use App\Logic\Utility\Jobplotter;
@@ -29,6 +32,36 @@ class Calculation extends Controller
 	private $cs = array();
 	private $calculation = array();
 	private $texttoread = "<div class='text-bold'>AN OFFER IN A TEXT</div><hr class='margin-5-0'>";
+
+
+	public function initDataFromDB(&$data){
+		if($data['sizeID'] != 0)
+			$data['size'] = Size::findOrFail($data['sizeID']);
+		//ELSE KALO SIZE ID 0 = CUSTOM
+		//SIZENYA UDA DI INPUT LANGSUNG DARI DEPAN
+		$data['printer'] = Printingmachine::findOrFail($data['printerID']);
+		$data['paper'] = Paper::with('paperdetail')
+				->where('id', $data['paperID'])
+				->first();
+		$data['delivery'] = Delivery::findOrFail($data['deliveryID']);
+		$data['jobsubtype'] = Jobsubtype::findOrFail($data['jobsubtypeID']);
+
+		foreach ($data['finishings'] as $i => $ii) {
+			if($ii!=null){
+				$data['finishings'][$i]['finishing'] = 
+					Finishing::where('id', $ii['finishingID'])
+						->where('status', 1)
+						->first();
+				if($data['finishings'][$i]['finishing']!=null)
+					$data['finishings'][$i]['option'] = Finishingoption::findOrFail($ii['optionID']);
+				else //kalo statusnya 0
+					unset($data['finishings'][$i]);	
+			}else{
+				unset($data['finishings'][$i]);
+			}
+		}
+		//pass references
+	}
 
 	public function convDataNUMBER($data){
 		$data['perbungkus'] = intval($data['perbungkus']);
@@ -47,12 +80,12 @@ class Calculation extends Controller
 		for ($i = count($data['finishings'])-1; $i >= 0; $i--) {
 			//jika optionID = 0 < DIBUANG
 			//jika tidak 0 =>> maka di cek datanya di masukkan harganya - 0 berarti dipilih tanpa finishing
-			if($data['finishings'][$i]['id'] == 0)
+			if($data['finishings'][$i]['optionID'] == 0)
 				array_splice($data['finishings'], $i, 1);
 			else{
 				//MASUKIN DATA ID ke $this->calculation (variable)
 				$this->calculation['finishings'][$i]['id'] = $data['finishings'][$i]['finishingID'];
-				$this->calculation['finishings'][$i]['optionID'] = $data['finishings'][$i]['id'];
+				$this->calculation['finishings'][$i]['optionID'] = $data['finishings'][$i]['optionID'];
 				$this->calculation['finishings'][$i]['quantity'] = 0;
 
 				//DICEK DI DATABASE, termasuk yang mana, trus harganya yang mana, di looping di local, supaya ga berat
@@ -110,13 +143,18 @@ class Calculation extends Controller
 		return $data;
 	} 
 
+
 	public function calcPerJob($job, $data){
 		$obj = null;
 		$this->texttoread .= "Qty: <b>".MathHelper::thseparator($data['quantity'])."</b> ".$data['satuan']."<br>";
 		
-		if ($job == "flyer" || $job == "letterhead"){
+		if ($job == "flyer" || 
+					$job == "letterhead" || 
+					$job == "flyerlipat" ||
+					$job == "flyerkupon" ||
+					$job == "sticker"){
 			//FLYER & KOP SURAT SAMA
-			$obj = new Jobflyer($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobflyer($data, $this->cs);
 			$obj->hitungFlyer();
 			$obj->calcFinishing();
 
@@ -125,14 +163,14 @@ class Calculation extends Controller
 			$data['totalbox'] = $data['quantity'];
 			$data['quantity'] *= 100;
 
-			$obj = new Jobbusinesscard($data, $this->cs, $this->jobsubtype);
-			$obj->hitungFlyer();
+			$obj = new Jobbusinesscard($data, $this->cs);
+			$hasil = $obj->hitungFlyer();
 			$obj->tambahBoxKartuNama(1500);
 			$obj->calcFinishing();
 
 		}else if($job == "rollupbanner"){
 			
-			$obj = new Jobplotter($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,15,5,40);
 			$obj->setMachineID(8);
@@ -144,7 +182,7 @@ class Calculation extends Controller
 			/*$data = $this->hitungXbanner($data);
 			$data = $this->addDigitalAttr($data);*/
 
-			$obj = new Jobplotter($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,15,5,40);
 			$obj->setMachineID(8);
@@ -155,7 +193,7 @@ class Calculation extends Controller
 		}else if($job == "simplebannerindoor"){
 			//input size dalam cm
 
-			$obj = new Jobplotter($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,0,6,40);
 			$obj->setMachineID(8);
@@ -165,7 +203,7 @@ class Calculation extends Controller
 
 		}else if($job == "simplebanneroutdoor"){
 			//input size dalam cm
-			$obj = new Jobplotter($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,0,6,60);
 			$obj->setMachineID(9);
@@ -174,7 +212,7 @@ class Calculation extends Controller
 			$obj->calcFinishing();
 
 		}else if($job == "deskcalendar"){
-			$obj = new Jobdeskcalendar($data, $this->cs, $this->jobsubtype);
+			$obj = new Jobdeskcalendar($data, $this->cs);
 			$obj->hitungKalender();
 
 			$obj->calcFinishing();
@@ -183,6 +221,8 @@ class Calculation extends Controller
 			$obj = new Jobmanualinvoice($data, $this->cs, $this->jobsubtype);
 			$obj->hitungManualinvoice();
 			//sudah sekalian finishing untuk setiap kertasnya, tapi belom finsihing global
+		}else{
+			return null; // error
 		}
 
 
@@ -209,12 +249,15 @@ class Calculation extends Controller
 	public function calcPrice(Request $request){
 
 		$data = $request->all();
+		$this->initDataFromDB($data); //passing by reference
 
 		//BAG 1: COnv Jadi Number
 		$data = $this->convDataNUMBER($data);
 
 		//BAG 2: AMBIL JOBSUBTYPE sesuai data
-		$this->jobsubtype = Jobsubtype::findOrFail($data['jobsubtypeID']);
+		//$this->jobsubtype = Jobsubtype::findOrFail($data['jobsubtypeID']);
+		//.  MOVE
+		//pindah ke $data['jobsubtype'];
 
 
 		//BAG 3: ambil data =>> set ke $cs
@@ -225,21 +268,23 @@ class Calculation extends Controller
 		unset($constants); // HAPUS
 
 
+
 		//BAG 5: calculate intinya
-		$job = strtolower($data['jobsubtypename']);
+		$job = $data['jobsubtype']['link'];
 		// *******************
-		$this->texttoread .= "<b class='tx-gray'>".$data['pagename']."</b> ".$data['jobtitle']."<br>";
+		$this->texttoread .= "<b class='tx-gray'>".$data['jobsubtype']['name']."</b> ".$data['jobtitle']."<br>";
 
 		$data = $this->calcPerJob($job, $data);
+		if($data == null)
+			return "BELOM TERDAFTAR, BELOM BISA DIPAKE";
 
 		//BAG 6: calculate sisanya
 		$data = $this->hitungEstimasiWaktu($data);
 		$data = $this->hitungBeratTotal($data);
 		$data = $this->hitungDeliveryPrice($data);
 
-
 		if($data['jobtitle']=='')
-			$data['jobtitle'] = $this->jobsubtype['name'].' (Tanpa Judul)';
+			$data['jobtitle'] = $data['jobsubtype']['name'].' (Tanpa Judul)';
 
 		//ADDITIONAL: buat bikin waiting animation
 		$data['total']['counter'] = $data['counter'];
@@ -288,7 +333,7 @@ class Calculation extends Controller
 		$input['resellername'] = $data['resellername'];
 		$input['resellerphone'] = $data['resellerphone'];
 		$input['reselleraddress'] = $data['reselleraddress'];
-		$input['jobsubtypename'] = $data['jobsubtypename'];
+		$input['jobsubtypename'] = $data['jobsubtype']['name'];
 		$input['quantity'] = $data['quantity'];
 		$input['satuan'] = $data['satuan'];
 		$input['deliveryaddress'] = $data['deliveryaddress'];
@@ -343,16 +388,16 @@ class Calculation extends Controller
 		}
 	}
 
-	public function hitungEstimasiWaktu(Array $data){
+	public function hitungEstimasiWaktu(&$data){
 		if($data['printtype'] == 'OF')
 		{
-			$stdday = $this->jobsubtype['stdoffset'];
-			$expday = $this->jobsubtype['expoffset'];
+			$stdday = $data['jobsubtype']['stdoffset'];
+			$expday = $data['jobsubtype']['expoffset'];
 		}
 		else
 		{
-			$stdday = $this->jobsubtype['stddigital'];
-			$expday = $this->jobsubtype['expdigital'];
+			$stdday = $data['jobsubtype']['stddigital'];
+			$expday = $data['jobsubtype']['expdigital'];
 		}
 
 		//DELIVERY DAY
@@ -373,8 +418,10 @@ class Calculation extends Controller
 			$totalprocessday = intval($expday);
 
 		//TAMBAHIN WAKTU FINISHING
-		foreach ($data['finishings'] as $i => $finishing) {
-			$totalprocessday += intval($finishing['processdays']);
+		if(is_array($data['finishings'])){
+			foreach ($data['finishings'] as $i => $ii) {
+				$totalprocessday += intval($ii['option']['processdays']);
+			}
 		}
 
 		//DITAMBAHIN HARINYA SESUAI WAKTU KERJA

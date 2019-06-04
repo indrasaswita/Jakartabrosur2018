@@ -28,10 +28,6 @@ class Jobsubtype extends Model
 		return $this->hasMany('App\Jobsubtypedetail', 'jobsubtypeID')->with('jobsubtypedetailfinishing', 'jobsubtypedetailpaper');
 	}
 
-	public function jobsubtypedetailshop(){
-		return $this->hasMany('App\Jobsubtypedetail', 'jobsubtypeID')->with('jobsubtypedetailfinishingshop', 'jobsubtypedetailpapershop');
-	}
-
 	public function jobsubtypequantity(){
 		return $this->hasMany('App\Jobsubtypequantity', 'jobsubtypeID');
 	}
@@ -40,16 +36,8 @@ class Jobsubtype extends Model
 		return $this->hasMany('App\Jobsubtypepaper', 'jobsubtypeID')->with('paper');
 	}
 
-	public function jobsubtypepapershop(){
-		return $this->hasMany('App\Jobsubtypepaper', 'jobsubtypeID')->with('papershop');
-	}
-
 	public function jobsubtypefinishing(){
 		return $this->hasMany('App\Jobsubtypefinishing', 'jobsubtypeID')->with('finishing');
-	}
-
-	public function jobsubtypefinishingshop(){
-		return $this->hasMany('App\Jobsubtypefinishing', 'jobsubtypeID')->with('finishingshop');
 	}
 
 	public function jobtype(){
