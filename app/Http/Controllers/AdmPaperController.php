@@ -9,22 +9,32 @@ use App\Paper;
 
 class AdmPaperController extends Controller
 {
-    public function changeprice(){
-    	$papers = Paper::with('papertype')
-    			->with('paperdetail')
-    			->get();
+	public function changeprice(){
+		$papers = Paper::with('papertype')
+				->with('paperdetail')
+				->get();
 
-    	return view('pages.admin.master.paper.changeprice', compact('papers'));
-    }
+		return view('pages.admin.master.paper.changeprice', compact('papers'));
+	}
 
-    public function newpaper(){
-    	$papers = Paper::with('papertype')
-    			->with('paperdetail')
-    			->with('coatingtype')
-    			->get();
+	public function newpaper(){
+		$papers = Paper::with('papertype')
+				->with('paperdetail')
+				->with('coatingtype')
+				->get();
 
-    	$papers->makeVisible(['texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'diecut', 'coatingtypeID']);
+		$papers->makeVisible(['texture', 'numerator', 'varnish', 'spotuv', 'laminating', 'folding', 'perforation', 'diecut', 'coatingtypeID']);
 
-    	return view('pages.admin.master.paper.newpaper', compact('papers'));
-    }
+		return view('pages.admin.master.paper.newpaper', compact('papers'));
+	}
+
+	public function paperdetailstore(){
+		$papers = Paper::with('papertype')
+				->with(['paperdetail' => function($query){
+					$query->orderBy('vendorID')->get();
+				}])
+				->get();
+
+		return view('pages.admin.master.paper.paperdetailstore', compact('papers'));
+	}
 }

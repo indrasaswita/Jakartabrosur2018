@@ -117,10 +117,6 @@
       		<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
-								View 
-								<i class="fas fa-eye fa-fw tx-purple"></i>
-							</div>
-							<div class="dropdown-title">
 								Master Editor  
 								<span class="fas fa-pen-nib fa-fw tx-purple"></span>
 							</div>
@@ -131,6 +127,14 @@
 							<a class="dropdown-item" href="{{URL::asset('admin/master/newpaper')}}">
 								<span class="far fa-fw fa-layer-plus icon"></span>
 								Tambah Kertas
+							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/paperdetailstore')}}">
+								<span class="far fa-fw fa-store icon"></span>
+								Paper Store & Details
+							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/finishings')}}">
+								<span class="far fa-fw fa-layer-plus icon"></span>
+								Tambah Finishing + Harga
 							</a>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/customer')}}">
 								<span class="far fa-fw fa-users-cog icon"></span>

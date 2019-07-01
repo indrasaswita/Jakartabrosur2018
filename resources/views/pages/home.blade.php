@@ -398,7 +398,7 @@
 					<img src="image/speed.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Proses Cetak Sangat Cepat</h6>
+					<div class="hm-benefit-title">Proses Cetak Sangat Cepat</div>
 					<p class="hm-benefit-desc">
 						Pesanan dengan hitungan jam dapat menggunakan proses Digital, dapat ditunggu. Jika dibutuhkan sangat cepat, kami juga dapat membantu untuk proses prioritas, yang dapat selesai hitungan menit. 
 						<b>Sekarang jamannya, NO RIBET.</b>
@@ -410,7 +410,7 @@
 					<img src="image/lowprice.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Harga Murah & Bersaing</h6>
+					<div class="hm-benefit-title">Harga Murah & Bersaing</div>
 					<p class="hm-benefit-desc">
 						Tersedia proses cetak offset dan sablon, dengan harga semurah-murahnya. Tentunya bersaing dengan toko sebelah. Tunggu apa lagi, langsung aja cek murahnya <a href="{{URL::asset('orderlistcustomer')}}"><b>disini</b></a> lho! <b>Sekarang jamannya, NO BOKEK.</b>
 					</p>
@@ -421,7 +421,7 @@
 					<img src="image/noqueue.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Tidak Perlu Lagi Mengantri</h6>
+					<div class="hm-benefit-title">Tidak Perlu Lagi Mengantri</div>
 					<p class="hm-benefit-desc">
 						Jaman online-online gini, sekarang saatnya kita order lewat internet. Yakin? Tidak perlu ribet, cukup cek harga, pesan, bayar, pantau deh ordernya. <b>Masih mau RIBET? </b>
 					</p>
@@ -432,7 +432,7 @@
 					<img src="image/transfer.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Bayar Via Transfer Bank</h6>
+					<div class="hm-benefit-title">Bayar Via Transfer Bank</div>
 					<p class="hm-benefit-desc">
 						Nggak sedaaap kalo online bayarnya masih kuno, cukup transfer, langsung deh pesanan Anda lunas. Kami sediakan transfer antar rekening via BCA, BRI, BNI, Mandiri, BTPN.
 					</p>
@@ -443,7 +443,7 @@
 					<img src="image/tracking.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Dapat Dipantau Secara Online</h6>
+					<div class="hm-benefit-title">Dapat Dipantau Secara Online</div>
 					<p class="hm-benefit-desc">
 						Takut barang tidak sampai? Tenang, pekerjaan kami dapat dipantau online, Anda dapat cek status pesanan Anda dari website kapan aja dimana aja. Wah, nggak perlu telpon lagi deh untuk tanya status kerjaan. <b>Pulsa irit, sahabat dompet.</b>
 					</p>

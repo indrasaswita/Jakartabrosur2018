@@ -1,61 +1,127 @@
 module.exports = function(app){
-	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
-		function($scope, $http, BASE_URL, API_URL, $window){
+	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
+		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
-			$scope.initAllSales = function($input, $filter){
+			$scope.selectedfilter = null;
+			$scope.filters = [
+				{
+					"name": "Semua",
+					"icon": "fa-filter",
+					"link": "semua"
+				},
+				{
+					"name": "Belum Bayar",
+					"icon": "fa-wallet",
+					"link": "belumbayar"
+				},
+				{
+					"name": "Diproses",
+					"icon": "fa-tasks",
+					"link": "diproses"
+				},
+				{
+					"name": "Dikirim",
+					"icon": "fa-truck-loading",
+					"link": "dikirim"
+				},
+				{
+					"name": "Selesai",
+					"icon": "fa-box-check",
+					"link": "selesai"
+				}
+			];
+
+			$scope.setselectedfilter = function($input, $refresh){
+				$scope.selectedfilter = $input;
+				if($input=="")
+					$scope.selectedfilter = "semua";
+
+				if($refresh){
+					//LOADING UNTUK REFRESH
+					$http({
+						method: "GET",
+						url: AJAX_URL+"allsales/filterorder/"+$input
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									console.log("HASILNYA STRING, error");
+								}else{
+									$scope.sales = response.data;
+									$scope.afterinitsales();
+								}
+							}else{
+								console.log("The return value is null, not error");
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+				}
+			}
+
+			$scope.initAllSales = function($input){
 				$scope.sales = JSON.parse($input);
+				$scope.afterinitsales();
+			}
 
+			$scope.afterinitsales = function(){
 				$.each($scope.sales, function($index, $item){
-					$item.created_at = $scope.makeDateTime($item.created_at);
-					$item.showpayment = false;
-					$item.showdelivery = false;
-					$item.showdetail = false;
+					if($item!=null){
+						$scope.loadingfilter = false;
+	$item.created_at = $scope.makeDateTime($item.created_at);
+						$item.showpayment = false;
+						$item.showdelivery = false;
+						$item.showdetail = false;
+						$item.totalprice = 0;
+						$.each($item.salesdetail, function($index2, $item2){
+							$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
+							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
+							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
+							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
 
-					$item.totalprice = 0;
-					$.each($item.salesdetail, function($index2, $item2){
-						$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
-						$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
-						$item2.cartheader.discount = parseInt($item2.cartheader.discount);
-						$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+							if($item2.updated_at != null)
+								$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
 
-						if($item2.updated_at != null)
-							$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
+							$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
 
-						$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
+							$item2.totalkirim = 0;
+							$item2.totalhargakirim = 0;
+							$.each($item2.salesdeliverydetail, function($j, $jj){
+								$item2.totalkirim += parseInt($jj.quantity);
+								$item2.totalhargakirim += parseFloat($jj.actualprice);
+							});
+						})
+						$item.totalpay = 0;
+						$item.tungguverif = false;
 
-						$item2.totalkirim = 0;
-						$item2.totalhargakirim = 0;
-						$.each($item2.salesdeliverydetail, function($j, $jj){
-							$item2.totalkirim += parseInt($jj.quantity);
-							$item2.totalhargakirim += parseFloat($jj.actualprice);
-						});
-					})
-					$item.totalpay = 0;
-					$item.tungguverif = false;
-					$.each($item.salespayment, function($index, $item2){
-						$item.totalpay += $item2.ammount;
-						if($item2.salespaymentverif==null)
-							$item.tungguverif = true;
-					})
+						$.each($item.salespayment, function($index, $item2){
+							$item.totalpay += $item2.ammount;
+							if($item2.salespaymentverif==null)
+								$item.tungguverif = true;
+						})
 
-					if($item.totalpay > $item.totalprice)
-						$item.paymentdetail = "LEBIH BAYAR. Kelebihan pembayaran akan ditransfer kerekening Anda keesokan hari.";
-					else if($item.totalpay == $item.totalprice)
-					{
-						if($item.tungguverif == true)
-							$item.paymentdetail = "Sedang menunggu proses verifikasi pembayaran. Hubungi kami u/ mempercepat.";
+						if($item.totalpay > $item.totalprice)
+							$item.paymentdetail = "LEBIH BAYAR. Kelebihan pembayaran akan ditransfer kerekening Anda keesokan hari.";
+						else if($item.totalpay == $item.totalprice)
+						{
+							if($item.tungguverif == true)
+								$item.paymentdetail = "Sedang menunggu proses verifikasi pembayaran. Hubungi kami u/ mempercepat.";
+							else
+								$item.paymentdetail = "LUNAS";
+						}
 						else
-							$item.paymentdetail = "LUNAS";
+						{
+							if($item.totalpay == 0)
+								$item.paymentdetail = "Belum ada pembayaran, silahkan lakukan pembayaran.";
+							else
+								$item.paymentdetail = "Anda kurang bayar.";
+						}
 					}
-					else
-					{
-						if($item.totalpay == 0)
-							$item.paymentdetail = "Belum ada pembayaran, silahkan lakukan pembayaran.";
-						else
-							$item.paymentdetail = "Anda kurang bayar.";
+					else{
+						$scope.loadingfilter = true;
 					}
 				});
-				$scope.filtersales(0);
 			}
 
 			$scope.makeDateTime = function($input){
@@ -235,33 +301,34 @@ module.exports = function(app){
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
-			$scope.filtersales = function($id){
-				if (!$scope.loadingfilter) {
-					$scope.loadingfilter = true;
-					$http({
-						method: "GET",
-						url: API_URL + "filtersales/" + $id
-					}).then(function(response) {
-						$scope.sales = [];
-						$scope.sales = response.data;
-						$.each($scope.sales, function($index, $item) {
-							$item.created_at = $scope.makeDateTime($item.created_at);
-						});
-						$("#filter-0").removeClass("active");
-						$("#filter-1").removeClass("active");
-						$("#filter-2").removeClass("active");
-						$("#filter-3").removeClass("active");
-						$("#filter-4").removeClass("active");
+			// $scope.filtersales = function($id){
+			// 	if (!$scope.loadingfilter) {
+			// 		$scope.loadingfilter = true;
+			// 		$http({
+			// 			method: "GET",
+			// 			url: API_URL + "filtersales/" + $id
+			// 		}).then(function(response) {
+			// 			$scope.sales = [];
+			// 			$scope.sales = response.data;
+			// 			console.log(response.data);
+			// 			$.each($scope.sales, function($index, $item) {
+			// 				$item.created_at = $scope.makeDateTime($item.created_at);
+			// 			});
+			// 			$("#filter-0").removeClass("active");
+			// 			$("#filter-1").removeClass("active");
+			// 			$("#filter-2").removeClass("active");
+			// 			$("#filter-3").removeClass("active");
+			// 			$("#filter-4").removeClass("active");
 
-						$("#filter-" + $id).addClass("active");
+			// 			$("#filter-" + $id).addClass("active");
 
-						$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
-						$scope.loadingfilter = false;
-					}, function(error) {
-						$scope.loadingfilter = false;
-					});
-				}	
-			}
+			// 			$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
+			// 			$scope.loadingfilter = false;
+			// 		}, function(error) {
+			// 			$scope.loadingfilter = false;
+			// 		});
+			// 	}	
+			// }
 		}
 	]);
 };

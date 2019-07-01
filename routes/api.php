@@ -8,6 +8,9 @@ Route::post('/pricetext/save', 'PricetextAPI@insert');
 Route::get('/admin/papershop', 'VendorAPI@papershop');
 Route::get('/coatingtypes', 'CoatingtypeAPI@getAll');
 Route::get('/papertypes', 'PapertypeAPI@getAll');
+Route::get('/finishing', 'AdmFinishingAPI@getFinishing');
+Route::get('/finishingchange/{id}', 'AdmFinishingAPI@getDetailFinishing');
+Route::get('/file/maxfilesize', 'ImageAPI@getMaxFilesize');
 
 Route::post('/commit/cartpreview/{id}/accept', 'CartpreviewAPI@acceptfile');
 Route::post('/commit/cartpreview/{id}/reject', 'CartpreviewAPI@rejectfile');

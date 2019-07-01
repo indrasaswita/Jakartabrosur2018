@@ -21,26 +21,8 @@ class InsertEmployeeTable extends Migration
         DB::table('employees')->insert([
             'name' => 'Indra Employee',
             'email' => 'employee@test.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('employee'),
             'roleID' => 1
-        ]);
-        DB::table('employees')->insert([
-            'name' => 'Darmono',
-            'email' => 'mocil@jakartabrosur.com',
-            'password' => Hash::make('password'),
-            'roleID' => 2
-        ]);
-        DB::table('employees')->insert([
-            'name' => 'Beni',
-            'email' => 'beni@jakartabrosur.com',
-            'password' => Hash::make('password'),
-            'roleID' => 3
-        ]);
-        DB::table('employees')->insert([
-            'name' => 'Ardiansah',
-            'email' => 'ansa@jakartabrosur.com',
-            'password' => Hash::make('password'),
-            'roleID' => 3
         ]);
     }
 

@@ -52,6 +52,10 @@ class InsertPapertypesTable extends Migration
             "name" => "Sticker",
             "category" => "0"
         ]);
+        DB::table('papertypes')->insert([
+            "name" => "Souvenir",
+            "category" => "0"
+        ]);
     }
 
     /**

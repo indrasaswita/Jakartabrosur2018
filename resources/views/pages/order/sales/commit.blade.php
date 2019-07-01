@@ -189,7 +189,7 @@
 					File Proved!
 				</div>
 				<div class="size-90p">
-					Telah disetujui sebelumnya, tidak bisa diubah lagi.<br>Info lebih lanjut dapat menghubungi kami di 0859-5971-7175.
+					Telah disetujui sebelumnya, tidak bisa diubah lagi.<br>Info lebih lanjut dapat menghubungi kami di 0813-1551-9889.
 				</div>
 				<div class="margin-5-0">
 					<a class="btn btn-outline-warning" href="{{URL::asset('sales/all')}}">

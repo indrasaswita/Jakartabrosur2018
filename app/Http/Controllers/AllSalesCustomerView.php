@@ -10,108 +10,51 @@ use App\Salespayment;
 use App\Salespaymentverif;
 use DB;
 use Carbon\Carbon;
+use App\Logic\Stat\AllSalesFilter;
 
 class AllSalesCustomerView extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+	public function indexempty(){
+		return $this->index('');
+	}
 
-        $customerID = session()->get('userid');
-        //BUAT AMBIL DATA (SALESDELIVERY) YANG TERAKHIR (MAX ID) DARI "GROUP SALESHEADER"
-        $allsales = Salesheader::where('customerID', '=', $customerID)
-                ->with('customer')
-                ->with('salesdetail')
-                ->with('salesdelivery')
-                ->with('salespayment')
-                ->orderBy('id', 'desc')
-                ->get();
+	public function index($link)
+	{
+		//SAMA PERSIS DENGAN AllSalesCustomerAPI@filterorder
 
-        $current = Carbon::now();
+		$customerID = session()->get('userid');
 
-        foreach ($allsales as $i => $header) {
-            if($header['salesdetail']!=null)
-            {
-                $header['salesdetail']->each(function($jj, $j){
-                    $jj->makeVisible(['updated_at']);
-                });
+		if($link == ""){
+			$allsales = AllSalesFilter::semua($customerID);
+		}else if($link == "semua"){
+			$allsales = AllSalesFilter::semua($customerID);
+		}else if($link == "belumbayar"){
+			$allsales = AllSalesFilter::belumbayar($customerID);
+		}else if($link == "diproses"){
+			$allsales = AllSalesFilter::diproses($customerID);
+		}else if($link == "dikirim"){
+			$allsales = AllSalesFilter::dikirim($customerID);
+		}else if($link == "selesai"){
+			$allsales = AllSalesFilter::selesai($customerID);
+		}
 
-                foreach ($header['salesdetail'] as $j => $detail) {
-                    $header['salesdetail'][$j]['pip'] = Carbon::parse($detail['updated_at'])->diffForHumans($current);
-                }
-            }
-        }       
-                
-        return view('pages.order.sales.index', compact('allsales'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+		$current = Carbon::now();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+		foreach ($allsales as $i => $header) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+			if($header['salesdetail']!=null)
+			{
+				$header['salesdetail']->each(function($jj, $j){
+					$jj->makeVisible(['updated_at']);
+				});
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+				foreach ($header['salesdetail'] as $j => $detail) {
+					$header['salesdetail'][$j]['pip'] = Carbon::parse($detail['updated_at'])->diffForHumans($current);
+				}
+			}
+		}       
+				
+		return view('pages.order.sales.index', compact('allsales', 'link'));
+	}
 }

@@ -313,7 +313,7 @@
 									</div>
 								</td>
 								<td>
-									-
+									[[item.detail]]
 								</td>
 							</tr>
 						</tbody>

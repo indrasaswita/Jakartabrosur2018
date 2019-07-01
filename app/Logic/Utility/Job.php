@@ -17,6 +17,9 @@ class Job
 	protected $calculation = null;
 	protected $texttoread = "";
 	protected $multipledetail = false;
+	protected $max_print_length = 0;
+	protected $max_print_width = 0;
+	protected $textcombination = "";
 
 	public function print(){
 		dd($this->data);
@@ -28,6 +31,10 @@ class Job
 
 	public function getTexttoread(){
 		return $this->texttoread;
+	}
+
+	public function getTextcombination(){
+		return $this->textcombination;
 	}
 
 	public function getUkuranByPaperID($paperID){
@@ -46,11 +53,26 @@ class Job
 	public function calcCombinationByMachineDG($imagelength, $imagewidth, $bleed, $sdp, $printwidth, $printlength){
 		$combination = [];
 
+
+		if($printlength < $printwidth){
+			$temp = $printlength;
+			$printlength = $printwidth;
+			$printwidth = $temp;
+		}
+
+		if($printlength > $this->max_print_length)
+			$printlength = $this->max_print_length;
+		if($printwidth > $this->max_print_width)
+			$printwidth = $this->max_print_width;
+
 		//CARA 1
-		$hasil1 = $this->getTotalInConstantPaper($imagelength, $imagewidth, $printlength, $printwidth, $bleed);  	
+		$hasil1 = $this->getTotalInConstantPaper($imagelength, $imagewidth, $printlength, $printwidth, $bleed); 	
 
 		//CARA 2
 		$hasil2 = $this->getTotalInConstantPaper($imagewidth, $imagelength, $printlength, $printwidth, $bleed);
+
+		//RESULT
+		//array($printlength, $printwidth, $i, $j, $total)
 
 		$combination = [];
 		if($hasil1[4] < $hasil2[4])
@@ -137,22 +159,61 @@ class Job
 					$printwidth = $printwidth + ($marginlength * 2);
 				}
 
+				//TUKER
+				if ($printlength < $printwidth) 
+				{ 
+					$temp = $printlength;
+					$printlength = $printwidth;
+					$printwidth = $temp;
+				}
 
 				//CEK MASUK MESIN 52 gak?
-				if($printwidth < $max_print_width)
+				if($printwidth <= $max_print_width)
 				{
+					//$this->textcombination .= "short ok, ";
 					if($printlength < $max_print_length)
 					{
-						$calctemp = array($printlength, $printwidth, $j, $i, $i*$j);
+						//$this->textcombination .= "long ok, ";
+						if($printwidth > 12 && $printlength > 18){
+							//$this->textcombination .= "smallsize ok, ";
+							if(abs($printlength - $printwidth) < 3){
+							 if($printlength > 25 && $printwidth > 25){ // kalo kotak
+									$textcombination = "_".$printwidth."x".$printlength." -> kotak>25 -> ";
+									$calctemp = array($printwidth, $printlength, $j, $i, $i*$j, $textcombination);
+								}
+								else{
+									//$this->textcombination .= "square < 25";
+								}
+							}
+							else{
+								$textcombination = "_".$printwidth."x".$printlength." -> p.panjang -> ";
+									$calctemp = array($printwidth, $printlength, $j, $i, $i*$j, null, $textcombination);
+							}
+						}
+						else
+						{
+							//$this->textcombination .= "smallsize fail.";
+						}
+					}
+					else{
+						//$this->textcombination .= "long fail.";
 					}
 				}
-				else if($printwidth < $max_print_length)
+				else{
+					//$this->textcombination .= "short fail.";
+				}
+				//$this->textcombination .= "<br>";
+				/*else if($printwidth < $max_print_length && $printwidth > 18)
 				{
-					if($printlength < $max_print_width)
+					$this->textcombination .= "short:".$printlength."xlong:"$printwidth;
+
+					if($printlength < $max_print_width && $printlength > 12)
 					{
-						$calctemp = array($printlength, $printwidth, $j, $i, $i*$j);
+						if(abs($printlength - $printwidth) < 3 && $printlength > 25 && $printwidth > 25){ // kalo kotak
+							$calctemp = array($printlength, $printwidth, $j, $i, $i*$j);
+						}
 					}
-				}
+				}*/
 				//KALO MASUK 52 BARU BISA DI MASUKIN KE ARRTEMP
 				// arrtemp =>> untuk nampung yang bisa di cetak..
 			}
@@ -176,9 +237,11 @@ class Job
 						$calctemp[5] = true; //buat double cetak [5]
 					//disimpan ke -> DOUBLE PRINT PRICE
 				}
+
 				//MASUKIN DATA LAGI KALO BELOM ADA YANG SAMA
 				if($duplicated == false)
 				{
+
 					//MASUKIN calctemp[2] ke $jj
 					//echo ("0:".$calctemp[0].",1:".$calctemp[1].",2:".$calctemp[2].",3:".$calctemp[3]."\n");
 					//buat cek keulang apa kagak
@@ -413,7 +476,8 @@ class Job
 			'disc' => 0,
 			'price' => $paperprice, //nanti di tambahin sama print price di luar
 			'paperprice' => $paperprice,
-			'cetakprice' => 0
+			'cetakprice' => 0,
+			'finishingprice' => 0
 		];
 
 		return $data;
@@ -499,9 +563,13 @@ class Job
 				if($printtype == 'OF')
 				{
 					$hargacetak = $this->hargaCetak($paper, $qty, $inschiet, $hperdruct, $minim1000, $sdp, $hperplat, $texttoread);
+
+					$this->textcombination .= $value[6]."<b>".$planowidth."x$planolength belah ".$paper['totalinplano']."(".$paper['totalinplanox']."x".$paper['totalinplanoy']."+".$paper['totalinplanorest'].") belah ".$paper['totalinprint']."(".$paper['totalinprintx']."x".$paper['totalinprinty'].")"."</b> -> k".$hargakertas." + c".$hargacetak." = ".($hargacetak + $hargakertas)."<br>";
 				}else if($printtype == 'DG'){
 					$machineID = 5; // Konica A3
 					$hargacetak = $this->hargaCetakDG($paper, $machineID, MathHelper::ceil($qty/$paper['totalinprint'], 1), $texttoread);
+
+					$this->textcombination .= "_".$paper['printwidth']."".$paper['printlength']." -> <b>".$planowidth."x$planolength belah ".$paper['totalinplano']."(".$paper['totalinplanox']."x".$paper['totalinplanoy']."+".$paper['totalinplanorest'].") belah ".$paper['totalinprint']."(".$paper['totalinprintx']."x".$paper['totalinprinty'].")"."</b> -> k".$hargakertas." + c".$hargacetak." = ".($hargacetak + $hargakertas)."<br>";
 				}
 
 				$hargatotal = $hargacetak + $hargakertas;
@@ -537,7 +605,12 @@ class Job
 
 			$this->texttoread .= "<b>".$data['paper']['name']." ".$data['paper']['gramature']."g</b> -> ".$data['paper']['plano']['width']."x".$data['paper']['plano']['length']." <i class='tx-primary'>".$vendor['name']."</i> <br>";
 
-			$hperkg = (MathHelper::round(floatval($thispaper['hperpcs'])*20000*500/floatval($thispaper['gramature'])/floatval($data['paper']['plano']['width'])/floatval($data['paper']['plano']['length']), 100)/1000)."rb";
+
+			if($data['paper']['gramature'] != 0){
+				$hperkg = (MathHelper::round(floatval($thispaper['hperpcs'])*20000*500/floatval($thispaper['gramature'])/floatval($data['paper']['plano']['width'])/floatval($data['paper']['plano']['length']), 100)/1000)."rb";
+			}else{
+				$hperkg = 0;
+			}
 			$this->texttoread .= "Perkg Rp <b>".$hperkg."</b> -> pcs <b>".$thispaper['hperpcs']."</b> <br>";
 
 			$this->texttoread .= "Perplano: <b>"
@@ -585,7 +658,12 @@ class Job
 
 			$vendor = Vendor::findOrFail($data['paper']['vendorID']);
 			$this->texttoread .= "<b>".$data['paper']['name']." ".$data['paper']['gramature']."g</b> -> ".$data['paper']['plano']['width']."x".$data['paper']['plano']['length']." <i class='tx-primary'>".$vendor['name']."</i> <br>";
-			$hperkg = (MathHelper::round(floatval($data['paper']['hperpcs'])*20000*500/floatval($data['paper']['gramature'])/floatval($data['paper']['plano']['width'])/floatval($data['paper']['plano']['length']), 100)/1000)."rb";
+
+			if($data['paper']['gramature'] != 0){
+				$hperkg = (MathHelper::round(floatval($data['paper']['hperpcs'])*20000*500/floatval($data['paper']['gramature'])/floatval($data['paper']['plano']['width'])/floatval($data['paper']['plano']['length']), 100)/1000)."rb";
+			}else{
+				$hperkg = 0;
+			}
 			$this->texttoread .= "Perkg Rp <b>".$hperkg."</b> -> pcs <b>".$data['paper']['hperpcs']."</b> <br>";
 
 			$this->texttoread .= "Perplano: <b>"
@@ -873,7 +951,7 @@ class Job
 		$paper['printpriceeach'] = $unitprice;
 		$totalprint = $unitprice * $qty;
 
-		$texttoread .= "Print: ".MathHelper::thseparator($totalprint)." ( ".MathHelper::thseparator($qty)." klik _@".MathHelper::thseparator($unitprice)." )<br>";
+		$texttoread .= "<i class='fas fa-chevron-right'></i> <b>PRINT</b>: <span class='tx-purple'>".MathHelper::thseparator($totalprint)."</span> ( ".MathHelper::thseparator($qty)." klik _@".MathHelper::thseparator($unitprice)." )<br>";
 
 		$texttoread .= "<hr class='margin-5-0'>";
 

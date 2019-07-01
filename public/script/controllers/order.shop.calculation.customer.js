@@ -33,12 +33,13 @@ module.exports = function(app){
 			}
 
 			$scope.texttoread = '';
+			$scope.textcombination = '';
 			
 			$finishchanging = false;
 			$scope.counter = 0;
 			$scope.underconstruction = false;
-			$scope.uploaderror = "";
 			$scope.uploadwaiting = false;
+			$scope.uploadsuccess = false;
 			$scope.customsize = false;
 			$scope.result = {
 				"total" : {
@@ -58,8 +59,11 @@ module.exports = function(app){
 				"savecartval" : "",
 				'savebtnval' : "",
 				"description" : "",
+				"upload": "",
 			};
 			$scope.total = [];
+			$scope.uploadmaxfilesize = 0;
+			$scope.newfiledetail = "";
 
 			$scope.setUserLogin = function($role, $userid)
 			{
@@ -67,6 +71,9 @@ module.exports = function(app){
 					$scope.userid = $userid;
 				}
 				if($role==null){
+					$scope.role = null;
+					$scope.restrictNotLogined();
+				}else if($role==''){
 					$scope.role = null;
 					$scope.restrictNotLogined();
 				}else if($role!='customer'){
@@ -176,7 +183,7 @@ module.exports = function(app){
 			$scope.addtambahbaruaddress = function(){
 				$scope.customeraddresses.push( 
 					{
-						"id":'0',
+						"id": '0',
 						"address":{
 							"name": "Add address",
 							"address": "Tambah alamat baru.."
@@ -187,7 +194,6 @@ module.exports = function(app){
 
 			$scope.setData = function($datas){
 				//untuk set address di description kalo uda login
-				console.log($datas);
 				if($datas.user != null){
 					$scope.customeraddresses = [];
 					if($datas.user.customeraddress.length>0){
@@ -198,6 +204,8 @@ module.exports = function(app){
 						$scope.selected.deliveryaddress = '';
 					}
 					$scope.addtambahbaruaddress();
+					$scope.getMaxFilesize();
+					$scope.refreshUploadedImage();
 				}
 
 				//SET DATA SIZE jadi NUMBER
@@ -233,6 +241,11 @@ module.exports = function(app){
 				//buat tambahin option Tanpa Finishing, di zero index
 				$.each($datas.jobsubtypefinishing, function($index, $item){
 					$item = $scope.setFinishingZeroIndex($item, $item.finishing.name, $item.id);
+
+					//set finishing name from finishing -> finishingoption (supaya kalo di select nanti ada nama finishingnya, di 'finishingname')
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						$jj.finishingname = $item.finishing.name;
+					});
 				});
 
 				//untuk set semuanya jadi Tanpa Finishing. DEFAULT
@@ -266,6 +279,13 @@ module.exports = function(app){
 						//masukin ke selected sesuai index -> JANGAN CLONE!
 						$scope.selected.finishings[$index] = $item.finishing.finishingoption[0];
 					}
+
+					//UNTUK PILIH SESUAI DEFAULT YANG DI MASUKIN DI DB
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						if($jj.defaultoption == true){
+							$scope.selected.finishings[$index] = $item.finishing.finishingoption[$j];
+						}
+					});
 				});
 			}
 
@@ -407,7 +427,6 @@ module.exports = function(app){
 					$result.jobsubtypequantity = $scope.ofdgRemove($result.jobsubtypequantity, 1);
 					$result.jobsubtypefinishing = $scope.ofdgRemove($result.jobsubtypefinishing, 1);
 					$result.jobsubtypepaper = $scope.ofdgRemove($result.jobsubtypepaper, 1);
-					console.log($result.jobsubtypepaper);
 					$result.jobsubtypesize = $scope.ofdgRemove($result.jobsubtypesize, 1);
 					$result.jobsubtypetemplate = $scope.ofdgRemove($result.jobsubtypetemplate, 1);
 
@@ -471,7 +490,9 @@ module.exports = function(app){
 				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
 					if($ii.mustdo){
 						$ii.finishing.finishingoption[0].disabled = true;
-						$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
+						if($scope.selected.finishings[$i].id == 0)
+							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
 						//console.log($ii.finishing.finishingoption);
 					}
 				});
@@ -664,6 +685,7 @@ module.exports = function(app){
 								$scope.key = response.data.key;
 
 								$scope.texttoread = response.data.texttoread;
+								$scope.textcombination = response.data.textcombination;
 								if (typeof $scope.total === 'undefined') {
 									//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
 									//MUNCULIN UNDER CONSTRUCTION
@@ -784,9 +806,95 @@ module.exports = function(app){
 			}
 
 			$scope.showuploadfile = function(){
-				$scope.refreshUploadedImage();
-				$scope.uploaderror = '';
+				$scope.renewuploadmodal();
 				$("#uploadfileModal").modal('show');
+			}
+
+			$scope.showuploadurl = function(){
+				$scope.renewuploadmodal();
+				$("#uploadurlModal").modal('show');
+			}
+
+			$scope.checkuploadurl = function(){
+				return ($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl));
+			}
+
+			$scope.saveuploadurl = function(){
+				if($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl)){
+					if($scope.uploadinputurl.indexOf("http")!=0){
+						$scope.uploadinputurl = "https://"+$scope.uploadinputurl;
+					}
+					$scope.error.upload = "";
+
+
+					$scope.saveuploadurltodb();
+
+
+				}else{
+					$scope.error.upload = "Your inputed URL is not valid. Please try to check and reinput the right one.";
+				}
+
+				// $scope.uploadinputurl2 = $scope.trustAsUrl($scope.uploadinputurl);
+			}
+
+			$scope.saveuploadurltodb = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"files/saveurl",
+					data: {
+						url: $scope.uploadinputurl
+					}
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.error.upload = "wrong response type, error in server";
+								$scope.uploadsuccess = false;
+							}else{
+								$scope.uploadedfiles = response.data;
+								$scope.uploadsuccess = true;
+							}
+						}else{
+							$scope.error.upload = "URL cannot be process, something error";
+							$scope.uploadsuccess = false;
+						}
+					}else{
+						$scope.error.upload = "URL cannot be process, something error";
+						$scope.uploadsuccess = false;
+					}
+				}, function(error){
+					console.log(error);
+					$scope.uploadsuccess = false;
+				});
+			}
+
+			$scope.savefiledetail = function($id){
+				if($scope.newfiledetail.length<=500){
+					$http({
+						method: "POST",
+						url: AJAX_URL+"files/savedetail",
+						data: {
+							"detail": $scope.newfiledetail,
+							"fileID": $id
+						}
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$scope.error.upload = "Error - upload detail files";
+								}else{
+									$scope.uploadedfiles = response.data;
+								}
+							}else{
+								$scope.error.upload = "Error - server ga bisa cari data file";
+							}
+						}
+					}, function(error){
+						$scope.error.upload = "Error - passing data not successful";
+					});
+				}else{
+					$scope.error.upload = "Detail > 500 huruf (Prohibited)";
+				}
 			}
 
 			$scope.showitemdescription = function(){
@@ -820,7 +928,7 @@ module.exports = function(app){
 
 
 					if($scope.checkerrorstatus())
-					$('#savedialogModal').modal('show');
+						$('#savedialogModal').modal('show');
 
 					//ERROR MERAH DI ATAS TOTAL HARGA
 				}else{
@@ -1193,32 +1301,13 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.addSelectedFiles = function($file){
-				$duplicated = false;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$duplicated = true;
+			$scope.checkSelectedFiles = function(){
+				$scope.selected.files = [];
+				$.each($scope.uploadedfiles, function($index, $item){
+					if($item.checked){
+						$scope.selected.files.push($item);
 					}
 				});
-				//kalo ga ada yang sama baru boleh add
-				if($duplicated == false)
-					$scope.selected.files.push($file);
-			}
-
-			$scope.remSelectedFiles = function($file){
-				$selectedindex = -1;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$selectedindex = $index;
-					}
-				});
-				//kalo ketemu, delete
-				if($selectedindex != -1)
-				{
-					$scope.selected.files.splice($selectedindex, 1);
-				}
 			}
 
 			$scope.refreshUploadedImage = function(){
@@ -1261,6 +1350,10 @@ module.exports = function(app){
 						}
 					);
 				}
+			}
+
+			$scope.showcombinations = function(){
+				$('#combinations').modal('show');
 			}
 
 			$scope.saveTexttoread = function(){
@@ -1350,7 +1443,7 @@ module.exports = function(app){
 
 			var upload = function(files) {
 				var data = new FormData();
-				$scope.uploaderror = '';
+				$scope.error.upload = '';
 				$scope.uploadwaiting = true;
 				$scope.loadingfiles = true;
 
@@ -1359,6 +1452,7 @@ module.exports = function(app){
 
 				angular.forEach(files, function(value){
 					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
 					if ($ext != 'cdr' &&
 						$ext != 'zip' &&
 						$ext != 'rar' &&
@@ -1378,22 +1472,22 @@ module.exports = function(app){
 						$ext != 'indd') //indesign
 					{
 						//FORMAT NGACOK
-						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
+						$scope.error.upload = value.name+" : tidak bisa upload dengan file format "+$ext+".";
 						$counterror++;
 					}
 					else if(value.size > 50 * 1024 * 1024)
 					{
-						$scope.uploaderror = value.name+" : file terlalu besar.";
+						$scope.error.upload = value.name+" : file terlalu besar.";
 						$counterror++;
 
 					}
 					else 
 					{
-						$scope.uploaderror = "";
+						$scope.error.upload = "";
 						data.append("files[]", value);
 					}
 
-					if($scope.uploaderror!=''){
+					if($scope.error.upload!=''){
 
 						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
 						try{
@@ -1481,30 +1575,81 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response){
+					$jumlahsebelomupload = -1;
 					if(response!=null)
 					{
 						if(response.constructor === Array)
 						{
+							$jumlahsebelomupload = $scope.uploadedfiles.length;
 							$scope.uploadedfiles = [];
 							$scope.uploadedfiles = response;
 							if ($scope.uploadedfiles.length > 0) 
 								$scope.tableshow = true;
 
+							if($jumlahsebelomupload < $scope.uploadedfiles.length){
+								$scope.uploadsuccess = true;
+								$scope.error.upload = "";
+							}else{
+								$scope.error.upload = "Tidak berhasil ditambahkan";
+							}
+
+							//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 							$scope.$apply(function(){});
 						}
 						else
 						{
+							$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (empty).";
 							$scope.uploadedfiles = [];
 						}
 					}
 					else
 					{
+						$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (null).";
 						$scope.uploadedfiles = [];
 						//console.log	('NO DATA in PendIMG');
 					}
 					$scope.loadingfiles = false;
 					$scope.uploadwaiting = false;
 					$scope.allowed();
+
+					$scope.$apply(function(){});
+				}).fail(function(response){
+					if(response.status == 419){
+						$scope.error.upload = "Session is over, please re-login to upload";
+					}else{
+						$scope.error.upload = response.statusText;
+					}
+					$scope.loadingfiles = false;
+					$scope.uploadwaiting = false;
+					$scope.uploadsuccess = false;;
+
+
+					$scope.$apply(function(){});
+				});
+			}
+
+			$scope.renewuploadmodal = function(){
+				$scope.refreshUploadedImage();
+				$scope.error.upload = '';
+				$scope.uploadsuccess = false;
+			}
+
+			$scope.getMaxFilesize = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"file/maxfilesize"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.uploadmaxfilesize = response.data;
+							}
+						}else{
+							console.log("The return value is null, not error");
+						}
+					}
+				}, function(error){
+					console.log(error);
 				});
 			}
 
@@ -1532,6 +1677,10 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.cetakpenawaran = function(){
+				$("#offerintext").modal("show");
+			}
+
 			$scope.calcheadtabclick = function(){
 				var body = $("html, body");
 				var top = $("#calc-headtab").offset().top-10;
@@ -1540,33 +1689,25 @@ module.exports = function(app){
 				});
 			}
 
-			/*$('#real-dropzone').on('dragover', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			});
-			$('#real-dropzone').on('dragenter', function(e) {
-				//console.log('dragenter');
-				e.preventDefault();
-				e.stopPropagation();
-			});
-
-			$('#real-dropzone').on('drop', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				if (e.originalEvent.dataTransfer){
-					if (e.originalEvent.dataTransfer.files.length > 0) {
-						upload(e.originalEvent.dataTransfer.files);
+			$scope.fileis = function(){
+				if($scope.uploadedfiles != null){
+					if($scope.uploadedfiles.length>0){
+						$ext = $scope.uploadedfiles[$scope.uploadedfiles.length-1].path.substring($scope.uploadedfiles[$scope.uploadedfiles.length-1].path.lastIndexOf('.')+1);
+						if($ext == "zip" || $ext == "rar"){
+							return "pdf";
+						}
+					}else{
+						return "-";
 					}
-				} 
-				return false;
-			});
-			$('#real-dropzone').change(function(e)
-			{
-				//console.log('COMPLEETETEEE');
-			});*/
+				}else{
+					return "";
+				}
+			}
 
 			$scope.choosefileclicked = function(){
-				$('#file').click();
+				$('#btn-choose-file').click();
+
+				console.log($("#btn-choose-file"));
 			}
 
 			$('#real-dropzonew').on('change', function(e) 
@@ -1580,6 +1721,10 @@ module.exports = function(app){
 				} 
 				return false;
 			});
+
+			$scope.showpickup = function(){
+				$("#showpickup").modal('show');
+			}
 		}
 	]);
 };

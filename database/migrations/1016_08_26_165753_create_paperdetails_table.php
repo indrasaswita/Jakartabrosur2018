@@ -22,9 +22,9 @@ class CreatePaperdetailsTable extends Migration
             $table->integer('planoID')->unsigned();
             $table->foreign('planoID')->references('id')->on('papersizes');
 
-            $table->decimal('buyprice', 10, 2);
-            $table->decimal('sellprice', 10, 2);
-            $table->decimal('unitprice', 10, 2);
+            $table->decimal('buyprice', 10, 1);
+            $table->decimal('sellprice', 10, 1);
+            $table->decimal('unitprice', 10, 3);
             $table->string('unittype', 32);
             $table->string('totalpcs', 16)->comment('jumlah total dari perpcs');
             $table->tinyinteger('available')->comment('1/0');

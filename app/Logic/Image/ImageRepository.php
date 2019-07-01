@@ -36,6 +36,8 @@ class ImageRepository
 
 		if(!$validator->fails())
 		{
+			//IMAGE
+			$file->size = $file->getSize();
 			$uploadSuccess1 = $this->original( $photo, $allowed_filename );
 			$uploadSuccess2 = $this->icon( $photo, $allowed_filename );
 
@@ -44,7 +46,6 @@ class ImageRepository
 				return 'Server error while uploading';
 
 			}
-			$file->size = $uploadSuccess1->filesize();
 			$file->icon= "images/icon/".$allowed_filename;
 		}
 		else
@@ -63,11 +64,9 @@ class ImageRepository
 	public function uploadSelective( $photo )
 	{
 
-
-
 		$validator = Validator::make(
 			[ 'files' => $photo ], 
-			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|max:104857600'  ]
+			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|image|max:104857600'  ]
 			// MAXIMUM FILE 100MB
 		);
 
@@ -83,21 +82,22 @@ class ImageRepository
 		$allowed_filename = $this->createUniqueFilename( 'original', $filename, $extension );
 
 		if(!$validator->fails())
-		{
+		{		
+			$file->size = $photo->getSize(); // GETSIZE HARUS SEBELOMM MOVE IMAGE
+
 			$uploadSuccess1 = $this->original( $photo, $allowed_filename );
 			$uploadSuccess2 = $this->icon( $photo, $allowed_filename );
 
-			if( !$uploadSuccess1 || !$uploadSuccess2 ) {
-
+			if( !$uploadSuccess2 ) {
 				return 'Server error while uploading';
-
 			}
-			$file->size = $uploadSuccess1->filesize();
-			$file->icon= "images/icon/".$allowed_filename;
+
+			$file->icon = "images/icon/".$allowed_filename;
 		}
 		else
 		{
-			$file->size = $photo->getSize();
+			return " NON IMAGE ";
+			$file->size = $photo->getSize(); // GETSIZE HARUS SEBELOM MOVE
 			$photo->move(public_path("images/original/"), $allowed_filename);
 
 			$file->icon= "image/ext-".$extension.'.png';

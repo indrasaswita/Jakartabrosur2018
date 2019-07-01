@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests;
 use App\Paper;
 use App\Jobsubtype;
+use App\Jobtype;
 use App\Jobsubtypequantity;
 use App\Jobsubtypefinishing;
 use App\Finishingoption;
@@ -25,11 +26,14 @@ use App\Logic\Curl\OneSignal;
 
 class ShopController extends Controller
 {
-	public function index(){
+	public function showlists(){
 		
-		$datas = Jobsubtype::all();
+		$datas = Jobtype::with(['jobsubtype' => function ($query) {
+				$query->where('active', 1);
+			}])
+				->get();
 
-		return view('pages.order.shop.create', compact('datas'));
+		return view('pages.order.shop.lists', compact('datas'));
 
 	}
 
@@ -71,7 +75,7 @@ class ShopController extends Controller
 				}
 			} // HIDE PAPER
 		}else{
-			return abort(404);
+			return abort();
 		}
 		
 		if($datas != null)
@@ -215,7 +219,7 @@ class ShopController extends Controller
 		foreach($finishings as $i => $finishing)
 		{
 			$detailfin = new Cartdetailfinishing;
-			$detailfin->finishingID = $finishing['id'];
+			$detailfin->finishingID = $finishing['finishingID'];
 			$detailfin->optionID = $finishing['optionID'];
 			$detailfin->quantity = $calc['totaldruct'];
 			$detailfin->buyprice = 0;

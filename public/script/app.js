@@ -51,6 +51,7 @@ require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
+require("./controllers/admin.master.paper.paperdetailstore")(app);
 require("./controllers/admin.master.jobeditor")(app);
 require("./controllers/admin.master.jobactivation")(app);
 require("./controllers/admin.master.jobfinishings")(app);
@@ -61,6 +62,7 @@ require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
 require("./controllers/admin.master.shoppricing")(app);
+require("./controllers/admin.master.finishing.index")(app);
 
 
 

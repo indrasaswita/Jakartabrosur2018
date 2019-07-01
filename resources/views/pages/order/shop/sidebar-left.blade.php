@@ -17,6 +17,12 @@
 				</span>
 			</button>
 		</div>
+		<div class="panel-block text-xs-center uppercase">
+			<button class="btn btn-secondary btn-sm width-100 googleft" ng-click="showcombinations()">
+				<i class="fas fa-calculator-alt tx-lightgray"></i>
+				<span class="tx-purple">Combination</span>
+			</button>
+		</div>
 	</div>
 
 	<div class="description-panel" ng-show="datas.icon!=''">
@@ -118,3 +124,16 @@
 		</div>
 	</div>
 </div>
+
+
+
+@include('modal', 
+	[
+		'modalid' => 'combinations',
+		'modaltitle' => 'Test',
+		'modalbody' => '
+			<div class="line-12 size-80p" ng-bind-html="textcombination"></div>
+		',
+		'modalfooter' => 'footer'
+	]
+)

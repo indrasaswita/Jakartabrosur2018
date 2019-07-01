@@ -20,8 +20,7 @@ class CreateJobsubtypesizesTable extends Migration
 				sizeID INT UNSIGNED NOT NULL,
 				favourite TINYINT NOT NULL,
 				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				FOREIGN KEY (sizeID) REFERENCES sizes(id)
+				updated_at TIMESTAMP NULL
 			);
 		");
 	}

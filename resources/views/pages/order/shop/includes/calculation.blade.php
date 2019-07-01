@@ -276,7 +276,7 @@
 			</button>
 		</div>
 
-		<div class="block-subdetail">
+		<div class="block-subdetail" ng-hide="datas.jobsubtypefinishing.length==0">
 			<div class="txt">FINISHING</div>
 			<div class="line"></div>
 		</div>
@@ -292,11 +292,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">WAKTU PENYELESAIAN</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				Proses
 				<span class="hidden-xs-down">
@@ -315,11 +315,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">JENIS LAYANAN</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				<span class="hidden-xs-down">
 					Isi Perbungkus
@@ -343,11 +343,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">DROPSHIPPER</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				Pengirim?
 			</div>

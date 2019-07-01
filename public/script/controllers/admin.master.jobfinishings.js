@@ -32,6 +32,7 @@ module.exports = function(app) {
 				}
 				$scope.hideall();
 				$scope.closeallchangeprice();
+				$scope.getallfinishing();
 			}
 
 			$scope.hideall = function(){
@@ -314,12 +315,99 @@ module.exports = function(app) {
 				});
 			}
 
-			$scope.tambahfinishing = function(){
+			$scope.tambahfinishing = function($item){
+				$scope.newfinishing = {
+					'jobsubtypeID'	: $item,
+					'ofdg' : '',
+					'name' : '',
+					'mustdo' : ''
+				};
+				console.log($scope.activejobtype+1);
 				$("#addnewfinishing").modal('show');
 			}
-			$scope.ofdgchanged = function(){
-				$scope.ofdg = false;
-				console.log("abc");
+
+			$scope.getallfinishing = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"finishing"
+				}).then(function(response){
+					if(response!=null)
+					{
+						if(response.data.length>0)
+						{
+							$scope.finishing = response.data;
+						}
+						else{
+							console.log("The return value is null, not an error");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			$scope.changefinishing = function($item){
+				$http({
+					method: "GET",
+					url: API_URL+"finishingchange/"+$item
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						$scope.jobsubtype = response.data;	
+						$scope.finishingoptions = response.data.finishingoptions[0].finishingoption;
+						 console.log(response.data.finishingoptions[0].finishingoption);
+					}
+					else{
+						console.log("Data belum pernah dipilih");
+					}
+				}, function(error){
+					console.log(error);
+				})
+			}
+
+			$scope.ofdgchange = function($item){
+				if($item==true)
+				{
+					$scope.newfinishing.ofdg = false;
+				}
+				else
+				{
+					$scope.newfinishing.ofdg = true;
+				}
+				return $scope.newfinishing.ofdg;
+			}
+
+			$scope.mustdoclick = function($item){
+				console.log($item);
+				if($item==true)
+				{
+					$scope.newfinishing.mustdo = false;
+				}
+				else
+				{
+					$scope.newfinishing.mustdo = true;
+				}
+				return $scope.mustdo;
+			}
+
+			$scope.cancelnewfinishing = function(){
+				$("#addnewfinishing").modal('hide');
+			}
+
+			$scope.savenewfinishing = function(){
+
+				$http({
+					method: "POST",
+					url: AJAX_URL +"jobsubtypefinishing/savenewfinishing",
+					data: $scope.newfinishing
+				}).then(function(response){
+					if(response.data != null){
+						$("#addnewfinishing").modal('hide');
+						location.reload();
+					}
+				}, function(error){
+					$scope.newfinishing = 'error dari server';
+				});
 			}
 		}
 	]);

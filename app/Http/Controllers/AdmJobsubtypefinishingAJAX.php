@@ -25,4 +25,34 @@ class AdmJobsubtypefinishingAJAX extends Controller
 			return $mustdo;
 		}
 	}
+
+	public function store(Request $request)
+	{
+		$datas = $request->all();
+
+		if($datas!=null)
+		{
+			$add = new Jobsubtypefinishing();
+			$add->jobsubtypeID = $datas['jobsubtypeID'];
+			$add->ofdg = $datas['ofdg'] == true ? 1 : 0;
+			$add->finishingID = $datas['finishingID']['id'];
+			$add->mustdo = $datas['mustdo'] == true ? 1 : 0;
+			$add->save();
+
+			$lastadd = Jobsubtypefinishing::orderBy('id', 'DESC')
+				->first();
+			if($lastadd != null)
+			{
+				return $lastadd;
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
 }

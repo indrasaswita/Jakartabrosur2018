@@ -54,11 +54,11 @@
 			</li>
 			<li class="line-12">
 				Senin - Jum'at<br>
-				<span class="fas fa-fw fa-clock tx-gray"></span> 09.00-18.00
+				<span class="fas fa-fw fa-clock tx-gray"></span> <b class="tx-purple">09.00-18.00</b>
 			</li>
 			<li class="line-12">
 				Sabtu<br>
-				<span class="fas fa-fw fa-clock tx-gray"></span> 09.00-16.00
+				<span class="fas fa-fw fa-clock tx-gray"></span> <b class="tx-purple">09.00-16.00</b>
 			</li>
 
 			<li class="hidden-xs-down size-90p">
@@ -78,17 +78,6 @@
 				<i class="fab fa-google-plus"></i>
 			</li>
 			<li>
-				<i class="fal fa-fw fa-home footer-icon"></i>
-				<span data-toggle="tooltip" data-placement="top" data-html="true" data-title="<b>Klik untuk lihat di Google Map</b>">
-					<a class="a-purple" href="https://www.google.co.id/maps/place/Jakarta+Brosur/@-6.1410584,106.825155,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69f5fa2f737f37:0x43667f0d0a3cbf7f!8m2!3d-6.1410637!4d106.8273437?hl=en" target="_blank">
-						<b>
-							P. Jayakarta 113, Jakarta
-						</b> 
-						<i class="fal fa-map-marker"></i>
-					</a>
-				</span>
-			</li>
-			<li>
 				<i class="fal fa-fw fa-phone fa-flip-horizontal footer-icon"></i>
 				<a href="tel:+62216491101" target="_top">(021) 649-1101</a>
 			</li>
@@ -97,15 +86,15 @@
 				<a href="tel:+62216491502" target="_top">(021) 649-1502</a>
 			</li>
 			<li>
-				<i class="fab fa-fw fa-instagram footer-icon"></i>
-				<a href="https://instagram.com/jakartabrosur/" target="_blank">
-					insta: jakartabrosur
-				</a>
-			</li>
-			<li>
 				<i class="fab fa-fw fa-whatsapp footer-icon"></i>
 				<a href="https://api.whatsapp.com/send?phone=62816889889" target="_blank">
 					Wa: 0816-889-889
+				</a>
+			</li>
+			<li>
+				<i class="fab fa-fw fa-instagram footer-icon"></i>
+				<a href="https://instagram.com/jakartabrosur/" target="_blank">
+					insta: jakartabrosur
 				</a>
 			</li>
 			<li>
@@ -117,12 +106,22 @@
 				<a href="tel:+6281315519889" target="_top">Hotline: 0813-1551-9889</a>
 			</li>
 			<li>
+				<i class="fal fa-fw fa-home footer-icon"></i>
+				<span data-toggle="tooltip" data-placement="top" data-html="true" data-title="<b>Klik untuk lihat di Google Map</b>">
+					<a class="a-purple" href="https://www.google.co.id/maps/place/Jakarta+Brosur/@-6.1410584,106.825155,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69f5fa2f737f37:0x43667f0d0a3cbf7f!8m2!3d-6.1410637!4d106.8273437?hl=en" target="_blank">
+						<b>
+							P. Jayakarta 113, Jakarta
+						</b> 
+						<i class="fas fa-location-circle"></i>
+					</a>
+				</span>
+			</li>
+			<li>
 				<i class="fal fa-fw fa-envelope footer-icon"></i>
 				<a href="mailto:support@jakartabrosur.com?Subject=Asking Something" target="_top">
 					support@jakartabrosur.com
 				</a>
 			</li>
-			
 		</ul>
 	</div>
 </div>
@@ -130,5 +129,5 @@
 		<span class="tx-gray">&copy; {{date('Y')}} Jakartabrosur.com.</span> All right reserved. <a href="{{URL::asset('terms')}}" class="a-purple">Syarat & Ketentuan</a>
 		<br>
 		<i class="fa fa-code"></i>
-		Design & Code by <a href="http://www.instagram.com/indrasaswita" target="_blank" class="a-purple">Indra Saswita</a>.
+		Design & Code by Jakartabrosur Team. v2.03.001
 </div>

@@ -27,8 +27,8 @@ class CreatePapersTable extends Migration
             $table->tinyinteger('laminating')->default(0);
             $table->tinyinteger('folding')->default(0);
             $table->tinyinteger('perforation')->default(0);
+            $table->integer('coatingtypeID')->unsigned()->default(1);
             $table->tinyinteger('diecut')->default(0);
-            $table->integer('coatingtype')->unsigned()->default(1);
             $table->timestamps();
         });
     }

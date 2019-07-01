@@ -15,7 +15,7 @@ class Paperdetail extends Model
 
 	public function vendor()
 	{
-		return $this->belongsTo('App\Vendor', 'vendorID');
+		return $this->belongsTo('App\Vendor', 'vendorID')->with('address');
 	}
 
 	public function plano()

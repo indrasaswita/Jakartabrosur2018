@@ -109,10 +109,10 @@
 		</div> -->
 
 		<div class="divider"></div>
-
+<!-- 
 		<div class="link">
 			<a href="" ng-click="cetakpenawaran()">Cetak Penawaran</a>
-		</div>
+		</div> -->
 
 		<div class="divider"></div>
 
@@ -175,12 +175,12 @@
 
 </div>
 
-<div class="error-panel">
+<div class="error-panel" ng-if="error.savecartval!=''">
 	<span class="icon lowercase">
 		<i class="fas fa-bell fa-fw"></i>
 		<span class="hidden-xs-down">error</span>
 	</span>
-	<span ng-if="error.savecartval!=''">[[error.savecartval]]</span>
+	<span>[[error.savecartval]]</span>
 </div>
 
 <button class="btn btn-action-end" ng-click="showsavedialog()" ng-class="{'error':error.savecartval!=''}">

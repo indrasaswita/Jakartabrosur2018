@@ -17,7 +17,7 @@ class Paper extends Model
     }
 
     public function paperdetail(){
-    	return $this->hasMany("App\Paperdetail", 'paperID')->with('vendor', 'plano');
+    	return $this->hasMany("App\Paperdetail", 'paperID')->with('vendor', 'plano', 'paper');
     }
 
     public function coatingtype(){

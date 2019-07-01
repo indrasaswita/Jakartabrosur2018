@@ -229,7 +229,7 @@
 										</tbody>
 									</table>
 									<div class="actions">
-										<button class="btn btn-sm btn-secondary" ng-click="tambahfinishing()">
+										<button class="btn btn-sm btn-secondary" ng-click="tambahfinishing(item2.id)">
 											<i class="fas fa-plus size-80p"></i>&nbsp;
 											Tambah <b class="size-90p">FINISHING</b> (pada <b>[[item2.name]]</b>)
 										</button>
@@ -250,39 +250,63 @@
  <table class="table table-sm">
  	<thead>
  		<tr class="text-center">
- 			<th></th>
- 			<th></th>
- 			<th></th>
+ 			<th class="width-min">Tipe</th>
+ 			<th class="width-min">Wajib</th>
+ 			<th>Jenis Finishing</th>
+ 			<th>Jobsubtype</th>
+ 			<th>Finishingoption</th>
  		</tr>
  	</thead>
  	<tbody>
- 		<tr>
- 			<td>
- 				<a ng-model="item.ofdg" ng-click="ofdgchanged()">
- 					<span class="tx-primary" ng-if="item.ofdg">
- 						<i class="fas fa-print fa-fw"></i> <b>OFF
+ 		<tr class="text-center">
+ 			<td class="width-min">
+ 				<a ng-model="newfinishing.ofdg" ng-click="ofdgchange(newfinishing.ofdg)">
+ 					<span class="tx-primary" ng-if="newfinishing.ofdg" data-title="OF" data-toggle="tooltip" tooltip>
+ 						<i class="fas fa-print fa-fw"></i> <b>
  					</span>
- 					<span class="tx-lightmagenta" ng-if="!item.ofdg">
- 						<i class="fas fa-print fa-fw"></i> <b>DG
+ 					<span class="tx-lightmagenta" ng-if="!newfinishing.ofdg" data-title="DG" data-toggle="tooltip" tooltip>
+ 						<i class="fas fa-print fa-fw"></i> <b>
  					</span>
  				</a>
  			</td>
- 			<td>
- 				[[jobtypes.jobsubtypes.jobsuptypefinishing]]
- 				<select>
- 					
- 				</select>
+ 			<td class="width-min">
+ 				<a ng-click="mustdoclick(newfinishing.mustdo)" ng-model="newfinishing.mustdo">
+						<span ng-if="newfinishing.mustdo" data-title="wajib" data-toggle="tooltip" tooltip>
+								<i class="fas fa-scroll-old tx-success">
+								</i>
+							</span>
+							<span ng-if="!newfinishing.mustdo" data-title="tidak wajib" data-toggle="tooltip" tooltip>
+								<i class="fas fa-scroll-old tx-danger">
+								</i>
+							</span>
+						</a>
  			</td>
- 			<td></td>
+ 			<td>
+ 				<select ng-model="newfinishing.finishingID" ng-options="item as item.name for item in finishing" ng-change="changefinishing(newfinishing.finishingID.id)"></select>
+ 			</td>
+ 			<td>
+ 				<ul>
+ 					<li ng-repeat="item2 in jobsubtype.jobsubtypes">
+ 						[[item2.jobsubtype.name]]
+ 					</li>
+ 				</ul>
+ 			</td>
+ 			<td>
+ 				<ul>
+ 					<li ng-repeat="item3 in finishingoptions">
+ 						[[item3.optionname]]
+ 					</li>
+ 				</ul>
+ 			</td>
  		</tr>
  	</tbody>
  </table>
 ',
 'modalfooter'=>'
-	<button class="btn btn-success">
+	<button class="btn btn-success" ng-click="savenewfinishing()">
 		<i class="far fa-save fa-fw"></i> Save
 </button>
-<button class="btn btn-secondary">
+<button class="btn btn-secondary" ng-click="cancelnewfinishing()">
 	<i class="fal fa-times-octagon fa-fw"></i> Cancel
 </button>
 '])

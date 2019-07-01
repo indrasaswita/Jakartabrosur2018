@@ -52,6 +52,7 @@ require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
+require("./controllers/admin.master.paper.paperdetailstore")(app);
 require("./controllers/admin.master.jobeditor")(app);
 require("./controllers/admin.master.jobactivation")(app);
 require("./controllers/admin.master.jobfinishings")(app);
@@ -62,6 +63,7 @@ require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
 require("./controllers/admin.master.shoppricing")(app);
+require("./controllers/admin.master.finishing.index")(app);
 
 
 
@@ -76,12 +78,12 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/variable":2,"./controllers/account.login":3,"./controllers/account.notification":4,"./controllers/account.profiles":5,"./controllers/account.resendemail":6,"./controllers/account.signup":7,"./controllers/admin.cart.addbyadmin":8,"./controllers/admin.cart.index":9,"./controllers/admin.master.customer.index":10,"./controllers/admin.master.customer.pendingcompany":11,"./controllers/admin.master.jobactivation":12,"./controllers/admin.master.jobeditor":13,"./controllers/admin.master.jobfinishings":14,"./controllers/admin.master.jobpapers":15,"./controllers/admin.master.jobquantities":16,"./controllers/admin.master.jobsizes":17,"./controllers/admin.master.paper.changeprice":18,"./controllers/admin.master.paper.newpaper":19,"./controllers/admin.master.pricetext.index":20,"./controllers/admin.master.shoppricing":21,"./controllers/admin.master.verifcustomer":22,"./controllers/admin.sales.index":23,"./controllers/admin.tracking.index":24,"./controllers/aice.index":25,"./controllers/createheader":26,"./controllers/description":27,"./controllers/godhands":28,"./controllers/home":29,"./controllers/includes.modals.compaccno":30,"./controllers/includes.nav.subnav":31,"./controllers/main":32,"./controllers/order.cart.index":33,"./controllers/order.sales.commit":34,"./controllers/order.sales.history":35,"./controllers/order.sales.index":36,"./controllers/order.shop.calculation.customer":37,"./controllers/order.shop.create.page":38,"./controllers/order.shop.lists.customer":39,"./controllers/roles":40,"./controllers/salespaymentconfirm":41,"./controllers/salespayments":42,"./controllers/trackingcustomer":43,"./controllers/viewfile-modal":44,"./customs/sticky-shop-total":45,"./directives/bootstrap-select-addon":46,"./directives/bootstrap-tooltip":47,"./directives/pagination/dirPagination":48,"./init":49,"angular":59,"angular-cookies":51,"angular-resource":53,"angular-route":55,"angular-sanitize":57,"node-gzip":75}],2:[function(require,module,exports){
+},{"./constants/variable":2,"./controllers/account.login":3,"./controllers/account.notification":4,"./controllers/account.profiles":5,"./controllers/account.resendemail":6,"./controllers/account.signup":7,"./controllers/admin.cart.addbyadmin":8,"./controllers/admin.cart.index":9,"./controllers/admin.master.customer.index":10,"./controllers/admin.master.customer.pendingcompany":11,"./controllers/admin.master.finishing.index":12,"./controllers/admin.master.jobactivation":13,"./controllers/admin.master.jobeditor":14,"./controllers/admin.master.jobfinishings":15,"./controllers/admin.master.jobpapers":16,"./controllers/admin.master.jobquantities":17,"./controllers/admin.master.jobsizes":18,"./controllers/admin.master.paper.changeprice":19,"./controllers/admin.master.paper.newpaper":20,"./controllers/admin.master.paper.paperdetailstore":21,"./controllers/admin.master.pricetext.index":22,"./controllers/admin.master.shoppricing":23,"./controllers/admin.master.verifcustomer":24,"./controllers/admin.sales.index":25,"./controllers/admin.tracking.index":26,"./controllers/aice.index":27,"./controllers/createheader":28,"./controllers/description":29,"./controllers/godhands":30,"./controllers/home":31,"./controllers/includes.modals.compaccno":32,"./controllers/includes.nav.subnav":33,"./controllers/main":34,"./controllers/order.cart.index":35,"./controllers/order.sales.commit":36,"./controllers/order.sales.history":37,"./controllers/order.sales.index":38,"./controllers/order.shop.calculation.customer":39,"./controllers/order.shop.create.page":40,"./controllers/order.shop.lists.customer":41,"./controllers/roles":42,"./controllers/salespaymentconfirm":43,"./controllers/salespayments":44,"./controllers/trackingcustomer":45,"./controllers/viewfile-modal":46,"./customs/sticky-shop-total":47,"./directives/bootstrap-select-addon":48,"./directives/bootstrap-tooltip":49,"./directives/pagination/dirPagination":50,"./init":51,"angular":61,"angular-cookies":53,"angular-resource":55,"angular-route":57,"angular-sanitize":59,"node-gzip":77}],2:[function(require,module,exports){
 module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	//$public_path = '/'; 
+	$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
@@ -1430,6 +1432,22 @@ module.exports = function(app){
 }
 },{}],12:[function(require,module,exports){
 module.exports = function(app) {
+	app.controller('AdmFinishingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+			$scope.finishings = [];
+
+			$scope.initData = function($input){
+				$scope.finishings = JSON.parse($input);
+				$.each($scope.finishings, function($i, $ii){
+					$ii.created_at = $scope.makeDateTime($ii.created_at);
+				});
+			}
+
+		}
+	]);
+};
+},{}],13:[function(require,module,exports){
+module.exports = function(app) {
 	app.controller('AdmJobactivationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
 
@@ -1488,7 +1506,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobeditorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1540,7 +1558,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobfinishingsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1575,6 +1593,7 @@ module.exports = function(app) {
 				}
 				$scope.hideall();
 				$scope.closeallchangeprice();
+				$scope.getallfinishing();
 			}
 
 			$scope.hideall = function(){
@@ -1857,17 +1876,104 @@ module.exports = function(app) {
 				});
 			}
 
-			$scope.tambahfinishing = function(){
+			$scope.tambahfinishing = function($item){
+				$scope.newfinishing = {
+					'jobsubtypeID'	: $item,
+					'ofdg' : '',
+					'name' : '',
+					'mustdo' : ''
+				};
+				console.log($scope.activejobtype+1);
 				$("#addnewfinishing").modal('show');
 			}
-			$scope.ofdgchanged = function(){
-				$scope.ofdg = false;
-				console.log("abc");
+
+			$scope.getallfinishing = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"finishing"
+				}).then(function(response){
+					if(response!=null)
+					{
+						if(response.data.length>0)
+						{
+							$scope.finishing = response.data;
+						}
+						else{
+							console.log("The return value is null, not an error");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			$scope.changefinishing = function($item){
+				$http({
+					method: "GET",
+					url: API_URL+"finishingchange/"+$item
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						$scope.jobsubtype = response.data;	
+						$scope.finishingoptions = response.data.finishingoptions[0].finishingoption;
+						 console.log(response.data.finishingoptions[0].finishingoption);
+					}
+					else{
+						console.log("Data belum pernah dipilih");
+					}
+				}, function(error){
+					console.log(error);
+				})
+			}
+
+			$scope.ofdgchange = function($item){
+				if($item==true)
+				{
+					$scope.newfinishing.ofdg = false;
+				}
+				else
+				{
+					$scope.newfinishing.ofdg = true;
+				}
+				return $scope.newfinishing.ofdg;
+			}
+
+			$scope.mustdoclick = function($item){
+				console.log($item);
+				if($item==true)
+				{
+					$scope.newfinishing.mustdo = false;
+				}
+				else
+				{
+					$scope.newfinishing.mustdo = true;
+				}
+				return $scope.mustdo;
+			}
+
+			$scope.cancelnewfinishing = function(){
+				$("#addnewfinishing").modal('hide');
+			}
+
+			$scope.savenewfinishing = function(){
+
+				$http({
+					method: "POST",
+					url: AJAX_URL +"jobsubtypefinishing/savenewfinishing",
+					data: $scope.newfinishing
+				}).then(function(response){
+					if(response.data != null){
+						$("#addnewfinishing").modal('hide');
+						location.reload();
+					}
+				}, function(error){
+					$scope.newfinishing = 'error dari server';
+				});
 			}
 		}
 	]);
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobpapersController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -2554,7 +2660,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobquantitiesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -3243,7 +3349,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobsizesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -3565,7 +3671,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -3785,7 +3891,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmNewPaperController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -3940,7 +4046,223 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmPaperdetailController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
+			
+			$scope.selectedpaper = 0;
+			$scope.selectvendor = null;
+			$scope.papers = [];
+			$scope.newplanosizes = [];
+			$scope.unittypes = [
+				{'type': 'lembar'}, 
+				{'type': 'meter'}
+			];
+
+			$scope.initData = function($input)
+			{
+				$scope.papers = JSON.parse($input);
+				$scope.getallvendor();
+			}
+
+			$scope.temp = "";
+			$scope.temp2 = 0;
+			$scope.savestat = function($input, $paperID) {
+				if($paperID != $scope.temp2){
+					$scope.temp = "";
+					$scope.temp2 = $paperID;
+				}
+
+
+				if($scope.temp == $input)
+					return false;
+				if($scope.temp != $input){
+					$scope.temp = $input;
+					return true;	
+				}
+			}
+
+			$scope.selectpaper = function($index){
+				$scope.selectedpaper = $index;
+			}
+
+			$scope.getallvendor = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"admin/papershop"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							$scope.vendors = response.data;
+						}else{
+							console.log("The return value is null, not error");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			$scope.showaddtoko = function(){
+				$scope.selectedvendor = $scope.vendors[0];
+
+				$scope.newplanosizes = [];
+				$scope.addnewplanorow();
+
+				$('#addplanosize').modal("show");
+			}
+
+			$scope.showaddplanosize = function($vendor){
+				$scope.selectedvendor = $vendor;
+
+				$scope.newplanosizes = [];
+				$scope.addnewplanorow();
+
+				$('#addplanosize').modal("show");
+			}
+
+			$scope.addnewplanorow = function(){
+				$temp = {
+					"width": 65,
+					"length": 100,
+					"inputstate": "pertotal",
+					"inputprice": 500000,
+					"margin": 4,
+					"totalpcs": 500,
+					"unittype": $scope.unittypes[0],
+					"error" : {
+						"size" : null
+					}
+				};
+
+				$scope.newplanosizes.push($temp);
+				$scope.checksize($temp.width, $temp.length, $temp);
+			}
+
+			//HARGA UNIT TOTAL KG PINDAH KE GODHAND
+
+			$scope.getkgprice = function($item, $paper) {
+				$result = -2;
+				if($item != null)
+					if($item.unittype.type == "lembar"){
+						if($item.inputstate == "pertotal")
+							$result = $scope.total2kg($item.inputprice, $paper.gramature, $item.width, $item.length);
+						else if($item.inputstate == "perkg")
+							$result = $item.inputprice;
+						else if($item.inputstate == "perunit")
+							$result = $scope.unit2kg($item.inputprice, $item.totalpcs, $paper.gramature, $item.width, $item.length);
+					}
+
+				return $result;
+			}
+
+			$scope.gettotalprice = function($item, $paper) {
+				$result = -1;
+				if ($item != null)
+					if ($item.unittype.type == "lembar") {
+						if ($item.inputstate == "pertotal")
+							$result = $item.inputprice;
+						else if ($item.inputstate == "perkg")
+							$result = $scope.kg2total($item.inputprice, $paper.gramature, $item.width, $item.length);
+						else if ($item.inputstate == "perunit")
+							$result = $scope.unit2total($item.inputprice, $item.totalpcs);
+					}
+				return $result;
+			}
+
+			$scope.getunitprice = function($item, $paper) {
+				$result = -3;
+				if($item != null)
+					if($item.unittype.type == "lembar"){
+						if ($item.inputstate == "pertotal")
+							$result = $scope.total2unit($item.inputprice, $item.totalpcs);
+						else if ($item.inputstate == "perkg")
+							$result = $scope.kg2unit($item.inputprice, $paper.gramature, $item.width, $item.length);
+						else if ($item.inputstate == "perunit")
+							$result = $item.inputprice;
+					}
+				return $result;
+			}
+
+			$scope.changeinputstate = function($item) {
+				if ($item.inputstate == "pertotal") {
+					$item.inputstate = "perkg";
+				} else if ($item.inputstate == "perkg") {
+					$item.inputstate = "perunit";
+				} else if ($item.inputstate == "perunit") {
+					$item.inputstate = "pertotal";
+				}
+			}
+
+			$scope.checksize = function($w, $l, $newrow){
+				$seterror = false;
+				$.each($scope.papers[$scope.selectedpaper].paperdetail, function($index, $item){
+					if($item.vendorID == $scope.selectedvendor.id){
+						if($item.plano.width == $w &&
+							$item.plano.length == $l){
+							$seterror = true;
+						}
+					}
+				})
+				if($seterror){
+					$scope.newsaveerror = true;
+					$newrow.error = {
+						"size": "( planosize duplicated )"
+					};
+				}else{
+					$scope.newsaveerror = false;
+					$newrow.error = {
+						"size": null
+					};
+				}
+			}
+
+			$scope.savenewplano = function(){
+				$duplicated = false;
+				$.each($scope.newplanosizes, function($i, $ii){
+					if($ii.error.size!=null)
+						$duplicated = true;
+					$ii.paper = $scope.papers[$scope.selectedpaper];
+					$ii.buyprice = $scope.gettotalprice($ii, $scope.papers[$scope.selectedpaper]);
+					$ii.sellprice = ($scope.gettotalprice($ii, $scope.papers[$scope.selectedpaper]) * (100 + $ii.margin) / 100);
+					$ii.unitprice = ($scope.getunitprice($ii, $scope.papers[$scope.selectedpaper]) * (100 + $ii.margin) / 100);
+					//$ii.unittype = $ii.unittype.type;
+					$ii.vendor = $scope.selectedvendor;
+				});
+
+
+				if(!$duplicated && !$scope.savewaiting){
+					$scope.savewaiting = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL+"paperdetail/savenewplano",
+						data: $scope.newplanosizes
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								console.log(response.data);
+								if(typeof response.data == "string"){
+					
+								}
+							}else{
+								console.log("The return value is null, not error");
+							}
+						}
+						$scope.savewaiting = false;
+					}, function(error){
+						console.log(error);
+						$scope.savewaiting = false;
+					});
+				}else{
+					console.log("DUPLIICATE / MASI NUNGGU SAVE RESPONSE DARI SERVER")
+				}
+			}
+
+		}
+	]);
+};
+},{}],22:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricetextController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -3982,7 +4304,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmShoppricingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -4114,7 +4436,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('VerifCustomerController', 
 		[
@@ -4157,7 +4479,7 @@ module.exports = function(app) {
 		]
 	);
 }
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -5114,7 +5436,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -5295,7 +5617,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -5533,7 +5855,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -5547,7 +5869,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -5606,7 +5928,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
@@ -5671,11 +5993,13 @@ module.exports = function(app){
 
 			$scope.singkatText = function($text, $totalhuruf, $simbolakhir)
 			{
+				$hasil = "";
+
 				if($text == null || $totalhuruf == null || $simbolakhir == null)
 					return '-';
 				if($simbolakhir == '')
 				{
-					return $scope.singkatText0($text, $totalhuruf);
+					$hasil = $scope.singkatText0($text, $totalhuruf);
 				}
 				else
 				{
@@ -5686,13 +6010,19 @@ module.exports = function(app){
 						$panjangDepan = ($totalhuruf - $panjangAkhir < 5 ? 5 : $totalhuruf - $panjangAkhir);
 						$depan = $text.substring(0, $panjangDepan);
 						$belakang = $text.substring($indexSimbol);
-						return $depan+"..."+$belakang;
+						$hasil = $depan+"..."+$belakang;
 					}
 					else
 					{
-						return $text;
+						$hasil = $text;
 					}
 				}
+
+				if($hasil.length > $totalhuruf+3){
+					$hasil = $scope.singkatText0($text, $totalhuruf);
+				}
+
+				return $hasil;
 			}
 
 			String.prototype.toTitleCase = function () {
@@ -5724,44 +6054,6 @@ module.exports = function(app){
 				{
 					return $text;
 				}
-			}
-
-			$scope.getActiveJobSubType = function(){
-				$http(
-					{
-						method : 'GET',
-						url : API_URL + 'jobsubtypes/getactive'
-					}
-				).then(
-					function(response) {
-						if(response!=null)
-							$scope.jobtypes = response.data;
-						else{
-							console.log("NO RESPONSE");
-						}
-					},function(error){
-						console.log("Error (GodHand.js) : " + response.data);
-					}
-				);
-			}
-
-			$scope.getAllJobSubType = function() {
-				$http(
-					{
-						method: 'GET',
-						url: API_URL + 'jobsubtypes/getall'
-					}
-				).then(
-					function(response) {
-						if (response != null)
-							$scope.jobtypes = response.data;
-						else {
-							console.log("NO RESPONSE");
-						}
-					}, function(error) {
-						console.log("Error (GodHand.js) : " + response.data);
-					}
-				);
 			}
 
 			/*$scope.afterAngular = function(){
@@ -5955,8 +6247,15 @@ module.exports = function(app){
 			}
 
 			$scope.trustAsHtml = function($input){
-				//console.log($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
 				return ($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
+			}
+
+			$scope.isURL = function(value) {
+			  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+			}
+
+			$scope.trustAsUrl = function($input){
+				return $sce.trustAsResourceUrl($input);
 			}
 
 			$scope.stripTagsWA = function($input){
@@ -6004,10 +6303,36 @@ module.exports = function(app){
 			$scope.round = function($input) {
 				return Math.round($input);
 			}
+ 			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
+			$scope.total2kg = function($total, $gram, $w, $l) {
+				$result = $total * 20000 / $gram / $w / $l;
+				return Math.round($result / 100) * 100;
+			}
+			$scope.total2unit = function($total, $totalpcs) {
+				$result = $total / $totalpcs;
+				return Math.ceil($result);
+			}
+			$scope.kg2total = function($kg, $gram, $w, $l) {
+				$result = $kg * $gram * $w * $l / 20000;
+				return Math.ceil($result / 1000) * 1000;
+			}
+			$scope.kg2unit = function($kg, $gram, $w, $l) {
+				$result = $kg * $gram * $w * $l / 20000 / 500;
+				return Math.ceil($result);
+			}
+			$scope.unit2total = function($unit, $totalpcs) {
+				$result = $unit * $totalpcs;
+				return $result;
+			}
+			$scope.unit2kg = function($unit, $totalpcs, $gram, $w, $l) {
+				$total = $unit * $totalpcs;
+				$result = $total * 20000 / $gram / $w / $l;
+				return Math.round($result / 100) * 100;
+			}
 		}
 	]);
 }
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -6049,7 +6374,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -6060,7 +6385,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -6139,7 +6464,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -6155,7 +6480,7 @@ module.exports = function(app){
 	})
 
 }
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -6548,7 +6873,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -6722,7 +7047,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -6780,65 +7105,131 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'API_URL', '$window',
-		function($scope, $http, BASE_URL, API_URL, $window){
+	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
+		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
-			$scope.initAllSales = function($input, $filter){
+			$scope.selectedfilter = null;
+			$scope.filters = [
+				{
+					"name": "Semua",
+					"icon": "fa-filter",
+					"link": "semua"
+				},
+				{
+					"name": "Belum Bayar",
+					"icon": "fa-wallet",
+					"link": "belumbayar"
+				},
+				{
+					"name": "Diproses",
+					"icon": "fa-tasks",
+					"link": "diproses"
+				},
+				{
+					"name": "Dikirim",
+					"icon": "fa-truck-loading",
+					"link": "dikirim"
+				},
+				{
+					"name": "Selesai",
+					"icon": "fa-box-check",
+					"link": "selesai"
+				}
+			];
+
+			$scope.setselectedfilter = function($input, $refresh){
+				$scope.selectedfilter = $input;
+				if($input=="")
+					$scope.selectedfilter = "semua";
+
+				if($refresh){
+					//LOADING UNTUK REFRESH
+					$http({
+						method: "GET",
+						url: AJAX_URL+"allsales/filterorder/"+$input
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									console.log("HASILNYA STRING, error");
+								}else{
+									$scope.sales = response.data;
+									$scope.afterinitsales();
+								}
+							}else{
+								console.log("The return value is null, not error");
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+				}
+			}
+
+			$scope.initAllSales = function($input){
 				$scope.sales = JSON.parse($input);
+				$scope.afterinitsales();
+			}
 
+			$scope.afterinitsales = function(){
 				$.each($scope.sales, function($index, $item){
-					$item.created_at = $scope.makeDateTime($item.created_at);
-					$item.showpayment = false;
-					$item.showdelivery = false;
-					$item.showdetail = false;
+					if($item!=null){
+						$scope.loadingfilter = false;
+	$item.created_at = $scope.makeDateTime($item.created_at);
+						$item.showpayment = false;
+						$item.showdelivery = false;
+						$item.showdetail = false;
+						$item.totalprice = 0;
+						$.each($item.salesdetail, function($index2, $item2){
+							$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
+							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
+							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
+							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
 
-					$item.totalprice = 0;
-					$.each($item.salesdetail, function($index2, $item2){
-						$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
-						$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
-						$item2.cartheader.discount = parseInt($item2.cartheader.discount);
-						$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+							if($item2.updated_at != null)
+								$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
 
-						if($item2.updated_at != null)
-							$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
+							$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
 
-						$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
+							$item2.totalkirim = 0;
+							$item2.totalhargakirim = 0;
+							$.each($item2.salesdeliverydetail, function($j, $jj){
+								$item2.totalkirim += parseInt($jj.quantity);
+								$item2.totalhargakirim += parseFloat($jj.actualprice);
+							});
+						})
+						$item.totalpay = 0;
+						$item.tungguverif = false;
 
-						$item2.totalkirim = 0;
-						$item2.totalhargakirim = 0;
-						$.each($item2.salesdeliverydetail, function($j, $jj){
-							$item2.totalkirim += parseInt($jj.quantity);
-							$item2.totalhargakirim += parseFloat($jj.actualprice);
-						});
-					})
-					$item.totalpay = 0;
-					$item.tungguverif = false;
-					$.each($item.salespayment, function($index, $item2){
-						$item.totalpay += $item2.ammount;
-						if($item2.salespaymentverif==null)
-							$item.tungguverif = true;
-					})
+						$.each($item.salespayment, function($index, $item2){
+							$item.totalpay += $item2.ammount;
+							if($item2.salespaymentverif==null)
+								$item.tungguverif = true;
+						})
 
-					if($item.totalpay > $item.totalprice)
-						$item.paymentdetail = "LEBIH BAYAR. Kelebihan pembayaran akan ditransfer kerekening Anda keesokan hari.";
-					else if($item.totalpay == $item.totalprice)
-					{
-						if($item.tungguverif == true)
-							$item.paymentdetail = "Sedang menunggu proses verifikasi pembayaran. Hubungi kami u/ mempercepat.";
+						if($item.totalpay > $item.totalprice)
+							$item.paymentdetail = "LEBIH BAYAR. Kelebihan pembayaran akan ditransfer kerekening Anda keesokan hari.";
+						else if($item.totalpay == $item.totalprice)
+						{
+							if($item.tungguverif == true)
+								$item.paymentdetail = "Sedang menunggu proses verifikasi pembayaran. Hubungi kami u/ mempercepat.";
+							else
+								$item.paymentdetail = "LUNAS";
+						}
 						else
-							$item.paymentdetail = "LUNAS";
+						{
+							if($item.totalpay == 0)
+								$item.paymentdetail = "Belum ada pembayaran, silahkan lakukan pembayaran.";
+							else
+								$item.paymentdetail = "Anda kurang bayar.";
+						}
 					}
-					else
-					{
-						if($item.totalpay == 0)
-							$item.paymentdetail = "Belum ada pembayaran, silahkan lakukan pembayaran.";
-						else
-							$item.paymentdetail = "Anda kurang bayar.";
+					else{
+						$scope.loadingfilter = true;
 					}
 				});
-				$scope.filtersales(0);
 			}
 
 			$scope.makeDateTime = function($input){
@@ -7018,37 +7409,38 @@ module.exports = function(app){
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
-			$scope.filtersales = function($id){
-				if (!$scope.loadingfilter) {
-					$scope.loadingfilter = true;
-					$http({
-						method: "GET",
-						url: API_URL + "filtersales/" + $id
-					}).then(function(response) {
-						$scope.sales = [];
-						$scope.sales = response.data;
-						$.each($scope.sales, function($index, $item) {
-							$item.created_at = $scope.makeDateTime($item.created_at);
-						});
-						$("#filter-0").removeClass("active");
-						$("#filter-1").removeClass("active");
-						$("#filter-2").removeClass("active");
-						$("#filter-3").removeClass("active");
-						$("#filter-4").removeClass("active");
+			// $scope.filtersales = function($id){
+			// 	if (!$scope.loadingfilter) {
+			// 		$scope.loadingfilter = true;
+			// 		$http({
+			// 			method: "GET",
+			// 			url: API_URL + "filtersales/" + $id
+			// 		}).then(function(response) {
+			// 			$scope.sales = [];
+			// 			$scope.sales = response.data;
+			// 			console.log(response.data);
+			// 			$.each($scope.sales, function($index, $item) {
+			// 				$item.created_at = $scope.makeDateTime($item.created_at);
+			// 			});
+			// 			$("#filter-0").removeClass("active");
+			// 			$("#filter-1").removeClass("active");
+			// 			$("#filter-2").removeClass("active");
+			// 			$("#filter-3").removeClass("active");
+			// 			$("#filter-4").removeClass("active");
 
-						$("#filter-" + $id).addClass("active");
+			// 			$("#filter-" + $id).addClass("active");
 
-						$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
-						$scope.loadingfilter = false;
-					}, function(error) {
-						$scope.loadingfilter = false;
-					});
-				}	
-			}
+			// 			$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
+			// 			$scope.loadingfilter = false;
+			// 		}, function(error) {
+			// 			$scope.loadingfilter = false;
+			// 		});
+			// 	}	
+			// }
 		}
 	]);
 };
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, AJAX_URL, API_URL, BASE_URL, $window){
@@ -7084,12 +7476,13 @@ module.exports = function(app){
 			}
 
 			$scope.texttoread = '';
+			$scope.textcombination = '';
 			
 			$finishchanging = false;
 			$scope.counter = 0;
 			$scope.underconstruction = false;
-			$scope.uploaderror = "";
 			$scope.uploadwaiting = false;
+			$scope.uploadsuccess = false;
 			$scope.customsize = false;
 			$scope.result = {
 				"total" : {
@@ -7109,8 +7502,11 @@ module.exports = function(app){
 				"savecartval" : "",
 				'savebtnval' : "",
 				"description" : "",
+				"upload": "",
 			};
 			$scope.total = [];
+			$scope.uploadmaxfilesize = 0;
+			$scope.newfiledetail = "";
 
 			$scope.setUserLogin = function($role, $userid)
 			{
@@ -7118,6 +7514,9 @@ module.exports = function(app){
 					$scope.userid = $userid;
 				}
 				if($role==null){
+					$scope.role = null;
+					$scope.restrictNotLogined();
+				}else if($role==''){
 					$scope.role = null;
 					$scope.restrictNotLogined();
 				}else if($role!='customer'){
@@ -7227,7 +7626,7 @@ module.exports = function(app){
 			$scope.addtambahbaruaddress = function(){
 				$scope.customeraddresses.push( 
 					{
-						"id":'0',
+						"id": '0',
 						"address":{
 							"name": "Add address",
 							"address": "Tambah alamat baru.."
@@ -7238,7 +7637,6 @@ module.exports = function(app){
 
 			$scope.setData = function($datas){
 				//untuk set address di description kalo uda login
-				console.log($datas);
 				if($datas.user != null){
 					$scope.customeraddresses = [];
 					if($datas.user.customeraddress.length>0){
@@ -7249,6 +7647,8 @@ module.exports = function(app){
 						$scope.selected.deliveryaddress = '';
 					}
 					$scope.addtambahbaruaddress();
+					$scope.getMaxFilesize();
+					$scope.refreshUploadedImage();
 				}
 
 				//SET DATA SIZE jadi NUMBER
@@ -7284,6 +7684,11 @@ module.exports = function(app){
 				//buat tambahin option Tanpa Finishing, di zero index
 				$.each($datas.jobsubtypefinishing, function($index, $item){
 					$item = $scope.setFinishingZeroIndex($item, $item.finishing.name, $item.id);
+
+					//set finishing name from finishing -> finishingoption (supaya kalo di select nanti ada nama finishingnya, di 'finishingname')
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						$jj.finishingname = $item.finishing.name;
+					});
 				});
 
 				//untuk set semuanya jadi Tanpa Finishing. DEFAULT
@@ -7317,6 +7722,13 @@ module.exports = function(app){
 						//masukin ke selected sesuai index -> JANGAN CLONE!
 						$scope.selected.finishings[$index] = $item.finishing.finishingoption[0];
 					}
+
+					//UNTUK PILIH SESUAI DEFAULT YANG DI MASUKIN DI DB
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						if($jj.defaultoption == true){
+							$scope.selected.finishings[$index] = $item.finishing.finishingoption[$j];
+						}
+					});
 				});
 			}
 
@@ -7458,7 +7870,6 @@ module.exports = function(app){
 					$result.jobsubtypequantity = $scope.ofdgRemove($result.jobsubtypequantity, 1);
 					$result.jobsubtypefinishing = $scope.ofdgRemove($result.jobsubtypefinishing, 1);
 					$result.jobsubtypepaper = $scope.ofdgRemove($result.jobsubtypepaper, 1);
-					console.log($result.jobsubtypepaper);
 					$result.jobsubtypesize = $scope.ofdgRemove($result.jobsubtypesize, 1);
 					$result.jobsubtypetemplate = $scope.ofdgRemove($result.jobsubtypetemplate, 1);
 
@@ -7522,7 +7933,9 @@ module.exports = function(app){
 				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
 					if($ii.mustdo){
 						$ii.finishing.finishingoption[0].disabled = true;
-						$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
+						if($scope.selected.finishings[$i].id == 0)
+							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
 						//console.log($ii.finishing.finishingoption);
 					}
 				});
@@ -7715,6 +8128,7 @@ module.exports = function(app){
 								$scope.key = response.data.key;
 
 								$scope.texttoread = response.data.texttoread;
+								$scope.textcombination = response.data.textcombination;
 								if (typeof $scope.total === 'undefined') {
 									//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
 									//MUNCULIN UNDER CONSTRUCTION
@@ -7835,9 +8249,95 @@ module.exports = function(app){
 			}
 
 			$scope.showuploadfile = function(){
-				$scope.refreshUploadedImage();
-				$scope.uploaderror = '';
+				$scope.renewuploadmodal();
 				$("#uploadfileModal").modal('show');
+			}
+
+			$scope.showuploadurl = function(){
+				$scope.renewuploadmodal();
+				$("#uploadurlModal").modal('show');
+			}
+
+			$scope.checkuploadurl = function(){
+				return ($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl));
+			}
+
+			$scope.saveuploadurl = function(){
+				if($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl)){
+					if($scope.uploadinputurl.indexOf("http")!=0){
+						$scope.uploadinputurl = "https://"+$scope.uploadinputurl;
+					}
+					$scope.error.upload = "";
+
+
+					$scope.saveuploadurltodb();
+
+
+				}else{
+					$scope.error.upload = "Your inputed URL is not valid. Please try to check and reinput the right one.";
+				}
+
+				// $scope.uploadinputurl2 = $scope.trustAsUrl($scope.uploadinputurl);
+			}
+
+			$scope.saveuploadurltodb = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"files/saveurl",
+					data: {
+						url: $scope.uploadinputurl
+					}
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.error.upload = "wrong response type, error in server";
+								$scope.uploadsuccess = false;
+							}else{
+								$scope.uploadedfiles = response.data;
+								$scope.uploadsuccess = true;
+							}
+						}else{
+							$scope.error.upload = "URL cannot be process, something error";
+							$scope.uploadsuccess = false;
+						}
+					}else{
+						$scope.error.upload = "URL cannot be process, something error";
+						$scope.uploadsuccess = false;
+					}
+				}, function(error){
+					console.log(error);
+					$scope.uploadsuccess = false;
+				});
+			}
+
+			$scope.savefiledetail = function($id){
+				if($scope.newfiledetail.length<=500){
+					$http({
+						method: "POST",
+						url: AJAX_URL+"files/savedetail",
+						data: {
+							"detail": $scope.newfiledetail,
+							"fileID": $id
+						}
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$scope.error.upload = "Error - upload detail files";
+								}else{
+									$scope.uploadedfiles = response.data;
+								}
+							}else{
+								$scope.error.upload = "Error - server ga bisa cari data file";
+							}
+						}
+					}, function(error){
+						$scope.error.upload = "Error - passing data not successful";
+					});
+				}else{
+					$scope.error.upload = "Detail > 500 huruf (Prohibited)";
+				}
 			}
 
 			$scope.showitemdescription = function(){
@@ -7871,7 +8371,7 @@ module.exports = function(app){
 
 
 					if($scope.checkerrorstatus())
-					$('#savedialogModal').modal('show');
+						$('#savedialogModal').modal('show');
 
 					//ERROR MERAH DI ATAS TOTAL HARGA
 				}else{
@@ -8244,32 +8744,13 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.addSelectedFiles = function($file){
-				$duplicated = false;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$duplicated = true;
+			$scope.checkSelectedFiles = function(){
+				$scope.selected.files = [];
+				$.each($scope.uploadedfiles, function($index, $item){
+					if($item.checked){
+						$scope.selected.files.push($item);
 					}
 				});
-				//kalo ga ada yang sama baru boleh add
-				if($duplicated == false)
-					$scope.selected.files.push($file);
-			}
-
-			$scope.remSelectedFiles = function($file){
-				$selectedindex = -1;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$selectedindex = $index;
-					}
-				});
-				//kalo ketemu, delete
-				if($selectedindex != -1)
-				{
-					$scope.selected.files.splice($selectedindex, 1);
-				}
 			}
 
 			$scope.refreshUploadedImage = function(){
@@ -8312,6 +8793,10 @@ module.exports = function(app){
 						}
 					);
 				}
+			}
+
+			$scope.showcombinations = function(){
+				$('#combinations').modal('show');
 			}
 
 			$scope.saveTexttoread = function(){
@@ -8401,7 +8886,7 @@ module.exports = function(app){
 
 			var upload = function(files) {
 				var data = new FormData();
-				$scope.uploaderror = '';
+				$scope.error.upload = '';
 				$scope.uploadwaiting = true;
 				$scope.loadingfiles = true;
 
@@ -8410,6 +8895,7 @@ module.exports = function(app){
 
 				angular.forEach(files, function(value){
 					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
 					if ($ext != 'cdr' &&
 						$ext != 'zip' &&
 						$ext != 'rar' &&
@@ -8429,22 +8915,22 @@ module.exports = function(app){
 						$ext != 'indd') //indesign
 					{
 						//FORMAT NGACOK
-						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
+						$scope.error.upload = value.name+" : tidak bisa upload dengan file format "+$ext+".";
 						$counterror++;
 					}
 					else if(value.size > 50 * 1024 * 1024)
 					{
-						$scope.uploaderror = value.name+" : file terlalu besar.";
+						$scope.error.upload = value.name+" : file terlalu besar.";
 						$counterror++;
 
 					}
 					else 
 					{
-						$scope.uploaderror = "";
+						$scope.error.upload = "";
 						data.append("files[]", value);
 					}
 
-					if($scope.uploaderror!=''){
+					if($scope.error.upload!=''){
 
 						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
 						try{
@@ -8532,30 +9018,81 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response){
+					$jumlahsebelomupload = -1;
 					if(response!=null)
 					{
 						if(response.constructor === Array)
 						{
+							$jumlahsebelomupload = $scope.uploadedfiles.length;
 							$scope.uploadedfiles = [];
 							$scope.uploadedfiles = response;
 							if ($scope.uploadedfiles.length > 0) 
 								$scope.tableshow = true;
 
+							if($jumlahsebelomupload < $scope.uploadedfiles.length){
+								$scope.uploadsuccess = true;
+								$scope.error.upload = "";
+							}else{
+								$scope.error.upload = "Tidak berhasil ditambahkan";
+							}
+
+							//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 							$scope.$apply(function(){});
 						}
 						else
 						{
+							$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (empty).";
 							$scope.uploadedfiles = [];
 						}
 					}
 					else
 					{
+						$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (null).";
 						$scope.uploadedfiles = [];
 						//console.log	('NO DATA in PendIMG');
 					}
 					$scope.loadingfiles = false;
 					$scope.uploadwaiting = false;
 					$scope.allowed();
+
+					$scope.$apply(function(){});
+				}).fail(function(response){
+					if(response.status == 419){
+						$scope.error.upload = "Session is over, please re-login to upload";
+					}else{
+						$scope.error.upload = response.statusText;
+					}
+					$scope.loadingfiles = false;
+					$scope.uploadwaiting = false;
+					$scope.uploadsuccess = false;;
+
+
+					$scope.$apply(function(){});
+				});
+			}
+
+			$scope.renewuploadmodal = function(){
+				$scope.refreshUploadedImage();
+				$scope.error.upload = '';
+				$scope.uploadsuccess = false;
+			}
+
+			$scope.getMaxFilesize = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"file/maxfilesize"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.uploadmaxfilesize = response.data;
+							}
+						}else{
+							console.log("The return value is null, not error");
+						}
+					}
+				}, function(error){
+					console.log(error);
 				});
 			}
 
@@ -8583,6 +9120,10 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.cetakpenawaran = function(){
+				$("#offerintext").modal("show");
+			}
+
 			$scope.calcheadtabclick = function(){
 				var body = $("html, body");
 				var top = $("#calc-headtab").offset().top-10;
@@ -8591,33 +9132,25 @@ module.exports = function(app){
 				});
 			}
 
-			/*$('#real-dropzone').on('dragover', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			});
-			$('#real-dropzone').on('dragenter', function(e) {
-				//console.log('dragenter');
-				e.preventDefault();
-				e.stopPropagation();
-			});
-
-			$('#real-dropzone').on('drop', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				if (e.originalEvent.dataTransfer){
-					if (e.originalEvent.dataTransfer.files.length > 0) {
-						upload(e.originalEvent.dataTransfer.files);
+			$scope.fileis = function(){
+				if($scope.uploadedfiles != null){
+					if($scope.uploadedfiles.length>0){
+						$ext = $scope.uploadedfiles[$scope.uploadedfiles.length-1].path.substring($scope.uploadedfiles[$scope.uploadedfiles.length-1].path.lastIndexOf('.')+1);
+						if($ext == "zip" || $ext == "rar"){
+							return "pdf";
+						}
+					}else{
+						return "-";
 					}
-				} 
-				return false;
-			});
-			$('#real-dropzone').change(function(e)
-			{
-				//console.log('COMPLEETETEEE');
-			});*/
+				}else{
+					return "";
+				}
+			}
 
 			$scope.choosefileclicked = function(){
-				$('#file').click();
+				$('#btn-choose-file').click();
+
+				console.log($("#btn-choose-file"));
 			}
 
 			$('#real-dropzonew').on('change', function(e) 
@@ -8631,10 +9164,14 @@ module.exports = function(app){
 				} 
 				return false;
 			});
+
+			$scope.showpickup = function(){
+				$("#showpickup").modal('show');
+			}
 		}
 	]);
 };
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -9876,12 +10413,27 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
-			//$scope.getActiveJobSubType();
-			$scope.getAllJobSubType();
+
+			$scope.initData = function($input){
+				$scope.jobtypes = JSON.parse($input);
+
+				$.each($scope.jobtypes, function($index, $item){
+					//HIDE YANG GA PUNYA ISI
+					$totalsub = 0;
+					$.each($item.jobsubtype, function($j, $jj){
+						$totalsub++;
+					});
+					if($totalsub==0)
+						$item.active = false;
+					else{
+						$item.active = true;
+					}
+				});
+			}
 
 			$scope.linkclicked = function($link, $active){
 				if ($active) {
@@ -9895,7 +10447,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -9971,7 +10523,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],41:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -10131,7 +10683,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -10190,7 +10742,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -10234,7 +10786,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('ViewfileModal', ['$scope', '$http', 'API_URL',
 		function($scope, $http, API_URL){
@@ -10243,7 +10795,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -10265,7 +10817,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -10280,7 +10832,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -10297,7 +10849,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -10938,7 +11490,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -10953,7 +11505,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -11208,11 +11760,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],51:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":50}],52:[function(require,module,exports){
+},{"./angular-cookies":52}],54:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -12125,11 +12677,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],53:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":52}],54:[function(require,module,exports){
+},{"./angular-resource":54}],56:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -13396,11 +13948,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":54}],56:[function(require,module,exports){
+},{"./angular-route":56}],58:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -14315,11 +14867,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],57:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":56}],58:[function(require,module,exports){
+},{"./angular-sanitize":58}],60:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -50548,11 +51100,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":58}],60:[function(require,module,exports){
+},{"./angular":60}],62:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -51046,7 +51598,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":63}],61:[function(require,module,exports){
+},{"util/":65}],63:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -51071,14 +51623,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -51668,7 +52220,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":62,"_process":88,"inherits":61}],64:[function(require,module,exports){
+},{"./support/isBuffer":64,"_process":90,"inherits":63}],66:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -51821,9 +52373,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],65:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 
-},{}],66:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 /* eslint camelcase: "off" */
@@ -52235,7 +52787,7 @@ Zlib.prototype._reset = function () {
 
 exports.Zlib = Zlib;
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":88,"assert":60,"buffer":68,"pako/lib/zlib/constants":78,"pako/lib/zlib/deflate.js":80,"pako/lib/zlib/inflate.js":82,"pako/lib/zlib/zstream":86}],67:[function(require,module,exports){
+},{"_process":90,"assert":62,"buffer":70,"pako/lib/zlib/constants":80,"pako/lib/zlib/deflate.js":82,"pako/lib/zlib/inflate.js":84,"pako/lib/zlib/zstream":88}],69:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -52847,7 +53399,7 @@ util.inherits(DeflateRaw, Zlib);
 util.inherits(InflateRaw, Zlib);
 util.inherits(Unzip, Zlib);
 }).call(this,require('_process'))
-},{"./binding":66,"_process":88,"assert":60,"buffer":68,"stream":103,"util":108}],68:[function(require,module,exports){
+},{"./binding":68,"_process":90,"assert":62,"buffer":70,"stream":105,"util":110}],70:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -54626,7 +55178,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":64,"ieee754":71}],69:[function(require,module,exports){
+},{"base64-js":66,"ieee754":73}],71:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -54737,7 +55289,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":73}],70:[function(require,module,exports){
+},{"../../is-buffer/index.js":75}],72:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -55262,7 +55814,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],71:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -55348,9 +55900,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],72:[function(require,module,exports){
-arguments[4][61][0].apply(exports,arguments)
-},{"dup":61}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
+arguments[4][63][0].apply(exports,arguments)
+},{"dup":63}],75:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -55373,14 +55925,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],75:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');
@@ -55403,7 +55955,7 @@ module.exports = {
     return promise;
   }
 };
-},{"zlib":67}],76:[function(require,module,exports){
+},{"zlib":69}],78:[function(require,module,exports){
 'use strict';
 
 
@@ -55510,7 +56062,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],77:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -55563,7 +56115,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],78:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -55633,7 +56185,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],79:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -55694,7 +56246,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],80:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -57570,7 +58122,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":76,"./adler32":77,"./crc32":79,"./messages":84,"./trees":85}],81:[function(require,module,exports){
+},{"../utils/common":78,"./adler32":79,"./crc32":81,"./messages":86,"./trees":87}],83:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -57917,7 +58469,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -59475,7 +60027,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":76,"./adler32":77,"./crc32":79,"./inffast":81,"./inftrees":83}],83:[function(require,module,exports){
+},{"../utils/common":78,"./adler32":79,"./crc32":81,"./inffast":83,"./inftrees":85}],85:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -59820,7 +60372,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":76}],84:[function(require,module,exports){
+},{"../utils/common":78}],86:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -59854,7 +60406,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],85:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61076,7 +61628,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":76}],86:[function(require,module,exports){
+},{"../utils/common":78}],88:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61125,7 +61677,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],87:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -61173,7 +61725,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":88}],88:[function(require,module,exports){
+},{"_process":90}],90:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -61359,10 +61911,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],89:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":90}],90:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":92}],92:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -61494,7 +62046,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":92,"./_stream_writable":94,"core-util-is":69,"inherits":72,"process-nextick-args":87}],91:[function(require,module,exports){
+},{"./_stream_readable":94,"./_stream_writable":96,"core-util-is":71,"inherits":74,"process-nextick-args":89}],93:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -61542,7 +62094,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":93,"core-util-is":69,"inherits":72}],92:[function(require,module,exports){
+},{"./_stream_transform":95,"core-util-is":71,"inherits":74}],94:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -62564,7 +63116,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":90,"./internal/streams/BufferList":95,"./internal/streams/destroy":96,"./internal/streams/stream":97,"_process":88,"core-util-is":69,"events":70,"inherits":72,"isarray":74,"process-nextick-args":87,"safe-buffer":102,"string_decoder/":104,"util":65}],93:[function(require,module,exports){
+},{"./_stream_duplex":92,"./internal/streams/BufferList":97,"./internal/streams/destroy":98,"./internal/streams/stream":99,"_process":90,"core-util-is":71,"events":72,"inherits":74,"isarray":76,"process-nextick-args":89,"safe-buffer":104,"string_decoder/":106,"util":67}],95:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -62779,7 +63331,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":90,"core-util-is":69,"inherits":72}],94:[function(require,module,exports){
+},{"./_stream_duplex":92,"core-util-is":71,"inherits":74}],96:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -63469,7 +64021,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":90,"./internal/streams/destroy":96,"./internal/streams/stream":97,"_process":88,"core-util-is":69,"inherits":72,"process-nextick-args":87,"safe-buffer":102,"timers":105,"util-deprecate":106}],95:[function(require,module,exports){
+},{"./_stream_duplex":92,"./internal/streams/destroy":98,"./internal/streams/stream":99,"_process":90,"core-util-is":71,"inherits":74,"process-nextick-args":89,"safe-buffer":104,"timers":107,"util-deprecate":108}],97:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -63549,7 +64101,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":102,"util":65}],96:[function(require,module,exports){
+},{"safe-buffer":104,"util":67}],98:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -63624,13 +64176,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":87}],97:[function(require,module,exports){
+},{"process-nextick-args":89}],99:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":70}],98:[function(require,module,exports){
+},{"events":72}],100:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":99}],99:[function(require,module,exports){
+},{"./readable":101}],101:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -63639,13 +64191,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":90,"./lib/_stream_passthrough.js":91,"./lib/_stream_readable.js":92,"./lib/_stream_transform.js":93,"./lib/_stream_writable.js":94}],100:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":92,"./lib/_stream_passthrough.js":93,"./lib/_stream_readable.js":94,"./lib/_stream_transform.js":95,"./lib/_stream_writable.js":96}],102:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":99}],101:[function(require,module,exports){
+},{"./readable":101}],103:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":94}],102:[function(require,module,exports){
+},{"./lib/_stream_writable.js":96}],104:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -63709,7 +64261,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":68}],103:[function(require,module,exports){
+},{"buffer":70}],105:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -63838,7 +64390,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":70,"inherits":72,"readable-stream/duplex.js":89,"readable-stream/passthrough.js":98,"readable-stream/readable.js":99,"readable-stream/transform.js":100,"readable-stream/writable.js":101}],104:[function(require,module,exports){
+},{"events":72,"inherits":74,"readable-stream/duplex.js":91,"readable-stream/passthrough.js":100,"readable-stream/readable.js":101,"readable-stream/transform.js":102,"readable-stream/writable.js":103}],106:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64135,7 +64687,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":102}],105:[function(require,module,exports){
+},{"safe-buffer":104}],107:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -64214,7 +64766,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":88,"timers":105}],106:[function(require,module,exports){
+},{"process/browser.js":90,"timers":107}],108:[function(require,module,exports){
 (function (global){
 
 /**
@@ -64285,8 +64837,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],107:[function(require,module,exports){
-arguments[4][62][0].apply(exports,arguments)
-},{"dup":62}],108:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"./support/isBuffer":107,"_process":88,"dup":63,"inherits":72}]},{},[1]);
+},{}],109:[function(require,module,exports){
+arguments[4][64][0].apply(exports,arguments)
+},{"dup":64}],110:[function(require,module,exports){
+arguments[4][65][0].apply(exports,arguments)
+},{"./support/isBuffer":109,"_process":90,"dup":65,"inherits":74}]},{},[1]);

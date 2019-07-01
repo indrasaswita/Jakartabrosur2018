@@ -31,7 +31,7 @@
 @if(isset($carts))
 	@if($carts != null)
 		@if(count($carts) != 0)
-	<div class="page-title">
+	<div class="page-title margin-10-0">
 		<i class="fas fa-shopping-basket fa-fw"></i>
 		Keranjang Belanja
 	</div>

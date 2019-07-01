@@ -32,6 +32,8 @@ class InsertPapershopsTable extends Migration
             INSERT INTO vendors VALUES('0', 'Quantac', '08551110888', '02129236020', '', 'Denny', 'paper', now(), now());
             INSERT INTO vendors VALUES('0', 'Edi Efendi', '081281113658', '081617101694', '', '', 'finishing', now(), now());
             INSERT INTO vendors VALUES('0', 'Asah Pisau Polar', '0215413639', '', '', '', 'finishing', now(), now());
+            INSERT INTO vendors VALUES('0', 'Andy Solusi Grafika', '', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Cutting Sticker Shop', '', '', '', '', 'paper', now(), now());
         ");
     }
 

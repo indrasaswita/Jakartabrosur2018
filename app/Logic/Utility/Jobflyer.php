@@ -12,6 +12,11 @@ class Jobflyer extends Job
 		$this->cs = $constants;
 	}
 
+	public function setMaxPrint($width, $length){
+		$this->max_print_width = $width;
+		$this->max_print_length = $length;
+	}
+
 	public function hitungFlyer (){
 		$data = $this->data;
 
@@ -39,8 +44,8 @@ class Jobflyer extends Job
 			//KALO SM52
 			$marginlength = 0.8; // dalam cm
 			$marginwidth = 0.4; // dalam cm
-			$max_print_length = 51;
-			$max_print_width = 36;
+			$this->max_print_length = $this->max_print_length==0?51:$this->max_print_length;
+			$this->max_print_width = $this->max_print_width==0?36:$this->max_print_width;
 			$bleed = 0.4;
 			$jepitan = 1.0;
 		}
@@ -53,8 +58,8 @@ class Jobflyer extends Job
 
 			$marginwidth = 0.5;
 			$marginlength = 0.5;
-			$max_print_length = 48.5;
-			$max_print_width = 33;
+			$this->max_print_length = $this->max_print_length==0?48.5:$this->max_print_length;
+			$this->max_print_width = $this->max_print_width==0?33:$this->max_print_width;
 			$bleed = 0.4;
 			$jepitan = 0;
 		}
@@ -67,7 +72,7 @@ class Jobflyer extends Job
 		$imagewidth = $data['size']['width'];
 		$imagelength = $data['size']['length'];
 		//$printtype = $data['printtype']; //uda di atas
-		$data = $this->calcPlanoSize($data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype);
+		$data = $this->calcPlanoSize($data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $this->max_print_width, $this->max_print_length, $paperID, $printtype);
 		//hasilnya di store di $data['paper'] & ['calculation']
 
 
@@ -96,6 +101,7 @@ class Jobflyer extends Job
 			"price"=>$totalprice,
 			"paperprice"=>$paperprice,
 			"cetakprice"=>$printprice,
+			"finishingprice"=>0,
 		);
 
 		$this->data = $data;

@@ -10,6 +10,7 @@ class Finishing extends Model
     protected $guarded = ['id'];
     protected $hidden = ['created_at', 'updated_at'];
     protected $dates = ['created_at', 'updated_at'];
+    protected $casts = ['status'];
 
     public function finishingoption(){
     	return $this->hasMany('App\Finishingoption', 'finishingID');

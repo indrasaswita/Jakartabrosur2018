@@ -22,6 +22,8 @@ use App\Logic\Utility\Jobflyer;
 use App\Logic\Utility\Jobplotter;
 use App\Logic\Utility\Jobbusinesscard;
 use App\Logic\Utility\Jobdeskcalendar;
+use App\Logic\Utility\Jobcuttingsticker;
+use App\Logic\Utility\Jobprintcutsticker;
 use DB;
 use Carbon\Carbon;
 use Crypt;
@@ -32,6 +34,7 @@ class Calculation extends Controller
 	private $cs = array();
 	private $calculation = array();
 	private $texttoread = "<div class='text-bold'>AN OFFER IN A TEXT</div><hr class='margin-5-0'>";
+	private $textcombination = "COMBINATION<br>";
 
 
 	public function initDataFromDB(&$data){
@@ -73,7 +76,7 @@ class Calculation extends Controller
 		return $data;
 	}
 
-	public function calcFinishing($data){
+	/*public function calcFinishing($data){
 		$finishings = Finishing::where('status', '=', 1)->with('finishingoption')->get();
 
 		// DARI BELAKANG!!!!
@@ -142,7 +145,7 @@ class Calculation extends Controller
 		unset($finishings); // HAPUS
 		return $data;
 	} 
-
+*/
 
 	public function calcPerJob($job, $data){
 		$obj = null;
@@ -157,17 +160,30 @@ class Calculation extends Controller
 			$obj = new Jobflyer($data, $this->cs);
 			$obj->hitungFlyer();
 			$obj->calcFinishing();
-
+		}else if($job == "cuttingsticker"){
+			$obj = new Jobcuttingsticker($data, $this->cs);
+			$obj->setMachineID(10);
+			$obj->setMargin(0, 0, 0, 0);
+			$obj->hitungCutting();
+			$obj->calcFinishing();
+		}else if($job == "printcutsticker"){
+			$obj = new Jobprintcutsticker($data, $this->cs);
+			$obj->hitungPrint();
+			$obj->hitungCuttingA3();
+			$obj->calcFinishing();
 		}else if($job == "businesscard"){
 			//KARENA BOX
 			$data['totalbox'] = $data['quantity'];
 			$data['quantity'] *= 100;
 
 			$obj = new Jobbusinesscard($data, $this->cs);
-			$hasil = $obj->hitungFlyer();
+			$obj->hitungFlyer();
 			$obj->tambahBoxKartuNama(1500);
 			$obj->calcFinishing();
-
+		}else if($job == "kartupanitia"){
+			$obj = new Jobflyer($data, $this->cs);
+			$obj->hitungFlyer();
+			$obj->calcFinishing();
 		}else if($job == "rollupbanner"){
 			
 			$obj = new Jobplotter($data, $this->cs);
@@ -229,7 +245,7 @@ class Calculation extends Controller
 		
 
 		if($obj != null){
-
+			$this->textcombination .= $obj->getTextcombination();
 			$this->texttoread .= $obj->getTexttoread();
 
 			//print_r($obj->getData()['total']);
@@ -312,7 +328,8 @@ class Calculation extends Controller
 		if(session()->has('role'))
 		{
 			if(session()->get('role')=='Administrator')
-				$result['texttoread'] = $this->texttoread; //nanti di buang
+				$result['texttoread'] = $this->texttoread; 
+				$result['textcombination'] = $this->textcombination;
 		}
 		//return $data;
 		return $result;
