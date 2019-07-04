@@ -16,7 +16,7 @@ require('./constants/variable')(app);
 
 
 //CONTROLLERS
-
+require("./controllers/global.nav.header")(app);
 require("./controllers/viewfile-modal")(app);
 require("./controllers/roles")(app);
 require("./controllers/salespaymentconfirm")(app);
@@ -63,6 +63,8 @@ require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
 require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
+require("./controllers/admin.master.vendor.index")(app);
+require("./controllers/admin.changetheworld.index")(app);
 
 
 

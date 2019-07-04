@@ -36,13 +36,12 @@
 			Transaction Overview
 		</div>
 		<div class="margin-0">
-			<div class="btn-filtercusttrans">
+			<div class="btn-filter-scroll-x">
 				<a href="" ng-click="setselectedfilter(item.link, true)" ng-class="{'active':item.link==selectedfilter}" class="btn" ng-repeat="item in filters">
 					<i class="fal hidden-xs-down" ng-class="item.icon"></i>
 					[[item.name]]
 				</a>
 			</div>
-
 
 			<table class="table table-sm table-custom-allsales">
 				<thead class="text-center">

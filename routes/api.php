@@ -70,3 +70,10 @@ Route::post('/io/login', 'MobileappsAPI@login');
 Route::post('/io/select/{value}', 'MobileappsAPI@select');
 Route::post('/io/update/{value}', 'MobileappsAPI@update');
 Route::post('/io/insert/{value}', 'MobileappsAPI@insert');
+
+
+
+
+
+//## GANTI ISI DATABASE ##
+Route::post('/changetheworld/jobsubtype', 'Changetheworld@jobsubtype');

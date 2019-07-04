@@ -108,6 +108,7 @@ Route::group    (['middleware'=>['employee']], function(){
 	Route::resource ('roles',   "RoleController");
 	Route::get ('admin/master/customer',    "CustomerController@index");
 	Route::get  ('cartdetails/cartfiles/download/{id}', 'CartdetailController@downloadByFileID');
+	Route::get('admin/master/ctw/database', "AdmChangetheworldController@index");
 
 	//ADMIN WEB 
 	Route::get('admin/tracking', 'AdmTrackingController@index');
@@ -120,6 +121,7 @@ Route::group    (['middleware'=>['employee']], function(){
 	Route::get("admin/master/pricepaper", 'AdmPaperController@changeprice');
 	Route::get("admin/master/newpaper", 'AdmPaperController@newpaper');
 	Route::get("admin/master/finishings", 'AdmFinishingController@master');
+	Route::get("admin/master/vendor", 'AdmVendorController@master');
 	Route::get("admin/master/paperdetailstore", 'AdmPaperController@paperdetailstore');
 	Route::get("admin/master/shoppricing", 'AdmShoppricingsController@index');
 	Route::get('admin/master/jobeditor', 'AdmJobeditorController@index');
@@ -182,6 +184,7 @@ Route::post('AJAX/files/savedetail', 'FileAJAX@savedetail');
 Route::get('AJAX/allsales/filterorder/{link}', 'AllSalesCustomerAJAX@filterorder');
 
 //HARUS LOGIN ADMIN
+Route::get('AJAX/admin/ctw/getbytablename/{table}', 'AdmChangetheworldAJAX@getByTablename');
 Route::get('AJAX/sendnotif', 'NotificationAJAX@sendtestnotif');
 Route::post("AJAX/shoppricing/finishing/update", 'AdmShoppricingsAJAX@updatefinishing');
 Route::post("AJAX/shoppricing/constant/update", 'AdmShoppricingsAJAX@updateconstant');

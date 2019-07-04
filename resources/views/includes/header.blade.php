@@ -1,4 +1,4 @@
-<nav class="navbar navbar-purple disable-select">
+<nav class="navbar navbar-purple disable-select" ng-controller="NavHeaderController">
 	<button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" ng-click="togglerClicked()">
 		<span class="fas fa-fw fa-chevron-down transition"></span>
 	</button>
@@ -31,7 +31,7 @@
 	        	<div class="txt">HOME</div>
         	</a>
 	    </li>
-	    <li class="nav-item" ng-class="{'active':'{{Request::path()}}'=='orderlistcustomer'||'{{Request::path()}}'.startsWith('shop/')}">
+	    <li class="nav-item" ng-class="{'active':isOrder('{{Request::path()}}')}">
 	        <a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
 	        	<div class="ico">
 	        		<i class="fal fa-fw fa-abacus"></i> 
@@ -42,7 +42,7 @@
 		@if(Session::has('role'))
 			@if(Session::get('role') == 'customer')
 
-    	<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'.startsWith('cart')||'{{Request::path()}}'.startsWith('sales/all')}">
+    	<li class="nav-item dropdown" ng-class="{'active':isCustTransaksi('{{Request::path()}}')}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
         		<i class="fal fa-fw fa-ballot-check"></i> 
@@ -63,12 +63,12 @@
 				</div>
 			</li>
 			@elseif(Session::get('role') != 'customer')
-			<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='admin/master/pricepaper'||'{{Request::path()}}'=='admin/master/customer'||'{{Request::path()}}'=='admin/allsales'||'{{Request::path()}}'=='admin/cart'}">
+			<li class="nav-item dropdown" ng-class="{'active':isEmpTransaksi('{{Request::path()}}')}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-user-cog"></i> 
+        		<i class="fal fa-fw fa-shredder"></i> 
         	</div>
-        	<div class="txt">MASTER</div>
+        	<div class="txt">TRANSAKSI</div>
       	</a>
       	<div class="dropdown-menu-center">
       		<div class="wrapper">
@@ -92,7 +92,7 @@
 							<div class="dropdown-divider"></div>
 							<div class="dropdown-title">
 								Need to do
-								<i class="fas fa-user-clock fa-fw tx-purple"></i>
+								<i class="fal fa-hourglass-start fa-fw"></i>
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/pendingcompany')}}">
 								<span class="far fa-fw fa-circle-notch fa-spin icon"></span>
@@ -106,19 +106,19 @@
 					</div>
 				</div>
 	    </li>
-	    <li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='admin/master/pricepaper'||'{{Request::path()}}'=='admin/master/customer'||'{{Request::path()}}'=='admin/allsales'||'{{Request::path()}}'=='admin/cart'}">
+	    <li class="nav-item dropdown" ng-class="{'active':isEmpMaster('{{Request::path()}}')}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
         		<i class="fal fa-fw fa-key"></i> 
         	</div>
-        	<div class="txt">EDITOR</div>
+        	<div class="txt">MASTER</div>
       	</a>
       	<div class="dropdown-menu-center">
       		<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
-								Master Editor  
-								<span class="fas fa-pen-nib fa-fw tx-purple"></span>
+								KERTAS
+								<span class="fas fa-paper-plane fa-fw tx-purple"></span>
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/pricepaper')}}">
 								<span class="far fa-fw fa-tags icon"></span>
@@ -130,33 +130,70 @@
 							</a>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/paperdetailstore')}}">
 								<span class="far fa-fw fa-store icon"></span>
-								Paper Store & Details
+								Tambah Kertas Vendor & Details
 							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/vendor')}}">
+								<span class="far fa-fw fa-store icon"></span>
+								Tambah Vendor + Detail
+							</a>
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-title">
+								FINISHING 
+								<i class="fas fa-eye fa-fw tx-purple"></i>
+							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/finishings')}}">
 								<span class="far fa-fw fa-layer-plus icon"></span>
 								Tambah Finishing + Harga
 							</a>
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-title">
+								CUSTOMER REVIEW 
+								<i class="fas fa-eye fa-fw tx-purple"></i>
+							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/customer')}}">
 								<span class="far fa-fw fa-users-cog icon"></span>
 								Detail Pelanggan
 							</a>
+						</div>
+					</div>
+				</div>
+	    </li>
+	    <li class="nav-item dropdown" ng-class="{'active':isEmpJobsubtype('{{Request::path()}}')}">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+        	<div class="ico dropdown-toggle">
+        		<i class="fal fa-fw fa-bullseye-pointer"></i> 
+        	</div>
+        	<div class="txt">JOBSTYPE</div>
+      	</a>
+      	<div class="dropdown-menu-center">
+      		<div class="wrapper">
+						<div class="dropdown-menu">
+							<div class="dropdown-title">
+								Status 
+								<i class="fas fa-mandolin fa-fw tx-purple"></i>
+							</div>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/jobactivation')}}">
+								<span class="far fa-fw fa-power-off icon"></span>
+								JOB Activation
+							</a>
 							<div class="dropdown-divider"></div>
 							<div class="dropdown-title">
-								JOB detail Editor  
-								<span class="fas fa-pen-nib fa-fw tx-purple"></span>
+								Detil 
+								<i class="fas fa-mandolin fa-fw tx-purple"></i>
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/shoppricing')}}">
 								<span class="far fa-fw fa-percentage icon"></span>
 								JOB Price Editor
 							</a>
-							<a class="dropdown-item" href="{{URL::asset('admin/master/jobactivation')}}">
-								<span class="far fa-fw fa-power-off icon"></span>
-								JOB Activation
-							</a>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/jobeditor')}}">
 								<span class="far fa-fw fa-paperclip icon"></span>
 								JOB Detail Editor
 							</a>
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-title">
+								Sub JOB 
+								<i class="fas fa-mandolin fa-fw tx-purple"></i>
+							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/jobfinishingeditor')}}">
 								<span class="far fa-fw fa-magic icon"></span>
 								JOB Finishings
@@ -177,10 +214,32 @@
 					</div>
 				</div>
 	    </li>
+	    <li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'.startsWith('admin/master/ctw')}">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+        	<div class="ico dropdown-toggle">
+        		<i class="fal fa-fw fa-crown"></i> 
+        	</div>
+        	<div class="txt">CTW</div>
+      	</a>
+      	<div class="dropdown-menu-center">
+      		<div class="wrapper">
+						<div class="dropdown-menu">
+							<div class="dropdown-title">
+								Change The World 
+								<i class="fas fa-globe-stand fa-fw tx-purple"></i>
+							</div>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/ctw/database')}}">
+								<span class="far fa-fw fa-globe-europe icon"></span>
+								Upload DB
+							</a>
+						</div>
+					</div>
+				</div>
+	    </li>
 			@endif
 		@endif
 		@if(Session::has('role'))
-			<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='profile'||'{{Request::path()}}'=='chpass'}">
+			<li class="nav-item dropdown" ng-class="{'active':isAccount('{{Request::path()}}')}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
         		<span class="fal fa-fw fa-user"></span> 
@@ -222,7 +281,7 @@
 				</div>
 	    </li>
 		@else
-			<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'=='login'||'{{Request::path()}}'=='signup'}">
+			<li class="nav-item dropdown" ng-class="{'active':isAccount('{{Request::path()}}')}">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
         	<div class="ico dropdown-toggle">
         		<i class="far fa-fw fa-power-off"></i> 

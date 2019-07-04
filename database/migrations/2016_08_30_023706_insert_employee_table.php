@@ -21,7 +21,7 @@ class InsertEmployeeTable extends Migration
         DB::table('employees')->insert([
             'name' => 'Indra Employee',
             'email' => 'employee@test.com',
-            'password' => Hash::make('employee'),
+            'password' => Hash::make('password'),
             'roleID' => 1
         ]);
     }

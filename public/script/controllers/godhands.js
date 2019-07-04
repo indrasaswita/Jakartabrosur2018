@@ -398,6 +398,41 @@ module.exports = function(app){
 				$result = $total * 20000 / $gram / $w / $l;
 				return Math.round($result / 100) * 100;
 			}
+
+			$scope.phonemask = function(e){
+				if(e!=null){
+					var hasil = e;
+					var x;
+					if(!e.startsWith("08")){
+					  x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
+					  if(x!=null)
+					  	hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
+					}
+					else{
+						if(e.length==10){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{3})/);
+							if(x!=null)
+					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}else if(e.length==11){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{4})/);
+							if(x!=null)
+					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}
+						else if(e.length==12){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})/);
+							if(x!=null)
+					  	hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}
+						else if(e.length==13){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/);
+							if(x!=null)
+								hasil = x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4];
+						}
+					}
+				  return hasil;
+				}else
+					return "";
+			}
 		}
 	]);
 }

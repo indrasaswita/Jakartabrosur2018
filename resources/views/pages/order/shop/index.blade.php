@@ -18,8 +18,8 @@
 				</a>
 			</li>
 			<li class="nav-item" ng-show="role==null">
-	    	<a class="nav-link" id="desc-headtab" href="">
-	    		<i class="fal fa-fw fa-user-lock"></i> Log-in needed
+	    	<a class="nav-link" href="">
+	    		<i class="fal fa-fw fa-user-lock"></i> Log-in dulu ...
 	    	</a>
     	</li>
 	    <li class="nav-item" ng-show="role!=null">

@@ -32,8 +32,12 @@ class InsertPapershopsTable extends Migration
             INSERT INTO vendors VALUES('0', 'Quantac', '08551110888', '02129236020', '', 'Denny', 'paper', now(), now());
             INSERT INTO vendors VALUES('0', 'Edi Efendi', '081281113658', '081617101694', '', '', 'finishing', now(), now());
             INSERT INTO vendors VALUES('0', 'Asah Pisau Polar', '0215413639', '', '', '', 'finishing', now(), now());
-            INSERT INTO vendors VALUES('0', 'Andy Solusi Grafika', '', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Andy Solusi Grafika', '0818860014', '081319192304', '', '', 'sparepart', now(), now());
             INSERT INTO vendors VALUES('0', 'Cutting Sticker Shop', '', '', '', '', 'paper', now(), now());
+            INSERT INTO vendors VALUES('0', 'Sanyo Stempel', '087877707702', '', '', '', 'paper', now(), now());
+            INSERT INTO vendors VALUES('0', 'Taufik Montir SM', '081381885287', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Sumantri Montir Valve', '081288949599', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Printmate Bahan', '089520124807', '', '', 'Reni', 'sparepart', now(), now());
         ");
     }
 

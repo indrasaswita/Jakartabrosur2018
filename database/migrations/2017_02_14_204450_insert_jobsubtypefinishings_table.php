@@ -89,9 +89,9 @@ class InsertJobsubtypefinishingsTable extends Migration
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '24', '1', now(), now());
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '22', '1', now(), now());
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '35', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '36', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '37', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '38', '0', now(), now());
+			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '36', '1', now(), now());
+			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '37', '0', now(), now());
+			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '38', '0', now(), now());
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('16', '2', '26', '0', now(), now());
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('16', '2', '27', '1', now(), now());
 			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('16', '2', '28', '0', now(), now());
