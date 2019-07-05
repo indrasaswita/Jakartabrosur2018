@@ -58,9 +58,16 @@ Route::post('API/aice/master/push', 'AiceAPI@updateAice');*/
 
 
 Route::group(['middleware'=>['loggedin']], function(){
-	Route::get('chpass', "ProfileController@changepass");
+	
 	//HARUS SUDAH LOGIN (CUST/ADMIN)
 });
+
+Route::get('chpass', "ProfileController@changepass");
+Route::post ('AJAX/userprofile/update/{id}', "ProfileAJAX@updateAll");
+Route::post ('AJAX/chpass/update/{id}', "ProfileAJAX@updatePassword");
+//customer address
+Route::post('AJAX/custadds/edit/{id}', 'CustomeraddressAJAX@editaddress');
+Route::post('AJAX/custadds/store/{custid}', 'CustomeraddressAJAX@store');
 
 Route::group(['middleware'=>['loggedinAPI']], function(){
 	Route::get  ("API/cartfiles",   "CartfileAPI@apiGetAll");
@@ -72,14 +79,11 @@ Route::group(['middleware'=>['loggedinAPI']], function(){
 	Route::post("API/deliveryprice", "DeliveryAPI@getHarga");
 	Route::get("AJAX/company/all", "CompanyAJAX@getAll");
 	Route::post("AJAX/profile/update/{id}/company", "CompanyAJAX@updateByCompany");
-	Route::post ('AJAX/profile/update/{id}', "ProfileAJAX@updateAll");
-	Route::post ('AJAX/chpass/update/{id}', "ProfileAJAX@updatePassword");
+	
 	Route::post('AJAX/notification/view/{id}', 'NotificationAJAX@setviewed');
 	Route::post('AJAX/paper/changecoatingtype', 'AdmPaperAJAX@changecoatingtype');
 
-	//customer address
-	Route::post('AJAX/custadds/edit/{id}', 'CustomeraddressAJAX@editaddress');
-	Route::post('AJAX/custadds/store/{custid}', 'CustomeraddressAJAX@store');
+	
 });
 
 /*** CUSTOMER WEB ***/

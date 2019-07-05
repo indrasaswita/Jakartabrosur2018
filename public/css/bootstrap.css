@@ -17185,6 +17185,37 @@ ol {
   padding: 3px 5px;
 }
 
+.admin-changetheworld-wrapper .admin-changetheworld > .table > thead > tr > th {
+  word-break: break-all;
+  font-size: 12px;
+  padding: 0px 2px;
+}
+.admin-changetheworld-wrapper .admin-changetheworld > .table > tbody > tr > td {
+  line-height: 1.1;
+  font-size: 11.5px;
+  font-family: Google;
+  font-weight: 100;
+  padding: 2px 4px;
+}
+.admin-changetheworld-wrapper .admin-changetheworld .result {
+  display: flex;
+}
+.admin-changetheworld-wrapper .admin-changetheworld .result .message {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  font-family: Google;
+  font-weight: 100;
+  font-size: 85%;
+  width: 100%;
+  color: #800;
+}
+
 @media screen and (max-width: 767px) {
   .verifpage .verif-step {
     font-size: 14px;

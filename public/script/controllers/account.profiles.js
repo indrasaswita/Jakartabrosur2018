@@ -82,7 +82,7 @@ module.exports = function(app){
 					(
 						{
 							method: 	"POST",
-							url: 		AJAX_URL+"profile/update/"+$scope.customer.id,
+							url: 		AJAX_URL+"userprofile/update/"+$scope.customer.id,
 							data: 		$scope.customer 
 						}
 					)

@@ -15,9 +15,7 @@ class CreateCartfilesTable extends Migration
         Schema::create('cartfiles', function(Blueprint $table){
             $table->increments('id');
             $table->integer('fileID')->unsigned();
-            $table->foreign('fileID')->references('id')->on('files');
             $table->integer('cartID')->unsigned();
-            $table->foreign('cartID')->references('id')->on('cartheaders');
             $table->timestamps();
         });
     }

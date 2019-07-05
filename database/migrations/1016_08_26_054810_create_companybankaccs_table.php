@@ -5,34 +5,36 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateCompanybankaccsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('companybankaccs', function(Blueprint $table){
-            $table->engine="InnoDB";
-            $table->increments('id');
-            $table->integer('bankID')->unsigned();
-            $table->foreign('bankID')->references('id')->on('banks');
-            $table->string('accname', 32);
-            $table->string('accno', 32);
-            $table->string('acclocation', 32);
-            $table->string('userlogin', 16);
-            $table->string('passlogin', 32);
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('companybankaccs');
-    }
+		DB::unprepared("
+			CREATE TABLE companybankaccs(
+				id INT PRIMARY KEY AUTO_INCREMENT,
+				bankID INT UNSIGNED NOT NULl,
+				accname VARCHAR(32) NOT NULL,
+				accno VARCHAR(32) NOT NULL,
+				acclocation VARCHAR(32) NOT NULL DEFAULT '',
+				userlogin VARCHAR(16) NULL,
+				passlogin VARCHAR(32) NULL,
+				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL
+			);
+		");
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('companybankaccs');
+	}
 }

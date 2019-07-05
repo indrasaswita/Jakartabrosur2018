@@ -16,7 +16,6 @@ class CreateCustomersTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('companyID')->unsigned();
-            $table->foreign('companyID')->references('id')->on('companies');
             $table->string('email')->unique();
             $table->string('password', 64);
             $table->string('name', 64);
@@ -25,7 +24,6 @@ class CreateCustomersTable extends Migration
             $table->string('address');
             $table->string('postcode', 8);
             $table->integer('cityID')->unsigned();
-            $table->foreign('cityID')->references('id')->on('cities');
             $table->string('phone1', 16)->nullable();
             $table->string('phone2', 16)->nullable();
             $table->string('phone3', 16)->nullable();

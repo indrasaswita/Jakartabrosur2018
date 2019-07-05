@@ -16,9 +16,7 @@ class CreateAddressesTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('customerID')->unsigned();
-            $table->foreign('customerID')->references('id')->on('customers');
             $table->integer('cityID')->unsigned();
-            $table->foreign('cityID')->references('id')->on('cities');
             $table->string('name', 32);
             $table->string('address');
             $table->string('receiver', 64);

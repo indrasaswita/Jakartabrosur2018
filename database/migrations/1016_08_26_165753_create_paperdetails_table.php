@@ -16,12 +16,8 @@ class CreatePaperdetailsTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('paperID')->unsigned();
-            $table->foreign('paperID')->references('id')->on('papers');
             $table->integer('vendorID')->unsigned();
-            $table->foreign('vendorID')->references('id')->on('vendors');
             $table->integer('planoID')->unsigned();
-            $table->foreign('planoID')->references('id')->on('papersizes');
-
             $table->decimal('buyprice', 10, 1);
             $table->decimal('sellprice', 10, 1);
             $table->decimal('unitprice', 10, 3);

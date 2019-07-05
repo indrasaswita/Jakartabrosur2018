@@ -16,14 +16,10 @@ class CreateJobsubtypedetailTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('jobsubtypeID')->unsigned();
-            $table->foreign('jobsubtypeID')->references('id')->on('jobsubtypes');
             $table->string('detailname');
             $table->tinyinteger('sizetype');
-            /*$table->integer('sideprintID')->unsigned();
-            $table->foreign('sideprintID')->references('id')->on('sideprints');*/
             $table->tinyinteger('sisicetak')->unsigned()->comment('keterangan di wikigithub, sisi cetak = sisi (bukan warna)');
             $table->tinyinteger('warnacetak')->unsigned()->comment('keterangan di wikigithub, warna cetak = warna (bukan sisi)');
-
             //multiplier - jumlah set perkalian dari quantity header
             $table->smallinteger('defaultmultip')->unsigned()->comment('berapa x dari header, total lembar detail')->default(1);
             $table->tinyinteger('lockdetailmultip')->unsigned()->comment('kalo di lock, brarti ga bisa ganti, Cth: Cover cuma 1');

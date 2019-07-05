@@ -16,10 +16,8 @@ class CreateJobsubtypedetailfinishingsTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('jobsubtypedetailID')->unsigned();
-            $table->foreign('jobsubtypedetailID')->references('id')->on('jobsubtypedetails');
             $table->tinyinteger('ofdg');
             $table->integer('finishingID')->unsigned();
-            $table->foreign('finishingID')->references('id')->on('finishings');
             $table->timestamps();
         });
     }

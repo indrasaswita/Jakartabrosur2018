@@ -76,4 +76,4 @@ Route::post('/io/insert/{value}', 'MobileappsAPI@insert');
 
 
 //## GANTI ISI DATABASE ##
-Route::post('/changetheworld/jobsubtype', 'Changetheworld@jobsubtype');
+Route::post('/admin/changetheworld/{tablename}', 'AdmChangetheworldAPI@database');

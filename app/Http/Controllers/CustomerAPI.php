@@ -169,7 +169,7 @@ class CustomerAPI extends Controller
     Mail::to($customer->email)->send(new VerifyMail($customer));
 
     $notif = new OneSignal();
-    $result = $notif->sendMessage('SIGN-UP: '.$data['email'].' pada '.Carbon::now());
+    $result = $notif->sendMessage('SIGN-UP NEW CUSTOMER','SIGN-UP: '.$data['email'].' pada '.Carbon::now());
 
 
     //return $result; //'SIGN-UP: '.$data['email'].' pada '.Carbon::now();

@@ -15,15 +15,6 @@ class GantiDataAddressIDDicustomer extends Migration
 	{
 		DB::unprepared('
 			ALTER TABLE customers
-				DROP FOREIGN KEY customers_cityid_foreign;
-
-			ALTER TABLE companies
-				DROP FOREIGN KEY companies_cityid_foreign;
-
-			ALTER TABLE addresses
-				DROP FOREIGN KEY addresses_customerid_foreign;
-
-			ALTER TABLE customers
 				DROP COLUMN cityID;
 			ALTER TABLE customers
 				DROP COLUMN address;

@@ -16,9 +16,7 @@ class CreateSalesdeliverydetailsTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('salesdeliveryID')->unsigned();
-            $table->foreign('salesdeliveryID')->references("id")->on('salesdeliveries');
             $table->integer('salesdetailID')->unsigned();
-            $table->foreign('salesdetailID')->references("id")->on('salesdetails');
             $table->integer('actualprice')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->decimal('weight', 10, 2);

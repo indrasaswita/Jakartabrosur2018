@@ -16,7 +16,6 @@ class CreatePapersTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('papertypeID')->unsigned();
-            $table->foreign('papertypeID')->references('id')->on('papertypes');
             $table->string('name', 64);
             $table->string('color', 16);
             $table->smallinteger('gramature');

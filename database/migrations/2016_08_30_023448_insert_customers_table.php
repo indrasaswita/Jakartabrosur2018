@@ -28,7 +28,8 @@ class InsertCustomersTable extends Migration
                 'news' => 1,
                 'remember_token'=>'12345',
                 'remember_token'=>'1234',
-                'balance' => 123456
+                'balance' => 123456,
+                'created_at' => now()
             ]
         );
         
@@ -48,7 +49,8 @@ class InsertCustomersTable extends Migration
                 'news' => 0,
                 'remember_token'=>'98765',
                 'remember_token'=>'1234',
-                'balance' => 0
+                'balance' => 0,
+                'created_at' => now()
             ]
         );
     }

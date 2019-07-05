@@ -16,7 +16,6 @@ class CreateSalesheadersTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('customerID')->unsigned();
-            $table->foreign('customerID')->references('id')->on('customers');
             $table->date('tempo')->nullable();
             $table->date('estdate')->nullable();
             $table->string('companyname', 50)->nullable();

@@ -16,9 +16,7 @@ class CreateSalesdetailsTable extends Migration
             $table->engine="InnoDB";
             $table->increments("id");
             $table->integer('salesID')->unsigned();
-            $table->foreign('salesID')->references('id')->on('salesheaders');
             $table->integer('cartID')->unsigned();
-            $table->foreign('cartID')->references('id')->on('cartheaders');
             $table->tinyinteger('prioritylevel')->default(2);
             $table->tinyinteger('statusfile')->default(0);
             $table->tinyinteger('commited')->default(0);
