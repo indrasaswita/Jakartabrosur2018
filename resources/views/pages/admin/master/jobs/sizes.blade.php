@@ -61,10 +61,10 @@
 							</td>
 							<td>
 								<div>
-									<span ng-class="{'tx-transparent':item2.totalOF==0, 'tx-primary':item2.totalOF>0}">
+									<span ng-class="{'tx-transparent':item2.totalOF==0, 'tx-primary':item2.totalOF>=1}">
 										<i class="fal fa-print"></i> <b>OF</b>([[item2.totalOF]])
 									</span>
-									<span ng-class="{'tx-lightmagenta':item2.totalDG>1, 'tx-transparent':item2.totalDG==0}">
+									<span ng-class="{'tx-lightmagenta':item2.totalDG>=1, 'tx-transparent':item2.totalDG==0}">
 										<i class="fal fa-print"></i> <b>DG</b>([[item2.totalDG]])
 									</span>
 								</div>
@@ -103,14 +103,14 @@
 												<td>
 													#[[zeroFill(item.id, 2)]].[[zeroFill(item2.id, 2)]].[[zeroFill(item3.size.id, 3)]], id:[[item3.id]] 
 
-													<span class="size-80p uppercase tx-primary" ng-if="item3.ofdg==1">
+													<a href="" ng-click="changeOfDg(item3)" class="size-80p uppercase tx-primary" ng-if="item3.ofdg==1">
 														<i class="fas fa-print"></i>
 														<b>OF</b>
-													</span>
-													<span class="size-80p uppercase tx-lightmagenta" ng-if="item3.ofdg==2">
+													</a>
+													<a href="" ng-click="changeOfDg(item3)" class="size-80p uppercase tx-lightmagenta" ng-if="item3.ofdg==2">
 														<i class="fas fa-print"></i>
 														<b>DG</b>
-													</span>
+													</a>
 
 													[[item3.size.name]] 
 													<span class="uppercase tx-danger size-70p">

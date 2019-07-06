@@ -9,7 +9,7 @@ class AdmJobsubtypequantityAJAX extends Controller
 {
 
 	public function changeofdg($id){
-		$jobsubtypepaperID = $id;
+		$jobsubtypequantityID = $id;
 
 		$hasil = Jobsubtypequantity::find($id);
 		if($hasil == null){

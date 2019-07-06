@@ -66,10 +66,10 @@ class Job
 			$printwidth = $this->max_print_width;
 
 		//CARA 1
-		$hasil1 = $this->getTotalInConstantPaper($imagelength, $imagewidth, $printlength, $printwidth, $bleed); 	
+		$hasil2 = $this->getTotalInConstantPaper($imagelength, $imagewidth, $printlength, $printwidth, $bleed); 	
 
 		//CARA 2
-		$hasil2 = $this->getTotalInConstantPaper($imagewidth, $imagelength, $printlength, $printwidth, $bleed);
+		$hasil1 = $this->getTotalInConstantPaper($imagewidth, $imagelength, $printlength, $printwidth, $bleed);
 
 		//RESULT
 		//array($printlength, $printwidth, $i, $j, $total)
@@ -393,22 +393,28 @@ class Job
 
 	public function calcPlanoSizeRoll(Array $data, $imagewidth, $imagelength, $qty, $bleedwidth, $bleedlength, $marginwidth, $marginlength, $max_print_width, $paperID, &$texttoread)
 	{
+		if($imagelength < $imagewidth){
+			$temp = $imagelength;
+			$imagelength = $imagewidth;
+			$imagewidth = $temp;
+		}
+
 		//$max_roll_width = array(90, 127, 152);
 		$usedwidth = $imagewidth + $bleedwidth;
 		$usedlength = $imagelength + $bleedlength;
 
 		$planosizes = Paperdetail::with('plano')
-					->where('paperID', '=', $paperID)
-					->select('planoID', 'paperID')
-					->whereIn('planoID', 
-						function($query) use ($max_print_width){
-							$query->from('papersizes')
-								->where('width', '<=', $max_print_width)
-								->select('id')
-								->get();
-						})
-					->distinct()
-					->get();
+				->where('paperID', '=', $paperID)
+				->select('planoID', 'paperID')
+				->whereIn('planoID', 
+					function($query) use ($max_print_width){
+						$query->from('papersizes')
+							->where('width', '<=', $max_print_width)
+							->select('id')
+							->get();
+					})
+				->distinct()
+				->get();
 
 		$combinations = $this->hitungPanjangRoll($qty, $usedwidth, $usedlength, $marginwidth, $marginlength, $planosizes);
 
@@ -1003,34 +1009,42 @@ class Job
 	} 
 
 	public function subCalcFinishing(&$data, $finishingkey, $ppr, &$texttoread=""){
+
 		
 		//DARI DEPAN // UDA GA PERLU ADA YANG DI BUANG,ud steril dari Calculation.initDataFromDB (funct)	
 		foreach ($data[$finishingkey] as $i => $ii) {
+			$clc = $data['calculation'];
+
+
+			$druct = $clc['totaldruct'];
+			if($ii['finishingID']==26){
+				$druct = 1;
+			}
 
 			//TRUS DI ITUNG KE TOTAL
 			//$ppr = $data['paper'];
-			$clc = $data['calculation'];
 			if($ii['option']['priceper'] == "cm")
 			{
-				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] * $clc['printlength'] * $ii['option']['price'] * $clc['totaldruct'], 1000) + $ii['option']['pricebase'];
-				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
-					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
-			}
-			else if($ii['option']['priceper'] == 'pcs')
-			{
-				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($ii['option']['price'] * $clc['totaldruct'], 1000) + $ii['option']['pricebase'];
+				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] * $clc['printlength'] * $ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
 				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
 					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
 			}
 			else if($ii['option']['priceper'] == "m")
 			{
-				//untuk indoor outdoor
-				$data[$finishingkey][$i]['totalprice'] = 0;
+				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] / 100 * $clc['printlength'] / 100 * $ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
+				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
+					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+			}
+			else if($ii['option']['priceper'] == 'pcs')
+			{
+				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
+				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
+					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
 			}
 			else if($ii['option']['priceper'] == "kg")
 			{
 
-				$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $clc['totaldruct'], $ii['option']['price'], $ii['option']['priceminim'], $ii['option']['pricebase']);
+				$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $druct, $ii['option']['price'], $ii['option']['priceminim'], $ii['option']['pricebase']);
 				$data[$finishingkey][$i]['totalprice'] = $temp;
 
 				//$temp = $this->hargaPotong($)

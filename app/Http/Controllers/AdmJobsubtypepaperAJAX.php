@@ -44,6 +44,25 @@ class AdmJobsubtypepaperAJAX extends Controller
 		}
 	}
 
+	public function changeofdg($id){
+		$jobsubtypepaperID = $id;
+
+		$hasil = Jobsubtypepaper::find($id);
+		if($hasil == null){
+			return null;
+		}else{
+			$ofdg = $hasil->ofdg;
+			if($ofdg==2){
+				$ofdg = 1;
+			}else{
+				$ofdg = 2;
+			}
+			$hasil->ofdg = $ofdg;
+			$hasil->save();
+			return $ofdg;
+		}
+	}
+
 	public function delete(Request $request){
 		$datas = $request->all();
 

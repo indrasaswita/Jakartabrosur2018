@@ -5,6 +5,7 @@ module.exports = function(app) {
 			$scope.jobtypes = null;
 			$scope.saving = false;
 			$scope.activejobtype = 0;
+			$scope.loadingofdg = false;
 
 			$scope.newjobsizes = [];
 			$scope.sizes = []; //ambil data dari ajax
@@ -220,6 +221,35 @@ module.exports = function(app) {
 				}, function(error){
 					console.log(error);
 				});
+			}
+
+			$scope.changeOfDg = function($jobsubtypesize){
+				if($scope.loadingofdg == false){
+					$scope.loadingofdg = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL+"jobsubtypesize/"+$jobsubtypesize.id+"/changeofdg"
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$jobsubtypesize.ofdg = response.data;
+								}else{
+									console.log("NO CHANGE FROM DB, ERROR");
+								}
+							}else{
+								console.log("The return value is null, ID not found");
+							}
+						}else{
+							console.log("error, response is null");
+						}
+
+						$scope.loadingofdg = false;
+					}, function(error){
+						console.log(error);
+						$scope.loadingofdg = false;
+					});
+				}
 			}
 
 			$scope.addnewjobsize = function($jobsubtypeID){

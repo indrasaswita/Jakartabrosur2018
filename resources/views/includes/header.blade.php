@@ -219,18 +219,18 @@
         	<div class="ico dropdown-toggle">
         		<i class="fal fa-fw fa-crown"></i> 
         	</div>
-        	<div class="txt">CTW</div>
+        	<div class="txt">GOD ROLE</div>
       	</a>
       	<div class="dropdown-menu-center">
       		<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
-								Change The World 
-								<i class="fas fa-globe-stand fa-fw tx-purple"></i>
+								Warning!
+								<i class="fas fa-exclamation-triangle fa-fw tx-red"></i>
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/ctw/database')}}">
 								<span class="far fa-fw fa-globe-europe icon"></span>
-								Upload DB
+								Upload to Live!
 							</a>
 						</div>
 					</div>

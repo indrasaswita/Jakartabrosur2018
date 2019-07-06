@@ -41,4 +41,24 @@ class AdmJobsubtypesizeAJAX extends Controller
 
 		return $datas;
 	}
+
+	
+	public function changeofdg($id){
+		$jobsubtypesizeID = $id;
+
+		$hasil = Jobsubtypesize::find($id);
+		if($hasil == null){
+			return null;
+		}else{
+			$ofdg = $hasil->ofdg;
+			if($ofdg==2){
+				$ofdg = 1;
+			}else{
+				$ofdg = 2;
+			}
+			$hasil->ofdg = $ofdg;
+			$hasil->save();
+			return $ofdg;
+		}
+	}
 }

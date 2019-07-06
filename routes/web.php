@@ -213,6 +213,8 @@ Route::post("AJAX/paper/{id}/changepaper/{col}", "AdmPaperAJAX@changepaperdetail
 Route::post("AJAX/paper/{id}/changepapertype", "AdmPaperAJAX@changepapertypeID");
 Route::post("AJAX/paper/savenewpaper", "AdmPaperAJAX@addnewpaper");
 Route::post("AJAX/paperdetail/savenewplano", "AdmPaperdetailAJAX@savenewplano");
+Route::post("AJAX/jobsubtypepaper/{id}/changeofdg", "AdmJobsubtypepaperAJAX@changeofdg");
+Route::post("AJAX/jobsubtypesize/{id}/changeofdg", "AdmJobsubtypesizeAJAX@changeofdg");
 
 /* LOGIN LOGOUT ACCOUNT */
 Route::post ('API/login',   'UserController@login');

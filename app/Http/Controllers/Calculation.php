@@ -76,77 +76,6 @@ class Calculation extends Controller
 		return $data;
 	}
 
-	/*public function calcFinishing($data){
-		$finishings = Finishing::where('status', '=', 1)->with('finishingoption')->get();
-
-		// DARI BELAKANG!!!!
-		for ($i = count($data['finishings'])-1; $i >= 0; $i--) {
-			//jika optionID = 0 < DIBUANG
-			//jika tidak 0 =>> maka di cek datanya di masukkan harganya - 0 berarti dipilih tanpa finishing
-			if($data['finishings'][$i]['optionID'] == 0)
-				array_splice($data['finishings'], $i, 1);
-			else{
-				//MASUKIN DATA ID ke $this->calculation (variable)
-				$this->calculation['finishings'][$i]['id'] = $data['finishings'][$i]['finishingID'];
-				$this->calculation['finishings'][$i]['optionID'] = $data['finishings'][$i]['optionID'];
-				$this->calculation['finishings'][$i]['quantity'] = 0;
-
-				//DICEK DI DATABASE, termasuk yang mana, trus harganya yang mana, di looping di local, supaya ga berat
-				foreach ($finishings as $j => $finishing) {
-					if($finishing['id'] == $data['finishings'][$i]['finishingID'])
-					{
-						foreach ($finishing['finishingoption'] as $k => $option) {
-							if($option['id'] == $data['finishings'][$i]['id']){
-								$data['finishings'][$i]['price'] = floatval($option['price']);
-								$data['finishings'][$i]['priceper'] = $option['priceper'];
-								$data['finishings'][$i]['priceminim'] = intval($option['priceminim']);
-								$data['finishings'][$i]['pricebase'] = intval($option['pricebase']);
-							}
-						}
-					}
-				}
-
-				//TRUS DI ITUNG KE TOTAL
-				$ppr = $data['paper'];
-				$clc = $data['calculation'];
-				$finishing = $data['finishings'][$i];
-				if($finishing['priceper'] == "cm")
-				{
-					$this->calculation['finishings'][$i]['totalprice'] = MathHelper::ceil($ppr['printwidth'] * $ppr['printlength'] * $finishing['price'] * $clc['totaldruct'], 10000) + $finishing['pricebase'];
-					if($this->calculation['finishings'][$i]['totalprice'] < $finishing['priceminim'])
-						$this->calculation['finishings'][$i]['totalprice'] = $finishing['priceminim'];
-				}
-				else if($finishing['priceper'] == 'pcs')
-				{
-					$this->calculation['finishings'][$i]['totalprice'] = MathHelper::ceil($finishing['price'] * $clc['totaldruct'], 10000) + $finishing['pricebase'];
-					if($this->calculation['finishings'][$i]['totalprice'] < $finishing['priceminim'])
-						$this->calculation['finishings'][$i]['totalprice'] = $finishing['priceminim'];
-				}
-				else if($finishing['priceper'] == "m")
-				{
-					//untuk indoor outdoor
-				}
-				else if($finishing['priceper'] == "kg")
-				{
-					//UNTUK POTONG (DEPRECATED - POtong masuk ek cutting price)
-					//$temp = MathHelper::ceil($finishing['price'] * $ppr['totaldruct'] * $ppr['printwidth'] * $ppr['printlength'] * $ppr['gramature'] / 20000 / 500, 1000) + $finishing['pricebase'];
-
-					$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $clc['totaldruct'], $finishing['price'], $finishing['priceminim'], $finishing['pricebase']);
-					$this->calculation['finishings'][$i]['totalprice'] = $temp;
-
-					//$temp = $this->hargaPotong($)
-				}
-
-				$temp3 = $this->calculation['finishings'][$i];
-				$data['calculation']['totalfinishingprice'] = $temp3['totalprice'];
-				$data['total']['price'] += $temp3['totalprice'];
-			}
-		}
-		unset($finishings); // HAPUS
-		return $data;
-	} 
-*/
-
 	public function calcPerJob($job, $data){
 		$obj = null;
 		$this->texttoread .= "Qty: <b>".MathHelper::thseparator($data['quantity'])."</b> ".$data['satuan']."<br>";
@@ -184,8 +113,7 @@ class Calculation extends Controller
 			$obj = new Jobflyer($data, $this->cs);
 			$obj->hitungFlyer();
 			$obj->calcFinishing();
-		}else if($job == "rollupbanner"){
-			
+		}else if($job == "standbanner"){
 			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,15,5,40);
@@ -193,19 +121,6 @@ class Calculation extends Controller
 			$obj->hitungPlotter();
 
 			$obj->calcFinishing();
-
-		}else if($job == "xbanner"){
-			/*$data = $this->hitungXbanner($data);
-			$data = $this->addDigitalAttr($data);*/
-
-			$obj = new Jobplotter($data, $this->cs);
-
-			$obj->setMargin(0,15,5,40);
-			$obj->setMachineID(8);
-			$obj->hitungPlotter();
-
-			$obj->calcFinishing();
-
 		}else if($job == "simplebannerindoor"){
 			//input size dalam cm
 

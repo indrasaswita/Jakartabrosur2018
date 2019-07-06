@@ -1229,6 +1229,7 @@ module.exports = function(app){
 			}
 
 			$scope.addnewaddress = function($custid){
+				console.log($custid);
 				if(!$scope.waitingaddnewadds){
 					$scope.waitingaddnewadds = true;
 					$scope.errornewaddress = false;
