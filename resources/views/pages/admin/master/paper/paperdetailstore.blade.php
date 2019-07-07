@@ -25,7 +25,7 @@
 			<ul class="paper-selector">
 				<li ng-repeat="paper in papers track by $index">
 					<a href="" ng-click="selectpaper($index)">
-						[[paper.name]] [[paper.color]] [[paper.gramature]]
+						#[[zeroFill(paper.id, 3)]] <b>[[paper.name]]</b> <span ng-if="paper.color!='Custom'">[[paper.color]]</span> <span ng-if="paper.gramature>0">[[paper.gramature]]g</span>
 					</a>
 				</li>
 			</ul>
@@ -141,6 +141,7 @@
 									</a>
 								</td>
 								<td class="text-xs-center">
+									#[[zeroFill(item.plano.id, 3)]]<br>
 									<b class="size-120p tx-purple">[[item.plano.width|number:1]]</b> x <b class="size-120p tx-purple">[[item.plano.length|number:1]]</b>
 								</td>
 								<td class="size-90p">
@@ -198,7 +199,7 @@
 			untuk <b class="uppercase">[[papers[selectedpaper].name]] [[papers[selectedpaper].color]] [[papers[selectedpaper].gramature]]g</b>
 			<br>
 			pada Vendor: <!-- <b class="uppercase">[[selectedvendor.name]]</b> -->
-			<select ng-options="item as item.name for item in vendors track by item.id" ng-model="selectedvendor"></select>
+			<select ng-options="item as (item.name)+\' (\'+item.salestype+\'). \'+item.salesname for item in vendors track by item.id" ng-model="selectedvendor"></select>
 			<br>
 			<br>
 

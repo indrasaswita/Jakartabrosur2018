@@ -73,6 +73,7 @@ class ImageController extends Controller
 
 	public function originalUploadCustomer(Request $request)
 	{
+		//dd(phpinfo());
 		//BY USER (CUSTOMER)
 
 		$data = $request->all();

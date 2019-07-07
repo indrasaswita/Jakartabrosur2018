@@ -121,7 +121,8 @@ class Calculation extends Controller
 			$obj->hitungPlotter();
 
 			$obj->calcFinishing();
-		}else if($job == "simplebannerindoor"){
+		}else if($job == "simplebannerindoor"	||
+						$job == "canvas"){
 			//input size dalam cm
 
 			$obj = new Jobplotter($data, $this->cs);
@@ -131,7 +132,6 @@ class Calculation extends Controller
 			$obj->hitungPlotter();
 
 			$obj->calcFinishing();
-
 		}else if($job == "simplebanneroutdoor"){
 			//input size dalam cm
 			$obj = new Jobplotter($data, $this->cs);
@@ -141,7 +141,6 @@ class Calculation extends Controller
 			$obj->hitungPlotter();
 
 			$obj->calcFinishing();
-
 		}else if($job == "deskcalendar"){
 			$obj = new Jobdeskcalendar($data, $this->cs);
 			$obj->hitungKalender();

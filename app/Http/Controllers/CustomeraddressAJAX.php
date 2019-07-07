@@ -60,4 +60,13 @@ class CustomeraddressAJAX extends Controller
 			return status;
 		}
 	}
+
+	public function bycustid($custid){
+		$addresses = Customeraddress::with('customer', 'address')
+				->where('customerID', $custid)
+				->orderBy('id', 'asc')
+				->get();
+
+		return $addresses;
+	}
 }

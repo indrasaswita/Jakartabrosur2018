@@ -42,7 +42,7 @@ class InsertFinishings extends Migration
 				(26, 'Coating', 'Dilapis', 'Matte: permukaan tidak mengkilap (<b>lebih elegan</b>)<br>Glossy: permukaan mengkilap (<b>menarik perhatian</b>)', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
 				(27, 'Cutting', 'Potong', 'Potongan banner pengaruh akan hasil akhir, mohon disertakan bila ada permintaan khusus.', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
 				(28, 'Standing', 'Kaki Banner', 'Simple untuk dilipat dan dijinjing untuk dibawa menuju pameran.', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
-				(29, 'Canvas Board + Stand', 'Papan Canvas + Kaki', 'Pilihan termasuk papan dan kaki canvas, permintaan khusus tolong disertakan pada kolom keterangan.', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
+				(29, 'Canvas Stand', 'Papan Canvas + Kaki', 'Pilihan termasuk papan dan kaki canvas, permintaan khusus tolong disertakan pada kolom keterangan.', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
 				(30, 'Tripod Board', 'Papan Tripod', 'Pilihan untuk papan dibelakang sticker yang akan menyanggah diatas kaki tripod', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
 				(31, 'Poster Board', 'Papan Poster', 'Bahan mika seperti kaca untuk ditempel pada dinding. Tanpa lampu.', 0, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),
 				(32, 'Press', 'Press', 'Jasa pembuatan kartu standard.', 1, 0, 0, '2019-06-09 03:46:20', '2019-06-09 03:46:20'),

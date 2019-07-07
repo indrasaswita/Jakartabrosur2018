@@ -5,7 +5,8 @@ use Illuminate\Http\Request;
 
 Route::get('/jobsubtype/{pages}', 'JobsubtypeAPI@showbylink');
 Route::post('/pricetext/save', 'PricetextAPI@insert');
-Route::get('/admin/papershop', 'VendorAPI@papershop');
+Route::get('/admin/vendor/papershop', 'VendorAPI@papershop');
+Route::get('/admin/vendor/allshop', 'VendorAPI@allshop');
 Route::get('/coatingtypes', 'CoatingtypeAPI@getAll');
 Route::get('/papertypes', 'PapertypeAPI@getAll');
 Route::get('/finishing', 'AdmFinishingAPI@getFinishing');

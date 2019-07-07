@@ -114,7 +114,7 @@
 												<i class="far fa-check tx-success fa-fw"></i>
 											</div>
 											<div class="text">
-												Upload file direct, harus dibawah dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024/1024)|number:0]]</b>GB</span>
+												Upload file direct, harus dibawah dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024)|number:0]]</b>MB</span>
 											</div>
 										</li>
 										<li>
@@ -122,7 +122,45 @@
 												<i class="far fa-paperclip tx-primary fa-fw"></i>
 											</div>
 											<div class="text">
-												File lebih besar dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024/1024)|number:0]]</b>GB</span>, silahkan sertakan dengan link Google Drive / OneDrive
+												File lebih besar dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024)|number:0]]</b>MB</span>, silahkan sertakan dengan link Google Drive / OneDrive
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="list-wrapper">
+								<div class="img">
+									<i class="far fa-camera-retro fa-2x fa-fw tx-warning"></i>
+								</div>
+								<div class="list-detail">
+									<div class="title">
+										Ketentuan File Gambar / Image
+									</div>
+									<ul>
+										<li>
+											<div class="svg">
+												<i class="far fa-check tx-success fa-fw"></i>
+											</div>
+											<div class="text">
+												File yang diizinkan: .<b>JPG</b>, .<b>JPEG</b>, .<b>TIFF</b>.
+											</div>
+										</li>
+										<li>
+											<div class="svg">
+												<i class="far fa-paperclip tx-primary fa-fw"></i>
+											</div>
+											<div class="text">
+												Harus dengan komposisi C-M-Y-K, minimal 300dpi (upload dengan ukuran asli).
+											</div>
+										</li>
+										<li>
+											<div class="svg">
+												<i class="far fa-times tx-red fa-fw"></i>
+											</div>
+											<div class="text">
+												File tidak boleh: .<b>PNG</b>, .<b>GIF</b>, .<b>BMP</b>.
 											</div>
 										</li>
 									</ul>
@@ -234,7 +272,7 @@
 												<i class="far fa-check tx-success fa-fw"></i>
 											</div>
 											<div class="text">
-												Hanya untuk print dengan layout slide. (untuk presentasi)
+												Hanya untuk print A4 <b>EPSON</b> dengan layout slide. (untuk presentasi)
 											</div>
 										</li>
 										<li>
@@ -254,7 +292,7 @@
 								<img src="{{URL::asset('image/smallicons/file-cdr.png')}}">
 								<div class="list-detail">
 									<div class="title">
-										File Coreldraw (max. X7)
+										File Coreldraw
 									</div>
 									<ul>
 										<li>
@@ -263,6 +301,14 @@
 											</div>
 											<div class="text">
 												Terima semua bentuk.
+											</div>
+										</li>
+										<li>
+											<div class="svg">
+												<i class="far fa-check tx-success fa-fw"></i>
+											</div>
+											<div class="text">
+												Terima dengan maximum versi <b>Corel 2018</b>
 											</div>
 										</li>
 										<li>
@@ -378,6 +424,45 @@
 											</div>
 											<div class="text">
 												Silahkan tulis keterangan lanjut pada file text.
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="list-wrapper">
+								<div class="img">
+									<i class="far fa-2x fa-fw fa-palette tx-warning">
+									</i>
+								</div>
+								<div class="list-detail">
+									<div class="title">
+										Terima Design
+									</div>
+									<ul>
+										<li>
+											<div class="svg">
+												<i class="far fa-check tx-success fa-fw"></i>
+											</div>
+											<div class="text">
+												Terima design untuk customer yang datang ke Workshop kami.
+											</div>
+										</li>
+										<li>
+											<div class="svg">
+												<i class="far fa-check tx-success fa-fw"></i>
+											</div>
+											<div class="text">
+												Setelah bayar, File jadi milik Anda.
+											</div>
+										</li>
+										<li>
+											<div class="svg">
+												<i class="far fa-check tx-success fa-fw"></i>
+											</div>
+											<div class="text">
+												Harga design, setting, ketik, dan trace = Rp 50rb per &#xbd;jam.
 											</div>
 										</li>
 									</ul>

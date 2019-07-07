@@ -38,12 +38,12 @@
 					<td class="num" rowspan="3" ng-if="item.addressID!=null">
 						#[[zeroFill(item.id, 2)]]
 					</td>
-					<td class="width-min text-xs-right">
+					<td class="width-min text-xs-right tx-lightgray">
 						<small class="text-bold googleft">[[item.salestype]]</small>
 					</td>
 					<td>
 						<small class="fas fa-store fa-fw tx-lightgray"></small>
-						<b class="tx-purple">[[item.name]]</b>
+						<span>[[item.name]]</span>
 					</td>
 				</tr>
 				<tr class="size-90p">

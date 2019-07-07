@@ -41,7 +41,7 @@ module.exports = function(app){
 			$scope.getallvendor = function(){
 				$http({
 					method: "GET",
-					url: API_URL+"admin/papershop"
+					url: API_URL+"admin/vendor/allshop"
 				}).then(function(response){
 					if(response!=null){
 						if(response.data != null){

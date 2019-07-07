@@ -17,10 +17,10 @@ class InsertConstantsTable extends Migration
         DB::table('constants')->insert(['name'=>'BiayaPlatSM74', 'price'=>'125000', 'created_at'=>now()]);
         DB::table('constants')->insert(['name'=>'BiayaPlatSM102', 'price'=>'175000', 'created_at'=>now()]);
         DB::table('constants')->insert(['name'=>'BiayaPlatSM105', 'price'=>'175000', 'created_at'=>now()]);
-        DB::table('constants')->insert(['name'=>'InschietSM52', 'price'=>'150', 'created_at'=>now()]);
-        DB::table('constants')->insert(['name'=>'InschietSM74', 'price'=>'200', 'created_at'=>now()]);
-        DB::table('constants')->insert(['name'=>'InschietSM102', 'price'=>'300', 'created_at'=>now()]);
-        DB::table('constants')->insert(['name'=>'InschietSM105', 'price'=>'300', 'created_at'=>now()]);
+        DB::table('constants')->insert(['name'=>'InschietSM52', 'price'=>'200', 'created_at'=>now()]);
+        DB::table('constants')->insert(['name'=>'InschietSM74', 'price'=>'250', 'created_at'=>now()]);
+        DB::table('constants')->insert(['name'=>'InschietSM102', 'price'=>'400', 'created_at'=>now()]);
+        DB::table('constants')->insert(['name'=>'InschietSM105', 'price'=>'400', 'created_at'=>now()]);
         DB::table('constants')->insert(['name'=>'InschietLaminating', 'price'=>'25', 'created_at'=>now()]);
         DB::table('constants')->insert(['name'=>'InschietPond', 'price'=>'100', 'created_at'=>now()]);
         DB::table('constants')->insert(['name'=>'InschietVarnish', 'price'=>'25', 'created_at'=>now()]);

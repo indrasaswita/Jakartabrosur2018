@@ -12,4 +12,9 @@ class VendorAPI extends Controller
 				->get();
 		return $datas;
 	}
+
+	public function allshop(){
+		$datas = Vendor::all();
+		return $datas;
+	}
 }

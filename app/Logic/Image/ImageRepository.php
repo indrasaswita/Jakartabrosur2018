@@ -64,10 +64,16 @@ class ImageRepository
 	public function uploadSelective( $photo )
 	{
 
-		$validator = Validator::make(
+		/*$validator = Validator::make(
 			[ 'files' => $photo ], 
 			[ 'files' => 'mimes:jpeg,jpg,png,gif,tiff,tif|required|image|max:104857600'  ]
 			// MAXIMUM FILE 100MB
+		);*/
+
+		$validator = Validator::make(
+			[ 'files' => $photo ], 
+			[ 'files' => 'required|max:26214400'  ]
+			// MAXIMUM FILE 10MB
 		);
 
 
@@ -81,7 +87,7 @@ class ImageRepository
 		$filename = $this->sanitizeFilename($originalNameWithoutExt);
 		$allowed_filename = $this->createUniqueFilename( 'original', $filename, $extension );
 
-		if(!$validator->fails())
+		/*if(!$validator->fails())
 		{		
 			$file->size = $photo->getSize(); // GETSIZE HARUS SEBELOMM MOVE IMAGE
 
@@ -93,17 +99,18 @@ class ImageRepository
 			}
 
 			$file->icon = "images/icon/".$allowed_filename;
-		}
-		else
+		}*/
+		if(!$validator->fails())
 		{
-			return " NON IMAGE ";
 			$file->size = $photo->getSize(); // GETSIZE HARUS SEBELOM MOVE
 			$photo->move(public_path("images/original/"), $allowed_filename);
 
-			$file->icon= "image/ext-".$extension.'.png';
+			$file->icon= "image/exdt-".$extension.'.png';
+		}else{
+			return "File lebih besar dari 25MB, untuk upload data lebih besar dari 25MB silahkan upload via shared URL.";
 		}
 
-		$file->path= "images/original/".$allowed_filename;
+		$file->path = "images/original/".$allowed_filename;
 		//SAVE TO CACHE TO REFRESH THE LOADING BAR
 		Cache::put('filepath', $file->path, 600);
 		Cache::put('filesize', $file->size, 600);

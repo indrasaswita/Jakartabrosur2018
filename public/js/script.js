@@ -4233,7 +4233,7 @@ module.exports = function(app){
 			$scope.getallvendor = function(){
 				$http({
 					method: "GET",
-					url: API_URL+"admin/papershop"
+					url: API_URL+"admin/vendor/allshop"
 				}).then(function(response){
 					if(response!=null){
 						if(response.data != null){
@@ -6559,6 +6559,10 @@ module.exports = function(app){
 				return Math.round($result / 100) * 100;
 			}
 
+			$scope.filteremptyindex = function($arr){
+				return $arr.filter(value => Object.keys(value).length !== 0);
+			}
+
 			$scope.phonemask = function(e){
 				if(e!=null){
 					var hasil = e;
@@ -7769,7 +7773,7 @@ module.exports = function(app){
 				"upload": "",
 			};
 			$scope.total = [];
-			$scope.uploadmaxfilesize = 0;
+			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
 			$scope.setUserLogin = function($role, $userid)
@@ -7914,6 +7918,15 @@ module.exports = function(app){
 					$scope.getMaxFilesize();
 					$scope.refreshUploadedImage();
 				}
+
+				//SET DATA PAPER YANG GA ADA DETAIL GA BOLEH MUNCUL
+				$.each($datas.jobsubtypepaper, function($i, $jobpaper){
+					if($jobpaper.paper.paperdetail.length == 0){
+						console.log("#"+$jobpaper.id+" "+$jobpaper.paper.name+", was deleted");
+						delete $datas.jobsubtypepaper[$i];
+					}
+				});
+				$datas.jobsubtypepaper = $scope.filteremptyindex($datas.jobsubtypepaper);
 
 				//SET DATA SIZE jadi NUMBER
 				$.each($datas.jobsubtypesize, function($index, $item){
@@ -8943,7 +8956,7 @@ module.exports = function(app){
 					if($custid != null){
 						$http({
 							method: "POST",
-							url: API_URL+"custadds/store/"+$custid,
+							url: AJAX_URL+"custadds/store/"+$custid,
 							data: $scope.newaddress
 						}).then(function(response){
 							if(response.data != null){
@@ -9303,6 +9316,10 @@ module.exports = function(app){
 
 							//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 							$scope.$apply(function(){});
+						}
+						else if(response.constructor === String){
+							$scope.error.upload = response.constructor;
+							$scope.uploadedfiles = [];
 						}
 						else
 						{

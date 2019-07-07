@@ -399,6 +399,10 @@ module.exports = function(app){
 				return Math.round($result / 100) * 100;
 			}
 
+			$scope.filteremptyindex = function($arr){
+				return $arr.filter(value => Object.keys(value).length !== 0);
+			}
+
 			$scope.phonemask = function(e){
 				if(e!=null){
 					var hasil = e;
