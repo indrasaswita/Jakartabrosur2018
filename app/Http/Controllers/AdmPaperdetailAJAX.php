@@ -27,6 +27,7 @@ class AdmPaperdetailAJAX extends Controller
 		vendor: {id: 2, name: "Suryapalace Jaya", phone1: "0216249122", phone2: "0216249121", addressID: null, …}
 		width: 65
 		__proto__: Object*/
+		$arr = [];
 
 		foreach ($datas as $i => $ii) {
 			if($ii['width']>$ii['length']){
@@ -73,10 +74,10 @@ class AdmPaperdetailAJAX extends Controller
 			$nw2->available = 1;
 			$nw2->save();
 
-			return $plano;
+			array_push($arr, $nw2);
 		}
 			
 
-		return $datas;
+		return $arr;
 	}
 }

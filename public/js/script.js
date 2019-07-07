@@ -4295,6 +4295,8 @@ module.exports = function(app){
 							$result = $item.inputprice;
 						else if($item.inputstate == "perunit")
 							$result = $scope.unit2kg($item.inputprice, $item.totalpcs, $paper.gramature, $item.width, $item.length);
+					}else{
+						$result = 0;
 					}
 
 				return $result;
@@ -4310,8 +4312,19 @@ module.exports = function(app){
 							$result = $scope.kg2total($item.inputprice, $paper.gramature, $item.width, $item.length);
 						else if ($item.inputstate == "perunit")
 							$result = $scope.unit2total($item.inputprice, $item.totalpcs);
+					}else{
+						if($item.inputstate == "perunit")
+							$result = $item.totalpcs * $item.inputprice;
 					}
 				return $result;
+			}
+
+			$scope.printvendorname = function($item){
+				return $item.name+' ('+$item.salestype+'). '+$item.salesname;
+			}
+
+			$scope.disabledtotalpcs = function($item){
+				return $item.unittype.type=='meter';
 			}
 
 			$scope.getunitprice = function($item, $paper) {
@@ -4324,21 +4337,43 @@ module.exports = function(app){
 							$result = $scope.kg2unit($item.inputprice, $paper.gramature, $item.width, $item.length);
 						else if ($item.inputstate == "perunit")
 							$result = $item.inputprice;
+					}else{
+						if ($item.inputstate == "perunit")
+							$result = $item.inputprice;
 					}
 				return $result;
 			}
 
-			$scope.changeinputstate = function($item) {
-				if ($item.inputstate == "pertotal") {
-					$item.inputstate = "perkg";
-				} else if ($item.inputstate == "perkg") {
-					$item.inputstate = "perunit";
-				} else if ($item.inputstate == "perunit") {
-					$item.inputstate = "pertotal";
+			$scope.changeunittype = function($item){
+				if($item.unittype.type == "lembar"){
+					$item.totalpcs = 500;
+				}else{
+					$scope.calctotalpcs($item);
+					$scope.changeinputstate($item);
 				}
 			}
 
-			$scope.checksize = function($w, $l, $newrow){
+			$scope.calctotalpcs = function($item){
+				if($item.unittype.type == "meter"){
+					$item.totalpcs = ($item.width * $item.length / 10000);
+				}
+			}
+
+			$scope.changeinputstate = function($item) {
+				if($item.unittype.type == "lembar"){
+					if ($item.inputstate == "pertotal") {
+						$item.inputstate = "perkg";
+					} else if ($item.inputstate == "perkg") {
+						$item.inputstate = "perunit";
+					} else if ($item.inputstate == "perunit") {
+						$item.inputstate = "pertotal";
+					}
+				}else{
+					$item.inputstate = "perunit";
+				}
+			}
+
+			$scope.checksize = function($w, $l, $item){
 				$seterror = false;
 				$.each($scope.papers[$scope.selectedpaper].paperdetail, function($index, $item){
 					if($item.vendorID == $scope.selectedvendor.id){
@@ -4350,15 +4385,17 @@ module.exports = function(app){
 				})
 				if($seterror){
 					$scope.newsaveerror = true;
-					$newrow.error = {
+					$item.error = {
 						"size": "( planosize duplicated )"
 					};
 				}else{
 					$scope.newsaveerror = false;
-					$newrow.error = {
+					$item.error = {
 						"size": null
 					};
 				}
+
+				$scope.calctotalpcs($item);
 			}
 
 			$scope.savenewplano = function(){
@@ -4384,9 +4421,10 @@ module.exports = function(app){
 					}).then(function(response){
 						if(response!=null){
 							if(response.data != null){
-								console.log(response.data);
-								if(typeof response.data == "string"){
-					
+								if(response.data.constructor === Array){
+									$window.location.reload();
+								}else{
+									alert('failed');
 								}
 							}else{
 								console.log("The return value is null, not error");
@@ -6560,10 +6598,12 @@ module.exports = function(app){
 			}
 
 			$scope.filteremptyindex = function($arr){
+				//CLEAR INDEX CLEAR EMPTY INDEX DELETE EMPTY ARRAY APUS EMPTY
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
 			$scope.phonemask = function(e){
+				// REGEX PHONE
 				if(e!=null){
 					var hasil = e;
 					var x;

@@ -400,10 +400,12 @@ module.exports = function(app){
 			}
 
 			$scope.filteremptyindex = function($arr){
+				//CLEAR INDEX CLEAR EMPTY INDEX DELETE EMPTY ARRAY APUS EMPTY
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
 			$scope.phonemask = function(e){
+				// REGEX PHONE
 				if(e!=null){
 					var hasil = e;
 					var x;

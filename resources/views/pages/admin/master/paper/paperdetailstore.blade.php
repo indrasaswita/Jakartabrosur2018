@@ -149,27 +149,31 @@
 									<b>	
 										[[item.buyprice|number:0]]
 									</b>
-									<br>
-									/Kgb: 
-									<b class="tx-purple">
-										[[(round(item.buyprice*20000/item.paper.gramature/item.plano.width/item.plano.length/100)*100)|number:0]]
-									</b>
-									<br>
-									/[[item.unittype]]: 
-									<b>
-										[[(item.buyprice/500)|number:1]]
-									</b>
+									<span ng-if="item.unittype=='lembar'">
+										<br>
+										/Kgb: 
+										<b class="tx-purple">
+											[[(round(item.buyprice*20000/item.paper.gramature/item.plano.width/item.plano.length/100)*100)|number:0]]
+										</b>
+										<br>
+										/[[item.unittype]]: 
+										<b>
+											[[(item.buyprice/500)|number:1]]
+										</b>
+									</span>
 								</td>
 								<td class="size-90p">
 									/Ream: 
 									<b>
 										[[item.sellprice|number:0]]
 									</b>
-									<br>
-									/Kgs: 
-									<b class="tx-purple">
-										[[(round(item.sellprice*20000/item.paper.gramature/item.plano.width/item.plano.length/100)*100)|number:0]]
-									</b>
+									<span ng-if="item.unittype=='lembar'">
+										<br>
+										/Kgs: 
+										<b class="tx-purple">
+											[[(round(item.sellprice*20000/item.paper.gramature/item.plano.width/item.plano.length/100)*100)|number:0]]
+										</b>
+									</span>
 									<br>
 									/[[item.unittype]]: 
 									<b>
@@ -199,7 +203,7 @@
 			untuk <b class="uppercase">[[papers[selectedpaper].name]] [[papers[selectedpaper].color]] [[papers[selectedpaper].gramature]]g</b>
 			<br>
 			pada Vendor: <!-- <b class="uppercase">[[selectedvendor.name]]</b> -->
-			<select ng-options="item as (item.name)+\' (\'+item.salestype+\'). \'+item.salesname for item in vendors track by item.id" ng-model="selectedvendor"></select>
+			<select ng-options="item as printvendorname(item) for item in vendors track by item.id" ng-model="selectedvendor"></select>
 			<br>
 			<br>
 
@@ -240,7 +244,7 @@
 								<input class="short" type="number" ng-model="item.margin" placeholder="Margin"> %
 							</td>
 							<td class="width-min">
-								<input class="short" type="number" ng-model="item.totalpcs" placeholder="Jumlah perharga">
+								<input class="short" type="number" ng-model="item.totalpcs" placeholder="Jumlah perharga" ng-disabled="disabledtotalpcs(item)">
 							</td>
 						</tr>
 						<tr>
@@ -271,7 +275,7 @@
 								Per-[[item.unittype.type]] : Rp <b>[[(getunitprice(item, papers[selectedpaper])*(100+item.margin)/100)|number:0]]</b>
 							</td>
 							<td class="width-min">
-								<select ng-options="type.type for type in unittypes" ng-model="item.unittype"></select>
+								<select ng-options="type.type for type in unittypes" ng-model="item.unittype" ng-change="changeunittype(item)"></select>
 							</td>
 						</tr>
 					</tbody>
