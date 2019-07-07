@@ -19,8 +19,13 @@ class CreateFinishingsTable extends Migration
 				shortname VARCHAR(32) NOT NULL,
 				info VARCHAR(512) NOT NULL,
 				status TINYINT NOT NULL,
-				mingram INT NOT NULL,
-				maxgram INT NOT NULL,
+				mingram INT NOT NULL DEFAULT 0,
+				maxgram INT NOT NULL DEFAULT 0,
+				/*inschiet dihitung untuk total druct*/
+				onesideinschietOF INT NOT NULL DEFAULT 0,
+				twosideinschietOF INT NOT NULL DEFAULT 0,
+				onesideinschietDG INT NOT NULL DEFAULT 0,
+				twosideinschietDG INT NOT NULL DEFAULT 0,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				updated_at TIMESTAMP NULL DEFAULT NULL
 			);
