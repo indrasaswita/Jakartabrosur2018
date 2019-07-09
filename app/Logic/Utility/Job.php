@@ -743,7 +743,8 @@ class Job
 	{
 
 		$percetak = $paper['totalinprintx'] * $paper['totalinprinty']; //+rest = 0
-		$totaldruct = MathHelper::ceil(($qty / $percetak) + $inschiet, 25);
+		//$totaldruct = MathHelper::ceil(($qty / $percetak) + $inschiet, 10); //druct
+		$totaldruct = MathHelper::ceil(($qty / $percetak) + $inschiet, 1);
 		$hargaminim = $minim1000 * 4; // 4 WARNA
 
 
@@ -864,16 +865,19 @@ class Job
 			else return MathHelper::ceil($hargapotong, 10000);
 	}
 
-	public function hargaPerKgMnl($gramature, $width, $length, $qty, $hkg, $minimpotong, $baseprice)
+	public function hargaPerKgMnl($gramature, $width, $length, $qty, $hkg, $minimpotong, $baseprice, &$texttoread = "")
 	{
 		$totalberat = $qty * $width * $length * $gramature / 20000 / 500;
 		$totalberat = MathHelper::ceil($totalberat, 1);
 		$hargapotong = $totalberat * $hkg + $baseprice;
 
+		$texttoread .= $totalberat."kg x Rp <b>".intval($hkg)."</b>/kg".($baseprice>0?" + Rp ".$baseprice:"");
+
 		$paper['totalberat'] = $totalberat;
 
-		if ($hargapotong < $minimpotong) return $minimpotong;
-		else return MathHelper::ceil($hargapotong, 10000);
+		// if ($hargapotong < $minimpotong) return $minimpotong;
+		// else return MathHelper::ceil($hargapotong, 10000);
+		return MathHelper::ceil($hargapotong, 10000);
 	}
 
 	public function hargaPerRim(&$paper, $paperID, $planoID)
@@ -981,9 +985,10 @@ class Job
 
 
 
-	public function calcFinishing(&$texttoread=""){
+	public function calcFinishing(){
 		$data = $this->data;
 
+		//finishing key = 'finishings'
 		$this->subCalcFinishing($data, 'finishings', $data['paper']);
 
 		if(!array_key_exists('price', $data['total'])){
@@ -992,14 +997,20 @@ class Job
 		$data['total']['finishingprice'] = 0;
 
 		$j=0;
+		$this->texttoread .= "<ol class='padding-left-15'>";
 		foreach ($data['finishings'] as $i => $ii) {
 			$data['total']['price'] += $data['finishings'][$i]['totalprice'];
 			$data['total']['finishingprice'] += $data['finishings'][$i]['totalprice'];
 
 
 			$j++;
-			$this->texttoread .= "<b class='tx-success'>".($j).".</b> ".$ii['finishing']['name'].": <span class='tx-purple'>".MathHelper::thseparator(floatval($data['finishings'][$i]['totalprice']))."</span><br>( <b>".$ii['option']['optionname']."</b> <span class='tx-lightgray'>@".MathHelper::thseparator(MathHelper::ceil($data['finishings'][$i]['totalprice']/$data['quantity'], 1))."</span> ) <br>";
+			if(floatval($ii['totalprice']) > 0){
+				$this->texttoread .= "<li class='line-11 margin-bottom-10'>".$ii['finishing']['name'].": <span class='tx-purple'>".MathHelper::thseparator(floatval($ii['totalprice']))."</span>".($ii['hargaharusnya']==$ii['totalprice']?"":" <small class='tx-danger'>(<b>".MathHelper::thseparator($ii['hargaharusnya'])."</b>)</small>")."<br>".$ii['textcalcfinishing']."( <b>".$ii['option']['optionname']."</b> <span class='tx-lightgray'>@".MathHelper::thseparator(MathHelper::ceil($data['finishings'][$i]['totalprice']/$data['quantity'], 1))."/pcs</span> ) </li>";
+			}else{
+				$this->texttoread .= "<li class='line-11 margin-bottom-10'>".$ii['finishing']['name'].": <b>".$ii['option']['optionname']."</b></li>";
+			}
 		}
+		$this->texttoread .= "</ol>";
 
 
 		$this->texttoread .= "<i class='fas fa-chevron-right'></i> <b>FINISHING</b>: <span class='tx-purple'>".MathHelper::thseparator($data['total']['finishingprice'])."</span>";
@@ -1008,7 +1019,7 @@ class Job
 		$this->data = $data;
 	} 
 
-	public function subCalcFinishing(&$data, $finishingkey, $ppr, &$texttoread=""){
+	public function subCalcFinishing(&$data, $finishingkey, $ppr){
 
 		
 		//DARI DEPAN // UDA GA PERLU ADA YANG DI BUANG,ud steril dari Calculation.initDataFromDB (funct)	
@@ -1020,34 +1031,71 @@ class Job
 			if($ii['finishingID']==26){
 				$druct = 1;
 			}
+			$baseprice = $ii['option']['pricebase'];
+
+			$data[$finishingkey][$i]['textcalcfinishing'] = ""; //buat selipin hitungan finishing, warna abu2
+			$data[$finishingkey][$i]['hargaharusnya'] = 0; //harga harusnya kalo ga ada minimum
+			$hargatotal = 0;
 
 			//TRUS DI ITUNG KE TOTAL
 			//$ppr = $data['paper'];
 			if($ii['option']['priceper'] == "cm")
 			{
-				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] * $clc['printlength'] * $ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
-				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
-					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+				$w = $clc['printwidth'];
+				$l = $clc['printlength'];
+				$price = $w * $l * $ii['option']['price'] * $druct;
+
+				$hargatotal = MathHelper::ceil($price, 1000) + $ii['option']['pricebase'];
+
+				if($hargatotal>0)
+					$data[$finishingkey][$i]['textcalcfinishing'] .= "<span class='tx-lightgray'>- /cm (".$w."cm x ".$l."cm Rp <b>".$ii['option']['price']."</b>) * ".$druct."druct".($baseprice>0?" + Rp ".$baseprice:"")."</span><br>";
 			}
 			else if($ii['option']['priceper'] == "m")
 			{
-				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($clc['printwidth'] / 100 * $clc['printlength'] / 100 * $ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
-				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
-					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+				$w = $clc['printwidth'] / 100;
+				$l = $clc['printlength'] / 100;
+				$price = $w * $l * $ii['option']['price'] * $druct;
+
+				$hargatotal = MathHelper::ceil($price, 1000) + $ii['option']['pricebase'];
+
+				if($hargatotal>0)
+					$data[$finishingkey][$i]['textcalcfinishing'] .= "<span class='tx-lightgray'>- /m (".$w."m x ".$l."m Rp <b>".$ii['option']['price']."</b>) * ".$druct."druct".($baseprice>0?" + Rp ".$baseprice:"")."</span><br>";
 			}
-			else if($ii['option']['priceper'] == 'pcs')
+			else if($ii['option']['priceper'] == 'druct')
 			{
-				$data[$finishingkey][$i]['totalprice'] = MathHelper::ceil($ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
-				if($data[$finishingkey][$i]['totalprice'] < $ii['option']['priceminim'])
-					$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+				$hargatotal = MathHelper::ceil($ii['option']['price'] * $druct, 1000) + $ii['option']['pricebase'];
+
+				if($hargatotal>0)
+					$data[$finishingkey][$i]['textcalcfinishing'] .= "<span class='tx-lightgray'>- /druct Rp <b>".$ii['option']['price']."</b> * ".$druct."druct".($baseprice>0?" + Rp ".$baseprice:"")."</span><br>";
+			}
+			else if($ii['option']['priceper'] == 'qty')
+			{
+
+				$hargatotal = MathHelper::ceil($ii['option']['price'] * $data['quantity'], 1000) + $ii['option']['pricebase'];
+
+				if($hargatotal>0)
+					$data[$finishingkey][$i]['textcalcfinishing'] .= "<span class='tx-lightgray'>- /qty Rp <b>".$ii['option']['price']."</b> * ".$data['quantity']."pcs".($baseprice>0?" + Rp ".$baseprice:"")."</span><br>";
 			}
 			else if($ii['option']['priceper'] == "kg")
 			{
 
-				$temp = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $druct, $ii['option']['price'], $ii['option']['priceminim'], $ii['option']['pricebase']);
-				$data[$finishingkey][$i]['totalprice'] = $temp;
+				$hargatotal = $this->hargaPerKgMnl($ppr['gramature'], $clc['printwidth'], $clc['printlength'], $druct, $ii['option']['price'], $ii['option']['priceminim'], $ii['option']['pricebase'], $texttoread);
+
+				if($hargatotal>0)
+					$data[$finishingkey][$i]['textcalcfinishing'] .= "<span class='tx-lightgray'>- /kg ".$texttoread."</span><br>";
 
 				//$temp = $this->hargaPotong($)
+			}else{
+				$data[$finishingkey][$i]['textcalcfinishing'] .= "<b class='tx-red'>ERROR untuk perhitungan dengan priceper-<u class='uppercase tx-purple'>".$ii['option']['priceper']."</u>, tidak ada ketentuan berdasarkan harga tersebut.</b><br>";
+			}
+
+
+			$data[$finishingkey][$i]['hargaharusnya'] = $hargatotal;
+
+			if($hargatotal < $ii['option']['priceminim']){
+				$data[$finishingkey][$i]['totalprice'] = $ii['option']['priceminim'];
+			}else{
+				$data[$finishingkey][$i]['totalprice'] = $hargatotal;
 			}
 
 		}

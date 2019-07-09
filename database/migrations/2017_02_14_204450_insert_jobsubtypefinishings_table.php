@@ -13,97 +13,99 @@ class InsertJobsubtypefinishingsTable extends Migration
 	public function up()
 	{
 		DB::unprepared("
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('1', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('1', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '1', '7', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '1', '6', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '1', '11', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('1', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('1', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('2', '2', '19', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '2', '18', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('3', '2', '23', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '1', '3', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '1', '9', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '2', '21', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('4', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('6', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('6', '2', '23', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '1', '5', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '2', '23', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('7', '2', '17', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('8', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('8', '2', '17', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('8', '2', '18', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('8', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('8', '2', '23', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('9', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('9', '1', '2', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('9', '1', '3', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('9', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('9', '1', '9', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '1', '3', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '1', '4', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '1', '7', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '2', '19', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('10', '2', '16', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('11', '1', '6', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('11', '1', '11', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('11', '1', '14', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '1', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '2', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '3', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '6', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '8', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '11', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '1', '14', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '2', '15', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '2', '18', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '2', '20', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '2', '23', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('12', '2', '25', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('13', '1', '32', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('13', '1', '33', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('13', '1', '34', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('13', '2', '32', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '1', '13', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '1', '10', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '1', '35', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '24', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '22', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('14', '2', '35', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '36', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '37', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('26', '2', '38', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '26', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '27', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('15', '2', '28', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('16', '2', '29', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('16', '2', '27', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('18', '2', '26', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('18', '2', '30', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('18', '2', '39', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('19', '2', '27', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('20', '2', '26', '0', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('20', '2', '27', '1', now(), now());
-			INSERT INTO jobsubtypefinishings (jobsubtypeID, ofdg, finishingID, mustdo, created_at, updated_at) VALUES ('20', '2', '31', '0', now(), now());
+			INSERT INTO `jobsubtypefinishings` (`id`, `jobsubtypeID`, `ofdg`, `finishingID`, `mustdo`, `created_at`, `updated_at`) VALUES
+				(1, 1, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(2, 1, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(3, 2, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(4, 2, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(5, 2, 1, 7, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(6, 3, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(7, 3, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(8, 3, 1, 6, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(9, 3, 1, 11, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(10, 1, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(11, 1, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(12, 2, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(13, 2, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(14, 2, 2, 19, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(15, 3, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(16, 3, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(17, 3, 2, 18, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(18, 3, 2, 23, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(19, 4, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(20, 4, 1, 3, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(21, 4, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(22, 4, 1, 9, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(23, 4, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(24, 4, 2, 21, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(25, 4, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(26, 6, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(27, 6, 2, 23, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(28, 7, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(29, 7, 1, 5, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(30, 7, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(31, 7, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(32, 7, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(33, 7, 2, 23, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(34, 7, 2, 17, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(35, 8, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(36, 8, 2, 17, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(37, 8, 2, 18, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(38, 8, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(39, 8, 2, 23, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(40, 9, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(41, 9, 1, 2, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(42, 9, 1, 3, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(43, 9, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(44, 9, 1, 9, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(45, 10, 1, 3, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(46, 10, 1, 4, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(47, 10, 1, 7, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(48, 10, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(49, 10, 2, 19, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(50, 10, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(51, 10, 2, 16, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(52, 11, 1, 6, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(53, 11, 1, 11, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(54, 11, 1, 14, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(55, 12, 1, 1, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(56, 12, 1, 2, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(57, 12, 1, 3, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(58, 12, 1, 6, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(59, 12, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(60, 12, 1, 11, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(61, 12, 1, 14, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(62, 12, 2, 15, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(63, 12, 2, 18, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(64, 12, 2, 20, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(65, 12, 2, 23, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(66, 12, 2, 25, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(67, 13, 1, 32, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(68, 13, 1, 33, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(69, 13, 1, 34, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(70, 13, 2, 32, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(71, 14, 1, 13, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(72, 14, 1, 10, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(73, 14, 1, 35, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(74, 14, 2, 24, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(75, 14, 2, 22, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(76, 14, 2, 35, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(77, 26, 2, 36, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(78, 26, 2, 37, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(79, 26, 2, 38, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(80, 15, 2, 26, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(81, 15, 2, 27, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(82, 15, 2, 28, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(83, 16, 2, 29, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(84, 16, 2, 27, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(85, 18, 2, 26, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(86, 18, 2, 30, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(87, 18, 2, 39, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(88, 19, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(89, 20, 2, 26, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(90, 20, 1, 8, 1, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(91, 20, 2, 31, 0, '2019-07-08 14:06:38', '2019-07-08 14:06:38'),
+				(92, 17, 2, 27, 0, '2019-07-08 08:09:05', '2019-07-08 08:09:05');
 		");
 	}
 

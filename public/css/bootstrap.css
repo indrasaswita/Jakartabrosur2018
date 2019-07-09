@@ -458,11 +458,23 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .padding-left-5 {
-  padding: 0 0 0 5px !important;
+  padding-left: 5px;
+}
+
+.padding-left-10 {
+  padding-left: 10px;
+}
+
+.padding-left-15 {
+  padding-left: 15px;
+}
+
+.padding-left-17 {
+  padding-left: 17px;
 }
 
 .padding-left-20 {
-  padding: 0 0 0 20px !important;
+  padding-left: 20px;
 }
 
 .pull-xs-bottom {
@@ -17465,7 +17477,7 @@ img {
 
 @media screen and (max-width: 544px) {
   .navbar.navbar-purple a.navbar-brand {
-    padding: 10px 5px 5px 10px;
+    padding: 10px 5px 5px 5px;
   }
   .navbar.navbar-purple .navbar-toggler {
     margin-right: 5px;
@@ -17525,7 +17537,7 @@ img {
 }
 @media screen and (min-width: 545px) and (max-width: 767px) {
   .navbar.navbar-purple a.navbar-brand {
-    padding: 10px 5px 5px 15px;
+    padding: 10px 5px 5px 5px;
   }
   .navbar.navbar-purple .navbar-toggler {
     margin-right: 10px;
@@ -17582,7 +17594,7 @@ img {
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .navbar.navbar-purple a.navbar-brand {
-    padding: 17px 10px 10px 20px;
+    padding: 17px 10px 10px 0px;
   }
   .navbar.navbar-purple ul.navbar-nav {
     float: right;
@@ -17620,7 +17632,7 @@ img {
 }
 @media screen and (min-width: 992px) {
   .navbar.navbar-purple a.navbar-brand {
-    padding: 17px 10px 10px 35px;
+    padding: 17px 10px 10px 0px;
   }
   .navbar.navbar-purple ul.navbar-nav {
     margin-top: 5px;

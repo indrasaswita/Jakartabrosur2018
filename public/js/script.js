@@ -4693,6 +4693,7 @@ module.exports = function(app){
 
 					$item.totalprice = 0;
 					
+					$courierID = 1;
 					if($scope.couriers.length>0)
 						$courierID = $scope.couriers[0].id;
 					$.each($scope.couriers, function($az, $courier){
@@ -4743,9 +4744,11 @@ module.exports = function(app){
 						}
 					})
 
-					$.each($item.salesdelivery, function($index, $item2){
-						$item2.created_at = Date.parse($item2.created_at);
-					});
+					if($item.salesdelivery != null){
+						$.each($item.salesdelivery, function($index, $item2){
+							$item2.created_at = Date.parse($item2.created_at);
+						});
+					}
 
 					$item.totalpay = 0;
 					$item.tungguverif = false;
