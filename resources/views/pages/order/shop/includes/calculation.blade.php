@@ -259,7 +259,7 @@
 							<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in detailfin.finishing.finishingoption track by option.id" ng-model="selected.jobsubtypedetail[$parent.$index].finishing[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index], detail.jobsubtypedetailfinishing)">
 							</select>
 						</div>
-						<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left">
+						<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left" tooltip>
 							<span class="far fa-question-circle"></span>
 						</div>
 					</div>

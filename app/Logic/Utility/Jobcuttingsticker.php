@@ -32,7 +32,10 @@ class Jobcuttingsticker extends Jobplotter{
 
 		$qty = $data['quantity'];
 
-		$data = $this->calcPlanoSizeRoll($data, $imagewidth, $imagelength, $qty, $this->bleedwidth, $this->bleedlength, $this->marginwidth, $this->marginlength, $this->max_print_width, $paperID, $texttoread);
+		$result = $this->calcPlanoSizeRoll($data, $imagewidth, $imagelength, $qty, $this->bleedwidth, $this->bleedlength, $this->marginwidth, $this->marginlength, $this->max_print_width, $paperID, $texttoread);
+
+		if($result != null)
+			return $result;
 
 		//totalarea dalam cm -> ubah dalam m, karena d DB DI CATAT DALAM M
 		$printprice = $this->calcCuttingPriceRoll($this->machineID, floatval($data['calculation']['totalarea']/10000), $texttoread);
@@ -84,6 +87,8 @@ class Jobcuttingsticker extends Jobplotter{
 
 
 		$this->data = $data;
+
+		return null;
 	}
 
 	public function calcCuttingPriceRoll($machineID, $totalarea, &$texttoread){

@@ -646,9 +646,15 @@ module.exports = function(app){
 					delete $post.deliverylocked;
 					delete $post.pagename;
 					delete $post.jobsubtypename;
-					$post.sizeID = $scope.selected.size.id;
-					if ($post.sizeID != 0)
-						delete $post.size;
+					if(!$scope.customsize){
+						$post.sizeID = $scope.selected.size.id;
+						if ($post.sizeID != 0)
+							delete $post.size;
+					}else{
+						$post.sizeID = 0;
+						$post.size = $scope.selected.size;
+						$post.size.name = "Custom Size";
+					}
 					$.each($post.finishings, function($i, $ii){
 						if($ii.id==0)
 							delete $post.finishings[$i];
@@ -679,14 +685,17 @@ module.exports = function(app){
 						function(response){
 							if (typeof response.data == "string") {
 								if (response.data.length > 999) {
+									//alert(response.data.length);
 									$scope.error.savecartval = "Error - Menu '" + $scope.datas.name + "' belum bisa digunakan..";
 
-
-									$scope.total.price = 0;
-									$scope.total.deliv = 0;
-									$scope.total.disc = 0;
-									$scope.total.price = 0;
+								}else{
+									$scope.error.savecartval = "Error: "+response.data;
 								}
+								$scope.total.price = 0;
+								$scope.total.deliv = 0;
+								$scope.total.disc = 0;
+								$scope.total.price = 0;
+
 								$scope.waitingprice = false; //bikin spinner stop
 							} else {
 

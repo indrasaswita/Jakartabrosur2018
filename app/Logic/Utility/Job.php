@@ -71,15 +71,24 @@ class Job
 		//CARA 2
 		$hasil1 = $this->getTotalInConstantPaper($imagewidth, $imagelength, $printlength, $printwidth, $bleed);
 
+		$totalhasil1 = $hasil1 == null ? 0 : $hasil1[4];
+		$totalhasil2 = $hasil2 == null ? 0 : $hasil2[4];
+
 		//RESULT
 		//array($printlength, $printwidth, $i, $j, $total)
 
 		$combination = [];
-		if($hasil1[4] < $hasil2[4])
+		if($totalhasil1 == 0 && $totalhasil2 == 0){
+			//kalo tidak ada combination yang cocok // kertas terlalu besar
+			return null;
+		}
+		else if($totalhasil1 < $totalhasil2)
 		{
+			//kalo hasil1 totalnya lebih banyak dari total hasil 2
 			$y = MathHelper::floor($printlength/($imagewidth+$bleed), 1);
 			$x = MathHelper::floor($printwidth/($imagelength+$bleed), 1);
-			if($x == 0 || $y == 0) {
+
+			if($x == 0 && $y == 0){
 			}else{
 				$combination = $hasil2;
 			}
@@ -88,13 +97,15 @@ class Job
 		{
 			$y = MathHelper::floor($printlength/($imagelength+$bleed), 1);
 			$x = MathHelper::floor($printwidth/($imagewidth+$bleed), 1);
-			if($x == 0 || $y == 0) {
+
+			if($x == 0 && $y == 0){
 			}else{
 				$combination = $hasil1;
 			}
 		}
 
 		$combination[5] = false; //dibuat cetak sekali dulu, kalo cetak 2 muka dan 8 plat = baru di double;
+		
 		if($sdp == 2){
 			//CHECKED IF DOUBLE SIDED
 			if($combination[2] % 2 != 0) 
@@ -391,7 +402,7 @@ class Job
 		return array($lengthtotalportion, $widthtotalportion);
 	}
 
-	public function calcPlanoSizeRoll(Array $data, $imagewidth, $imagelength, $qty, $bleedwidth, $bleedlength, $marginwidth, $marginlength, $max_print_width, $paperID, &$texttoread)
+	public function calcPlanoSizeRoll(&$data, $imagewidth, $imagelength, $qty, $bleedwidth, $bleedlength, $marginwidth, $marginlength, $max_print_width, $paperID, &$texttoread)
 	{
 		if($imagelength < $imagewidth){
 			$temp = $imagelength;
@@ -434,6 +445,11 @@ class Job
 			}
 		}
 
+		if(count($temp) == 0){
+			//UKURAN KEBESARAN
+			return "Ukuran terlalu besar";
+		}
+
 		//ukuran area yang kepake ada di mostefficient -> DALAM CM
 		$data['paper']['paperID'] = $data['paperID'];
 		unset($data['paperID']);
@@ -446,6 +462,7 @@ class Job
 		$data['paper']['totalplano'] = $temp[5];
 
 		$data['calculation']['totaldruct'] = $data['quantity'];
+		$data['calculation']['totalketeran'] = $data['quantity'];
 		$data['calculation']['totalinplano'] = $temp[6];
 		$data['calculation']['totalinplanox'] = $temp[0];
 
@@ -457,7 +474,7 @@ class Job
 		$data['calculation']['totalinprintrest'] = 0;
 
 		$data['calculation']['inschiet'] = 0;
-		$data['calcualtion']['doubleprintprice'] = 0;
+		$data['calculation']['doubleprintprice'] = 0;
 
 		//ambil harga dari planoID
 		$result = Paperdetail::where('paperID', $data['paper']['paperID'])
@@ -468,10 +485,11 @@ class Job
 
 		$data['paper']['vendorID'] = $result['vendorID'];
 
-		$paperprice = MathHelper::ceil(MathHelper::ceil($mostefficient/100/100, 0.5)*$result['unitprice'], 1000); //dihitung per1/2meter
+		$totalarea = MathHelper::ceil($mostefficient/100/100, 0.1);
+		$paperprice = MathHelper::ceil($totalarea*$result['unitprice'], 1000); //dihitung per1/2meter
 		$data['calculation']['totalpaperprice'] = $paperprice;
 
-		$texttoread .= "Area: <span class='tx-purple'>".MathHelper::ceil($mostefficient/10000, 0.5)."</span> m&sup2; ( <span class='tx-purple'>".MathHelper::thseparator($mostefficient)."</span> cm&sup2; )<br>";
+		$texttoread .= "Area: <span class='tx-purple'>".$totalarea."</span> m&sup2; ( <span class='tx-purple'>".MathHelper::thseparator($mostefficient)."</span> cm&sup2; )<br>";
 		$texttoread .= "<i class='fas fa-chevron-right'></i> <b>BAHAN</b>: <span class='tx-purple'>".MathHelper::thseparator($paperprice)."</span> ( <span class='tx-purple'>@".MathHelper::thseparator($result['unitprice'])."</span> )<br>";
 		$texttoread .= "<hr class='margin-5-0'>";
 
@@ -486,22 +504,23 @@ class Job
 			'finishingprice' => 0
 		];
 
-		return $data;
+		//return $data;
+		return null;
 	}
 
-	public function calcPrintPriceRoll($machineID, $totalarea, &$texttoread){
-		$unitprice = $this->hargaPerUnitDG($machineID, MathHelper::ceil($totalarea, 0.5)); // Plotter Indoor 5pL
+	public function hargaCetakPlotter($machineID, $totalarea, &$texttoread){
+		$totalarea = MathHelper::ceil($totalarea, 0.1);
+		$unitprice = $this->hargaPerUnitDG($machineID, $totalarea); // Plotter Indoor 5pL
+		$printprice = MathHelper::ceil($totalarea * $unitprice, 1000);
 
-		$printprice = MathHelper::ceil(MathHelper::ceil($totalarea, 0.5) * $unitprice, 1000);
-
-		$texttoread .= "Per-m&sup2;: <span class='tx-purple'>".MathHelper::thseparator($unitprice)."</span> x <span class='tx-purple'>".MathHelper::ceil($totalarea, 0.5)."</span> m&sup2;<br>";
+		$texttoread .= "Per-m&sup2;: <span class='tx-purple'>".MathHelper::thseparator($unitprice)."</span> x <span class='tx-purple'>".$totalarea."</span> m&sup2;<br>";
 		$texttoread .= "<i class='fas fa-chevron-right'></i> <b>PRINT</b>: <span class='tx-purple'>".MathHelper::thseparator($printprice)."</span><br>";
 		$texttoread .= "<hr class='margin-5-0'>";
 
 		return $printprice;
 	}
 
-	public function calcPlanoSize(Array $data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype, $detailindex=-1)
+	public function calcPlanoSize(&$data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype, $detailindex=-1)
 	{
 		if($printtype == 'OF')
 		{
@@ -515,7 +534,10 @@ class Job
 			$combinations = $this->calcCombinationByMachineDG($imagelength, $imagewidth, $bleed, $sdp, $printwidth, $printlength);
 		}
 
-
+		if($combinations == null){
+			return "Ukuran Kertas terlalu besar";
+		}
+		
 		//CARI UKURAN-UKURAN (result: array)
 		$papers = $this->getUkuranByPaperID($paperID); //plano
 
@@ -573,7 +595,8 @@ class Job
 					$this->textcombination .= $value[6]."<b>".$planowidth."x$planolength belah ".$paper['totalinplano']."(".$paper['totalinplanox']."x".$paper['totalinplanoy']."+".$paper['totalinplanorest'].") belah ".$paper['totalinprint']."(".$paper['totalinprintx']."x".$paper['totalinprinty'].")"."</b> -> k".$hargakertas." + c".$hargacetak." = ".($hargacetak + $hargakertas)."<br>";
 				}else if($printtype == 'DG'){
 					$machineID = 5; // Konica A3
-					$hargacetak = $this->hargaCetakDG($paper, $machineID, MathHelper::ceil($qty/$paper['totalinprint'], 1), $texttoread);
+					$paper['totaldruct'] = $qty/$paper['totalinprint'] * $sdp;
+					$hargacetak = $this->hargaCetakDG($paper, $machineID, MathHelper::ceil($paper['totaldruct'], 1), $texttoread);
 
 					$this->textcombination .= "_".$paper['printwidth']."".$paper['printlength']." -> <b>".$planowidth."x$planolength belah ".$paper['totalinplano']."(".$paper['totalinplanox']."x".$paper['totalinplanoy']."+".$paper['totalinplanorest'].") belah ".$paper['totalinprint']."(".$paper['totalinprintx']."x".$paper['totalinprinty'].")"."</b> -> k".$hargakertas." + c".$hargacetak." = ".($hargacetak + $hargakertas)."<br>";
 				}
@@ -730,13 +753,14 @@ class Job
 			'doubleprintprice'=> $thispaper['doubleprintprice'],
 			'inschiet'=> $thispaper['inschiet'],
 			'totaldruct'=> $thispaper['totaldruct'],
+			'totalketeran'=> $thispaper['totalketeran'],
 			'totalpaperprice'=> $thispaper['totalpaperprice'],
 			'totalprintprice'=> $thispaper['totalprintprice'],
 			'totalprice'=> $thispaper['totalprice'],
 		];
 		
-
-		return $data;
+		return null;
+		//return $data;
 	}
 
 	public function hargaCetak($paper, $qty, $inschiet, $hperdruct, $minim1000, $sdp, $hargaPerPlat, &$texttoread="")
@@ -746,7 +770,6 @@ class Job
 		//$totaldruct = MathHelper::ceil(($qty / $percetak) + $inschiet, 10); //druct
 		$totaldruct = MathHelper::ceil(($qty / $percetak) + $inschiet, 1);
 		$hargaminim = $minim1000 * 4; // 4 WARNA
-
 
 		if($sdp == 2)
 		{
@@ -921,6 +944,8 @@ class Job
 		$hargakertas = intval(MathHelper::ceil($totalrim * $hperrim, 1));
 
 		$paper['totaldruct'] = $totaldruct;
+		$paper['totalketeran'] = $totaldruct; //sebelom dikali $sdp
+		$paper['totaldruct'] = $totaldruct;
 		$paper['totalplano'] = $totalplano;
 		$paper['totalrim'] = $totalrim;
 
@@ -1027,7 +1052,7 @@ class Job
 			$clc = $data['calculation'];
 
 
-			$druct = $clc['totaldruct'];
+			$druct = $clc['totalketeran'];
 			if($ii['finishingID']==26){
 				$druct = 1;
 			}

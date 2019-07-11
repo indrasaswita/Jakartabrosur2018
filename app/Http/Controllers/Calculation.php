@@ -76,7 +76,7 @@ class Calculation extends Controller
 		return $data;
 	}
 
-	public function calcPerJob($job, $data){
+	public function calcPerJob($job, &$data){
 		$obj = null;
 		$this->texttoread .= "Qty: <b>".MathHelper::thseparator($data['quantity'])."</b> ".$data['satuan']."<br>";
 		
@@ -87,17 +87,29 @@ class Calculation extends Controller
 					$job == "sticker"){
 			//FLYER & KOP SURAT SAMA
 			$obj = new Jobflyer($data, $this->cs);
-			$obj->hitungFlyer();
+			$result = $obj->hitungFlyer();
+
+			if($result != null)
+				return $result;
+
 			$obj->calcFinishing();
 		}else if($job == "cuttingsticker"){
 			$obj = new Jobcuttingsticker($data, $this->cs);
 			$obj->setMachineID(10);
 			$obj->setMargin(0, 0, 0, 0);
-			$obj->hitungCutting();
+			$result = $obj->hitungCutting();
+
+			if($result != null)
+				return $result;
+
 			$obj->calcFinishing();
 		}else if($job == "printcutsticker"){
 			$obj = new Jobprintcutsticker($data, $this->cs);
-			$obj->hitungPrint();
+			$result = $obj->hitungPrint();
+
+			if($result != null)
+				return $result;
+
 			$obj->hitungCuttingA3();
 			$obj->calcFinishing();
 		}else if($job == "businesscard"){
@@ -106,19 +118,30 @@ class Calculation extends Controller
 			$data['quantity'] *= 100;
 
 			$obj = new Jobbusinesscard($data, $this->cs);
-			$obj->hitungFlyer();
+			$result = $obj->hitungFlyer();
+
+			if($result != null)
+				return $result;
+
 			$obj->tambahBoxKartuNama(1500);
 			$obj->calcFinishing();
 		}else if($job == "kartupanitia"){
 			$obj = new Jobflyer($data, $this->cs);
-			$obj->hitungFlyer();
+			$result = $obj->hitungFlyer();
+
+			if($result != null)
+				return $result;
+
 			$obj->calcFinishing();
 		}else if($job == "standbanner"){
 			$obj = new Jobplotter($data, $this->cs);
 
 			$obj->setMargin(0,15,5,40);
 			$obj->setMachineID(8);
-			$obj->hitungPlotter();
+			$result = $obj->hitungPlotter();
+
+			if($result != null)
+				return $result;
 
 			$obj->calcFinishing();
 		}else if($job == "simplebannerindoor"	||
@@ -127,32 +150,44 @@ class Calculation extends Controller
 
 			$obj = new Jobplotter($data, $this->cs);
 
-			$obj->setMargin(0,0,6,40);
+			$obj->setMargin(0,0,7,60);
 			$obj->setMachineID(8);
-			$obj->hitungPlotter();
+			$result = $obj->hitungPlotter();
+
+			if($result != null)
+				return $result;
 
 			$obj->calcFinishing();
 		}else if($job == "simplebanneroutdoor"){
 			//input size dalam cm
 			$obj = new Jobplotter($data, $this->cs);
 
-			$obj->setMargin(0,0,6,60);
+			$obj->setMargin(10,10,0,40);
 			$obj->setMachineID(9);
-			$obj->hitungPlotter();
+			$result = $obj->hitungPlotter();
+
+			if($result != null)
+				return $result;
 
 			$obj->calcFinishing();
 		}else if($job == "deskcalendar"){
 			$obj = new Jobdeskcalendar($data, $this->cs);
-			$obj->hitungKalender();
+			$result = $obj->hitungKalender();
+
+			if($result != null)
+				return $result;
 
 			$obj->calcFinishing();
 			//sudah sekalian finishing untuk setiap kertasnya, tapi belom finsihing global
 		}else if($job == "manualinvoice"){
 			$obj = new Jobmanualinvoice($data, $this->cs, $this->jobsubtype);
-			$obj->hitungManualinvoice();
+			$result = $obj->hitungManualinvoice();
+
+			if($result != null)
+				return $result;
 			//sudah sekalian finishing untuk setiap kertasnya, tapi belom finsihing global
 		}else{
-			return null; // error
+			return "Belum Terdaftar"; // error
 		}
 
 
@@ -170,10 +205,12 @@ class Calculation extends Controller
 
 			$this->texttoread .= "<div class='text-xs-center size-200p'>Rp <b>".MathHelper::thseparator($obj->getData()['total']['price'])."</b></div>";
 
-			return $obj->getData(); 
+			$data = $obj->getData(); 
 		}
 		else if($obj == null)
-			return null; // error
+			return "Belum bisa digunakan, ada error pada server"; // error
+
+		return null;
 	}
 
 	public function calcPrice(Request $request){
@@ -204,9 +241,9 @@ class Calculation extends Controller
 		// *******************
 		$this->texttoread .= "<b class='tx-gray'>".$data['jobsubtype']['name']."</b> ".$data['jobtitle']."<br>";
 
-		$data = $this->calcPerJob($job, $data);
-		if($data == null)
-			return "BELOM TERDAFTAR, BELOM BISA DIPAKE";
+		$result = $this->calcPerJob($job, $data);
+		if($result != null)
+			return $result;
 
 		//BAG 6: calculate sisanya
 		$data = $this->hitungEstimasiWaktu($data);

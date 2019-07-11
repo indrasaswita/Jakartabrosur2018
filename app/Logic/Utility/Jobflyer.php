@@ -72,8 +72,10 @@ class Jobflyer extends Job
 		$imagewidth = $data['size']['width'];
 		$imagelength = $data['size']['length'];
 		//$printtype = $data['printtype']; //uda di atas
-		$data = $this->calcPlanoSize($data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $this->max_print_width, $this->max_print_length, $paperID, $printtype);
+		$result = $this->calcPlanoSize($data, $imagewidth, $imagelength, $qty, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $this->max_print_width, $this->max_print_length, $paperID, $printtype);
 		//hasilnya di store di $data['paper'] & ['calculation']
+		if($result != null)
+			return $result;
 
 
 		$price = 0; // INIT HARGA
@@ -105,6 +107,8 @@ class Jobflyer extends Job
 		);
 
 		$this->data = $data;
+
+		return null;
 	}
 
 

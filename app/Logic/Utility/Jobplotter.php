@@ -50,10 +50,16 @@ class Jobplotter extends Job{
 
 		$qty = $data['quantity'];
 
-		$data = $this->calcPlanoSizeRoll($data, $imagewidth, $imagelength, $qty, $this->bleedwidth, $this->bleedlength, $this->marginwidth, $this->marginlength, $this->max_print_width, $paperID, $texttoread);
+		$result = $this->calcPlanoSizeRoll($data, $imagewidth, $imagelength, $qty, $this->bleedwidth, $this->bleedlength, $this->marginwidth, $this->marginlength, $this->max_print_width, $paperID, $texttoread);
+
+		if($result != null)
+		{
+			//kalo ukurannya ga ada, return null (status -> buat keluar dari calc per job)
+			return $result;
+		}
 
 		//totalarea dalam cm -> ubah dalam m, karena d DB DI CATAT DALAM M
-		$printprice = $this->calcPrintPriceRoll($this->machineID, floatval($data['calculation']['totalarea']/10000), $texttoread);
+		$printprice = $this->hargaCetakPlotter($this->machineID, floatval($data['calculation']['totalarea']/10000), $texttoread);
 
 
 		//print_r($data);
@@ -102,6 +108,8 @@ class Jobplotter extends Job{
 
 
 		$this->data = $data;
+
+		return null;
 	}
 
 }

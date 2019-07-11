@@ -9,7 +9,9 @@ use App\Papersize;
 class Jobprintcutsticker extends Jobflyer{
 	public function hitungPrint(){
 		$this->setMaxPrint(28, 44);
-		$this->hitungFlyer();
+		$result = $this->hitungFlyer();
+		if($result != null)
+			return $result;
 	}
 
 	public function hitungCuttingA3(){
