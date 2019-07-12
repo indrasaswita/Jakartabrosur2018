@@ -122,7 +122,7 @@
 												<i class="far fa-paperclip tx-primary fa-fw"></i>
 											</div>
 											<div class="text">
-												File lebih besar dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024)|number:0]]</b>MB</span>, silahkan sertakan dengan link Google Drive / OneDrive
+												File lebih besar dari <span class="tx-purple"><b class="size-110p">[[(uploadmaxfilesize/1024/1024)|number:0]]</b>MB</span>, silahkan sertakan dengan link Google Drive / OneDrive / Dropbox
 											</div>
 										</li>
 									</ul>
