@@ -97,7 +97,7 @@
 												</div>
 												<div class="text">
 													<i class="fab fa-google-drive fa-fw tx-lightgray"></i>
-													Google Drive, One Drive, atau online storage (public) lainnya diperbolehkan.
+													Google Drive, One Drive, Dropbox, atau online storage (public) lainnya diperbolehkan.
 												</div>
 											</li>
 											<li>
@@ -105,7 +105,7 @@
 													<i class="far fa-check tx-success fa-fw"></i>
 												</div>
 												<div class="text">
-													Pastikan web dapat diakses secara public tanpa proxy / provider internet khusus.
+													Pastikan web dapat diakses secara public tanpa proxy / provider internet khusus, dan berikan izin publik.
 												</div>
 											</li>
 										</ul>
