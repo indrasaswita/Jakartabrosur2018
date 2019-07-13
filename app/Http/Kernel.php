@@ -64,8 +64,10 @@ class Kernel extends HttpKernel
 		'isadmin' => \App\Http\Middleware\RedirectIfNotAdministator::class,
 		'employee' => \App\Http\Middleware\RedirectIfEmployee::class,
 		'customer' => \App\Http\Middleware\RedirectIfCustomer::class,
-		'notverified' => \App\Http\Middleware\RedirectIfNotVerified::class,
+		'verified' => \App\Http\Middleware\RedirectIfVerified::class,
 		'customerAPI' => \App\Http\Middleware\ErrorIfNotCustomer::class,
 		'employeeAPI' => \App\Http\Middleware\ErrorIfNotEmployee::class,
+		'loggedin' => \App\Http\Middleware\RedirectIfLoggedIn::class,
+		'loggedinAPI' => \App\Http\Middleware\ErrorIfLoggedIn::class
 	];
 }

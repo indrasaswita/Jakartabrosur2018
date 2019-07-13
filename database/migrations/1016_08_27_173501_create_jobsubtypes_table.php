@@ -61,10 +61,7 @@ class CreateJobsubtypesTable extends Migration
 				printerIDdigital INT UNSIGNED NOT NULL,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				updated_at TIMESTAMP NULL,
-				PRIMARY KEY (id),
-				FOREIGN KEY (printerIDdigital) REFERENCES printingmachines(id),
-				FOREIGN KEY (printerIDoffset) REFERENCES printingmachines(id),
-				FOREIGN KEY (jobtypeID) REFERENCES jobtypes(id) ON UPDATE CASCADE ON DELETE CASCADE
+				PRIMARY KEY (id)
 			);
 
 		");

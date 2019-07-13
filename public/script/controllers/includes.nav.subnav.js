@@ -14,7 +14,7 @@ module.exports = function(app) {
 					link: BASE_URL + 'orderlistcustomer',
 					route: ['shop', 'shop/{pages}'],
 					label: 'Selection',
-					glyphicon: 'fa-crosshairs',
+					glyphicon: 'fa-analytics',
 					login: 'false'
 				},
 				{

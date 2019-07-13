@@ -3,6 +3,7 @@
 <!-- <title>Jakarta Brosur - Percetakan di Jakarta</title> -->
 
 <!-- <meta name="description" content=""> -->
+<meta name="theme-color" content="#550099">
 <meta name="author" content="JakartaBrosurTeam">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -27,6 +28,7 @@
 <script async type="text/javascript" src="{{URL::asset('js/handlebars-v4.0.11.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/typeahead.bundle.min.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+
 
 
 <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

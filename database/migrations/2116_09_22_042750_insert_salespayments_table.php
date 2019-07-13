@@ -21,7 +21,8 @@ class InsertSalespaymentsTable extends Migration
 			'note'=>'#job00001',
 			'ammount'=>1650000,
 			'type'=>'TRANSFER',
-			'paydate'=>Carbon::now()
+			'paydate'=>Carbon::now(),
+			'created_at'=>Carbon::now()
 		]);
 		DB::table('salespayments')->insert([
 			'id'=>2,
@@ -31,7 +32,8 @@ class InsertSalespaymentsTable extends Migration
 			'note'=>'#job00001',
 			'ammount'=>1340000,
 			'type'=>'TRANSFER',
-			'paydate'=>Carbon::now()
+			'paydate'=>Carbon::now(),
+			'created_at'=>Carbon::now()
 		]);
 
 		// DB::table('salespayments')->insert([

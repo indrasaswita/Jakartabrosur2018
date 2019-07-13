@@ -62,11 +62,13 @@ module.exports = function(app){
 
 			$scope.singkatText = function($text, $totalhuruf, $simbolakhir)
 			{
+				$hasil = "";
+
 				if($text == null || $totalhuruf == null || $simbolakhir == null)
 					return '-';
 				if($simbolakhir == '')
 				{
-					return $scope.singkatText0($text, $totalhuruf);
+					$hasil = $scope.singkatText0($text, $totalhuruf);
 				}
 				else
 				{
@@ -77,13 +79,19 @@ module.exports = function(app){
 						$panjangDepan = ($totalhuruf - $panjangAkhir < 5 ? 5 : $totalhuruf - $panjangAkhir);
 						$depan = $text.substring(0, $panjangDepan);
 						$belakang = $text.substring($indexSimbol);
-						return $depan+"..."+$belakang;
+						$hasil = $depan+"..."+$belakang;
 					}
 					else
 					{
-						return $text;
+						$hasil = $text;
 					}
 				}
+
+				if($hasil.length > $totalhuruf+3){
+					$hasil = $scope.singkatText0($text, $totalhuruf);
+				}
+
+				return $hasil;
 			}
 
 			String.prototype.toTitleCase = function () {
@@ -115,25 +123,6 @@ module.exports = function(app){
 				{
 					return $text;
 				}
-			}
-
-			$scope.getActiveJobSubType = function(){
-				$http(
-					{
-						method : 'GET',
-						url : API_URL + 'jobsubtypes/getactive'
-					}
-				).then(
-					function(response) {
-						if(response!=null)
-							$scope.jobtypes = response.data;
-						else{
-							console.log("NO RESPONSE");
-						}
-					},function(error){
-						console.log("Error (GodHand.js) : " + response.data);
-					}
-				);
 			}
 
 			/*$scope.afterAngular = function(){
@@ -327,8 +316,15 @@ module.exports = function(app){
 			}
 
 			$scope.trustAsHtml = function($input){
-				//console.log($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
 				return ($sce.trustAsHtml($input).$$unwrapTrustedValue().replaceAll(/\?/g, '\''));
+			}
+
+			$scope.isURL = function(value) {
+			  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+			}
+
+			$scope.trustAsUrl = function($input){
+				return $sce.trustAsResourceUrl($input);
 			}
 
 			$scope.stripTagsWA = function($input){
@@ -365,6 +361,83 @@ module.exports = function(app){
 
 					return d2Y-d1Y;
 				}
+			}
+
+			$scope.ceil = function($input){
+				return Math.ceil($input);
+			}
+			$scope.floor = function($input) {
+				return Math.floor($input);
+			}
+			$scope.round = function($input) {
+				return Math.round($input);
+			}
+ 			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
+			$scope.total2kg = function($total, $gram, $w, $l) {
+				$result = $total * 20000 / $gram / $w / $l;
+				return Math.round($result / 100) * 100;
+			}
+			$scope.total2unit = function($total, $totalpcs) {
+				$result = $total / $totalpcs;
+				return Math.ceil($result);
+			}
+			$scope.kg2total = function($kg, $gram, $w, $l) {
+				$result = $kg * $gram * $w * $l / 20000;
+				return Math.ceil($result / 1000) * 1000;
+			}
+			$scope.kg2unit = function($kg, $gram, $w, $l) {
+				$result = $kg * $gram * $w * $l / 20000 / 500;
+				return Math.ceil($result);
+			}
+			$scope.unit2total = function($unit, $totalpcs) {
+				$result = $unit * $totalpcs;
+				return $result;
+			}
+			$scope.unit2kg = function($unit, $totalpcs, $gram, $w, $l) {
+				$total = $unit * $totalpcs;
+				$result = $total * 20000 / $gram / $w / $l;
+				return Math.round($result / 100) * 100;
+			}
+
+			$scope.filteremptyindex = function($arr){
+				//CLEAR INDEX CLEAR EMPTY INDEX DELETE EMPTY ARRAY APUS EMPTY
+				return $arr.filter(value => Object.keys(value).length !== 0);
+			}
+
+			$scope.phonemask = function(e){
+				// REGEX PHONE
+				if(e!=null){
+					var hasil = e;
+					var x;
+					if(!e.startsWith("08")){
+					  x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
+					  if(x!=null)
+					  	hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
+					}
+					else{
+						if(e.length==10){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{3})/);
+							if(x!=null)
+					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}else if(e.length==11){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{4})/);
+							if(x!=null)
+					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}
+						else if(e.length==12){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})/);
+							if(x!=null)
+					  	hasil = x[1] + '-' + x[2] + '-' + x[3];
+						}
+						else if(e.length==13){
+							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/);
+							if(x!=null)
+								hasil = x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4];
+						}
+					}
+				  return hasil;
+				}else
+					return "";
 			}
 		}
 	]);

@@ -20,9 +20,6 @@ class InsertAddressesTables extends Migration
 			ALTER TABLE cities
 				ADD COLUMN island VARCHAR(64) NOT NULL DEFAULT '' AFTER name;
 
-			ALTER TABLE addresses
-				DROP FOREIGN KEY addresses_cityid_foreign;
-
 			TRUNCATE TABLE cities;
 
 			INSERT INTO cities (name, island, created_at, updated_at) VALUES ('Denpasar', 'Bali', now(), now());

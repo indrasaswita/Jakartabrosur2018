@@ -14,10 +14,6 @@ class Jobsubtypedetailfinishing extends Model
     	return $this->belongsTo('App\Finishing', 'finishingID')->with('finishingoption');
     }
 
-    public function finishingshop(){
-    	return $this->belongsTo('App\Finishing', 'finishingID')->with('finishingoptionshop');
-    }
-
     public function jobsubtypedetail(){
     	return $this->belongsTo('App\Jobsubtypedetail', 'jobsubtypedetailID');
     }

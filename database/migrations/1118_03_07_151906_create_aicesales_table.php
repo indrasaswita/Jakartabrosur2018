@@ -16,7 +16,6 @@ class CreateAicesalesTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('icecreamID')->unsigned();
-            $table->foreign('icecreamID')->references('id')->on('icecreams');
             $table->integer('sellprice')->unsigned();
             $table->smallinteger('qty');
             $table->timestamps();

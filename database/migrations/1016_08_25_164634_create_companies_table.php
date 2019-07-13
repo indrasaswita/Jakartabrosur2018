@@ -19,7 +19,6 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->integer('cityID')->unsigned();
-            $table->foreign('cityID')->references('id')->on('cities');
             $table->string('phone1', 16)->nullable();
             $table->string('phone2', 16)->nullable();
             $table->string('phone3', 16)->nullable();

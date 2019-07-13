@@ -5,6 +5,10 @@ module.exports = function(app) {
 			$scope.jobtypes = null;
 			$scope.saving = false;
 			$scope.activejobtype = 0;
+			$scope.loadingofdg = false;
+
+			$scope.newjobsizes = [];
+			$scope.sizes = []; //ambil data dari ajax
 
 			$scope.initData = function($input) {
 				$scope.jobtypes = JSON.parse($input);
@@ -33,6 +37,7 @@ module.exports = function(app) {
 
 				$scope.hideall();
 				$scope.closeallchangeprice();
+				$scope.getallsizes(); //INIT
 			}
 
 			$scope.hideall = function(){
@@ -195,34 +200,133 @@ module.exports = function(app) {
 				}
 			}
 
-			$scope.savepriceminim = function($item){
-				console.log("SAVE PRICE MINIM");
-				$saveloading = true;
+			$scope.getallsizes = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"sizes"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							$scope.sizes = response.data;
+							$.each($scope.sizes, function($index, $item){
+								if($item!=null){
+									$item.width = parseFloat($item.width);
+									$item.length = parseFloat($item.length);
+								}
+							});
+						}else{
+							console.log("The return value is null, not error");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			$scope.changeOfDg = function($jobsubtypesize){
+				if($scope.loadingofdg == false){
+					$scope.loadingofdg = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL+"jobsubtypesize/"+$jobsubtypesize.id+"/changeofdg"
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$jobsubtypesize.ofdg = response.data;
+								}else{
+									console.log("NO CHANGE FROM DB, ERROR");
+								}
+							}else{
+								console.log("The return value is null, ID not found");
+							}
+						}else{
+							console.log("error, response is null");
+						}
+
+						$scope.loadingofdg = false;
+					}, function(error){
+						console.log(error);
+						$scope.loadingofdg = false;
+					});
+				}
+			}
+
+			$scope.addnewjobsize = function($jobsubtypeID){
+				$scope.newjobsizes = []; //clear
+				$scope.addnewjobsizerow();
+
+				$scope.selectedjobsubtypeID = $jobsubtypeID;
+
+
+				$("#addnewjobsize").modal('show');
+			}
+
+			$scope.addnewjobsizerow = function(){
+				$temp = {
+					name: "",
+					custominput: false,
+					length: 0.0,
+					width: 0.0,
+					size: null
+				};
+				if($scope.sizes.length>0)
+					$temp.size = $scope.sizes[0];
+				else
+					alert("error, no sizes from db");
+				$scope.newjobsizes.push($temp); //push
+			}
+
+			$scope.savenewjobsizes = function(){
+				//console.log($scope.newjobsizes);
+
+				$newarray = [];
+				$.each($scope.newjobsizes, function($index, $item){
+					$temp = null;
+					$temp = {};
+
+					if($item.custominput){
+						if($item.length == 0 || $item.width == 0)
+							$temp.valid = false;
+						else if($item.name.length == 0)
+							$temp.valid = false;
+						else 
+							$temp.valid = true;
+					}else{
+						$temp.valid = true;
+					}
+
+					if ($temp.valid){
+						$temp.jobsubtypeID = $scope.selectedjobsubtypeID;
+						$temp.ofdg = 1; //dibuat offset
+						if($item.custominput){
+							// CUSTOM SIZE
+							$temp.width = $item.width;
+							$temp.length = $item.length;
+							$temp.name = $item.name; //save size by name
+							$temp.sizeID = null;
+						}else{
+							//terdaftar
+							if($item.size != null){
+								$temp.width = $item.size.width;
+								$temp.length = $item.size.length;
+								$temp.name = $item.size.name;
+								$temp.sizeID = $item.size.id;
+							}
+						}
+						$newarray.push($temp);
+					}
+				});
+
 				$http({
 					method: "POST",
-					url: AJAX_URL+"finishingoption/priceminim/update",
-					data: {
-						"priceminim": $item.newpriceminim,
-						"id": $item.id
-					}
+					url: AJAX_URL+"jobsubtypesize/store",
+					data: $newarray
 				}).then(function(response){
 					if(response!=null){
 						if(response.data != null){
 							if(typeof response.data == "string"){
-								if(response.data == "success"){
-									//GANTI SEMUA FINISHINGOPTIONID yang sesuai jadi harga itu
-
-									$scope.changeoptionpricebyid($item.id, $item.newpriceminim, $item.price, $item.pricebase);
-
-									console.log("perubahan berhasil");
-								}else if(response.data == "no changes"){
-									console.log('tidak ada perubahan pada database');
-								}else if(response.data == "not found"){
-									console.log('error, id not found');
-									$window.location.reload();
-								}
-
-								$scope.closeallchangeprice();
+								
 							}
 						}else{
 							console.log("The return value is null, not error");
@@ -232,73 +336,14 @@ module.exports = function(app) {
 					console.log(error);
 				});
 			}
-			$scope.saveprice = function($item) {
-				console.log("SAVE PRICE");
-				$saveloading = true;
-				$http({
-					method: "POST",
-					url: AJAX_URL + "finishingoption/price/update",
-					data: $item.newprice
-				}).then(function(response) {
-					if (response != null) {
-						if (response.data != null) {
-							if (typeof response.data == "string") {
-								if (response.data == "success") {
-									//GANTI SEMUA FINISHINGOPTIONID yang sesuai jadi harga itu
 
-									$scope.changeoptionpricebyid($item.id, $item.priceminim, $item.newprice, $item.pricebase);
-
-									console.log("perubahan berhasil");
-								} else if (response.data == "no changes") {
-									console.log('tidak ada perubahan pada database');
-								} else if (response.data == "not found") {
-									console.log('error, id not found');
-									$window.location.reload();
-								}
-
-								$scope.closeallchangeprice();
-							}
-						} else {
-							console.log("The return value is null, not error");
-						}
-					}
-				}, function(error) {
-					console.log(error);
-				});
-			}
-			$scope.savepricebase = function($item) {
-				console.log("SAVE PRICE BASE");
-				$saveloading = true;
-				$http({
-					method: "POST",
-					url: AJAX_URL + "finishingoption/pricebase/update",
-					data: $item.newpricebase
-				}).then(function(response) {
-					if (response != null) {
-						if (response.data != null) {
-							if (typeof response.data == "string") {
-								if (response.data == "success") {
-									//GANTI SEMUA FINISHINGOPTIONID yang sesuai jadi harga itu
-
-									$scope.changeoptionpricebyid($item.id, $item.priceminim, $item.price, $item.newpricebase);
-
-									console.log("perubahan berhasil");
-								} else if (response.data == "no changes") {
-									console.log('tidak ada perubahan pada database');
-								} else if (response.data == "not found") {
-									console.log('error, id not found');
-									$window.location.reload();
-								}
-
-								$scope.closeallchangeprice();
-							}
-						} else {
-							console.log("The return value is null, not error");
-						}
-					}
-				}, function(error) {
-					console.log(error);
-				});
+			$scope.selectedchanged = function($item){
+				if($item.custominput){
+					$item.size = null;
+				}else{
+					$item.width = 0;
+					$item.length = 0;
+				}
 			}
 
 		}

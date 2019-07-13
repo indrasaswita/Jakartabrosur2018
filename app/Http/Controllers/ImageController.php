@@ -11,6 +11,7 @@ use App\CartHeader;
 use File;
 use App\Files;
 use Illuminate\Support\Facades\Cache;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageController extends Controller
 {
@@ -72,6 +73,7 @@ class ImageController extends Controller
 
 	public function originalUploadCustomer(Request $request)
 	{
+		//dd(phpinfo());
 		//BY USER (CUSTOMER)
 
 		$data = $request->all();
@@ -142,26 +144,26 @@ class ImageController extends Controller
 
 	public function getCartfiles($cartID){
 		$cartfiles = Cartfile::with('file')
-								->where('cartID', '=', $cartID)
-								->get();
+				->where('cartID', '=', $cartID)
+				->get();
 
 		return $cartfiles;
 	}
 
 	public function getCartpreviews($cartID){
 		$cartpreviews = Cartpreview::with('file')
-								->where('cartID', '=', $cartID)
-								->get();
+				->where('cartID', '=', $cartID)
+				->get();
 
 		return $cartpreviews;
 	}
 
 	public function getPendingImage(){
 		$custID = session()->get('userid');
-		$files = Files::leftjoin('cartfiles', 'cartfiles.fileID', '=', 'files.id')
-			->whereNull('cartfiles.id')
-			->where('customerID', '=', $custID)
-			->select('files.*')
+		
+		$files = Files::doesnthave('cartfile')
+			->with('customer')
+			->where('customerID', $custID)
 			->get();
 
 		// $files = [];

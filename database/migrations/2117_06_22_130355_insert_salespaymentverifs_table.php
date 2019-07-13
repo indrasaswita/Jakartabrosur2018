@@ -18,14 +18,16 @@ class InsertSalespaymentverifsTable extends Migration
 			'paymentID'=>1,
 			'note'=>'#job00001',
 			'employeeID'=>'1',
-			'veriftime'=>Carbon::now()
+			'veriftime'=>Carbon::now(),
+			'created_at'=>Carbon::now()
 		]);
 		DB::table('salespaymentverifs')->insert([
 			'id'=>2,
 			'paymentID'=>2,
 			'note'=>'#job00001',
 			'employeeID'=>'1',
-			'veriftime'=>Carbon::now()
+			'veriftime'=>Carbon::now(),
+			'created_at'=>Carbon::now()
 		]);
 	}
 

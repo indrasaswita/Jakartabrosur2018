@@ -16,7 +16,6 @@ class CreateOffdaysTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('employeeID')->unsigned();
-            $table->foreign('employeeID')->references('id')->on('employees');
             $table->date('offday');
             $table->time('starttime');
             $table->time('endtime');

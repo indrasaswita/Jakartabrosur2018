@@ -33,12 +33,13 @@ module.exports = function(app){
 			}
 
 			$scope.texttoread = '';
+			$scope.textcombination = '';
 			
 			$finishchanging = false;
 			$scope.counter = 0;
 			$scope.underconstruction = false;
-			$scope.uploaderror = "";
 			$scope.uploadwaiting = false;
+			$scope.uploadsuccess = false;
 			$scope.customsize = false;
 			$scope.result = {
 				"total" : {
@@ -58,8 +59,11 @@ module.exports = function(app){
 				"savecartval" : "",
 				'savebtnval' : "",
 				"description" : "",
+				"upload": "",
 			};
 			$scope.total = [];
+			$scope.uploadmaxfilesize = 26214400;
+			$scope.newfiledetail = "";
 
 			$scope.setUserLogin = function($role, $userid)
 			{
@@ -67,6 +71,9 @@ module.exports = function(app){
 					$scope.userid = $userid;
 				}
 				if($role==null){
+					$scope.role = null;
+					$scope.restrictNotLogined();
+				}else if($role==''){
 					$scope.role = null;
 					$scope.restrictNotLogined();
 				}else if($role!='customer'){
@@ -97,13 +104,13 @@ module.exports = function(app){
 			$scope.changeDetailName = function($datas){
 				//SET FINISHING DATA + Paper
 				$datas.jobsubtypedetail = [];
-				$.each($datas.jobsubtypedetailshop, function($index, $item){
+				$.each($datas.jobsubtypedetail, function($index, $item){
 					$datas.jobsubtypedetail[$index] = $scope.changeFinishingDetailName($item);
 					$datas.jobsubtypedetail[$index] = $scope.changePaperDetailName($item);
 				});
 					
 
-				delete $datas.jobsubtypedetailshop;
+				delete $datas.jobsubtypedetail;
 
 				return $datas;
 			}
@@ -176,7 +183,7 @@ module.exports = function(app){
 			$scope.addtambahbaruaddress = function(){
 				$scope.customeraddresses.push( 
 					{
-						"id":'0',
+						"id": '0',
 						"address":{
 							"name": "Add address",
 							"address": "Tambah alamat baru.."
@@ -186,6 +193,7 @@ module.exports = function(app){
 			}
 
 			$scope.setData = function($datas){
+				//untuk set address di description kalo uda login
 				if($datas.user != null){
 					$scope.customeraddresses = [];
 					if($datas.user.customeraddress.length>0){
@@ -196,7 +204,18 @@ module.exports = function(app){
 						$scope.selected.deliveryaddress = '';
 					}
 					$scope.addtambahbaruaddress();
+					$scope.getMaxFilesize();
+					$scope.refreshUploadedImage();
 				}
+
+				//SET DATA PAPER YANG GA ADA DETAIL GA BOLEH MUNCUL
+				$.each($datas.jobsubtypepaper, function($i, $jobpaper){
+					if($jobpaper.paper.paperdetail.length == 0){
+						console.log("#"+$jobpaper.id+" "+$jobpaper.paper.name+", was deleted");
+						delete $datas.jobsubtypepaper[$i];
+					}
+				});
+				$datas.jobsubtypepaper = $scope.filteremptyindex($datas.jobsubtypepaper);
 
 				//SET DATA SIZE jadi NUMBER
 				$.each($datas.jobsubtypesize, function($index, $item){
@@ -210,10 +229,6 @@ module.exports = function(app){
 				else if($datas.digitaloffset==2)
 					$scope.selected.printtype = 'DG';
 
-				//SET FINISHING DATA + Paper
-				console.log($datas);
-				$datas = $scope.changeFinishingName($datas);
-				$datas = $scope.changePaperName($datas);
 
 				//CEK JOBSUBTYPEDETAIL
 				if($datas.jobsubtypedetailshop!=null)
@@ -223,18 +238,7 @@ module.exports = function(app){
 					//shop sudah ilang
 				}
 
-				//DIBUAT STORE DATA YANG GA DI UBAH2 di $scope.master
-				//CLONING
-				$scope.master = $datas;
-
-				$scope.selected.jobsubtypeID = $datas.id;
-				$scope.selected.jobsubtypename = $datas.link;
-				$scope.selected.pagename = $datas.name;
-				$scope.selected.satuan = $datas.satuan;
-
-				$scope.deliveries = $datas.deliveries;
-				$scope.setdelivery0();
-
+				$scope.setselecteddata($datas); //set data awal
 				$scope.refreshOfDg();
 				$scope.checkStandardSize();
 
@@ -246,6 +250,11 @@ module.exports = function(app){
 				//buat tambahin option Tanpa Finishing, di zero index
 				$.each($datas.jobsubtypefinishing, function($index, $item){
 					$item = $scope.setFinishingZeroIndex($item, $item.finishing.name, $item.id);
+
+					//set finishing name from finishing -> finishingoption (supaya kalo di select nanti ada nama finishingnya, di 'finishingname')
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						$jj.finishingname = $item.finishing.name;
+					});
 				});
 
 				//untuk set semuanya jadi Tanpa Finishing. DEFAULT
@@ -279,6 +288,13 @@ module.exports = function(app){
 						//masukin ke selected sesuai index -> JANGAN CLONE!
 						$scope.selected.finishings[$index] = $item.finishing.finishingoption[0];
 					}
+
+					//UNTUK PILIH SESUAI DEFAULT YANG DI MASUKIN DI DB
+					$.each($item.finishing.finishingoption, function($j, $jj){
+						if($jj.defaultoption == true){
+							$scope.selected.finishings[$index] = $item.finishing.finishingoption[$j];
+						}
+					});
 				});
 			}
 
@@ -463,22 +479,32 @@ module.exports = function(app){
 				$scope.finishings = $scope.setFinishingData($scope.datas);
 				//SET SEMUA FINISHING OPTION DI ENABLE
 				$.each($scope.finishings, function($index, $item){
-						$.each($item.finishing.finishingoption, function($index2, $item2){
-								$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
-						});
+					$.each($item.finishing.finishingoption, function($index2, $item2){
+						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
+					});
 				});
 
 				
 				// buat flyer selalu select potong - OF Only
 				// dan disable index ke 0
-				if($scope.selected.jobsubtypeID == 1) { 
-					//FLYER untuk ID jobsubtype = 1
-					if($scope.selected.printtype == "OF"){
-						$scope.finStat0("potong", false);
-					}else if($scope.selected.printtype == "DG"){
-						$scope.finStat0("potong", true);
+				// if($scope.selected.jobsubtypeID == 1) { 
+				// 	//FLYER untuk ID jobsubtype = 1
+				// 	if($scope.selected.printtype == "OF"){
+				// 		$scope.finStat0("potong", false);
+				// 	}else if($scope.selected.printtype == "DG"){
+				// 		$scope.finStat0("potong", true);
+				// 	}
+				// }
+
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
+					if($ii.mustdo){
+						$ii.finishing.finishingoption[0].disabled = true;
+						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
+						if($scope.selected.finishings[$i].id == 0)
+							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+						//console.log($ii.finishing.finishingoption);
 					}
-				}
+				});
 
 				// 2 ==> CUMA CUSTOM AJA - BANNER!
 				if($scope.datas.sizetype==2)
@@ -608,53 +634,100 @@ module.exports = function(app){
 				}
 			}
 			$scope.getPrice = function(){
-				//console.log($scope.selected);
-
 				if($finishchanging==true)
 				{ //SUPAYA LOADNYA CUMA SEKALI STIAP GANTI
+
+
+					$post = $scope.clone($scope.selected);
+					$post.paperID = $scope.selected.paper.id;
+					delete $post.paper;
+					$post.deliveryID = $scope.selected.delivery.id;
+					delete $post.delivery;
+					delete $post.deliverylocked;
+					delete $post.pagename;
+					delete $post.jobsubtypename;
+					if(!$scope.customsize){
+						$post.sizeID = $scope.selected.size.id;
+						if ($post.sizeID != 0)
+							delete $post.size;
+					}else{
+						$post.sizeID = 0;
+						$post.size = $scope.selected.size;
+						$post.size.name = "Custom Size";
+					}
+					$.each($post.finishings, function($i, $ii){
+						if($ii.id==0)
+							delete $post.finishings[$i];
+						else{
+							delete $ii.created_at;
+							delete $ii.updated_at;
+							delete $ii.info;
+							$ii['optionID'] = $scope.selected.finishings[$i].id;
+							delete $ii.id;
+							delete $ii.optionname;
+							delete $ii.processdays;
+						}
+					});
+
+
 					$scope.counter++;
 					$scope.waitingprice = true;
-					$scope.selected.counter = $scope.counter;
+					$post.counter = $scope.counter;
 
-					//console.log($scope.selected);
+					//console.log($post);
 
 
 					$http({
 						"method" 	: "POST",
 						"url" 		: AJAX_URL+"cekharga",
-						"data"		: $scope.selected,
+						"data"		: $post
 					}).then(
 						function(response){
-							$scope.total = response.data.total;
-							$scope.key = response.data.key;
+							if (typeof response.data == "string") {
+								if (response.data.length > 999) {
+									//alert(response.data.length);
+									$scope.error.savecartval = "Error - Menu '" + $scope.datas.name + "' belum bisa digunakan..";
 
-							$scope.texttoread = response.data.texttoread;
-							if(typeof $scope.total ==='undefined')
-							{
-								//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
-								//MUNCULIN UNDER CONSTRUCTION
+								}else{
+									$scope.error.savecartval = "Error: "+response.data;
+								}
+								$scope.total.price = 0;
+								$scope.total.deliv = 0;
+								$scope.total.disc = 0;
+								$scope.total.price = 0;
+
 								$scope.waitingprice = false; //bikin spinner stop
-								//$scope.underconstruction = true;
-							}
-							else
-							{
-								//KALO BELOM BISA KALKULASI TOTAL = ERROR (BELOM DI DEVELOP)
-								if($scope.isNum($scope.total.price))
-									$scope.total.price = parseInt($scope.total.price);
-								else $scope.total.price = 0;
-								$.each($scope.finishings, function($index, $item){
-									if($scope.isNum($item.totalprice))
-									{
-										$item.totalprice = parseInt($item.totalprice);
-										$scope.total.price += $item.totalprice;
-									}
-								});
-								$scope.total.deliv = parseInt($scope.total.deliv);
-								if($scope.total.counter == $scope.counter)
-									$scope.waitingprice = false;
-							}
+							} else {
 
-							$scope.checkerrorstatus();
+								$scope.total = response.data.total;
+								$scope.key = response.data.key;
+
+								$scope.texttoread = response.data.texttoread;
+								$scope.textcombination = response.data.textcombination;
+								if (typeof $scope.total === 'undefined') {
+									//KALO GA BISA DI ITUNG (GA MUNCUL TOTAL di indexnya)
+									//MUNCULIN UNDER CONSTRUCTION
+									$scope.waitingprice = false; //bikin spinner stop
+									//$scope.underconstruction = true;
+								}
+								else {
+									//KALO BELOM BISA KALKULASI TOTAL = ERROR (BELOM DI DEVELOP)
+									if ($scope.isNum($scope.total.price))
+										$scope.total.price = parseInt($scope.total.price);
+									else $scope.total.price = 0;
+									$.each($scope.finishings, function($index, $item) {
+										if ($scope.isNum($item.totalprice)) {
+											$item.totalprice = parseInt($item.totalprice);
+											$scope.total.price += $item.totalprice;
+										}
+									});
+									$scope.total.deliv = parseInt($scope.total.deliv);
+									if ($scope.total.counter == $scope.counter)
+										$scope.waitingprice = false;
+								}
+
+								$scope.checkerrorstatus();
+							}
 						},function(error){
 							//console.log("masuk ke ERROR");
 							$scope.waitingprice = false; //bikin spinner stop
@@ -751,13 +824,114 @@ module.exports = function(app){
 			}
 
 			$scope.showuploadfile = function(){
-				$scope.refreshUploadedImage();
-				$scope.uploaderror = '';
+				$scope.renewuploadmodal();
 				$("#uploadfileModal").modal('show');
+			}
+
+			$scope.showuploadurl = function(){
+				$scope.renewuploadmodal();
+				$("#uploadurlModal").modal('show');
+			}
+
+			$scope.checkuploadurl = function(){
+				return ($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl));
+			}
+
+			$scope.saveuploadurl = function(){
+				if($scope.isURL($scope.uploadinputurl)||$scope.isURL("https://"+$scope.uploadinputurl)){
+					if($scope.uploadinputurl.indexOf("http")!=0){
+						$scope.uploadinputurl = "https://"+$scope.uploadinputurl;
+					}
+					$scope.error.upload = "";
+
+
+					$scope.saveuploadurltodb();
+
+
+				}else{
+					$scope.error.upload = "Your inputed URL is not valid. Please try to check and reinput the right one.";
+				}
+
+				// $scope.uploadinputurl2 = $scope.trustAsUrl($scope.uploadinputurl);
+			}
+
+			$scope.saveuploadurltodb = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"files/saveurl",
+					data: {
+						url: $scope.uploadinputurl
+					}
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.error.upload = "wrong response type, error in server";
+								$scope.uploadsuccess = false;
+							}else{
+								$scope.uploadedfiles = response.data;
+								$scope.uploadsuccess = true;
+							}
+						}else{
+							$scope.error.upload = "URL cannot be process, something error";
+							$scope.uploadsuccess = false;
+						}
+					}else{
+						$scope.error.upload = "URL cannot be process, something error";
+						$scope.uploadsuccess = false;
+					}
+				}, function(error){
+					console.log(error);
+					$scope.uploadsuccess = false;
+				});
+			}
+
+			$scope.savefiledetail = function($id){
+				if($scope.newfiledetail.length<=500){
+					$http({
+						method: "POST",
+						url: AJAX_URL+"files/savedetail",
+						data: {
+							"detail": $scope.newfiledetail,
+							"fileID": $id
+						}
+					}).then(function(response){
+						if(response!=null){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$scope.error.upload = "Error - upload detail files";
+								}else{
+									$scope.uploadedfiles = response.data;
+								}
+							}else{
+								$scope.error.upload = "Error - server ga bisa cari data file";
+							}
+						}
+					}, function(error){
+						$scope.error.upload = "Error - passing data not successful";
+					});
+				}else{
+					$scope.error.upload = "Detail > 500 huruf (Prohibited)";
+				}
 			}
 
 			$scope.showitemdescription = function(){
 				$("#itemdescriptionModal").modal('show');
+			}
+
+			$scope.setselecteddata = function($datas){
+				//DIJALANIN PAS REFRESH PAGE doang
+
+				//DIBUAT STORE DATA YANG GA DI UBAH2 di $scope.master
+				//CLONING
+				$scope.master = $datas;
+
+				$scope.selected.jobsubtypeID = $datas.id;
+				$scope.selected.pagename = $datas.name;
+				$scope.selected.satuan = $datas.satuan;
+
+				$scope.deliveries = $datas.deliveries;
+				$scope.setdelivery0();
 			}
 
 			$scope.setdelivery0 = function(){
@@ -772,7 +946,7 @@ module.exports = function(app){
 
 
 					if($scope.checkerrorstatus())
-					$('#savedialogModal').modal('show');
+						$('#savedialogModal').modal('show');
 
 					//ERROR MERAH DI ATAS TOTAL HARGA
 				}else{
@@ -1073,13 +1247,14 @@ module.exports = function(app){
 			}
 
 			$scope.addnewaddress = function($custid){
+				console.log($custid);
 				if(!$scope.waitingaddnewadds){
 					$scope.waitingaddnewadds = true;
 					$scope.errornewaddress = false;
 					if($custid != null){
 						$http({
 							method: "POST",
-							url: API_URL+"custadds/store/"+$custid,
+							url: AJAX_URL+"custadds/store/"+$custid,
 							data: $scope.newaddress
 						}).then(function(response){
 							if(response.data != null){
@@ -1145,32 +1320,13 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.addSelectedFiles = function($file){
-				$duplicated = false;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$duplicated = true;
+			$scope.checkSelectedFiles = function(){
+				$scope.selected.files = [];
+				$.each($scope.uploadedfiles, function($index, $item){
+					if($item.checked){
+						$scope.selected.files.push($item);
 					}
 				});
-				//kalo ga ada yang sama baru boleh add
-				if($duplicated == false)
-					$scope.selected.files.push($file);
-			}
-
-			$scope.remSelectedFiles = function($file){
-				$selectedindex = -1;
-				$.each($scope.selected.files, function($index, $item){
-					if($item.id == $file.id)
-					{
-						$selectedindex = $index;
-					}
-				});
-				//kalo ketemu, delete
-				if($selectedindex != -1)
-				{
-					$scope.selected.files.splice($selectedindex, 1);
-				}
 			}
 
 			$scope.refreshUploadedImage = function(){
@@ -1213,6 +1369,10 @@ module.exports = function(app){
 						}
 					);
 				}
+			}
+
+			$scope.showcombinations = function(){
+				$('#combinations').modal('show');
 			}
 
 			$scope.saveTexttoread = function(){
@@ -1302,7 +1462,7 @@ module.exports = function(app){
 
 			var upload = function(files) {
 				var data = new FormData();
-				$scope.uploaderror = '';
+				$scope.error.upload = '';
 				$scope.uploadwaiting = true;
 				$scope.loadingfiles = true;
 
@@ -1311,6 +1471,7 @@ module.exports = function(app){
 
 				angular.forEach(files, function(value){
 					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
 					if ($ext != 'cdr' &&
 						$ext != 'zip' &&
 						$ext != 'rar' &&
@@ -1330,22 +1491,22 @@ module.exports = function(app){
 						$ext != 'indd') //indesign
 					{
 						//FORMAT NGACOK
-						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
+						$scope.error.upload = value.name+" : tidak bisa upload dengan file format "+$ext+".";
 						$counterror++;
 					}
 					else if(value.size > 50 * 1024 * 1024)
 					{
-						$scope.uploaderror = value.name+" : file terlalu besar.";
+						$scope.error.upload = value.name+" : file terlalu besar.";
 						$counterror++;
 
 					}
 					else 
 					{
-						$scope.uploaderror = "";
+						$scope.error.upload = "";
 						data.append("files[]", value);
 					}
 
-					if($scope.uploaderror!=''){
+					if($scope.error.upload!=''){
 
 						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
 						try{
@@ -1433,30 +1594,85 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response){
+					$jumlahsebelomupload = -1;
 					if(response!=null)
 					{
 						if(response.constructor === Array)
 						{
+							$jumlahsebelomupload = $scope.uploadedfiles.length;
 							$scope.uploadedfiles = [];
 							$scope.uploadedfiles = response;
 							if ($scope.uploadedfiles.length > 0) 
 								$scope.tableshow = true;
 
+							if($jumlahsebelomupload < $scope.uploadedfiles.length){
+								$scope.uploadsuccess = true;
+								$scope.error.upload = "";
+							}else{
+								$scope.error.upload = "Tidak berhasil ditambahkan";
+							}
+
+							//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 							$scope.$apply(function(){});
+						}
+						else if(response.constructor === String){
+							$scope.error.upload = response.constructor;
+							$scope.uploadedfiles = [];
 						}
 						else
 						{
+							$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (empty).";
 							$scope.uploadedfiles = [];
 						}
 					}
 					else
 					{
+						$scope.error.upload = "Error, tidak dapat terima data yang sudah di upload (null).";
 						$scope.uploadedfiles = [];
 						//console.log	('NO DATA in PendIMG');
 					}
 					$scope.loadingfiles = false;
 					$scope.uploadwaiting = false;
 					$scope.allowed();
+
+					$scope.$apply(function(){});
+				}).fail(function(response){
+					if(response.status == 419){
+						$scope.error.upload = "Session is over, please re-login to upload";
+					}else{
+						$scope.error.upload = response.statusText;
+					}
+					$scope.loadingfiles = false;
+					$scope.uploadwaiting = false;
+					$scope.uploadsuccess = false;;
+
+
+					$scope.$apply(function(){});
+				});
+			}
+
+			$scope.renewuploadmodal = function(){
+				$scope.refreshUploadedImage();
+				$scope.error.upload = '';
+				$scope.uploadsuccess = false;
+			}
+
+			$scope.getMaxFilesize = function(){
+				$http({
+					method: "GET",
+					url: API_URL+"file/maxfilesize"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$scope.uploadmaxfilesize = response.data;
+							}
+						}else{
+							console.log("The return value is null, not error");
+						}
+					}
+				}, function(error){
+					console.log(error);
 				});
 			}
 
@@ -1484,6 +1700,10 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.cetakpenawaran = function(){
+				$("#offerintext").modal("show");
+			}
+
 			$scope.calcheadtabclick = function(){
 				var body = $("html, body");
 				var top = $("#calc-headtab").offset().top-10;
@@ -1492,33 +1712,25 @@ module.exports = function(app){
 				});
 			}
 
-			/*$('#real-dropzone').on('dragover', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			});
-			$('#real-dropzone').on('dragenter', function(e) {
-				//console.log('dragenter');
-				e.preventDefault();
-				e.stopPropagation();
-			});
-
-			$('#real-dropzone').on('drop', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				if (e.originalEvent.dataTransfer){
-					if (e.originalEvent.dataTransfer.files.length > 0) {
-						upload(e.originalEvent.dataTransfer.files);
+			$scope.fileis = function(){
+				if($scope.uploadedfiles != null){
+					if($scope.uploadedfiles.length>0){
+						$ext = $scope.uploadedfiles[$scope.uploadedfiles.length-1].path.substring($scope.uploadedfiles[$scope.uploadedfiles.length-1].path.lastIndexOf('.')+1);
+						if($ext == "zip" || $ext == "rar"){
+							return "pdf";
+						}
+					}else{
+						return "-";
 					}
-				} 
-				return false;
-			});
-			$('#real-dropzone').change(function(e)
-			{
-				//console.log('COMPLEETETEEE');
-			});*/
+				}else{
+					return "";
+				}
+			}
 
 			$scope.choosefileclicked = function(){
-				$('#file').click();
+				$('#btn-choose-file').click();
+
+				console.log($("#btn-choose-file"));
 			}
 
 			$('#real-dropzonew').on('change', function(e) 
@@ -1532,6 +1744,10 @@ module.exports = function(app){
 				} 
 				return false;
 			});
+
+			$scope.showpickup = function(){
+				$("#showpickup").modal('show');
+			}
 		}
 	]);
 };

@@ -32,6 +32,19 @@ class InsertPapershopsTable extends Migration
             INSERT INTO vendors VALUES('0', 'Quantac', '08551110888', '02129236020', '', 'Denny', 'paper', now(), now());
             INSERT INTO vendors VALUES('0', 'Edi Efendi', '081281113658', '081617101694', '', '', 'finishing', now(), now());
             INSERT INTO vendors VALUES('0', 'Asah Pisau Polar', '0215413639', '', '', '', 'finishing', now(), now());
+            INSERT INTO vendors VALUES('0', 'Andy Solusi Grafika', '0818860014', '081319192304', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Cutting Sticker Shop', '', '', '', '', 'paper', now(), now());
+            INSERT INTO vendors VALUES('0', 'Sanyo Stempel', '087877707702', '', '', '', 'paper', now(), now());
+            INSERT INTO vendors VALUES('0', 'Taufik Montir SM', '081381885287', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Sumantri Montir Valve', '081288949599', '', '', '', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Printmate Bahan', '089520124807', '', '', 'Reni', 'sparepart', now(), now());
+            INSERT INTO vendors VALUES('0', 'Rahayu PVC', '', '', '', 'PVC', 'paper', now(), now());
+            INSERT INTO vendors VALUES('0', 'Shopping Bag Pasar Pagi Enci Beni', '087871302880', '', '', '', 'Paper Bag', now(), now());
+            INSERT INTO vendors VALUES('0', 'Tas Belanja Indonesia', '089661460390', '', '', '', 'Paper Bag', now(), now());
+            INSERT INTO vendors VALUES('0', 'Shopping Bag', '02154353085', '081315632029', 'Tangerang', 'Agustus Adiwirya', 'Paper Bag', now(), now());
+            INSERT INTO vendors VALUES('0', 'Maman Pulpen', '081399163231', '', 'Pasar Pagi', 'Maman', 'ballpoint', now(), now());
+            INSERT INTO vendors VALUES('0', 'Anugrah Jaya', '08988003365', '082114041381', 'Pasar Pagi', 'Wandi', 'ballpoint', now(), now());
+            INSERT INTO vendors VALUES('0', 'Cemerlang Abadi', '081258038989', '', 'Pasar Pagi', '', 'ballpoint + pin', now(), now());
         ");
     }
 

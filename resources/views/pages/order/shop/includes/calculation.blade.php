@@ -35,24 +35,6 @@
 		</div>
 		<div class="block-list">
 			<div class="txt">
-				Judul
-				<span class="hidden-xs-down"> 
-					Cetakan
-				</span>
-			</div>
-			<div class="input">
-				<div class="input-block">
-					<div class="input-group">
-						<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Judul yang spesifik (min: 10 huruf)" id="input-jobtitle">
-					</div>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
-				</div>
-			</div>
-		</div>
-		<div class="block-list">
-			<div class="txt">
 				Jumlah
 				<span class="hidden-xs-down"> 
 					Print
@@ -277,7 +259,7 @@
 							<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in detailfin.finishing.finishingoption track by option.id" ng-model="selected.jobsubtypedetail[$parent.$index].finishing[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index], detail.jobsubtypedetailfinishing)">
 							</select>
 						</div>
-						<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left">
+						<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left" tooltip>
 							<span class="far fa-question-circle"></span>
 						</div>
 					</div>
@@ -294,11 +276,11 @@
 			</button>
 		</div>
 
-		<div class="block-subdetail">
+		<div class="block-subdetail" ng-hide="datas.jobsubtypefinishing.length==0">
 			<div class="txt">FINISHING</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list" ng-repeat="item in finishings">
+		<div class="block-list" ng-repeat="item in datas.jobsubtypefinishing">
 			<div class="txt">[[item.finishing.name]]</div>
 			<div class="input">
 				<div class="select">
@@ -310,11 +292,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">WAKTU PENYELESAIAN</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				Proses
 				<span class="hidden-xs-down">
@@ -333,11 +315,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">JENIS LAYANAN</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				<span class="hidden-xs-down">
 					Isi Perbungkus
@@ -361,11 +343,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="block-subdetail">
+		<div class="block-subdetail" hidden>
 			<div class="txt">DROPSHIPPER</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list">
+		<div class="block-list" hidden>
 			<div class="txt">
 				Pengirim?
 			</div>

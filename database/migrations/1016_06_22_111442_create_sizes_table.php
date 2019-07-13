@@ -18,7 +18,9 @@ class CreateSizesTable extends Migration
 				name VARCHAR(32),
 				shortname VARCHAR(8),
 				width DECIMAL(5, 2),
-				length DECIMAL(5, 2)
+				length DECIMAL(5, 2),
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL
 			);
 		");
 	}

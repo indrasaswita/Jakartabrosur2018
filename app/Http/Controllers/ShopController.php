@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests;
 use App\Paper;
 use App\Jobsubtype;
+use App\Jobtype;
 use App\Jobsubtypequantity;
 use App\Jobsubtypefinishing;
 use App\Finishingoption;
@@ -25,11 +26,14 @@ use App\Logic\Curl\OneSignal;
 
 class ShopController extends Controller
 {
-	public function index(){
+	public function showlists(){
 		
-		$datas = Jobsubtype::all();
+		$datas = Jobtype::with(['jobsubtype' => function ($query) {
+				$query->where('active', 1);
+			}])
+				->get();
 
-		return view('pages.order.shop.create', compact('datas'));
+		return view('pages.order.shop.lists', compact('datas'));
 
 	}
 
@@ -37,11 +41,11 @@ class ShopController extends Controller
 	{
 		//YG LAMA
 		$datas = Jobsubtype::where('link', '=', $pages)
-				->with('jobsubtypepapershop')
+				->with('jobsubtypepaper')
 				->with('jobsubtypesize')
 				->with('jobsubtypequantity')
-				->with('jobsubtypefinishingshop')
-				->with('jobsubtypedetailshop')
+				->with('jobsubtypefinishing')
+				->with('jobsubtypedetail')
 				->with('printeroffset')
 				->with('printerdigital')
 				->with('jobsubtypetemplate')
@@ -54,8 +58,26 @@ class ShopController extends Controller
 		if($customer!=null)
 			$datas['user'] = $customer;
 
-		//$datas->setHidden(['priceper', 'priceminim', 'price', 'pricebase', 'ofdg']);
-		//dd($datas);
+		if(gettype($datas)=="object"){
+			foreach ($datas['jobsubtypefinishing'] as $i => $ii) {
+				foreach ($ii['finishing']['finishingoption'] as $j => $jj) {
+					$jj->setHidden(['priceper', 'price', 'pricebase', 'priceminim']);	
+				}
+			} //HIDE FINISHING
+		}else{
+			return abort(404);
+		}
+
+		if(gettype($datas)=="object"){
+			foreach ($datas['jobsubtypepaper'] as $i => $ii) {
+				foreach ($ii['paper']['paperdetail'] as $j => $jj) {
+					$jj->setHidden(['buyprice', 'sellprice', 'unitprice']);	
+				}
+			} // HIDE PAPER
+		}else{
+			return abort();
+		}
+		
 		if($datas != null)
 		{
 			//die (htmlspecialchars($datas['infosize']));
@@ -70,9 +92,9 @@ class ShopController extends Controller
 									->get();
 				$datas['deliveries'] = $deliveries;
 
-				if($datas['jobsubtypedetailshop'] != null)
+				if($datas['jobsubtypedetail'] != null)
 				{
-					if(count($datas['jobsubtypedetailshop']->toArray())==0){
+					if(count($datas['jobsubtypedetail']->toArray())==0){
 						//TIDAK ADA DETAIL JOBSUBTYPE
 						return view('pages.order.shop.index', compact('datas'));
 					}else{
@@ -88,10 +110,8 @@ class ShopController extends Controller
 					return view('pages.order.shop.index', compact('datas'));
 				}
 			}
-		}
-		else
-		{
-			return "$datas is null, from certain Jobsubtype";
+		}else{
+			return view('errors.503');
 		}
 	}
 
@@ -199,7 +219,7 @@ class ShopController extends Controller
 		foreach($finishings as $i => $finishing)
 		{
 			$detailfin = new Cartdetailfinishing;
-			$detailfin->finishingID = $finishing['id'];
+			$detailfin->finishingID = $finishing['finishingID'];
 			$detailfin->optionID = $finishing['optionID'];
 			$detailfin->quantity = $calc['totaldruct'];
 			$detailfin->buyprice = 0;

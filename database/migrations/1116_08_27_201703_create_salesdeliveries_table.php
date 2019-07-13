@@ -16,11 +16,8 @@ class CreateSalesdeliveriesTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('salesID')->unsigned();
-            $table->foreign('salesID')->references('id')->on('salesheaders');
             $table->integer('deliveryID')->unsigned();
-            $table->foreign('deliveryID')->references('id')->on('deliveries');
             $table->integer('employeeID')->unsigned();
-            $table->foreign('employeeID')->references('id')->on('employees');
             $table->string('address')->nullable();
             $table->string('receiver', 64)->nullable();
             $table->string('customernote')->nullable();

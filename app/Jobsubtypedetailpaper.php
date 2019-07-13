@@ -14,9 +14,6 @@ class Jobsubtypedetailpaper extends Model
     public function paper(){
     	return $this->belongsTo('App\Paper', 'paperID')->with('paperdetail');
     }
-    public function papershop(){
-    	return $this->belongsTo('App\Paper', 'paperID')->with('papertype');
-    }
 
     public function jobsubtypedetail(){
     	return $this->belongsTo('App\Jobsubtypedetail', 'jobsubtypedetailID');

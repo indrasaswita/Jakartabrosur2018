@@ -18,7 +18,8 @@ class InsertCompanybankaccsTable extends Migration
             'acclocation'=>'Pangeran Jayakarta',
             'userlogin'=>'indrasas0920',
             'passlogin'=>'029092',
-            'accname'=>'INDRA SASWITA'
+            'accname'=>'INDRA SASWITA',
+            'created_at'=>now()
         ]);
         DB::table('companybankaccs')->insert([
             'accno'=>'9000014120381',
@@ -26,7 +27,8 @@ class InsertCompanybankaccsTable extends Migration
             'acclocation'=>'Pangeran Jayakarta',
             'userlogin'=>'',
             'passlogin'=>'029092',
-            'accname'=>'INDRA SASWITA'
+            'accname'=>'INDRA SASWITA',
+            'created_at'=>now()
         ]);
         DB::table('companybankaccs')->insert([
             'accno'=>'NO ACC',
@@ -34,7 +36,8 @@ class InsertCompanybankaccsTable extends Migration
             'acclocation'=>'Pangeran Jayakarta',
             'userlogin'=>'',
             'passlogin'=>'',
-            'accname'=>'INDRA SASWITA'
+            'accname'=>'INDRA SASWITA',
+            'created_at'=>now()
         ]);
         DB::table('companybankaccs')->insert([
             'accno'=>'NO ACC',
@@ -42,7 +45,8 @@ class InsertCompanybankaccsTable extends Migration
             'acclocation'=>'Pangeran Jayakarta',
             'userlogin'=>'',
             'passlogin'=>'',
-            'accname'=>'INDRA SASWITA'
+            'accname'=>'INDRA SASWITA',
+            'created_at'=>now()
         ]);
     }
 

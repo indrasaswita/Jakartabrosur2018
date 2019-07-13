@@ -21,7 +21,8 @@ class InsertSalesdetailsTable extends Migration
             'statusprint'=>0,
             'statuspacking'=>0,
             'statusdelivery'=>0,
-            'statusdone'=>0
+            'statusdone'=>0,
+            'created_at'=>now()
         ]);
         DB::table('salesdetails')->insert([
             'salesID'=>'2',
@@ -32,7 +33,8 @@ class InsertSalesdetailsTable extends Migration
             'statusprint'=>1,
             'statuspacking'=>0,
             'statusdelivery'=>0,
-            'statusdone'=>0
+            'statusdone'=>0,
+            'created_at'=>now()
         ]);
         /*DB::table('salesdetails')->insert([
             'salesID'=>'2',

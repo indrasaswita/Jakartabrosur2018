@@ -59,7 +59,7 @@
 						</div>
 						<div class="input-wrapper w16">
 							<div class="label">DIGI-OFF <br><span class="tx-gray lowercase">(1:off, 2:digi, 0:off+digi)</span></div>
-							<input class="" ng-model="item.name">
+							<input class="" ng-model="item.digitaloffset">
 						</div>
 						<div class="input-wrapper w16">
 							<div class="label">Satuan <br><span class="tx-gray lowercase">(lembar, pcs, box, buku, kartu)</span></div>

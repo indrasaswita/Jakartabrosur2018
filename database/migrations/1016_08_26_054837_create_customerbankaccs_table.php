@@ -16,9 +16,7 @@ class CreateCustomerbankaccsTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('customerID')->unsigned();
-            $table->foreign('customerID')->references('id')->on('customers');
             $table->integer('bankID')->unsigned();
-            $table->foreign('bankID')->references('id')->on('banks');
             $table->string('accno', 32);
             $table->string('accname', 64);
             $table->string('acclocation', 64);

@@ -139,7 +139,8 @@ module.exports = function(app) {
 											if($item!=null){
 												//console.log('jobtypeID: ' + $item.id);
 												$.each($item.jobsubtype, function($index2, $item2){
-													if ($item2 != null) {
+													//yang boleh di masukin cuma yang id jobsubtypenya sama dengan yang baru
+													if ($item2 != null && $item2.id == $newitem.jobsubtypeID) {
 														//OOFSET
 														$temp = null;
 														$.each($scope.newpapersOF, function($i, $ii) {
@@ -177,7 +178,7 @@ module.exports = function(app) {
 															}
 														}
 													}else{
-														console.log("NOT FOUND di data yang di kirim");
+														//console.log("NOT Error: Jobsubtype kosong atau tidak sama tidak sama dengan id yang baru");
 													}
 												});
 											}
@@ -217,6 +218,9 @@ module.exports = function(app) {
 
 			$scope.addnewpaper = function($jobsubtype){
 				$scope.selectedjobsubtype = $jobsubtype;
+
+				$scope.newpaperOF = []; //buat kosongin yang kedua kali mau add
+				$scope.newpaperDG = []; //buat kosongin yang kedua kali mau add
 
 				if($scope.newpapersOF != null){
 					$scope.newpapersOF.splice(0, $scope.newpapersOF.length);
@@ -287,19 +291,23 @@ module.exports = function(app) {
 					}
 				});
 
-				//DELETE DIGITAL
-				/*$total = $scope.newpapersDG.length;
-
-				for ($i = $total - 1; $i >= 0; $i--) {
-					if ($scope.newpapersDG[$i] != null) {
-						if ($scope.newpapersDG[$i].deleteflagDG == true) {
-							$scope.newpapersDG.splice($i, 1);
-							console.log("DELET: " + $i);
-						}
-					}
-				}*/
-
 				$("#addpaper").modal('show');
+				$scope.unselectall();
+			}
+
+			$scope.unselectall = function(){
+				//refresh all OF waktu klik modal
+				$.each($scope.newpapersOF, function($i, $item) {
+					if ($item.addflagOF) {
+						$item.addflagOF = false;
+					}
+				});
+				//refresh all DG waktu klik modal
+				$.each($scope.newpapersDG, function($i, $item) {
+					if ($item.addflagDG) {
+						$item.addflagDG = false;
+					}
+				});
 			}
 
 			$scope.changecoatsave = function(){
@@ -618,6 +626,26 @@ module.exports = function(app) {
 					console.log(error);
 				});
 			}
+
+			$scope.changefavourite = function($id, $item){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"jobsubtypepaper/"+$id+"/changefavourite"
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "string"){
+								$item.favourite = response.data==1?true:false;
+							}
+						}else{
+							console.log("ID Not found");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
 			$scope.savepricebase = function($item) {
 				console.log("SAVE PRICE BASE");
 				$saveloading = true;

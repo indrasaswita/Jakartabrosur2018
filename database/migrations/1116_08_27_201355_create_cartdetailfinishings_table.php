@@ -23,11 +23,7 @@ class CreateCartdetailfinishingsTable extends Migration
                 sellprice NUMERIC(10, 2) NOT NULL,
                 side TINYINT UNSIGNED NOT NULL,
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-                FOREIGN KEY (cartdetailID) REFERENCES cartdetails(id) ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (finishingID) REFERENCES finishings (id) ON UPDATE CASCADE ON DELETE CASCADE,
-                FOREIGN KEY (optionID) REFERENCES finishingoptions (id) ON UPDATE CASCADE ON DELETE CASCADE
+                updated_at TIMESTAMP NULl
             );
         ");
     }

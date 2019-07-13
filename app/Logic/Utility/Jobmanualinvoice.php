@@ -5,10 +5,9 @@ namespace App\Logic\Utility;
 use App\Helpers\MathHelper;
 
 class Jobmanualinvoice extends Jobflyer{
-	public function __construct($data, $constants, $jobsubtype){
+	public function __construct($data, $constants){
 		$this->data = $data;
 		$this->cs = $constants;
-		$this->jobsubtype = $jobsubtype;
 	}
 
 	public function hitungManualInvoice(){
@@ -78,7 +77,10 @@ class Jobmanualinvoice extends Jobflyer{
 			$sdp = $detail['sideprint'];
 			$multip = $detail['multip'];
 
-			$detail = $this->calcPlanoSize($detail, $imagewidth, $imagelength, $qty*$multip, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype);
+			$result = $this->calcPlanoSize($detail, $imagewidth, $imagelength, $qty*$multip, $sdp, $inschiet, $minim1000, $hperdruct, $bleed, $jepitan, $hperplat, $marginwidth, $marginlength, $max_print_width, $max_print_length, $paperID, $printtype);
+
+			if($result != null)
+				return $result;
 
 			$data['calculation'][$i] = $detail['calculation'];
 			$data['paper'][$i] = $detail['paper'];

@@ -82,7 +82,7 @@ module.exports = function(app){
 					(
 						{
 							method: 	"POST",
-							url: 		AJAX_URL+"profile/update/"+$scope.customer.id,
+							url: 		AJAX_URL+"userprofile/update/"+$scope.customer.id,
 							data: 		$scope.customer 
 						}
 					)
@@ -175,27 +175,59 @@ module.exports = function(app){
 				$('#confirmationdelete').modal("hide");
 			}
 			$scope.createAddress = function(){
+				$scope.newaddress = {
+					'name' : '',
+					'address' : '',
+					'addressnotes' : '',
+					'city' : ''
+				};
 				$('#createnewaddress').modal("show");
 			}
 			$scope.editAddress = function($item, $index){
+				$scope.selectedindex = $index;
 				$scope.newaddress = {
 					'index' : $index,
 					'id' : $item.addressID,
 					'name' : $item.address.name,
-					'location' : $item.address.address,
-					'note' : $item.address.addressnotes,
+					'address' : $item.address.address,
+					'addressnotes' : $item.address.addressnotes,
 					'city' : $item.address.city
 				};
 				$("#editcustaddress").modal("show");
 			}
 
+			$scope.saveEditAddress = function(){
+				console.log($scope.newaddress.city);
+				$http({
+					method: "POST",
+					url: AJAX_URL+"custadds/edit/"+$scope.newaddress.id,
+					data: $scope.newaddress
+				}).then(function(response){
+					if(response.data != null){
+						if(typeof response.data == "string")
+							{
+								if(response.data == "success")
+								{
+									$scope.customer.customeraddress[$scope.selectedindex].address = $scope.newaddress;
+									$("#editcustaddress").modal("hide");
+									
+								}	
+							}
+					}
+				}, function(error){
+					$scope.newaddresserror = 'error dari server';
+				});
+
+			}
+
 			$scope.setCustomerID = function($customerID){
 				$scope.customerID = $customerID;
 			}
+
 			$scope.saveNewAddress = function(){
 				$http({
 					method: "POST",
-					url: API_URL+"custadds/store/"+$scope.customerID,
+					url: AJAX_URL+"custadds/store/"+$scope.customerID,
 					data: $scope.newaddress
 				}).then(function(response){
 					if(response.data != null){
@@ -209,24 +241,6 @@ module.exports = function(app){
 					$scope.newaddresserror = 'error dari server';
 				});
 			}
-
-			$scope.saveEditAddress = function(){
-				console.log($scope.newaddress.id);
-				$http({
-					method: "POST",
-					url: API_URL+"custadds/edit/"+$scope.newaddress.id,
-					data: $scope.newaddress
-				}).then(function(response){
-					if(response.data != null){
-						console.log(response.data);
-						$scope.initProfile();
-						$("#editcustaddress").modal("hide");
-					}
-				}, function(error){
-					$scope.newaddresserror = 'error dari server';
-				});
-			}
-
 			$scope.deleteAddrCompany = function($item, $index){
 				$scope.selecteditem = {
 					'index' : $index,

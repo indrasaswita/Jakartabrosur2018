@@ -17,9 +17,7 @@ class CreateCartheadersTable extends Migration
 			(
 				id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 				customerID INT UNSIGNED NOT NULL,
-				FOREIGN KEY (customerID) REFERENCES customers(id) ON UPDATE CASCADE ON DELETE CASCADE,
 				jobsubtypeID INT UNSIGNED NOT NULL,
-				FOREIGN KEY (jobsubtypeID) REFERENCES jobsubtypes(id) ON UPDATE CASCADE ON DELETE CASCADE,
 				jobtitle VARCHAR (128) NOT NULL,
 				quantity INT UNSIGNED NOT NULL,
 				quantitytypename VARCHAR (16) NOT NULL,
@@ -35,7 +33,6 @@ class CreateCartheadersTable extends Migration
 				processtype VARCHAR(16) NOT NULL,
 				processtime INT UNSIGNED NOT NULL,
 				deliveryID INT UNSIGNED NOT NULL,
-				FOREIGN KEY (deliveryID) REFERENCES deliveries(id) ON UPDATE CASCADE ON DELETE CASCADE,
 				deliveryaddress VARCHAR(255) NOT NULL,
 				deliverytime INT UNSIGNED NOT NULL,
 				totalpackage INT UNSIGNED NOT NULL,

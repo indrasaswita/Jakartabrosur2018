@@ -16,7 +16,7 @@ require('./constants/variable')(app);
 
 
 //CONTROLLERS
-
+require("./controllers/global.nav.header")(app);
 require("./controllers/viewfile-modal")(app);
 require("./controllers/roles")(app);
 require("./controllers/salespaymentconfirm")(app);
@@ -49,16 +49,22 @@ require("./controllers/admin.cart.index")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
-require("./controllers/admin.master.paper.index")(app);
+require("./controllers/admin.master.paper.changeprice")(app);
+require("./controllers/admin.master.paper.newpaper")(app);
+require("./controllers/admin.master.paper.paperdetailstore")(app);
 require("./controllers/admin.master.jobeditor")(app);
 require("./controllers/admin.master.jobactivation")(app);
 require("./controllers/admin.master.jobfinishings")(app);
 require("./controllers/admin.master.jobpapers")(app);
+require("./controllers/admin.master.jobquantities")(app);
 require("./controllers/admin.master.jobsizes")(app);
 require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
 require("./controllers/admin.master.shoppricing")(app);
+require("./controllers/admin.master.finishing.index")(app);
+require("./controllers/admin.master.vendor.index")(app);
+require("./controllers/admin.changetheworld.index")(app);
 
 
 

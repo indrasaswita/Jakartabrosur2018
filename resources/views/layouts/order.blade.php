@@ -28,9 +28,9 @@
 			<!-- <div class="flyer-content" ng-controller = "OffsetPricing"> -->
 				<div ng-controller="OrderShopCalculationController">
 
-				<div ng-init="setUserLogin('{{Session::get('role')}}', '{{Session::get('userid')}}')">
-					
-				</div>
+					<div ng-init="setUserLogin('{{Session::get('role')}}', '{{Session::get('userid')}}')">
+						
+					</div>
 
 					<div class="margin-0-15">
 						@include('includes.nav.subnav')
@@ -47,17 +47,14 @@
 							@yield('content')
 						</div>
 						
-						<!-- MODAL -->
-						@include ('pages.order.shop.modals.delivery')
-						@include ('pages.order.shop.modals.itemdescription')
-						@include ('pages.order.shop.modals.uploadfile')
-						@include ('pages.order.shop.modals.savedialog')
 					</div>
 					<div ng-show="underconstruction==true" class="order-wrapper">
 						<div class="underconstruction-wrapper">
 							@include('pages.order.shop.underconstruction')
 						</div>
 					</div>
+
+
 				</div>
 			<!-- </div> -->
 		</div>

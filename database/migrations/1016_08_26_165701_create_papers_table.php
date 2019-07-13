@@ -16,7 +16,6 @@ class CreatePapersTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('papertypeID')->unsigned();
-            $table->foreign('papertypeID')->references('id')->on('papertypes');
             $table->string('name', 64);
             $table->string('color', 16);
             $table->smallinteger('gramature');
@@ -27,6 +26,8 @@ class CreatePapersTable extends Migration
             $table->tinyinteger('laminating')->default(0);
             $table->tinyinteger('folding')->default(0);
             $table->tinyinteger('perforation')->default(0);
+            $table->integer('coatingtypeID')->unsigned()->default(1);
+            $table->tinyinteger('diecut')->default(0);
             $table->timestamps();
         });
     }

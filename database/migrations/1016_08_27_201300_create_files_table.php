@@ -5,35 +5,37 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateFilesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('files', function(Blueprint $table){
-            $table->increments('id');
-            $table->integer('customerID')->unsigned();
-            $table->foreign('customerID')->references('id')->on('customers');
-            $table->string('filename', 128);
-            $table->decimal('size', 10, 2);
-            $table->string('detail')->nullable();
-            $table->smallinteger('revision')->default('0');
-            $table->string('preview')->nullable();
-            $table->string('path');
-            $table->string('icon');
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		DB::unprepared("
+			CREATE TABLE files(
+				id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+				customerID INT UNSIGNED NOT NULL,
+				filename VARCHAR(100) NOT NULL,
+				size NUMERIC(10,2) NOT NULL DEFAULT 0,
+				detail VARCHAR(500) NOT NULL DEFAULT '',
+				revision TINYINT NOT NULL DEFAULT 0,
+				preview VARCHAR(128),
+				path VARCHAR(128),
+				icon VARCHAR(128),
+				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL
+			);
+		");
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('files');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('files');
+	}
 }

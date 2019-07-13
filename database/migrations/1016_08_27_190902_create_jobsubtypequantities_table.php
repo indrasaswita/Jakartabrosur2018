@@ -19,8 +19,7 @@ class CreateJobsubtypequantitiesTable extends Migration
 				ofdg TINYINT UNSIGNED NOT NULL,
 				quantity INT UNSIGNED NOT NULL,
 				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				FOREIGN KEY (jobsubtypeID) REFERENCES jobsubtypes(id)
+				updated_at TIMESTAMP NULL
 			);
 		");
 	}

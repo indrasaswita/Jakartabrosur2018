@@ -16,10 +16,8 @@ class CreateJobsubtypedetailpapersTable extends Migration
             $table->engine="InnoDB";
             $table->increments('id');
             $table->integer('jobsubtypedetailID')->unsigned();
-            $table->foreign('jobsubtypedetailID')->references('id')->on('jobsubtypedetails');
             $table->tinyinteger('ofdg');
             $table->integer('paperID')->unsigned();
-            $table->foreign('paperID')->references('id')->on('papers');
             $table->timestamps();
         });
     }

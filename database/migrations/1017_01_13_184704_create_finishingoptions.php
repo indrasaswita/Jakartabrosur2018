@@ -23,9 +23,9 @@ class CreateFinishingoptions extends Migration
 				pricebase INT NOT NULL,
 				processdays TINYINT UNSIGNED NOT NULL DEFAULT 1,
 				info VARCHAR(255), 
+				defaultoption TINYINT NOT NULL DEFAULT 0,
 				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				updated_at TIMESTAMP NULL,
-				FOREIGN KEY (finishingID) REFERENCES finishings(id) ON UPDATE CASCADE ON DELETE CASCADE
+				updated_at TIMESTAMP NULL
 			);
 		");
 		//TIDAK PAKE SIDE YA

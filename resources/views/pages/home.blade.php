@@ -15,8 +15,17 @@
 
 	<div class="hm-admin">
 		<div class="title">
-			<span class="size-200p">Welcome,</span> 
-			<br><b>{{ explode(' ',trim( Session::get( 'name' )) )[0] }}</b> <span class="size-80p">as Admininstrator.</span>
+			<span class="welcome">Welcome,</span> 
+			<br>
+			<b class="name">{{ explode(' ',trim( Session::get( 'name' )) )[0] }}</b> 
+			<span class="subwelcome">
+				as Admininstrator.
+			</span>
+				<br>
+				<br>
+			<span class="content-text">
+				Anda bisa ubah semua data penjualan dari panel ini. <br>Hati2 dalam perubahan, bila ada yang tidak dimengerti segera tanyakan terlebih dahulu. Tidak untuk coba-coba, sekali salah, tidak bisa di ulang. <br><br>Happy editing! <i class="fas fa-fw fa-wand-magic tx-lightmagenta"></i>
+			</span>
 		</div>
 		<div class="hm hm-customer">
 			<div class="hm-pretitle">
@@ -27,20 +36,94 @@
 			About <b class="tx-primary">[[totalsignedweek]]</b> customers were <b>signed up</b> this weekend.<br>
 			About <b class="tx-primary">[[totalloggedweek]]</b> customers were <b>logged in</b> this weekend.<br>
 			About XXX customers <b>made transaction</b> this weekend.
+
 		</div>
 		<div class="hm hm-transaction">
 			<div class="hm-pretitle">
 				<i class="fas fa-users fa-fw tx-lightgray"></i>
 				Transaction Overview
 			</div>
+
+
+			<div class="hm-action-title">
+				- Job Editor -
+			</div>
+			<div class="hm-action-link">
+				<ul>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-percentage"></i>
+								<div>Job Price Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-power-off"></i>
+								<div>Job Activation Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-paperclip"></i>
+								<div>Job Detail Editor</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-magic"></i>
+								<div>Job Finishings Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-expand-arrows-alt"></i>
+								<div>Job Sizes Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-copy"></i>
+								<div>Job Papers Manager</div>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<span>
+								<i class="far fa-fw fa-2x fa-abacus"></i>
+								<div>Job Quantities Manager</div>
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 			
 		</div>
 	</div>
 	@endif
 
+
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
+
 	@if(!Session::has('role') || (Session::has('role') && Session::get('role') != "Administrator"))
 	<div class="hm-navigator" ng-if="'{{Session::get('userid')}}'==''">
-		<div class="logo">
+		<div class="logo disable-select">
 			<div class="img">
 				<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-white-shadow-200px.png')}}" alt="logo" height="70px">
 			</div>
@@ -59,7 +142,7 @@
 		<div class="nav-button">
 			<a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
       	<div class="ico">
-      		<i class="far fa-fw fa-calculator"></i> 
+      		<i class="fal fa-fw fa-calculator-alt"></i> 
       	</div>
       	<div class="txt">cek harga</div>
     	</a>
@@ -315,7 +398,7 @@
 					<img src="image/speed.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Proses Cetak Sangat Cepat</h6>
+					<div class="hm-benefit-title">Proses Cetak Sangat Cepat</div>
 					<p class="hm-benefit-desc">
 						Pesanan dengan hitungan jam dapat menggunakan proses Digital, dapat ditunggu. Jika dibutuhkan sangat cepat, kami juga dapat membantu untuk proses prioritas, yang dapat selesai hitungan menit. 
 						<b>Sekarang jamannya, NO RIBET.</b>
@@ -327,7 +410,7 @@
 					<img src="image/lowprice.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Harga Murah & Bersaing</h6>
+					<div class="hm-benefit-title">Harga Murah & Bersaing</div>
 					<p class="hm-benefit-desc">
 						Tersedia proses cetak offset dan sablon, dengan harga semurah-murahnya. Tentunya bersaing dengan toko sebelah. Tunggu apa lagi, langsung aja cek murahnya <a href="{{URL::asset('orderlistcustomer')}}"><b>disini</b></a> lho! <b>Sekarang jamannya, NO BOKEK.</b>
 					</p>
@@ -338,7 +421,7 @@
 					<img src="image/noqueue.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Tidak Perlu Lagi Mengantri</h6>
+					<div class="hm-benefit-title">Tidak Perlu Lagi Mengantri</div>
 					<p class="hm-benefit-desc">
 						Jaman online-online gini, sekarang saatnya kita order lewat internet. Yakin? Tidak perlu ribet, cukup cek harga, pesan, bayar, pantau deh ordernya. <b>Masih mau RIBET? </b>
 					</p>
@@ -349,7 +432,7 @@
 					<img src="image/transfer.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Bayar Via Transfer Bank</h6>
+					<div class="hm-benefit-title">Bayar Via Transfer Bank</div>
 					<p class="hm-benefit-desc">
 						Nggak sedaaap kalo online bayarnya masih kuno, cukup transfer, langsung deh pesanan Anda lunas. Kami sediakan transfer antar rekening via BCA, BRI, BNI, Mandiri, BTPN.
 					</p>
@@ -360,7 +443,7 @@
 					<img src="image/tracking.png" alt="" class="hm-benefit-image"">
 				</div>
 				<div class="benefit-title-wrapper">
-					<h6 class="hm-benefit-title">Dapat Dipantau Secara Online</h6>
+					<div class="hm-benefit-title">Dapat Dipantau Secara Online</div>
 					<p class="hm-benefit-desc">
 						Takut barang tidak sampai? Tenang, pekerjaan kami dapat dipantau online, Anda dapat cek status pesanan Anda dari website kapan aja dimana aja. Wah, nggak perlu telpon lagi deh untuk tanya status kerjaan. <b>Pulsa irit, sahabat dompet.</b>
 					</p>
@@ -369,9 +452,12 @@
 		</div>
 	</div>
 
-	<div class="hm-stickyorder" data-toggle='tooltip' data-placement='left' data-title='<div class="text-xs-right"><b class="tx-gray">LIHAT<br>PERHITUNGAN<br>HARGA</b></div>' data-html='true'>
+	<div class="hm-stickyorder">
 		<a href="{{URL::asset('orderlistcustomer')}}">
-			<i class="fas fa-fw fa-3x fa-feather"></i>
+			<div class="content">
+				<i class="fas fa-fw fa-2x fa-calculator-alt"></i>
+				<span class="text">Cek Harga</span>
+			</div>
 		</a>
 	</div>
 	@endif

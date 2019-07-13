@@ -42,12 +42,7 @@ class CreateCartdetailsTable extends Migration
 					totalinprintrest SMALLINT UNSIGNED NOT NULL DEFAULT 0,
 					totalpaperprice INT UNSIGNED NOT NULL,
 					created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-					updated_at TIMESTAMP NULL DEFAULT NULL,
-					FOREIGN KEY (cartID) REFERENCES cartheaders(id) ON UPDATE CASCADE ON DELETE CASCADE,
-					FOREIGN KEY (printerID) REFERENCES printingmachines(id) ON UPDATE CASCADE ON DELETE CASCADE,
-					FOREIGN KEY (paperID) REFERENCES papers(id) ON UPDATE CASCADE ON DELETE CASCADE,
-					FOREIGN KEY (vendorID) REFERENCES vendors(id) ON UPDATE CASCADE ON DELETE CASCADE,
-					FOREIGN KEY (planoID) REFERENCES papersizes(id) ON UPDATE CASCADE ON DELETE CASCADE
+					updated_at TIMESTAMP NULL
 				);
 			");
 		}

@@ -2,51 +2,26 @@
 
 	<div class="panel-block" ng-show="error.message==''">
 		<div class="block-subdetail">
-			<div class="txt">FILE</div>
+			<div class="txt">DEKSRIPSI</div>
 			<div class="line"></div>
 		</div>
-		<div class="block-list" ng-show="error.files==''">
+		<div class="block-list">
 			<div class="txt">
-				Status: 
+				Judul
+				<span class="hidden-xs-down"> 
+					Cetakan
+				</span>
 			</div>
 			<div class="input">
-				<div class="text-block" ng-class="{'danger':selected.files.length==0, 'success':selected.files.length>0}">
+				<div class="input-block">
 					<div class="input-group">
-						<div class="form-control">
-							<span ng-hide="selected.files.length==0">
-								[[selected.files.length]] File terpilih
-							</span>
-							<span ng-show="selected.files.length==0">
-								Tidak ada File terpilih! 
-							</span>
-						</div>
+						<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Spesifik dan Jelas (min: 10 huruf)" id="input-jobtitle">
 					</div>
 				</div>
-				<div class="info" data-toggle="tooltip" data-title="Bila sudah upload file, wajib PILIH terlebih dahulu file yang ingin disertakan!" data-html="true" data-placement="left">
+				<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
 					<span class="far fa-question-circle"></span>
 				</div>
 			</div>
-		</div>
-		<div class="block-text-left" ng-hide="error.files==''" hidden>
-			<span class="txt">
-				<span class="far fa-exclamation tx-warning"></span> 
-				[[error.files]]
-			</span>
-		</div>
-
-		<div class="block-button mx-gray">
-			<button class="btn" ng-click="showuploadfile()" ng-disabled="error.files!=''">
-				<span class="fas fa-cloud-upload-alt"> </span>
-				Upload File
-			</button>
-		</div>
-	</div>
-
-
-	<div class="panel-block" ng-show="error.message==''">
-		<div class="block-subdetail">
-			<div class="txt">DEKSRIPSI</div>
-			<div class="line"></div>
 		</div>
 		<div class="block-list" ng-show="error.description!=''">
 			<span class="txt">
@@ -62,7 +37,7 @@
 			<div class="input">
 				<div class="text-block" ng-class="{'warning':selected.itemdescription.length<5, 'success':selected.itemdescription.length>=5}">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Deskripsi Cetakan Tambahan (Info Penting)" ng-model="selected.itemdescription">
+						<input type="text" class="form-control" placeholder="Info Seputar Pekerjaan" ng-model="selected.itemdescription">
 					</div>
 				</div>
 				<div class="info" data-toggle="tooltip" data-title="Nomor Urut?<br>Cara cetak?<br>Perlakuan terhadap file?<br>Info seputar cetakan?<br>Tujuan cetak?" data-html="true" data-placement="left">
@@ -77,7 +52,7 @@
 			<div class="input">
 				<div class="text-block" ng-class="{'warning':selected.customernote.length<5, 'success':selected.customernote.length>=5}">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Catatan Tambahan (Info diluar deskripsi)" ng-model="selected.customernote">
+						<input type="text" class="form-control" placeholder="Pengambilan? Bungkus? Pengiriman?" ng-model="selected.customernote">
 					</div>
 				</div>
 				<div class="info" data-toggle="tooltip" data-title="Deadline?<br>Cara bungkus?<br>Info pengiriman?<br>Detail kirim?" data-html="true" data-placement="left">
@@ -85,8 +60,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- HIDE STOP -->
-
 	</div>
 
 	<div class="panel-block" ng-show="error.message!=''">
@@ -124,6 +97,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="delivery-desc" ng-if="selected.delivery.id==1">
+			Pick-up = Ambil barang di workshop kami:
+			<ol>
+				<li><b>Gratis</b>, tidak kena biaya kirim.</li>
+				<li><b>Langsung</b>, tidak perlu tunggu pengiriman.</li>
+				<li>Dapat langsung diambil di <a href="" ng-click="showpickup()">Jakartabrosur<i class="far fa-question-circle fa-fw"></i></a>.</li>
+				<li>Silahkan tanyakan terlebih dahulu status pesanan Anda, sebelum melakukan pengambilan.</li>
+			</ol>
+		</div>
 		<div class="block-list" ng-hide="selected.deliverylocked" ng-if="error.message==''">
 			<div class="txt">
 				Tujuan
@@ -136,6 +118,22 @@
 					<span class="far fa-question-circle"></span>
 				</div>
 			</div>
+		</div>
+		<div class="delivery-desc" ng-if="selected.delivery.id!=1">
+			Info pengiriman dan pengantaran hasil cetak:
+			<ol>
+				<li>
+					Harga kirim akan disesuaikan setelah Anda melakukan pemesanan.
+				</li>
+				<li>
+					Perubahan harga kirim, akan dikonfirmasi melalui telepon atau <i class="fab fa-whatsapp fa-fw"></i> Whatsapp.
+				</li>
+				<li>
+					Pengiriman melalui instant courier yang dipesan oleh Customer, silahkan pilih Pick-up delivery.
+				</li>
+				<li>
+					Penggantian alamat Anda, atau kesalahan pengisian data alamat dapat diinfokan langsung ke pihak Jakartabrosur melalui telepon.
+				</li>
 		</div>
 	</div>
 	<div class="panel-block" ng-if="error.message!=''">
@@ -214,26 +212,56 @@
 		</div>
 	</div>
 	<div class="panel-footer">
-		<div class="txt">
-			<i class="far fa-images tx-purple"></i>  
-			<u>File cetak</u> dalam bentuk <b>AI</b>, <b>Corel</b>, <b>Photoshop</b>, & <b>Tiff</b>. <u>File data</u> dalam bentuk <b>Excel</b>.
+		<div class="text-xs-center">
+			Isi deskripsi sesuai pekerjaan, untuk menghindari kesalahan.
 		</div>
-		<div class="txt">
-			<i class="fas fa-comments tx-purple"></i>  
-			Isi deskripsi pekerjaan dengan tepat, agar membantu proses pengerjaan dan menghindari kesalahan.
-		</div>
-		<div class="txt">
-			<i class="fas fa-truck tx-purple"></i>  
-			Pick-up, adalah pengambilan barang di workshop kami di 
-			<a class="a-purple" href="https://www.google.co.id/maps/place/Jakarta+Brosur/@-6.1410584,106.825155,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69f5fa2f737f37:0x43667f0d0a3cbf7f!8m2!3d-6.1410637!4d106.8273437?hl=en" target="_blank">
-				<b>Jl. Pangeran Jayakarta 113, Jakarta</b> 
-				<i class="fa fa-map-marker"></i>
-			</a>.
-		</div>
-		<div class="txt">
-			<i class="fas fa-truck tx-purple"></i>  
-			Harga delivery adalah <b>harga prediksi saja</b>, dapat berubah sewaktu-waktu (dengan pemberitahuan kami sebelumnya <b>melalui telepon</b> atau <b>perubahan harga pada Order Anda</b>).
-		</div>
+	</div>
+
+	<div class="showpickup-modal">
+	@include('modal', 
+		[
+			'modalid' => 'showpickup',
+			'modaltitle' => 'Info Pengambilan Pesanan',
+			'modalbody' => '
+				Pick-up digunakan untuk pengambilan pesanan oleh:
+				<ol>
+					<li>Pihak Customer.</li>
+					<li>Instant Courier yang dipesan oleh Customer.</li>
+				</ol>
+				<div class="location">
+					Lokasi workshop: <br>
+					<span class="tx-purple">
+						<i class="fas fa-map-signs fa-fw"></i>
+						<b>Jl. Pangeran Jayakarta 113, Jakarta Pusat 10730</b>.
+					</span>
+					<div class="tx-lightgray line-12">
+						<small>Hotline</small> 
+						<span class="tx-gray">0813-1551-9889</span>.<br>
+						<small>Office</small> 
+						<span class="tx-gray">021-6491502 / 6491101</span>.
+					</div><br>
+					<div class="line-11 tx-lightgray">
+						Patokan: 
+						<ul>
+							<li>Tepat sebelah SPBU, atau sebrang Panca Warna. </li>
+							<li>Terdapat tulisan FotoCopy dan Percetakan Rahayu.</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="note" hidden>
+					NOTE <br>
+					<i class="fas fa-exclamation-circle fa-fw tx-lightgray"></i>
+					Silahkan tanyakan terlebih dahulu status pesanan Anda, sebelum melakukan pengambilan.
+				</div>
+			',
+			'modalfooter' => '
+				<button class="btn btn-secondary" data-dismiss="modal">
+					Hide
+				</button>
+			'
+		]
+	)
 	</div>
 
 

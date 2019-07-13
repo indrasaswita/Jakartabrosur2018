@@ -11,8 +11,11 @@
 	<div class="panel-block" ng-hide="waitingprice==true">
 
 		<div class="block-list-error" ng-hide="error.savecartval==''">
-			<i class="fas fa-bell tx-danger"></i>&nbsp;
-			<span class="tx-red">[[error.savecartval]]</span>
+			<span class="icon lowercase">
+				<i class="fas fa-bell fa-fw"></i>
+				<span class="hidden-xs-down">error</span>
+			</span>
+			<span>[[error.savecartval]]</span>
 		</div>
 
 		<div class="block-flex">
@@ -21,8 +24,11 @@
 					<div class="list-title">
 						Cetak
 					</div>
-					<div class="list-data">
+					<div class="list-data" ng-if="total.price<=999">
 						[[total.price|number:0]]
+					</div>
+					<div class="list-data" ng-if="total.price>999">
+						[[floor(total.price/1000)|number:0]]<span class="size-70p">,[[zeroFill(total.price%1000, 3)]]</span>
 					</div>
 					<div class="list-data-small tx-danger" ng-hide="total.disc==0">
 						<span class="text-muted">
@@ -43,8 +49,11 @@
 					<div class="list-title">
 						Ongkir
 					</div>
-					<div class="list-data">
+					<div class="list-data" ng-if="total.deliv<=999">
 						[[total.deliv|number:0]]
+					</div>
+					<div class="list-data" ng-if="total.deliv>999">
+						[[floor(total.deliv/1000)|number:0]]<span class="size-70p">,[[zeroFill(total.deliv%1000, 3)]]</span>
 					</div>
 					<div class="list-data-small tx-primary">
 						<span class="text-muted">
@@ -62,8 +71,11 @@
 				<div class="list-title">
 					Total
 				</div>
-				<div class="list-data purple">
+				<div class="list-data purple" ng-if="(total.price+total.deliv-total.disc)<=999">
 					[[(total.price+total.deliv-total.disc)|number:0]]
+				</div>
+				<div class="list-data purple" ng-if="(total.price+total.deliv-total.disc)>999">
+					[[(floor(total.price+total.deliv-total.disc)/1000)|number:0]]<b class="size-80p">,[[zeroFill(((total.price+total.deliv-total.disc)%1000), 3)]]</b>
 				</div>
 				<div class="list-data-small tx-primary">
 					<span class="text-muted">
@@ -79,22 +91,14 @@
 				</div>
 			</div>
 
-			<div class="block-sign submit" ng-show="error.message!=''">
-				<a href="" class="" ng-click="showsavedialog()" ng-disabled="error.savecart!=''" ng-mouseover="tooltip('<b class=\'tx-danger\'><small class=\'far fa-bell\'></small>&nbsp;Dibutuhkan Log-In..</b>')" ng-mouseleave="tooltip('')">
+			<div class="block-sign submit" ng-class="{'error':error.savecartval!=''}">
+				<button ng-click="showsavedialog()" ng-disabled="error.savecart!=''">
 					<div class="">
-						<span class="fas fa-print"> </span>
-						<span class="size-40p">NEXT</span>
+						<span class="fal fa-cart-plus fa-fw hidden-xs-down"> </span>
+						<span class="fas fa-cart-plus fa-fw hidden-sm-up"> </span>
+						<span class="size-50p hidden-xs-down">ORDER</span>
 					</div>
-				</a>
-			</div>
-
-			<div class="block-sign submit" ng-hide="error.message!=''">
-				<a href="" class="" ng-click="showsavedialog()" ng-disabled="error.savecart!=''">
-					<div class="">
-						<span class="fas fa-print"> </span>
-						<span class="size-40p">NEXT</span>
-					</div>
-				</a>
+				</button>
 			</div>
 
 		</div>
@@ -105,10 +109,10 @@
 		</div> -->
 
 		<div class="divider"></div>
-
+<!-- 
 		<div class="link">
 			<a href="" ng-click="cetakpenawaran()">Cetak Penawaran</a>
-		</div>
+		</div> -->
 
 		<div class="divider"></div>
 
@@ -152,13 +156,8 @@
 		</div>
 	</div>
 
-	<div class="panel-block">
+	<div class="panel-block" hidden>
 		<div class="block-list submit">
-
-			<button class="btn btn-purple btn-sm" ng-click="showsavedialog()">
-				<i class="fas fa-print"></i>
-				Masukkan keranjang
-			</button>
 
 			<div class="info" ng-show="error.message!=''">
 				<small class="fas fa-exclamation"></small>
@@ -173,4 +172,20 @@
 			* ditulis dalam Rp (rupiah)
 		</div>
 	</div>
+
 </div>
+
+<div class="error-panel" ng-if="error.savecartval!=''">
+	<span class="icon lowercase">
+		<i class="fas fa-bell fa-fw"></i>
+		<span class="hidden-xs-down">error</span>
+	</span>
+	<span>[[error.savecartval]]</span>
+</div>
+
+<button class="btn btn-action-end" ng-click="showsavedialog()" ng-class="{'error':error.savecartval!=''}">
+	<span class="icon">
+		<i class="fal fa-cart-plus"></i>
+	</span>
+	Order
+</button>
