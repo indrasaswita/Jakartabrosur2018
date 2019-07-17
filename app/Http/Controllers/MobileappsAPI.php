@@ -76,6 +76,8 @@ class MobileappsAPI extends Controller
 		$carts = Cartheader::with('cartdetail')
 				->with('customer')
 				->with('jobsubtype')
+				->with('cartfile')
+				->with('delivery')
 				->doesntHave('salesdetail')
 				->orderBy('id', 'desc')
 				->get();
