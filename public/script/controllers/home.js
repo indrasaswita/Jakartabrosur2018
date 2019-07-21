@@ -16,6 +16,7 @@ module.exports = function(app){
 			}
 
 			$scope.getActiveCustomer = function(){
+				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();

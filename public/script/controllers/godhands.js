@@ -2,7 +2,19 @@ module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			
+
+			/*Global site tag (gtag.js) - Google Analytics */
+			// ============================================
+			$window.dataLayer = $window.dataLayer || [];
+			$scope.gtag = function(){
+				dataLayer.push(arguments);
+			}
+
+			$scope.gtag('js', new Date());
+			$scope.gtag('config', 'UA-144197477-1');
+			// ==========================================
+			/*Global site tag (gtag.js) - Google Analytics */
+
 
 			$scope.showAlertOK = function($title, $detail, $login = false){
 				$scope.alertmessage = {
@@ -57,6 +69,7 @@ module.exports = function(app){
 				$('#preloader-wrapper').hide();
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
+				$('#landingpage').modal('show'); //dihome page
 			});
 
 

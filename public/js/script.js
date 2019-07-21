@@ -12,6 +12,7 @@ require("node-gzip");
 var app = require("./init");
 
 require('./constants/variable')(app);
+require('./constants/analytics')(app);
 
 //require("./route")(app);
 
@@ -80,7 +81,11 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/variable":2,"./controllers/account.login":3,"./controllers/account.notification":4,"./controllers/account.profiles":5,"./controllers/account.resendemail":6,"./controllers/account.signup":7,"./controllers/admin.cart.addbyadmin":8,"./controllers/admin.cart.index":9,"./controllers/admin.changetheworld.index":10,"./controllers/admin.master.customer.index":11,"./controllers/admin.master.customer.pendingcompany":12,"./controllers/admin.master.finishing.index":13,"./controllers/admin.master.jobactivation":14,"./controllers/admin.master.jobeditor":15,"./controllers/admin.master.jobfinishings":16,"./controllers/admin.master.jobpapers":17,"./controllers/admin.master.jobquantities":18,"./controllers/admin.master.jobsizes":19,"./controllers/admin.master.paper.changeprice":20,"./controllers/admin.master.paper.newpaper":21,"./controllers/admin.master.paper.paperdetailstore":22,"./controllers/admin.master.pricetext.index":23,"./controllers/admin.master.shoppricing":24,"./controllers/admin.master.vendor.index":25,"./controllers/admin.master.verifcustomer":26,"./controllers/admin.sales.index":27,"./controllers/admin.tracking.index":28,"./controllers/aice.index":29,"./controllers/createheader":30,"./controllers/description":31,"./controllers/global.nav.header":32,"./controllers/godhands":33,"./controllers/home":34,"./controllers/includes.modals.compaccno":35,"./controllers/includes.nav.subnav":36,"./controllers/main":37,"./controllers/order.cart.index":38,"./controllers/order.sales.commit":39,"./controllers/order.sales.history":40,"./controllers/order.sales.index":41,"./controllers/order.shop.calculation.customer":42,"./controllers/order.shop.create.page":43,"./controllers/order.shop.lists.customer":44,"./controllers/roles":45,"./controllers/salespaymentconfirm":46,"./controllers/salespayments":47,"./controllers/trackingcustomer":48,"./controllers/viewfile-modal":49,"./customs/sticky-shop-total":50,"./directives/bootstrap-select-addon":51,"./directives/bootstrap-tooltip":52,"./directives/pagination/dirPagination":53,"./init":54,"angular":64,"angular-cookies":56,"angular-resource":58,"angular-route":60,"angular-sanitize":62,"node-gzip":80}],2:[function(require,module,exports){
+},{"./constants/analytics":2,"./constants/variable":3,"./controllers/account.login":4,"./controllers/account.notification":5,"./controllers/account.profiles":6,"./controllers/account.resendemail":7,"./controllers/account.signup":8,"./controllers/admin.cart.addbyadmin":9,"./controllers/admin.cart.index":10,"./controllers/admin.changetheworld.index":11,"./controllers/admin.master.customer.index":12,"./controllers/admin.master.customer.pendingcompany":13,"./controllers/admin.master.finishing.index":14,"./controllers/admin.master.jobactivation":15,"./controllers/admin.master.jobeditor":16,"./controllers/admin.master.jobfinishings":17,"./controllers/admin.master.jobpapers":18,"./controllers/admin.master.jobquantities":19,"./controllers/admin.master.jobsizes":20,"./controllers/admin.master.paper.changeprice":21,"./controllers/admin.master.paper.newpaper":22,"./controllers/admin.master.paper.paperdetailstore":23,"./controllers/admin.master.pricetext.index":24,"./controllers/admin.master.shoppricing":25,"./controllers/admin.master.vendor.index":26,"./controllers/admin.master.verifcustomer":27,"./controllers/admin.sales.index":28,"./controllers/admin.tracking.index":29,"./controllers/aice.index":30,"./controllers/createheader":31,"./controllers/description":32,"./controllers/global.nav.header":33,"./controllers/godhands":34,"./controllers/home":35,"./controllers/includes.modals.compaccno":36,"./controllers/includes.nav.subnav":37,"./controllers/main":38,"./controllers/order.cart.index":39,"./controllers/order.sales.commit":40,"./controllers/order.sales.history":41,"./controllers/order.sales.index":42,"./controllers/order.shop.calculation.customer":43,"./controllers/order.shop.create.page":44,"./controllers/order.shop.lists.customer":45,"./controllers/roles":46,"./controllers/salespaymentconfirm":47,"./controllers/salespayments":48,"./controllers/trackingcustomer":49,"./controllers/viewfile-modal":50,"./customs/sticky-shop-total":51,"./directives/bootstrap-select-addon":52,"./directives/bootstrap-tooltip":53,"./directives/pagination/dirPagination":54,"./init":55,"angular":65,"angular-cookies":57,"angular-resource":59,"angular-route":61,"angular-sanitize":63,"node-gzip":81}],2:[function(require,module,exports){
+module.exports = function(app){
+	
+}
+},{}],3:[function(require,module,exports){
 module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
@@ -92,7 +97,7 @@ module.exports = function(app){
 	app.constant("API_URL", $public_path+'API/');
 	app.constant("AJAX_URL", $public_path+'AJAX/');
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('LoginController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -115,10 +120,10 @@ module.exports = function(app){
 						method : 'POST',
 						url : API_URL + 'login',
 						data : 
-							{
-								'email' : $scope.customerData.email,
-								'password' : $scope.customerData.password
-							}
+						{
+							'email' : $scope.customerData.email,
+							'password' : $scope.customerData.password
+						}
 					}
 				).then(function(response) {
 					if(response.data.message != null){
@@ -127,6 +132,9 @@ module.exports = function(app){
 						$scope.alerttype = response.data.type;
 						$scope.alertshow = true;
 						if (response.data.type == "alert-success"){
+							$userid = response.data.userid!=null?response.data.userid:"NULL";
+							$scope.gtag('set', {'user_id': $userid}); 
+							// Set the user ID using signed-in user_id.
 							if($link == null)
 								location.reload();
 							else if($scope.nextUrl != '')
@@ -159,7 +167,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('NotificationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -197,7 +205,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('EditProfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -559,7 +567,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('ResendemailController', ['$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -629,7 +637,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SignupController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -825,7 +833,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartAddbyadminController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -1138,7 +1146,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -1359,7 +1367,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmChangetheworldController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1470,7 +1478,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -1525,7 +1533,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompanyPendingController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -1543,7 +1551,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmFinishingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1559,7 +1567,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobactivationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1619,7 +1627,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobeditorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -1671,7 +1679,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobfinishingsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -2086,7 +2094,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobpapersController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -2773,7 +2781,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobquantitiesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -3462,7 +3470,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobsizesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -3814,7 +3822,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -4034,7 +4042,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmNewPaperController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -4189,7 +4197,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPaperdetailController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -4443,7 +4451,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricetextController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -4485,7 +4493,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmShoppricingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -4617,7 +4625,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmVendorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -4631,7 +4639,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('VerifCustomerController', 
 		[
@@ -4674,7 +4682,7 @@ module.exports = function(app) {
 		]
 	);
 }
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -5634,7 +5642,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -5815,7 +5823,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -6053,7 +6061,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -6067,7 +6075,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -6126,7 +6134,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('NavHeaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -6198,12 +6206,24 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			
+
+			/*Global site tag (gtag.js) - Google Analytics */
+			// ============================================
+			$window.dataLayer = $window.dataLayer || [];
+			$scope.gtag = function(){
+				dataLayer.push(arguments);
+			}
+
+			$scope.gtag('js', new Date());
+			$scope.gtag('config', 'UA-144197477-1');
+			// ==========================================
+			/*Global site tag (gtag.js) - Google Analytics */
+
 
 			$scope.showAlertOK = function($title, $detail, $login = false){
 				$scope.alertmessage = {
@@ -6258,6 +6278,7 @@ module.exports = function(app){
 				$('#preloader-wrapper').hide();
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
+				$('#landingpage').modal('show'); //dihome page
 			});
 
 
@@ -6643,7 +6664,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -6662,6 +6683,7 @@ module.exports = function(app){
 			}
 
 			$scope.getActiveCustomer = function(){
+				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();
@@ -6685,7 +6707,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -6696,7 +6718,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -6775,7 +6797,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -6791,7 +6813,7 @@ module.exports = function(app){
 	})
 
 }
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -7184,7 +7206,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -7358,7 +7380,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -7416,7 +7438,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -7751,7 +7773,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, AJAX_URL, API_URL, BASE_URL, $window){
@@ -7818,6 +7840,21 @@ module.exports = function(app){
 			$scope.total = [];
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
+
+			//tab navigation bar
+			$(document).ready(function() {
+				var url = document.location.toString();
+				if (url.match('#')) {
+					var temp = url.split('#')[2];
+					if(temp == "calculation" ||
+						temp == "description" ||
+						temp == "file"){
+						$('.nav-tabs a[href="#' + temp + '"]').tab('show');
+					}else if(temp == "OF" || temp == "DG"){
+						$scope.setprinttype(temp);
+					}
+				}
+			});
 
 			$scope.setUserLogin = function($role, $userid)
 			{
@@ -9505,7 +9542,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -10747,7 +10784,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -10781,7 +10818,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -10857,7 +10894,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -11017,7 +11054,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -11076,7 +11113,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -11120,7 +11157,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('ViewfileModal', ['$scope', '$http', 'API_URL',
 		function($scope, $http, API_URL){
@@ -11129,7 +11166,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -11151,7 +11188,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -11166,7 +11203,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -11183,7 +11220,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -11824,7 +11861,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -11839,7 +11876,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -12094,11 +12131,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":55}],57:[function(require,module,exports){
+},{"./angular-cookies":56}],58:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -13011,11 +13048,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":57}],59:[function(require,module,exports){
+},{"./angular-resource":58}],60:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -14282,11 +14319,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":59}],61:[function(require,module,exports){
+},{"./angular-route":60}],62:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -15201,11 +15238,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":61}],63:[function(require,module,exports){
+},{"./angular-sanitize":62}],64:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -51434,11 +51471,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":63}],65:[function(require,module,exports){
+},{"./angular":64}],66:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -51932,7 +51969,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":68}],66:[function(require,module,exports){
+},{"util/":69}],67:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -51957,14 +51994,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -52554,7 +52591,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":67,"_process":93,"inherits":66}],69:[function(require,module,exports){
+},{"./support/isBuffer":68,"_process":94,"inherits":67}],70:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -52707,9 +52744,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],70:[function(require,module,exports){
-
 },{}],71:[function(require,module,exports){
+
+},{}],72:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 /* eslint camelcase: "off" */
@@ -53121,7 +53158,7 @@ Zlib.prototype._reset = function () {
 
 exports.Zlib = Zlib;
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":93,"assert":65,"buffer":73,"pako/lib/zlib/constants":83,"pako/lib/zlib/deflate.js":85,"pako/lib/zlib/inflate.js":87,"pako/lib/zlib/zstream":91}],72:[function(require,module,exports){
+},{"_process":94,"assert":66,"buffer":74,"pako/lib/zlib/constants":84,"pako/lib/zlib/deflate.js":86,"pako/lib/zlib/inflate.js":88,"pako/lib/zlib/zstream":92}],73:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -53733,7 +53770,7 @@ util.inherits(DeflateRaw, Zlib);
 util.inherits(InflateRaw, Zlib);
 util.inherits(Unzip, Zlib);
 }).call(this,require('_process'))
-},{"./binding":71,"_process":93,"assert":65,"buffer":73,"stream":108,"util":113}],73:[function(require,module,exports){
+},{"./binding":72,"_process":94,"assert":66,"buffer":74,"stream":109,"util":114}],74:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -55512,7 +55549,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":69,"ieee754":76}],74:[function(require,module,exports){
+},{"base64-js":70,"ieee754":77}],75:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -55623,7 +55660,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":78}],75:[function(require,module,exports){
+},{"../../is-buffer/index.js":79}],76:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -56148,7 +56185,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -56234,9 +56271,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],77:[function(require,module,exports){
-arguments[4][66][0].apply(exports,arguments)
-},{"dup":66}],78:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
+arguments[4][67][0].apply(exports,arguments)
+},{"dup":67}],79:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -56259,14 +56296,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');
@@ -56289,7 +56326,7 @@ module.exports = {
     return promise;
   }
 };
-},{"zlib":72}],81:[function(require,module,exports){
+},{"zlib":73}],82:[function(require,module,exports){
 'use strict';
 
 
@@ -56396,7 +56433,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -56449,7 +56486,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -56519,7 +56556,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -56580,7 +56617,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -58456,7 +58493,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":81,"./adler32":82,"./crc32":84,"./messages":89,"./trees":90}],86:[function(require,module,exports){
+},{"../utils/common":82,"./adler32":83,"./crc32":85,"./messages":90,"./trees":91}],87:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -58803,7 +58840,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60361,7 +60398,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":81,"./adler32":82,"./crc32":84,"./inffast":86,"./inftrees":88}],88:[function(require,module,exports){
+},{"../utils/common":82,"./adler32":83,"./crc32":85,"./inffast":87,"./inftrees":89}],89:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60706,7 +60743,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":81}],89:[function(require,module,exports){
+},{"../utils/common":82}],90:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60740,7 +60777,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61962,7 +61999,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":81}],91:[function(require,module,exports){
+},{"../utils/common":82}],92:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -62011,7 +62048,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -62059,7 +62096,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":93}],93:[function(require,module,exports){
+},{"_process":94}],94:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -62245,10 +62282,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":95}],95:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":96}],96:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -62380,7 +62417,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":97,"./_stream_writable":99,"core-util-is":74,"inherits":77,"process-nextick-args":92}],96:[function(require,module,exports){
+},{"./_stream_readable":98,"./_stream_writable":100,"core-util-is":75,"inherits":78,"process-nextick-args":93}],97:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -62428,7 +62465,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":98,"core-util-is":74,"inherits":77}],97:[function(require,module,exports){
+},{"./_stream_transform":99,"core-util-is":75,"inherits":78}],98:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -63450,7 +63487,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":95,"./internal/streams/BufferList":100,"./internal/streams/destroy":101,"./internal/streams/stream":102,"_process":93,"core-util-is":74,"events":75,"inherits":77,"isarray":79,"process-nextick-args":92,"safe-buffer":107,"string_decoder/":109,"util":70}],98:[function(require,module,exports){
+},{"./_stream_duplex":96,"./internal/streams/BufferList":101,"./internal/streams/destroy":102,"./internal/streams/stream":103,"_process":94,"core-util-is":75,"events":76,"inherits":78,"isarray":80,"process-nextick-args":93,"safe-buffer":108,"string_decoder/":110,"util":71}],99:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -63665,7 +63702,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":95,"core-util-is":74,"inherits":77}],99:[function(require,module,exports){
+},{"./_stream_duplex":96,"core-util-is":75,"inherits":78}],100:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -64355,7 +64392,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":95,"./internal/streams/destroy":101,"./internal/streams/stream":102,"_process":93,"core-util-is":74,"inherits":77,"process-nextick-args":92,"safe-buffer":107,"timers":110,"util-deprecate":111}],100:[function(require,module,exports){
+},{"./_stream_duplex":96,"./internal/streams/destroy":102,"./internal/streams/stream":103,"_process":94,"core-util-is":75,"inherits":78,"process-nextick-args":93,"safe-buffer":108,"timers":111,"util-deprecate":112}],101:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64435,7 +64472,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":107,"util":70}],101:[function(require,module,exports){
+},{"safe-buffer":108,"util":71}],102:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -64510,13 +64547,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":92}],102:[function(require,module,exports){
+},{"process-nextick-args":93}],103:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":75}],103:[function(require,module,exports){
+},{"events":76}],104:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":104}],104:[function(require,module,exports){
+},{"./readable":105}],105:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -64525,13 +64562,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":95,"./lib/_stream_passthrough.js":96,"./lib/_stream_readable.js":97,"./lib/_stream_transform.js":98,"./lib/_stream_writable.js":99}],105:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":96,"./lib/_stream_passthrough.js":97,"./lib/_stream_readable.js":98,"./lib/_stream_transform.js":99,"./lib/_stream_writable.js":100}],106:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":104}],106:[function(require,module,exports){
+},{"./readable":105}],107:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":99}],107:[function(require,module,exports){
+},{"./lib/_stream_writable.js":100}],108:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -64595,7 +64632,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":73}],108:[function(require,module,exports){
+},{"buffer":74}],109:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64724,7 +64761,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":75,"inherits":77,"readable-stream/duplex.js":94,"readable-stream/passthrough.js":103,"readable-stream/readable.js":104,"readable-stream/transform.js":105,"readable-stream/writable.js":106}],109:[function(require,module,exports){
+},{"events":76,"inherits":78,"readable-stream/duplex.js":95,"readable-stream/passthrough.js":104,"readable-stream/readable.js":105,"readable-stream/transform.js":106,"readable-stream/writable.js":107}],110:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -65021,7 +65058,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":107}],110:[function(require,module,exports){
+},{"safe-buffer":108}],111:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -65100,7 +65137,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":93,"timers":110}],111:[function(require,module,exports){
+},{"process/browser.js":94,"timers":111}],112:[function(require,module,exports){
 (function (global){
 
 /**
@@ -65171,8 +65208,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],112:[function(require,module,exports){
-arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],113:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 arguments[4][68][0].apply(exports,arguments)
-},{"./support/isBuffer":112,"_process":93,"dup":68,"inherits":77}]},{},[1]);
+},{"dup":68}],114:[function(require,module,exports){
+arguments[4][69][0].apply(exports,arguments)
+},{"./support/isBuffer":113,"_process":94,"dup":69,"inherits":78}]},{},[1]);

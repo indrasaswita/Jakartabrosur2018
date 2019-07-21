@@ -1,9 +1,102 @@
 @extends('layouts.blank')
 @section('title', 'Beranda')
 @section('description', 'Jakarta Brosur mencetak segala Kebutuhan Kantor dan Promosi. Sedia mesin Offset & Digital, juga terima jasa cetak. Dijamin murah! Percetakan Paling Murah di Jakarta.')
+@section('keywords', 'Cetak murah, Cetak cepat, Cetak Flyer, Brosur Murah, Brosur Cepat, Cetak Brosur Cepat')
 @section('robots', 'index,follow')
 @section('content')
 <div ng-controller="HomePageController">
+
+	@if(!Session::has('role'))
+	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
+		<div class="hm-landingpage modal-dialog modal-lg" role="document">
+			<div class="btn-close">
+				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
+					<i class="fal fa-times tx-red"></i>
+					Close
+				</button>
+			</div>
+			<div class="logo disable-select">
+				<div class="img">
+					<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="40px">
+				</div>
+				<div class="text">
+					<div class="top">
+						<span class="tx-darkpurple">Jakarta</span><span class="tx-gray">brosur</span>
+					</div>
+					<div class="bottom">
+						Cetak Brosur, Besok Jadi
+					</div>
+				</div>
+			</div>
+			<div class="products">
+				<div class="item left">
+					<div>
+						Brosur Offset
+					</div>
+					<div>
+						<img class="hidden-xs-down" src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
+					</div>
+					<div>
+						<a href="{{URL::asset('shop')}}/flyer#!#OF" class='btn btn-secondary'>
+							Besok Jadi
+						</a>
+					</div>
+				</div>
+				<div class="item right">
+					<div>
+						Brosur Digital
+					</div>
+					<div>
+						<img class="hidden-xs-down" src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
+					</div>
+					<div>
+						<a href="{{URL::asset('shop')}}/flyer#!#DG" class='btn btn-secondary'>
+							Langsung Jadi
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="contactus">
+				<a href="tel:+6281315519889" class="btn btn-secondary">
+					<div class="logo">
+						<i class="fal fa-mobile-android-alt fa-fw fa-2x tx-success"></i>
+					</div>
+					<div class="text">
+						<div class="ket">
+							Call us by Phone Number
+						</div>
+						<div class="phone">
+							+62 813 1551 9889
+						</div>
+					</div>
+				</a>
+				<a href="https://api.whatsapp.com/send?phone=6281315519889" class="btn btn-secondary">
+					<div class="logo">
+						<i class="fab fa-whatsapp fa-fw fa-2x tx-success"></i>
+					</div>
+					<div class="text">
+						<div class="ket">
+							Chat us via. Whatsapp
+						</div>
+						<div class="phone">
+							+62 813 1551 9889
+						</div>
+					</div>
+				</a>
+				<div class="location">
+					<div class="logo">
+						<i class="fal fa-compass fa-fw tx-primary"></i>
+					</div>
+					<div class="text">
+						Jl. Pangeran Jayakarta 113, JakPus
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endif
+
+
 	@if(Session::has('role') && Session::get('role') == "Administrator")
 
 	<?php
@@ -122,6 +215,9 @@
 	<!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN --><!-- BUKAN ADMIN -->
 
 	@if(!Session::has('role') || (Session::has('role') && Session::get('role') != "Administrator"))
+
+
+
 	<div class="hm-navigator" ng-if="'{{Session::get('userid')}}'==''">
 		<div class="logo disable-select">
 			<div class="img">
@@ -165,9 +261,12 @@
       	<div class="txt">About us</div>
     	</a>
 		</div>
+
+
+		<div class="hm-navigator-footer"></div>
 	</div>
 
-  <div class="hm-header" ng-if="'{{Session::get('userid')}}'!=''">
+	<div class="hm-header" ng-if="'{{Session::get('userid')}}'!=''">
 		<div class="image hidden-xs-down">
 			&nbsp;
 		</div>
@@ -193,7 +292,6 @@
 		</div>
 	</div>
 
-	<div class="hm-divider hidden-xs-down" hidden></div>
 
 	<div class="hm-offvsdigi">
 		<div class="title">
@@ -204,45 +302,45 @@
 		</div> -->
 		<div class="content-wrapper">
 			<div class="content-list">
-				<div class="list-item">
-					<a href="{{URL::asset('shop/businesscard')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/businesscard.png')}}">
+				<div class="list-item hidden-xs-down">
+					<div class="txt">
+						Flyer / Brosur
+					</div>
+					<a href="{{URL::asset('shop/flyer')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}">
 					</a>
+				</div>
+				<div class="list-item">
 					<div class="txt">
 						Kartu Nama
 					</div>
+					<a href="{{URL::asset('shop/businesscard')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/businesscard.png')}}">
+					</a>
 				</div>
 				<div class="list-item">
-					<a href="{{URL::asset('shop/flyer')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-z-fold.png')}}">
-					</a>
 					<div class="txt">
 						Brosur Lipat
 					</div>
-				</div>
-				<div class="list-item hidden-xs-down">
-					<a href="{{URL::asset('shop/deskcalendar')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/calendar-table-simple.png')}}">
+					<a href="{{URL::asset('shop/flyerlipat')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-z-fold.png')}}">
 					</a>
-					<div class="txt">
-						Kalender Meja
-					</div>
 				</div>
 				<div class="list-item">
-					<a href="{{URL::asset('shop/rollupbanner')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/rollup.png')}}">
-					</a>
 					<div class="txt">
-						Standing Banner
+						X-Banner
 					</div>
+					<a href="{{URL::asset('shop/rollupbanner')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/xbanner.png')}}">
+					</a>
 				</div>
 				<div class="list-item hidden-sm-down">
-					<a href="{{URL::asset('shop/letterhead')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/letterhead-simple.png')}}">
-					</a>
 					<div class="txt">
 						Kop Surat
 					</div>
+					<a href="{{URL::asset('shop/letterhead')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/letterhead-simple.png')}}">
+					</a>
 				</div>
 			</div>
 		</div>
@@ -260,7 +358,17 @@
 		</div>
 	</div>
 
-	<div class="hm-divider"></div>
+
+	</div>
+    <div class="hm-question-header">
+    	<div class="question-header">
+    		<div class="atas"></div>
+	    	<div class="tengah">Kenapa memilih kami?</div>
+	    	<div class="bawah"></div>
+    	</div>
+    	<!-- <img src="{{URL::asset('image/home/hm-question-header-header.png')}}" alt="banner" width="100%"/> -->
+	</div>
+
 
 	<div class="hm-container">
 		<div class="hm-desc right">
@@ -272,8 +380,9 @@
 					C-M-Y-K?
 				</div>
 				<div class="desc-item-block">
-					Apa itu CMYK, dasar warna cetak, terdiri dari Cyan, Magenta, Yellow, dan Black(K). Namun masih ada banyak warna dasar lainnya, yang dalam didunia percetakan disebut warna khusus. Warna khusus tidak dapat dibentuk dari warna CMYK, untuk pekerjaan yang butuh penanganan khusus silahkan hubungi langsung ke <a href="tel:+62816889889">Hotline</a> kami. Konsultasi? Gratis kok.
-					<br><br>
+					Cyan, Magenta, Yellow, dan Black(K). Warna dasar setiap cetakan, berbeda dengan RGB (Red, Green, Blue) yang biasa dipakai untuk warna dasar pada monitor ataupun smartphone.<br><br>
+					Tentunya hasil warna bentukan CMYK dan RGB akan berbeda. Sehingga warna yang terlihat pada layar komputer ataupun smartphone (RGB) akan lebih terang jika dibandingkan hasil cetak (CMYK). Solusinya: Agar mendekati, dibutuhkan test print dalam beberapa lembar.<br><br>
+					Bila ada pertanyaan, segera hubungi kami.
 
 				</div>
 				<div class="desc-item-footer">
@@ -288,42 +397,59 @@
 				<div class="desc-item">
 					<div class="desc-item-header">
 						<i class="fas fa-user-friends"></i>
-						Cerita antara Kami dan Kamu
+						Printing partners
 					</div>
 					<div class="desc-item-block">
-						Kita? Iya, kami ikut-ikutan jaman now yang bisa dipantau gitu. Jadi kami kerja apa, ya kamu harus tau. Gitu aja, biar kita sama-sama nyaman antara kami dan kamu. Mau lebih kenal, ayok <a href="{{URL::asset('signup')}}" class="a-home">daftar akun</a> dulu, jamin deh GRATIS!
-						<br><br>
-						Sekarang nggak cuma pacar, mau cetak juga bisa di pantau... <br>
-						<i class="fas fa-kiss-wink-heart tx-yellow"></i>
-						Aw sooo sweeettt..
-						<br><br>
-						Apa aja sih yang bisa di pantau?
-						<div>
-							<ol>
+						Kami melayani bidang percetakan sejak 1976 secara offline. Tahun 2016, kami ada untuk Anda di jakartabrosur.com untuk memenuhi kebutuhan cetak yang lebih cepat dan kompetitif.<br><br>
+
+						Adapun beberapa Customer besar kami, diantaranya:
+						<div class="display-flex">
+							<ol class="margin-right-30">
 								<li>
-									Proses pertama, kamu bisa tau apakah kami sudah 'CEK FILE' yang kamu kirim. Dan kalo filenya kurang 'KECE' atau 'OKE', ya nanti kami kabarin supaya kamu kirim lagi file yang 'KECE'-nya itu.
+									First Media
 								</li>
 								<li>
-									Abis itu, proses 'CETAK PLAT' dimulai untuk beberapa tipe pekerjaan. Tapi kalau pakai proses digital, langsung deh lanjut ke 'PROSES CETAK'.
+									Citibank
 								</li>
 								<li>
-									Nah bagian utamanya ada disini, 'PROSES CETAK' nggak sembarangan, warna jadi panduan kami dalam proses, bila kamu punya <b><u>acuan warna</u></b> harap disertakan sebelum proses cetak ini dimulai, karena Warna itu segalanya
+									Bank Kalbar
 								</li>
 								<li>
-									Setelah semua selesai dicetak, kami pun melakukan 'PENGEMASAN'. Pengemasan pun harus dan wajib rapih, bila ada petugas kami yang mengemas kurang rapih, silahkan hubungi kami.
+									Tje Fuk Cosmetic
 								</li>
 								<li>
-									Tapi belum selesai, kami dan kamu harus sepakat untuk menentukan kurir dalam 'PENGIRIMAN'. Ada pick-up order, maupun pengiriman instan, seperti Go-Jek, Grab, atau pengantaran langsung dari Jakarta Brosur bila jarak memungkinkan.
+									Baso Aci Juara
 								</li>
 								<li> 
-									Akhirnya selesai juga. Tapi, jangan lupa ya, kalo ada komplain ataupun kendala saat menerima barang, kamu berhak mengajukan 'KOMPLAIN' dalam 2x24jam setelah barang sampai ditujuan kamu. Bila sudah barang yang diterima sudah 'KECE' dan 'OKE', mohon ketersediannya untuk mengkonfirmasi penerimaan barang.
+									Hoghock
+								</li>
+								<li> 
+									Maharaja Cofee
 								</li>
 							</ol>
-							<br>
-							Terima kasih, kamu.
-							<br>
-							Oh iya, ada salam dari kami, sahabat dekat Rangga.
+							<ol start="8">
+								<li>
+									Maybank
+								</li>
+								<li>
+									Honda Imora Motor
+								</li>
+								<li>
+									Honda Auto2000
+								</li>
+								<li>
+									Weddingku
+								</li>
+								<li>
+									Vara Wedding
+								</li>
+								<li> 
+									MAS Software
+								</li>
+							</ol>
 						</div>
+						<br>
+						Sebagai supplier tetap, kami berusaha menjaga kualitas hasil cetak, dan akan selalu memperbaiki kekurangan kami setiap harinya. Hasil cetak kami, dapat langsung dilihat pada katalog dan contoh cetakan di <a href="">sini</a>. Atau bisa langsung datang ke workshop kami.
 					</div>
 					<div class="desc-item-footer">
 					</div>
@@ -331,7 +457,35 @@
 			</div>
 		</div>
 	</div>
-	<img src="{{URL::asset('image/whyusquestion-botborder.png')}}" alt="none" class="img" width="100%">
+	</div>
+    <div class="hm-question-header">
+    	<div class="question-header">
+    		<div class="atas"></div>
+	    	<div class="tengah">Cepat Murah Bagus</div>
+	    	<div class="bawah"></div>
+    	</div>
+    	<!-- <img src="{{URL::asset('image/home/hm-question-header-header.png')}}" alt="banner" width="100%"/> -->
+	</div>
+	<div class="hm-container">
+		<div class="hm-desc right">
+			<div class="desc-img">
+				<img src="{{URL::asset('image/hm-cmyk-circle.png')}}" alt="none" class="img" width="100%">
+			</div>
+			<div class="desc-item">
+				<div class="desc-item-header">
+					C-M-Y-K?
+				</div>
+				<div class="desc-item-block">
+					Cyan, Magenta, Yellow, dan Black(K). Warna dasar setiap cetakan, berbeda dengan RGB (Red, Green, Blue) yang biasa dipakai untuk warna dasar pada monitor ataupun smartphone.<br><br>
+					Tentunya hasil warna bentukan CMYK dan RGB akan berbeda. Sehingga warna yang terlihat pada layar komputer ataupun smartphone (RGB) akan lebih terang jika dibandingkan hasil cetak (CMYK). Solusinya: Agar mendekati, dibutuhkan test print dalam beberapa lembar.<br><br>
+					Bila ada pertanyaan, segera hubungi kami.
+
+				</div>
+				<div class="desc-item-footer">
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="hm-container">
 		<div class="hm-desc right">
 			<div class="desc-img">
@@ -460,6 +614,7 @@
 			</div>
 		</a>
 	</div>
+
 	@endif
 </div>
 @stop

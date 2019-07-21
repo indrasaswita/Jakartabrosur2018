@@ -1,5 +1,7 @@
 @extends('layouts.order')
 @section('title', $datas['name'])
+@section('description', 'Cetak murah dan dapatkan '.$datas['name'].' dalam hitungan menit.')
+@section('keywords', 'Cetak '.$datas['name'].', Nyetak '.$datas['name'].', Cetk '.$datas['name'].', '.$datas['name'].' print, Cetak '.$datas['name'].' cepat, Cetak '.$datas['name'].' murah')
 @section('content')
 
 <div>

@@ -16,6 +16,7 @@ class UserController extends Controller
 		$email = $request->email;
 		$password = $request->password;
 		$customer = Customer::where('email', '=', $email)->first();
+		$userid = "";
 		if ($customer != null){
 			if(\Hash::check($password, $customer['password']))
 			{
@@ -30,18 +31,21 @@ class UserController extends Controller
 					//DIA BAKAL LGIN, TAPI KALO ADA TOKEN, dia redirect langsung ke verificationpage
 					$msg = "";
 					$typ = "verification";
+					$userid = "VR".$customer['id'];
 				}
 				else
 				{
 					//DIA CEK kalo uda berhasil verify, BRARTI langsung ke halaman HOME / redirect ke page yang ada di url 
 					$msg = "LOG-IN berhasil!";
 					$typ = "alert-success";
+					$userid = "CU".$customer['id'];
 				}
 			}
 			else
 			{
 				$msg = "Password Anda salah";
 				$typ = "alert-danger";
+				$userid = "";
 			}
 		}else{
 			$employee = Employee::join('roles', 'roles.id', '=', 'roleID')
@@ -59,21 +63,24 @@ class UserController extends Controller
 					//return redirect()->route('pages.order.flyer');
 					$msg="Logged-in as Employee";
 					$typ = "alert-success";
+					$userid = "EM".$employee['id'];
 				}
 				else
 				{
 					$msg = "Password wrong";
 					$typ = "alert-danger";
+					$userid = "";
 				}
 			}
 			else
 			{
 				$msg = "Belum terdaftar..";
 				$typ = "alert-danger";
+				$userid = "";
 			}
 		}
 		session()->get('role');
-		$result = array('message'=>$msg, 'type'=>$typ);
+		$result = array('message'=>$msg, 'type'=>$typ, 'userid'=>$userid);
 		return json_encode($result);
 	}
 

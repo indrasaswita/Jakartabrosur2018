@@ -11,6 +11,7 @@ require("node-gzip");
 var app = require("./init");
 
 require('./constants/variable')(app);
+require('./constants/analytics')(app);
 
 //require("./route")(app);
 

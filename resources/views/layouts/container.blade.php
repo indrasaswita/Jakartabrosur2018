@@ -5,6 +5,7 @@
 	<meta name="csrf_token" content="{ csrf_token() }" />
 	<meta name="title" content="@yield('title')">
 	<meta name="description" content="@yield('description')">
+	<meta name="keywords" content="@yield('keywords')">
 	<meta name="robots" content="@yield('robots')">
 	@include('includes.head')
 </head>

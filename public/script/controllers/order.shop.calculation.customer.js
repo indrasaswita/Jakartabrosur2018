@@ -65,6 +65,21 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
+			//tab navigation bar
+			$(document).ready(function() {
+				var url = document.location.toString();
+				if (url.match('#')) {
+					var temp = url.split('#')[2];
+					if(temp == "calculation" ||
+						temp == "description" ||
+						temp == "file"){
+						$('.nav-tabs a[href="#' + temp + '"]').tab('show');
+					}else if(temp == "OF" || temp == "DG"){
+						$scope.setprinttype(temp);
+					}
+				}
+			});
+
 			$scope.setUserLogin = function($role, $userid)
 			{
 				if ($userid != null) {

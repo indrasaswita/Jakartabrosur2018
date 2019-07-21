@@ -4,6 +4,8 @@
 	<meta name="csrf_token" content="{ csrf_token() }" />
 	<title>@yield('title') | jakartabrosur.com</title>
 	<meta name="title" content="Error @yield('title')">
+	<meta name="keywords" content="@yield('keywords')">
+	<meta name="description" content="@yield('description')">
 	@include('includes.head')
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">

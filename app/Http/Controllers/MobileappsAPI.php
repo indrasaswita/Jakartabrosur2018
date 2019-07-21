@@ -13,16 +13,41 @@ use App\Cartheader;
 use App\Salesheader;
 use App\Pricelist;
 use App\Pricetype;
+use App\Role;
+use App\Paper;
 
 class MobileappsAPI extends Controller
 {
-	public function getcustomers($data, $roleID){
+	public function getcustomers(){
 		//$data = $request->all();
 		$customers = Customer::orderBy('updated_at', 'desc')
 				->orderBy('id', 'desc')
+				->with('company')
+				->with('customeraddress')
+				->with('onesignal')
 				->get();
 
 		return $customers;
+	}
+
+	public function getcustomerpayment(){
+		//$data = $request->all();
+		$customers = Customer::orderBy('updated_at', 'desc')
+				->orderBy('id', 'desc')
+				->with('company')
+				->with('customerbankacc')
+				->with('salesheader')
+				->get();
+
+		return $customers;
+	}
+
+	public function getroles(){
+		//$data = $request->all();
+		$roles = Role::with('employee')
+				->get();
+
+		return $roles;
 	}
 
 	public function getnotifications($data){
@@ -72,7 +97,7 @@ class MobileappsAPI extends Controller
 		return $this->getpricelists();
 	}
 
-	public function getpendingcarts($roleID){
+	public function getpendingcarts(){
 		$carts = Cartheader::with('cartdetail')
 				->with('customer')
 				->with('jobsubtype')
@@ -92,7 +117,7 @@ class MobileappsAPI extends Controller
 		return $pricetypes;
 	}
 
-	public function getallsales($roleID){
+	public function getallsales(){
 		$salesheaders = Salesheader::with('customer', 'salesdetail')
 				->orderBy('id', 'desc')
 				->get();
@@ -110,6 +135,22 @@ class MobileappsAPI extends Controller
 		return $pricelists;
 	}
 
+	public function getemployees(){
+		$employees = Employee::with('role')
+				->with('onesignal')
+				->get();
+
+		return $employees;
+	}
+
+	public function getpapers(){
+		$employees = Paper::with('papertype')
+				->with('paperdetail')
+				->get();
+
+		return $employees;
+	}
+
 	public function select(Request $request, $value){
 		$data = $request->all();
 
@@ -122,20 +163,33 @@ class MobileappsAPI extends Controller
 		// PROSES SELCT QUERY //
 		// PROSES SELCT QUERY //
 
-		if($value == "customers" && $data['usertype'] == "EM"){
-			return $this->getcustomers($data, $this->roleID);
-		}else if($value == "notifications"){
-			return $this->getnotifications($data);
-		}else if($value == "pendingcarts"){
-			return $this->getpendingcarts($this->roleID);
-		}else if($value == "allsales"){
-			return $this->getallsales($this->roleID);
-		}else if($value == "pricelists"){
-			return $this->getpricelists();
-		}else if($value=="pricetypes"){
-			return $this->getpricetypes();
-		}else{
-			return "VALUE BELOM DI DAFTAR";
+		if($data['usertype'] == "EM"){
+			//admin role
+			if($value == "customers"){
+				return $this->getcustomers();
+			}else if($value == "customerpayment"){
+				return $this->getcustomerpayment();
+			}else if($value == "roles"){
+				return $this->getroles();
+			}else if($value == "notifications"){
+				return $this->getnotifications($data);
+			}else if($value == "pendingcarts"){
+				return $this->getpendingcarts();
+			}else if($value == "allsales"){
+				return $this->getallsales();
+			}else if($value == "employees"){
+				return $this->getemployees();
+			}else if($value == "customers"){
+				return $this->getcustomers();
+			}else if($value == "pricelists"){
+				return $this->getpricelists();
+			}else if($value=="pricetypes"){
+				return $this->getpricetypes();
+			}else if($value=="papers"){
+				return $this->getpapers();
+			}else{
+				return "VALUE BELOM DI DAFTAR";
+			}
 		}
 	}
 
