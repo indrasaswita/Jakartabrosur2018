@@ -62,6 +62,7 @@
 
 
 <!-- MODAL -->
+@include ('includes.floating-contact')
 @include ('pages.order.shop.modals.delivery')
 @include ('pages.order.shop.modals.uploadfile')
 @include ('pages.order.shop.modals.savedialog')

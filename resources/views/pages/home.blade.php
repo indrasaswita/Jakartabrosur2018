@@ -7,8 +7,10 @@
 <div ng-controller="HomePageController">
 
 	@if(!Session::has('role'))
+		@if(Cookie::get('landing') != 'waiting')
+			<?php //Cookie::queue('landing', '', 1) ?>
 	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
-		<div class="hm-landingpage modal-dialog modal-lg" role="document">
+		<div class="hm-landingpage modal-dialog" role="document">
 			<div class="btn-close">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fal fa-times tx-red"></i>
@@ -17,7 +19,7 @@
 			</div>
 			<div class="logo disable-select">
 				<div class="img">
-					<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="40px">
+					<img src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="50px">
 				</div>
 				<div class="text">
 					<div class="top">
@@ -34,7 +36,7 @@
 						Brosur Offset
 					</div>
 					<div>
-						<img class="hidden-xs-down" src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
+						<img src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
 					</div>
 					<div>
 						<a href="{{URL::asset('shop')}}/flyer#!#OF" class='btn btn-secondary'>
@@ -47,7 +49,7 @@
 						Brosur Digital
 					</div>
 					<div>
-						<img class="hidden-xs-down" src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
+						<img src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}" alt="logo" height="100px">
 					</div>
 					<div>
 						<a href="{{URL::asset('shop')}}/flyer#!#DG" class='btn btn-secondary'>
@@ -70,7 +72,7 @@
 						</div>
 					</div>
 				</a>
-				<a href="https://api.whatsapp.com/send?phone=6281315519889" class="btn btn-secondary">
+				<a href="https://api.whatsapp.com/send?phone=6281315519889" class="btn btn-secondary" target="_blank">
 					<div class="logo">
 						<i class="fab fa-whatsapp fa-fw fa-2x tx-success"></i>
 					</div>
@@ -94,6 +96,9 @@
 			</div>
 		</div>
 	</div>
+		@else
+			<!-- COOKIE SET (LANDING PAGE NOT SHOWN) -->
+		@endif
 	@endif
 
 
@@ -219,16 +224,19 @@
 
 
 	<div class="hm-navigator" ng-if="'{{Session::get('userid')}}'==''">
-		<div class="logo disable-select">
-			<div class="img">
-				<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-white-shadow-200px.png')}}" alt="logo" height="70px">
-			</div>
-			<div class="text">
-				<div class="top">
-					<span class="tx-white">Jakarta</span><span class="tx-white">brosur</span>
+		<div class="logo-wrapper">
+			<div class="logo disable-select">
+				<div class="img">
+					<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-white-shadow-contrast-200px.png')}}" alt="logo" height="70px">
 				</div>
-				<div class="bottom">
-					ONLINE PRINTING
+				<div class="text">
+					<div class="top">
+						<span class="front">Jakarta</span><span class="back">brosur</span>
+					</div>
+					<div class="bottom">
+						<span class="front">ONLINE</span>
+						<span class="back">PRINTING</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -237,29 +245,29 @@
 		</div>
 		<div class="nav-button">
 			<a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
-      	<div class="ico">
-      		<i class="fal fa-fw fa-calculator-alt"></i> 
-      	</div>
-      	<div class="txt">cek harga</div>
-    	</a>
-    	<a class="nav-link" href="https://api.whatsapp.com/send?phone=6281315519889" target="_blank">
-      	<div class="ico">
-      		<i class="fab fa-fw fa-whatsapp"></i> 
-      	</div>
-      	<div class="txt">chat us</div>
-    	</a>
-    	<a class="nav-link" href="{{URL::asset('login')}}">
-      	<div class="ico">
-      		<i class="far fa-fw fa-user-lock"></i> 
-      	</div>
-      	<div class="txt">LOG-IN</div>
-    	</a>
-    	<a class="nav-link hidden-xs-down" href="{{URL::asset('aboutus')}}">
-      	<div class="ico">
-      		<i class="far fa-fw fa-compass"></i> 
-      	</div>
-      	<div class="txt">About us</div>
-    	</a>
+				<div class="ico">
+					<i class="fal fa-fw fa-calculator-alt"></i> 
+				</div>
+				<div class="txt">cek harga</div>
+			</a>
+			<a class="nav-link" href="https://api.whatsapp.com/send?phone=6281315519889" target="_blank">
+				<div class="ico">
+					<i class="fab fa-fw fa-whatsapp"></i> 
+				</div>
+				<div class="txt">chat us</div>
+			</a>
+			<a class="nav-link" href="{{URL::asset('login')}}">
+				<div class="ico">
+					<i class="far fa-fw fa-user-lock"></i> 
+				</div>
+				<div class="txt">LOG-IN</div>
+			</a>
+			<a class="nav-link hidden-xs-down" href="{{URL::asset('aboutus')}}">
+				<div class="ico">
+					<i class="far fa-fw fa-compass"></i> 
+				</div>
+				<div class="txt">About us</div>
+			</a>
 		</div>
 
 
@@ -359,17 +367,142 @@
 	</div>
 
 
-	</div>
-    <div class="hm-question-header">
-    	<div class="question-header">
-    		<div class="atas"></div>
-	    	<div class="tengah">Kenapa memilih kami?</div>
-	    	<div class="bawah"></div>
-    	</div>
-    	<!-- <img src="{{URL::asset('image/home/hm-question-header-header.png')}}" alt="banner" width="100%"/> -->
+	<div>
+		<div class="hm-question-header pink">
+			<div class="question-header">
+				<div class="atas"></div>
+				<div class="tengah">Kenapa memilih kami?</div>
+				<div class="bawah"></div>
+			</div>
+		</div>
 	</div>
 
 
+	<div class="hm-container">
+		<div class="hm-desc hm-benefit">
+			<div class="benefit-list">
+				<div class="image">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-speed.png')}}">
+				</div>
+				<div class="header">
+					CEPAT
+				</div>
+				<div class="content">
+					Cetak hitungan menit
+				</div>
+			</div>
+			<div class="benefit-list">
+				<div class="image">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-easyaccess.png')}}">
+				</div>
+				<div class="header">
+					GA RIBET
+				</div>
+				<div class="content">
+					Pilih, bayar, langsung kirim
+				</div>
+			</div>
+			<div class="benefit-list">
+				<div class="image">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-cheap.png')}}">
+				</div>
+				<div class="header">
+					MURAH
+				</div>
+				<div class="content">
+					Harga berani diadu
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="hm-question-header yellow">
+			<div class="question-header">
+				<div class="atas"></div>
+				<div class="tengah">Cepat Murah Bagus</div>
+				<div class="bawah"></div>
+			</div>
+		</div>
+	</div>
+	<div class="hm-container">
+		<div class="hm-desc left">
+			<div class="desc-item">
+				<div class="desc-item-header">
+					<i class="fas fa-user-friends tx-orange"></i>
+					Printing partners
+				</div>
+				<div class="desc-item-block">
+					Kami melayani bidang percetakan sejak 1976 secara offline. Tahun 2016, kami ada untuk Anda di jakartabrosur.com untuk memenuhi kebutuhan cetak yang lebih cepat dan kompetitif.<br><br>
+
+					Adapun beberapa Customer besar kami, diantaranya:
+					<div class="display-flex">
+						<ol class="margin-right-30">
+							<li>
+								First Media
+							</li>
+							<li>
+								Citibank
+							</li>
+							<li>
+								Bank Kalbar
+							</li>
+							<li>
+								Tje Fuk Cosmetic
+							</li>
+							<li>
+								Baso Aci Juara
+							</li>
+							<li> 
+								Hoghock
+							</li>
+							<li> 
+								Maharaja Cofee
+							</li>
+						</ol>
+						<ol start="8">
+							<li>
+								Maybank
+							</li>
+							<li>
+								Honda Imora Motor
+							</li>
+							<li>
+								Honda Auto2000
+							</li>
+							<li>
+								Weddingku
+							</li>
+							<li>
+								Vara Wedding
+							</li>
+							<li> 
+								MAS Software
+							</li>
+							<li> 
+								BSI Finance
+							</li>
+						</ol>
+					</div>
+					<br>
+					Sebagai supplier tetap, kami berusaha menjaga kualitas hasil cetak, dan akan selalu memperbaiki kekurangan kami setiap harinya. Hasil cetak kami, dapat langsung dilihat pada katalog dan contoh cetakan di <a href="">sini</a>. Atau bisa langsung datang ke workshop kami.
+				</div>
+				<div class="desc-item-footer">
+				</div>
+			</div>
+			<div class="desc-img">
+				<img src="{{URL::asset('image/home/hm-customers.png')}}" alt="none" class="img" width="100%">
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="hm-question-header blue">
+			<div class="question-header">
+				<div class="atas"></div>
+				<div class="tengah">Sekilas Tentang Cetak</div>
+				<div class="bawah"></div>
+			</div>
+		</div>
+	</div>
 	<div class="hm-container">
 		<div class="hm-desc right">
 			<div class="desc-img">
@@ -377,115 +510,20 @@
 			</div>
 			<div class="desc-item">
 				<div class="desc-item-header">
-					C-M-Y-K?
+					<i class="fas fa-fill-drip tx-primary"></i>
+					Beda CMYK dan RGB?
 				</div>
 				<div class="desc-item-block">
-					Cyan, Magenta, Yellow, dan Black(K). Warna dasar setiap cetakan, berbeda dengan RGB (Red, Green, Blue) yang biasa dipakai untuk warna dasar pada monitor ataupun smartphone.<br><br>
-					Tentunya hasil warna bentukan CMYK dan RGB akan berbeda. Sehingga warna yang terlihat pada layar komputer ataupun smartphone (RGB) akan lebih terang jika dibandingkan hasil cetak (CMYK). Solusinya: Agar mendekati, dibutuhkan test print dalam beberapa lembar.<br><br>
+					Cyan, Magenta, Yellow, dan Black(K) adalah warna dasar standard untuk cetak. Warna dasar setiap cetakan, berbeda dengan RGB (Red, Green, Blue) yang biasa dipakai untuk warna dasar pada monitor ataupun smartphone.<br><br>
+					Perbedaan hasil warna bentukan CMYK dan RGB akan sangat terlihat berbeda pada warna yang gelap. Sehingga warna yang terlihat pada layar komputer ataupun smartphone (RGB) akan lebih terang jika dibandingkan hasil cetak (CMYK). Solusinya: Agar mendekati, dibutuhkan test print dalam beberapa lembar.<br><br>
 					Bila ada pertanyaan, segera hubungi kami.
-
 				</div>
 				<div class="desc-item-footer">
 				</div>
 			</div>
 		</div>
 	</div>
-	<img src="{{URL::asset('image/whyusquestion-topborder.png')}}" alt="none" class="img" width="100%">
-	<div class="hm-proses">
-		<div class="hm-container">
-			<div class="hm-desc full">
-				<div class="desc-item">
-					<div class="desc-item-header">
-						<i class="fas fa-user-friends"></i>
-						Printing partners
-					</div>
-					<div class="desc-item-block">
-						Kami melayani bidang percetakan sejak 1976 secara offline. Tahun 2016, kami ada untuk Anda di jakartabrosur.com untuk memenuhi kebutuhan cetak yang lebih cepat dan kompetitif.<br><br>
-
-						Adapun beberapa Customer besar kami, diantaranya:
-						<div class="display-flex">
-							<ol class="margin-right-30">
-								<li>
-									First Media
-								</li>
-								<li>
-									Citibank
-								</li>
-								<li>
-									Bank Kalbar
-								</li>
-								<li>
-									Tje Fuk Cosmetic
-								</li>
-								<li>
-									Baso Aci Juara
-								</li>
-								<li> 
-									Hoghock
-								</li>
-								<li> 
-									Maharaja Cofee
-								</li>
-							</ol>
-							<ol start="8">
-								<li>
-									Maybank
-								</li>
-								<li>
-									Honda Imora Motor
-								</li>
-								<li>
-									Honda Auto2000
-								</li>
-								<li>
-									Weddingku
-								</li>
-								<li>
-									Vara Wedding
-								</li>
-								<li> 
-									MAS Software
-								</li>
-							</ol>
-						</div>
-						<br>
-						Sebagai supplier tetap, kami berusaha menjaga kualitas hasil cetak, dan akan selalu memperbaiki kekurangan kami setiap harinya. Hasil cetak kami, dapat langsung dilihat pada katalog dan contoh cetakan di <a href="">sini</a>. Atau bisa langsung datang ke workshop kami.
-					</div>
-					<div class="desc-item-footer">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
-    <div class="hm-question-header">
-    	<div class="question-header">
-    		<div class="atas"></div>
-	    	<div class="tengah">Cepat Murah Bagus</div>
-	    	<div class="bawah"></div>
-    	</div>
-    	<!-- <img src="{{URL::asset('image/home/hm-question-header-header.png')}}" alt="banner" width="100%"/> -->
-	</div>
-	<div class="hm-container">
-		<div class="hm-desc right">
-			<div class="desc-img">
-				<img src="{{URL::asset('image/hm-cmyk-circle.png')}}" alt="none" class="img" width="100%">
-			</div>
-			<div class="desc-item">
-				<div class="desc-item-header">
-					C-M-Y-K?
-				</div>
-				<div class="desc-item-block">
-					Cyan, Magenta, Yellow, dan Black(K). Warna dasar setiap cetakan, berbeda dengan RGB (Red, Green, Blue) yang biasa dipakai untuk warna dasar pada monitor ataupun smartphone.<br><br>
-					Tentunya hasil warna bentukan CMYK dan RGB akan berbeda. Sehingga warna yang terlihat pada layar komputer ataupun smartphone (RGB) akan lebih terang jika dibandingkan hasil cetak (CMYK). Solusinya: Agar mendekati, dibutuhkan test print dalam beberapa lembar.<br><br>
-					Bila ada pertanyaan, segera hubungi kami.
-
-				</div>
-				<div class="desc-item-footer">
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="hm-divider"></div>
 	<div class="hm-container">
 		<div class="hm-desc right">
 			<div class="desc-img">
@@ -493,124 +531,41 @@
 			</div>
 			<div class="desc-item">
 				<div class="desc-item-header">
-					Ragu akan kualitas Offset kami?
+					<i class="fal fa-swatchbook fa-fw tx-primary"></i>
+					Butuh warna yang sesuai?
 				</div>
 				<div class="desc-item-block">
-					Kualitas kami, selalu menjadi andalan. Dan kami selalu melakukan <i>quality-control</i> pada setiap pesanan Anda, agar kualitas pun tetap terjaga dengan baik. Mengapa kami begitu yakin dengan kualitas cetakan kami?<br>
-					<ol>
-						<li>
-							Karena kami gunakan tinta merk Cemani Toka<br>
-							<strong>Kenapa harus CEMANI?</strong><br>
-							<ol class="size-80p gray sub-ol">
-								<li>
-									Paling cepat kering mempercepat proses kerja
-								</li>
-								<li>
-									Tidak menempel ke tangan
-								</li>
-								<li>
-									Warna lebih tepat
-								</li>
-								<li>
-									Menyediakan warna khusus yang harganya terjangkau
-								</li>
-							</ol>
-						</li>
-						<li>
-							Serta mesin Heidelberg Speedmaster SM<br>
-							<strong>Kenapa harus HEIDELBERG?</strong><br>
-							<ol class="size-80p gray sub-ol">
-								<li>
-									Tanpa <i>misregistration</i>
-								</li>
-								<li>
-									Tanpa <i>misalignment</i>
-								</li>
-								<li>
-									Tanpa <i>color bleeding</i>
-								</li>
-								<li>
-									Tanpa <i>hickeys</i> pada hasil cetakan
-								</li>
-								<li>
-									Minimalisasi <i>dot gain</i>
-								</li>
-							</ol>
-						</li>
-					</ol>
+					Kualitas menjadi yang utama dalam cetak. Kami tidak takut untuk membantu Anda lebih mengenai warna hasil cetakan, karena kepuasan Anda menjadi prioritas kami. Silahkan hubungi kami atau konsultasi ke workshop kami untuk mendapatkan warna yang sesuai dengan keinginan Anda.<br><br>
+					Bila Anda masih ragu dan mempunyai kebutuhan untuk menyesuaikan warna pada hasil cetak, mohon lakukan konfirmasi dahulu sebelum mencetak. Kami dengan senang hati akan melayani Anda.<br><br>
+					Pada cetak Offset, kami juga menyediakan warna khusus diluar C-M-Y-K. Bila kebutuhan Anda membutuhkan warna khusus, silahkan hubungi kami langsung lewat Whatsapp atau telepon.
 				</div>
 			</div>
 		</div>
 	</div>
-    <div class="margin-0">
-    	<img src="{{URL::asset('image/whyusquestion.png')}}" alt="banner" width="100%"/>
-	</div>
-	<div class="hm-container">
-	    <div class="hm-benefit">
-			<div class="benefit-list">
-				<div class="benefit-image-wrapper">
-					<img src="image/speed.png" alt="" class="hm-benefit-image"">
+	 
+	<div class="hm-divider"></div>
+
+	<div class="hm-container last-container">
+		<a href="https://api.whatsapp.com/send?phone=6281315519889" class="link" target="_blank">
+			<div class="contact-us">
+				<div class="text">
+					<i class="fab fa-whatsapp fa-fw"></i>
+					Whatsapp <small>or</small> 
+					Call
 				</div>
-				<div class="benefit-title-wrapper">
-					<div class="hm-benefit-title">Proses Cetak Sangat Cepat</div>
-					<p class="hm-benefit-desc">
-						Pesanan dengan hitungan jam dapat menggunakan proses Digital, dapat ditunggu. Jika dibutuhkan sangat cepat, kami juga dapat membantu untuk proses prioritas, yang dapat selesai hitungan menit. 
-						<b>Sekarang jamannya, NO RIBET.</b>
-					</p>
+				<div class="number">
+					0813 1551 9889
 				</div>
 			</div>
-			<div class="benefit-list">
-				<div class="benefit-image-wrapper">
-					<img src="image/lowprice.png" alt="" class="hm-benefit-image"">
-				</div>
-				<div class="benefit-title-wrapper">
-					<div class="hm-benefit-title">Harga Murah & Bersaing</div>
-					<p class="hm-benefit-desc">
-						Tersedia proses cetak offset dan sablon, dengan harga semurah-murahnya. Tentunya bersaing dengan toko sebelah. Tunggu apa lagi, langsung aja cek murahnya <a href="{{URL::asset('orderlistcustomer')}}"><b>disini</b></a> lho! <b>Sekarang jamannya, NO BOKEK.</b>
-					</p>
-				</div>
-			</div>
-			<div class="benefit-list">
-				<div class="benefit-image-wrapper">
-					<img src="image/noqueue.png" alt="" class="hm-benefit-image"">
-				</div>
-				<div class="benefit-title-wrapper">
-					<div class="hm-benefit-title">Tidak Perlu Lagi Mengantri</div>
-					<p class="hm-benefit-desc">
-						Jaman online-online gini, sekarang saatnya kita order lewat internet. Yakin? Tidak perlu ribet, cukup cek harga, pesan, bayar, pantau deh ordernya. <b>Masih mau RIBET? </b>
-					</p>
-				</div>
-			</div>
-			<div class="benefit-list">
-				<div class="benefit-image-wrapper">
-					<img src="image/transfer.png" alt="" class="hm-benefit-image"">
-				</div>
-				<div class="benefit-title-wrapper">
-					<div class="hm-benefit-title">Bayar Via Transfer Bank</div>
-					<p class="hm-benefit-desc">
-						Nggak sedaaap kalo online bayarnya masih kuno, cukup transfer, langsung deh pesanan Anda lunas. Kami sediakan transfer antar rekening via BCA, BRI, BNI, Mandiri, BTPN.
-					</p>
-				</div>
-			</div>
-			<div class="benefit-list">
-				<div class="benefit-image-wrapper">
-					<img src="image/tracking.png" alt="" class="hm-benefit-image"">
-				</div>
-				<div class="benefit-title-wrapper">
-					<div class="hm-benefit-title">Dapat Dipantau Secara Online</div>
-					<p class="hm-benefit-desc">
-						Takut barang tidak sampai? Tenang, pekerjaan kami dapat dipantau online, Anda dapat cek status pesanan Anda dari website kapan aja dimana aja. Wah, nggak perlu telpon lagi deh untuk tanya status kerjaan. <b>Pulsa irit, sahabat dompet.</b>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+		</a>
+	</div> 
+
 
 	<div class="hm-stickyorder">
 		<a href="{{URL::asset('orderlistcustomer')}}">
 			<div class="content">
 				<i class="fas fa-fw fa-2x fa-calculator-alt"></i>
-				<span class="text">Cek Harga</span>
+				<div class="text">cek harga</div>
 			</div>
 		</a>
 	</div>

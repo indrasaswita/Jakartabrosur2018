@@ -176,7 +176,7 @@ Route::group    (['middleware'=>['employee']], function(){
 Route::get('AJAX/custaccs', 'CustomeraccountAJAX@all');
 Route::post('AJAX/custaccs/store', 'CustomeraccountAJAX@store');
 Route::post("AJAX/cekharga", 'Calculation@calcPrice');
-
+Route::get('AJAX/faquestions', 'FaquestionsAJAX@getByGroup');
 
 
 Route::get  ("API/cartfiles/{cartID}",  "CartfileAPI@getFileByCartID"); // HARUS SUDAH LOGIN
@@ -224,7 +224,6 @@ Route::post ('API/login',   'UserController@login');
 
 
 Route::get  ("API/data/customers/name", "CustomerAPI@apiGetName");
-
 Route::get  ("API/salesdetails/{id}/header", ["as"=>"api.salesdetails.view", "uses"=>"SalesdetailController@apiGetSpecific"]);
 Route::get  ("API/cartdetails/{id}/header", ["as"=>"api.cartdetails.view", "uses"=>"CartdetailController@apiGetSpecificBySalesID"]);
 Route::post ("API/cartdetails/title/update", "CartdetailController@apiUpdateTitle"); 

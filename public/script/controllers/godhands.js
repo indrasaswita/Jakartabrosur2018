@@ -69,7 +69,11 @@ module.exports = function(app){
 				$('#preloader-wrapper').hide();
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
-				$('#landingpage').modal('show'); //dihome page
+				try{
+					$('#landingpage').modal('show'); //dihome page
+				}catch(e){
+					console.log("Landing page error - runtime error");
+				}
 			});
 
 

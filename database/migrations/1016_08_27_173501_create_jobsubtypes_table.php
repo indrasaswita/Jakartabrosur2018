@@ -59,6 +59,8 @@ class CreateJobsubtypesTable extends Migration
 				sicon2 VARCHAR(128) DEFAULT '',
 				printerIDoffset INT UNSIGNED NOT NULL,
 				printerIDdigital INT UNSIGNED NOT NULL,
+				shortlabel VARCHAR(16) NOT NULL DEFAULT '',
+				discount INT UNSIGNED NOT NULL DEFAULT 0,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				updated_at TIMESTAMP NULL,
 				PRIMARY KEY (id)

@@ -21,6 +21,7 @@
 			<li><a href="{{URL::asset('shop/letterhead')}}">Kop Surat</a></li>
 			<li><a href="{{URL::asset('shop/flyer')}}">Digital A3+</a></li>
 			<li><a href="{{URL::asset('shop/businesscard')}}">Kartu Nama</a></li>
+			<li><a href="{{URL::asset('shop/cuttingsticker')}}">Cutting Sticker</a></li>
 			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
 				<i class="far fa-wrench fa-fw tx-danger"></i>
 				Katalog
@@ -28,10 +29,6 @@
 			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
 				<i class="far fa-wrench fa-fw tx-danger"></i>
 				Booklet
-			</li>
-			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
-				<i class="far fa-wrench fa-fw tx-danger"></i>
-				Cutting Sticker
 			</li>
 		</ul>
 		<div class="products-detail"> 

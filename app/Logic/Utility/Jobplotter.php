@@ -78,9 +78,9 @@ class Jobplotter extends Job{
 		$this->texttoread .= "Susunan: <b>"
 					.$calc['totalinplano']
 					."</b> pcs ("
-					.$calc['totalinplanox']
+					.MathHelper::round($calc['totalinplanox'], 0.001)
 					."x"
-					.$calc['totalinplanoy']
+					.MathHelper::round($calc['totalinplanoy'], 0.001)
 					."+"
 					.$calc['totalinplanorest']
 					.")<br>";
