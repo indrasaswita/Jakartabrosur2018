@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-	protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'postcode', 'phone1', 'phone2', 'phone3', 'news', 'balance', 'remember_token', 'verify_token', 'app_token'];
+	protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'postcode', 'phone1', 'phone2', 'phone3', 'news', 'balance', 'remember_token', 'verify_token'];
 	protected $guarded = ['id'];
 	protected $hidden = ['password', 'balance', 'remember_token'];
 	protected $dates = ['created_at', 'updated_at'];
@@ -28,8 +28,8 @@ class Customer extends Model
 		return $this->hasMany('App\Customeraddress', 'customerID')->with('address');
 	}
 
-	public function onesignal(){
-		return $this->hasMany('App\Onesignal', 'ownerID')->where('ownertype', 'CU');
+	public function customeronesignal(){
+		return $this->hasMany('App\Customeronesignal', 'customerID')->with('onesignal');
 	}
 
 }

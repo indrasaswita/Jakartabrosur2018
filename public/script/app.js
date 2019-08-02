@@ -66,6 +66,7 @@ require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);
 require("./controllers/admin.changetheworld.index")(app);
+require("./controllers/admin.master.onesignal.index")(app);
 require("./controllers/global.includes.floatingcontact")(app);
 
 

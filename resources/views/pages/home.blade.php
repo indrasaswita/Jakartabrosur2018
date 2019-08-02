@@ -234,8 +234,8 @@
 						<span class="front">Jakarta</span><span class="back">brosur</span>
 					</div>
 					<div class="bottom">
-						<span class="front">ONLINE</span>
-						<span class="back">PRINTING</span>
+						<span class="front">Powered by</span>
+						<span class="back">RAHAYU PRINTING</span>
 					</div>
 				</div>
 			</div>
@@ -315,6 +315,9 @@
 						Flyer / Brosur
 					</div>
 					<a href="{{URL::asset('shop/flyer')}}">
+						<div class="highlight">
+							from Rp 200,-
+						</div>
 						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}">
 					</a>
 				</div>
@@ -323,6 +326,9 @@
 						Kartu Nama
 					</div>
 					<a href="{{URL::asset('shop/businesscard')}}">
+						<div class="highlight">
+							from 15rb /box
+						</div>
 						<img ng-src="{{URL::asset('image/jobsubtypeicons/businesscard.png')}}">
 					</a>
 				</div>
@@ -339,6 +345,9 @@
 						X-Banner
 					</div>
 					<a href="{{URL::asset('shop/rollupbanner')}}">
+						<div class="highlight">
+							PROMO
+						</div>
 						<img ng-src="{{URL::asset('image/jobsubtypeicons/xbanner.png')}}">
 					</a>
 				</div>
@@ -347,17 +356,30 @@
 						Kop Surat
 					</div>
 					<a href="{{URL::asset('shop/letterhead')}}">
+						<div class="highlight">
+							from Rp 190,-
+						</div>
 						<img ng-src="{{URL::asset('image/jobsubtypeicons/letterhead-simple.png')}}">
 					</a>
 				</div>
 			</div>
+		</div>
+		<div class="offvsdigi-note text-xs-center">
+			<button class="btn">
+				dan masih banyak lagi 
+				<small class="fas fa-arrow-circle-right fa-fw"></small>
+			</button>
 		</div>
 		<div class="offvsdigi-note">
 			<div class="txt">
 				<div class="content">
 					<i class="fa fa-info-circle icon tx-purple"></i>
 					Kami menyediakan jasa cetak OFFSET dan DIGITAL.<br>
-					Untuk pencetakan yang tidak kami sediakan di web, dapat ditanyakan langsung ke Customer Service Jakartabrosur.
+					Untuk pencetakan yang tidak kami sediakan di web, dapat ditanyakan langsung melalui 
+					<b>
+						<small class="fab fa-whatsapp fa-fw"></small>
+						WhatsApp.
+					</b>
 				</div>
 				<div class="footer" hidden>
 					Beberapa jenis cetakan disediakan Ukuran Custom yang dapat dipesan di.

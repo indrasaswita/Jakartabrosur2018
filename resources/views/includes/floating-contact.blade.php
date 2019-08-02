@@ -10,7 +10,7 @@
 	<div class="modal fade black" id="floating-panel" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" hidden>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -21,7 +21,12 @@
 					</span>
 				</div>
 				<div class="modal-body">
-					<ul>
+					<div class="text-xs-center margin-40-0">
+						<i class="fab fa-whatsapp fa-fw fa-8x"></i><br>
+						Untuk sementara, silahkan hubungi <a href="https://api.whatsapp.com/send?phone=6281315519889" class="a-white" target="_blank"><b>0813 1551 9889</b></a>.<br>Karena fitur ini sedang dikembangkan.
+					</div>
+
+					<ul hidden>
 						<li>
 							<div>Yang biasa ditanyakan...</div>
 						</li>

@@ -187,5 +187,7 @@
 	<span class="icon">
 		<i class="fal fa-cart-plus"></i>
 	</span>
-	Order
+	<div class="text">
+		Order
+	</div>
 </button>

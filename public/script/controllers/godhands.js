@@ -10,8 +10,12 @@ module.exports = function(app){
 				dataLayer.push(arguments);
 			}
 
-			$scope.gtag('js', new Date());
-			$scope.gtag('config', 'UA-144197477-1');
+			$scope.submitGoogleAnalytics = function($ip){
+				if(!$ip.startsWith('192.168')&&$ip!='::1'){
+					$scope.gtag('js', new Date());
+					$scope.gtag('config', 'UA-144197477-1');
+				}
+			}
 			// ==========================================
 			/*Global site tag (gtag.js) - Google Analytics */
 

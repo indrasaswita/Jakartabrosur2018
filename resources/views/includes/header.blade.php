@@ -154,6 +154,10 @@
 								<span class="far fa-fw fa-users-cog icon"></span>
 								Detail Pelanggan
 							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/master/onesignal')}}">
+								<span class="far fa-fw fa-signal icon"></span>
+								Onesignal Emp + Cust
+							</a>
 						</div>
 					</div>
 				</div>
@@ -182,8 +186,8 @@
 								<i class="fas fa-mandolin fa-fw tx-purple"></i>
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/shoppricing')}}">
-								<span class="far fa-fw fa-percentage icon"></span>
-								JOB Price Editor
+								<span class="far fa-fw fa-layer-plus icon"></span>
+								Finishing + Constant Price
 							</a>
 							<a class="dropdown-item" href="{{URL::asset('admin/master/jobeditor')}}">
 								<span class="far fa-fw fa-paperclip icon"></span>

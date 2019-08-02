@@ -40,7 +40,13 @@
 				<input type="submit" class="btn login-submit" value="Login" ng-click="loginButtonClicked('home')" >
 			</div>
 			<div class="login-redirector">
-				Jika belum punya account?<br />Silahkan <a href="{{URL::asset('signup')}}">sign-up</a> disini!
+				Jika belum punya account?<br />Silahkan <a href="{{URL::asset('signup')}}"><b>REGISTER</b></a> disini!
+				<div class="redirect">
+					<button class="btn">
+						<i class="fal fa-user-plus fa-fw"></i>
+						REGISTER
+					</button>
+				</div>
 			</div>
 		</div>
 	</form>

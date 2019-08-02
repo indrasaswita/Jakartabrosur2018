@@ -115,6 +115,18 @@
 					support@jakartabrosur.com
 				</a>
 			</li>
+			<li>
+				<i class="fal fa-fw fa-envelope footer-icon"></i>
+				<a href="mailto:support@jakartabrosur.com?Subject=Asking Something" target="_top">
+					complain@jakartabrosur.com
+				</a>
+			</li>
+			<li>
+				<i class="fal fa-fw fa-envelope footer-icon"></i>
+				<a href="mailto:support@jakartabrosur.com?Subject=Asking Something" target="_top">
+					sendfile@jakartabrosur.com
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -122,5 +134,5 @@
 		<span class="tx-gray">&copy; {{date('Y')}} Jakartabrosur.com.</span> All right reserved. <a href="{{URL::asset('terms')}}" class="a-purple">Syarat & Ketentuan</a>
 		<br>
 		<i class="fa fa-code"></i>
-		Design & Code by Jakartabrosur Team. v2.03.013
+		Design & Code by Jakartabrosur Team. v2.04.00x
 </div>

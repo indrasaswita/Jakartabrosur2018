@@ -308,8 +308,12 @@ module.exports = function(app){
 					$.each($item.finishing.finishingoption, function($j, $jj){
 						if($jj.defaultoption == true){
 							$scope.selected.finishings[$index] = $item.finishing.finishingoption[$j];
+							
+							//ganti finishing changed kalo ada default option (favourite)
+							$scope.finishingchanged($item.finishing.name, $scope.selected.finishings[$index]);
 						}
 					});
+
 				});
 			}
 
@@ -515,8 +519,10 @@ module.exports = function(app){
 					if($ii.mustdo){
 						$ii.finishing.finishingoption[0].disabled = true;
 						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
-						if($scope.selected.finishings[$i].id == 0)
+						if($scope.selected.finishings[$i].id == 0){
 							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
+						}
 						//console.log($ii.finishing.finishingoption);
 					}
 				});
@@ -788,7 +794,7 @@ module.exports = function(app){
 						}
 						else
 						{
-							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813.1551.9889");
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
 						}
 					});
 				}
@@ -799,8 +805,15 @@ module.exports = function(app){
 					$scope.newaddress.name = "";
 					$scope.newaddress.location = "";
 					$scope.newaddress.note = "";
-					$scope.newaddress.city = null;
-					$scope.fillCities();
+					if($scope.cities.length > 0){
+						$scope.newaddress.city = $scope.cities[0];
+						$.each($scope.cities, function($index, $item){
+							if($item.name == "Jakarta"){
+								$scope.newaddress.city = $scope.cities[$index];
+							}
+						});
+					}
+					//$scope.fillCities(); //pindah ke setiap pindah ke gojek
 				}
 			}
 
@@ -808,17 +821,24 @@ module.exports = function(app){
 				$pickupadd = "----------"; 
 				if(delivery.locked == 1)
 				{
-					$scope.selected.deliverylocked = true;
+					$scope.selected.deliverylocked = true; //buat hide delivery detail
 					$scope.selected.deliveryaddress = '';
 				}
 				else
 				{
-					$scope.selected.deliverylocked = false;
-					if($scope.selected.deliveryaddress == $pickupadd){
+					$scope.selected.deliverylocked = false; // buat show delivery detail
+					if($scope.selected.deliveryaddress != $pickupadd){
 						if($scope.customeraddresses.length>1)
-							$scope.selected.deliveryaddress = $scope.customeraddresses[$scope.customeraddresses.length-1];
+							//$scope.selected.deliveryaddress = $scope.customeraddresses[$scope.customeraddresses.length-1];
+							$scope.selected.deliveryaddress = $scope.customeraddresses[0];
 						else
 							$scope.selected.deliveryaddress = '';
+
+						if($scope.cities == null){
+							$scope.fillCities();
+						}else if($scope.cities.length > 0){
+							$scope.fillCities();
+						}
 					}
 				}
 				//LEMPAR KE SERVER - DeliveryAPI
@@ -1173,6 +1193,14 @@ module.exports = function(app){
 					} 
 					else
 						$scope.finStat('spot varnish', true, $finishingfield);
+				}else if ($name == "Cutting"){
+					if($selected.optionname.toLowerCase().indexOf("die cut") != -1){
+						$selected.warningmessage = "Untuk potongan Die Cut, harap cantumkan keterangan potong pada file. Harga diatas (belum fix) akan disesuaikan setelah data kami terima, dan akan diberitahukan melalui telepon.";
+					}
+				} else if ($name == "Standing") {
+					if ($selected.optionname.toLowerCase().indexOf("x banner") != -1) {
+						$selected.warningmessage = "Agar lebih kuat, silahkan buat design dengan ukuran 60x155 cm, agar kokoh pada tiang penyangga.";
+					}
 				}
 
 				$scope.getPrice();

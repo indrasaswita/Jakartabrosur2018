@@ -9,6 +9,10 @@ use App\Employee;
 use App\Http\Requests;
 use Cookie;
 use Session;
+use Carbon\Carbon;
+use App\Logic\Curl\Onesignal;
+use App\Employeeonesignal;
+use App\Customeronesignal;
 
 class UserController extends Controller
 {
@@ -17,6 +21,7 @@ class UserController extends Controller
 		$password = $request->password;
 		$customer = Customer::where('email', '=', $email)->first();
 		$userid = "";
+		$recipients = [];
 		if ($customer != null){
 			if(\Hash::check($password, $customer['password']))
 			{
@@ -47,16 +52,27 @@ class UserController extends Controller
 				$typ = "alert-danger";
 				$userid = "";
 			}
+
+
+			foreach ($customer['customeronesignal'] as $i => $ii) {
+
+				array_push($recipients, $ii['onesignal']['player_id']);
+
+				Customeronesignal::find($ii['id'])
+					->increment('count');
+			}
+
 		}else{
-			$employee = Employee::join('roles', 'roles.id', '=', 'roleID')
+			
+			$employee = Employee::with('role')
+								->with('employeeonesignal')
 								->where('email', '=', $email)
-								->select('employees.*', 'roles.name as rolename')
 								->first();
 			if ($employee != null)
 			{
 				if(\Hash::check($password, $employee['password']))
 				{
-					Session::put('role', $employee['rolename']);
+					Session::put('role', $employee['role']['name']);
 					session()->put('name', $employee['name']);
 					session()->put('email', $employee['email']);
 					session()->put('userid', $employee['id']);
@@ -71,6 +87,15 @@ class UserController extends Controller
 					$typ = "alert-danger";
 					$userid = "";
 				}
+
+
+				foreach ($employee['employeeonesignal'] as $i => $ii) {
+
+					array_push($recipients, $ii['onesignal']['player_id']);
+
+					Employeeonesignal::find($ii['id'])
+						->increment('count');
+				}
 			}
 			else
 			{
@@ -79,10 +104,25 @@ class UserController extends Controller
 				$userid = "";
 			}
 		}
+
+		if(count($recipients)>0){
+			$onesignal = new Onesignal();
+			$ip = $request->ip();
+			$text = "Status: ".$msg.". Someone login with your account. Is it you? ".($ip=="::1"?"Local Login":$this->startsWith($ip, '192.168')?"Remote Login":"From ".$ip)." @".Carbon::now().".";
+			//dd($text);
+			$response = $onesignal->sendMessage("Did you log-in to Web?", $text, $recipients);
+		}
+
 		session()->get('role');
 		$result = array('message'=>$msg, 'type'=>$typ, 'userid'=>$userid);
 		return json_encode($result);
 	}
+
+	function startsWith ($string, $startString) 
+	{ 
+    $len = strlen($startString); 
+    return (substr($string, 0, $len) === $startString); 
+	} 
 
 	public function logout(Request $request){
 		$data = session('name');

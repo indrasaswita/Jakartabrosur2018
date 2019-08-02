@@ -13,13 +13,15 @@
 				</span>
 			</div>
 			<div class="input">
-				<div class="input-block">
-					<div class="input-group">
-						<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Spesifik dan Jelas (min: 10 huruf)" id="input-jobtitle">
+				<div class="main">
+					<div class="input-block">
+						<div class="input-group">
+							<input type="text" class="form-control text-xs-left" ng-model="selected.jobtitle" placeholder="Spesifik dan Jelas (min: 10 huruf)" id="input-jobtitle">
+						</div>
 					</div>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
+					<div class="info" data-toggle="tooltip" data-title="Judul Cetakan berupa nama yang unik untuk file pekerjaan Anda<br><br><b>buatlah berbeda dari pekerjaan yang lainnya</b>" data-html="true" data-placement="left">
+						<span class="far fa-question-circle"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -35,13 +37,15 @@
 				Deskripsi 
 			</div>
 			<div class="input">
-				<div class="text-block" ng-class="{'warning':selected.itemdescription.length<5, 'success':selected.itemdescription.length>=5}">
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Info Seputar Pekerjaan" ng-model="selected.itemdescription">
+				<div class="main">
+					<div class="text-block" ng-class="{'warning':selected.itemdescription.length<5, 'success':selected.itemdescription.length>=5}">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Info Seputar Pekerjaan" ng-model="selected.itemdescription">
+						</div>
 					</div>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Nomor Urut?<br>Cara cetak?<br>Perlakuan terhadap file?<br>Info seputar cetakan?<br>Tujuan cetak?" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
+					<div class="info" data-toggle="tooltip" data-title="Nomor Urut?<br>Cara cetak?<br>Perlakuan terhadap file?<br>Info seputar cetakan?<br>Tujuan cetak?" data-html="true" data-placement="left">
+						<span class="far fa-question-circle"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -50,13 +54,15 @@
 				Catatan
 			</div>
 			<div class="input">
-				<div class="text-block" ng-class="{'warning':selected.customernote.length<5, 'success':selected.customernote.length>=5}">
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Pengambilan? Bungkus? Pengiriman?" ng-model="selected.customernote">
+				<div class="main">
+					<div class="text-block" ng-class="{'warning':selected.customernote.length<5, 'success':selected.customernote.length>=5}">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Pengambilan? Bungkus? Pengiriman?" ng-model="selected.customernote">
+						</div>
 					</div>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Deadline?<br>Cara bungkus?<br>Info pengiriman?<br>Detail kirim?" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
+					<div class="info" data-toggle="tooltip" data-title="Deadline?<br>Cara bungkus?<br>Info pengiriman?<br>Detail kirim?" data-html="true" data-placement="left">
+						<span class="far fa-question-circle"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -89,11 +95,13 @@
 				Jenis
 			</div>
 			<div class="input">
-				<div class="select">
-					<select class="form-control" data-width="100%" ng-options="item as item.deliveryname for item in deliveries" ng-model="selected.delivery" ng-change="changedelivery(selected.delivery)"></select>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Pilihan selain pick-up disertakan alamat yang jelas ya!" data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
+				<div class="main">
+					<div class="select">
+						<select class="form-control" data-width="100%" ng-options="item as item.deliveryname for item in deliveries" ng-model="selected.delivery" ng-change="changedelivery(selected.delivery)"></select>
+					</div>
+					<div class="info" data-toggle="tooltip" data-title="Pilihan selain pick-up disertakan alamat yang jelas ya!" data-html="true" data-placement="left">
+						<span class="far fa-question-circle"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -111,11 +119,13 @@
 				Tujuan
 			</div>
 			<div class="input">
-				<div class="select">
-					<select class="form-control" type="text" ng-model="selected.deliveryaddress" ng-options="item as item.address.name+', '+item.address.address for item in customeraddresses" ng-change="addresschanged()"></select>
-				</div>
-				<div class="info" data-toggle="tooltip" data-title="Pilih alamat tujuan pengiriman." data-html="true" data-placement="left">
-					<span class="far fa-question-circle"></span>
+				<div class="main">
+					<div class="select">
+						<select class="form-control" type="text" ng-model="selected.deliveryaddress" ng-options="item as item.address.name+', '+item.address.address for item in customeraddresses" ng-change="addresschanged()"></select>
+					</div>
+					<div class="info" data-toggle="tooltip" data-title="Pilih alamat tujuan pengiriman." data-html="true" data-placement="left">
+						<span class="far fa-question-circle"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -142,7 +152,7 @@
 				<div class="input-block">
 					<div class="alert alert-lightgray alert-sm margin-0">
 						<i class="fa fa-exclamation tx-warning"></i>
-						Hello, Anda belum login! <br> 
+						Halo, Anda belum login! <br> 
 						Silahkan <a class="a-purple" href="{{URL::asset('login?url=').(substr(Request::getPathInfo(),1).(Request::getQueryString()?('?'.Request::getQueryString()):''))}}">LOG-IN</a> terlebih dahulu untuk Pilih Alamat.
 					</div>
 				</div>
@@ -159,8 +169,10 @@
 				Nama
 			</div>
 			<div class="input">
-				<div class="input-group">
-					<input type="text" class="form-control" ng-model="newaddress.name" placeholder="Name Alamat Baru">
+				<div class="main">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newaddress.name" placeholder="Name Alamat Baru">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -169,8 +181,10 @@
 				Alamat Baru
 			</div>
 			<div class="input">
-				<div class="input-group">
-					<input type="text" class="form-control" ng-model="newaddress.location" placeholder="Lokasi Alamat Baru">
+				<div class="main">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newaddress.location" placeholder="Lokasi Alamat Baru">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -179,8 +193,10 @@
 				Catatan
 			</div>
 			<div class="input">
-				<div class="input-group">
-					<input type="text" class="form-control" ng-model="newaddress.note" placeholder="Catatan u/ di Alamat Baru">
+				<div class="main">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newaddress.note" placeholder="Catatan u/ di Alamat Baru">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -189,25 +205,29 @@
 				Kota
 			</div>
 			<div class="input">
-				<div class="select">
-					<select class="form-control" type="text" ng-model="newaddress.city" ng-options="item as item.name for item in cities" ng-change="newcitychanged()"></select>
+				<div class="main">
+					<div class="select">
+						<select class="form-control" type="text" ng-model="newaddress.city" ng-options="item as item.name for item in cities" ng-change="newcitychanged()"></select>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="block-list">
 			<div class="txt"></div>
 			<div class="input">
-				<button class="btn btn-sm btn-outline-purple" ng-click="addnewaddress('{{Session::get('userid')}}')">
-					<span ng-if="!waitingaddnewadds && !errornewaddress">
-						Tambah Data
-					</span>
-					<span ng-if="!waitingaddnewadds && errornewaddress">
-						Error
-					</span>
-					<span ng-if="waitingaddnewadds">
-						<i class="fas fa-spinner fa-spin"></i>
-					</span>
-				</button>
+				<div class="main">
+					<button class="btn btn-sm btn-outline-purple" ng-click="addnewaddress('{{Session::get('userid')}}')">
+						<span ng-if="!waitingaddnewadds && !errornewaddress">
+							Tambah Data
+						</span>
+						<span ng-if="!waitingaddnewadds && errornewaddress">
+							Error
+						</span>
+						<span ng-if="waitingaddnewadds">
+							<i class="fas fa-spinner fa-spin"></i>
+						</span>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

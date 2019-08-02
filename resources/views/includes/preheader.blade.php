@@ -1,11 +1,13 @@
-<div class="most-top softblack">
+<div class="most-top yellow">
+
 	<a href="tel:+6281315519889">
-		<small class="fas fa-phone-alt fa-fw"></small> 
+		<small class="fas fa-phone-alt fa-fw vibrate"></small> 
 		<b>0813 1551 9889</b>
 	</a>
 
 	<small>Mon-Fri 09:00-18:00, Sat 09:00-16:00</small>
 </div>
+<div ng-init="submitGoogleAnalytics('{{Request::ip()}}')" hidden></div>
 
 <!-- <div class="top-alert" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>

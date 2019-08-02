@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-	protected $fillable=['name', 'email', 'password', 'roleID', 'remember_token', 'app_token'];
+	protected $fillable=['name', 'email', 'password', 'roleID', 'remember_token'];
 	protected $guarded = ['id'];
 	protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
 	protected $dates = ['created_at', 'updated_at'];
@@ -15,8 +15,8 @@ class Employee extends Model
 		return $this->belongsTo('App\Role', 'roleID');
 	}
 
-	public function onesignal(){
-		return $this->hasMany('App\Onesignal', 'ownerID')->where('ownertype', 'EM');
+	public function employeeonesignal(){
+		return $this->hasMany('App\Employeeonesignal', 'employeeID')->with('onesignal');
 	}
 
 }

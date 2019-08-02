@@ -68,6 +68,7 @@ Route::get('/io/carts/all', 'AdmCartAPI@getAll');
 //Route::get('/io/sales/all', 'AdmAllSalesAPI@getAll');
 //Route::get('/customers/all', 'AdmCustomerAPI@getAll');
 Route::post('/io/login', 'MobileappsAPI@login');
+//Route::post('/io/logout', 'MobileappsAPI@logout');
 Route::post('/io/select/{value}', 'MobileappsAPI@select');
 Route::post('/io/update/{value}', 'MobileappsAPI@update');
 Route::post('/io/insert/{value}', 'MobileappsAPI@insert');

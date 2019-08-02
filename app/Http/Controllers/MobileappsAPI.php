@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Customer;
+use App\Customeronesignal;
 use App\Employee;
+use App\Employeeonesignal;
 use App\Onesignal;
 use App\Notification;
 use App\Cartheader;
@@ -15,6 +17,7 @@ use App\Pricelist;
 use App\Pricetype;
 use App\Role;
 use App\Paper;
+use DB;
 
 class MobileappsAPI extends Controller
 {
@@ -190,6 +193,8 @@ class MobileappsAPI extends Controller
 			}else{
 				return "VALUE BELOM DI DAFTAR";
 			}
+		}else{
+			return "Error: Forbidden";
 		}
 	}
 
@@ -241,78 +246,148 @@ class MobileappsAPI extends Controller
 
 		if($usertype == "CU"){
 			$customer = Customer::where('id', $userID)
-				->where('app_token', $app_token)
+				->with('customeronesignal')
 				->first();
+
 			if($customer == null){
 				//TIDAK KETEMU
 				return "403";
 			}
 			else{
 				//LANJUT KEBAWAH
-				return "200";
+				
+				$verified = false;
+				foreach ($customer['customeronesignal'] as $i => $ii) {
+					if($ii['app_token'] == $app_token){
+						$verified = true;
+					}
+				}
+
+				//PROSES KE SELECT
+				if($verified)
+					return "200";
+				else
+					return "501";
+
 			}
 		}else if($usertype == "EM"){
 			$employee = Employee::where('id', $userID)
-				->where('app_token', $app_token)
+				->with('employeeonesignal')
 				->first();
+
 			if($employee == null){
 				return "403";
 			}
 			else{
 				$this->roleID = $employee['roleID'];
 
+				$verified = false;
+				foreach ($employee['employeeonesignal'] as $i => $ii) {
+					return $ii['id']." -> ".$ii['app_token']." = ".$app_token;
+					if($ii['app_token'] == $app_token){
+						$verified = true;
+					}
+				}
+
 				//PROSES KE SELECT
-				return "200";
+				if($verified)
+					return "200";
+				else
+					return "501";
 			}
 		}else{
-			return "500";
+			return "502";
 		}
+	}
+
+	public function logout (Request $request){
+
 	}
 
 	public function login(Request $request){
 		$datas = $request->all();
+		$usertype = '';
 
 		if($datas['onesignalID']!=null){
-			$user = Employee::where('email', $datas['username'])
+			$user = Employee::with('employeeonesignal')
+					->where('email', $datas['username'])
 					->first();
+			$token = Hash::make(Carbon::now());
+
 			if($user != null)
 			{
+				$usertype = 'EM';
 				$onlinepass = $datas['password'];
 				if(!Hash::check($onlinepass, $user['password'])){
 					return array(0, "Employee Password was incorrect.");
 				}
 
 				//EMPLOYEE
-				$user->app_token = Hash::make(Carbon::now());
-				$user->save();
+				//if($user['employeeonesignal'] == null){
+					//onesignal belom terdaftar
+					// 1. dan cek onesignal sudah dipake belom
+					// 2. kalo belom buat onesignal
+					// 3. kalo uda ada onesigal, tinggal masukin ke link
 
-				$appdata = Onesignal::where('player_id', $datas['onesignalID'])
-						->first();
-				if($appdata==null){
-					//NOT REGISTERED YET
-					//INSERT ULANG
-					$appdata = new Onesignal();
-					$appdata->ownertype = "EM";
-					$appdata->ownerID = $user->id;
-					$appdata->player_id = $datas['onesignalID'];
-					$appdata->active = 1;
-					$appdata->save();
-				}
-				else{
-					//UPDATE GANTI ORANG
-					$appdata->ownertype = "EM";
-					$appdata->ownerID = $user->id;
-					$appdata->active = 1;
-					$appdata->updated_at = Carbon::now();
-					$appdata->save();
-				}
+					$onesignal = Onesignal::with('employeeonesignal')
+							->where('player_id', $datas['onesignalID'])
+							->first();
+
+					if($onesignal == null){
+						// kalo belom ada sebelomnya, di buat dulu
+						$newonesignal = new Onesignal();
+						$newonesignal->devicename = "No-name";
+						$newonesignal->player_id = $datas['onesignalID'];
+						$newonesignal->active = 1;
+						$newonesignal->save();
+
+						//update ke onesignal yg baru
+						$onesignal = Onesignal::with('employeeonesignal')
+							->where('player_id', $datas['onesignalID'])
+							->first();
+
+						if($onesignal == null){
+							return array(0, "Cannot save new Onesignal records.");
+						}
+					}else{
+						//kalo uda ada sebelomnya di cek ke employeeonesignal
+						if($onesignal['employeeonesignal'] != null){
+							if($onesignal['employeeonesignal']['customerID'] != $user['id']){
+								Employeeonesignal::find($onesignal['employeeonesignal']['id'])->delete();
+							}
+						}
+					}
+
+					//cek dulu employeeonesignalnya ada ga?
+					$employeeonesignal = Employeeonesignal::where('onesignalID', $onesignal['id'])
+							->where('customerID', $user['id'])
+							->first();
+
+					// sampe step ini, tidak ada EMployee onesignal
+					// dan onesignal id sudah di tampung di $onesignal
+					// 1. buat new employeeonesignal
+					if($employeeonesignal == null){
+						$employeeonesignal = new Employeeonesignal();
+						$employeeonesignal->onesignalID = $onesignal['id'];
+						$employeeonesignal->employeeID = $user['id'];
+						$employeeonesignal->count = 0;
+						$employeeonesignal->app_token = $token;
+						$employeeonesignal->save();
+					}else{
+						$employeeonesignal->count++;
+						$employeeonesignal->app_token = $token;
+						$employeeonesignal->save();
+					}
+				//}
 			}
 			else{
 				$user = null;
-				$user = Customer::where('email', $datas['username'])
+				$user = Customer::with('customeronesignal')
+						->where('email', $datas['username'])
 						->first();
 				if($user != null){
 					//CUSTOMER
+					$usertype = 'CU';
 
 					$onlinepass = $datas['password'];
 					if(!Hash::check($onlinepass, $user['password'])){
@@ -320,36 +395,69 @@ class MobileappsAPI extends Controller
 					}
 
 
-					$user->app_token = Hash::make(Carbon::now());
-					$user->save();
+					//if($user['customeronesignal'] == null){
+						//onesignal belom terdaftar
+						// 1. dan cek onesignal sudah dipake belom
+						// 2. kalo belom buat onesignal
+						// 3. kalo uda ada onesigal, tinggal masukin ke link
 
+						$onesignal = Onesignal::with('customeronesignal')
+								->where('player_id', $datas['onesignalID'])
+								->first();
 
-					$appdata = Onesignal::where('player_id', $datas['onesignalID'])
-						->first();
-					if($appdata==null){
-						//NOT REGISTERED YET
-						//INSERT LAGI
-						$appdata = new Onesignal();
-						$appdata->ownertype = "CU";
-						$appdata->ownerID = $user->id;
-						$appdata->player_id = $datas['onesignalID'];
-						$appdata->active = 1;
-						$appdata->save();
-					}
-					else{
-						//UPDATE GANTI ORANG
-						$appdata->ownertype = "CU";
-						$appdata->ownerID = $user->id;
-						$appdata->active = 1;
-						$appdata->updated_at = Carbon::now();
-						$appdata->save();
-					}
+						if($onesignal == null){
+							// kalo belom ada sebelomnya, di buat dulu
+							$newonesignal = new Onesignal();
+							$newonesignal->devicename = "No-name";
+							$newonesignal->player_id = $datas['onesignalID'];
+							$newonesignal->active = 1;
+							$newonesignal->save();
+
+							//update ke onesignal yg baru
+							$onesignal = Onesignal::with('customeronesignal')
+								->where('player_id', $datas['onesignalID'])
+								->first();
+
+							if($onesignal == null){
+								return array(0, "Cannot save new Onesignal records.");
+							}
+						}else{
+							//kalo uda ada sebelomnya di cek ke employeeonesignal
+							if($onesignal['customeronesignal'] != null){
+								if($onesignal['customeronesignal']['customerID'] != $user['id']){
+									Customeronesignal::find($onesignal['customeronesignal']['id'])->delete();
+								}
+							}
+						}
+
+						//cek dulu customeronesignalnya ada ga?
+						$customeronesignal = Customeronesignal::where('onesignalID', $onesignal['id'])
+								->where('customerID', $user['id'])
+								->first();
+						if($customeronesignal == null){
+							// kalo ga ada
+							// dan onesignal id sudah di tampung di $onesignal
+							// 1. buat new customersignal
+							$customeronesignal = new Customeronesignal();
+							$customeronesignal->onesignalID = $onesignal['id'];
+							$customeronesignal->customerID = $user['id'];
+							$customeronesignal->count = 0;
+							$customeronesignal->app_token = $token;
+							$customeronesignal->save();
+						}else{
+							$customeronesignal->count++;
+							$customeronesignal->app_token = $token;
+							$customeronesignal->save();
+						}
+					//}
+
 				}else{
 					//KALO GA KETEMU
 					return array(0, "User not found");
 				}
 			}
-			return array(1, $user->app_token, $user);
+
+			return array(1, $token, $user, $usertype);
 		}
 
 		return $datas;

@@ -122,6 +122,7 @@ Route::group    (['middleware'=>['employee']], function(){
 
 
 	//ADMIN MASTER WEB
+	Route::get('admin/master/onesignal', 'AdmOnesignalController@index');
 	Route::get("admin/master/pricepaper", 'AdmPaperController@changeprice');
 	Route::get("admin/master/newpaper", 'AdmPaperController@newpaper');
 	Route::get("admin/master/finishings", 'AdmFinishingController@master');
