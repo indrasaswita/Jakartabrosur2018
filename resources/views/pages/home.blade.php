@@ -318,7 +318,7 @@
 						<div class="highlight">
 							from Rp 200,-
 						</div>
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-simple.png')}}?2.05.001">
 					</a>
 				</div>
 				<div class="list-item">
@@ -329,7 +329,7 @@
 						<div class="highlight">
 							from 15rb /box
 						</div>
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/businesscard.png')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/businesscard.png')}}?2.05.001">
 					</a>
 				</div>
 				<div class="list-item">
@@ -337,7 +337,7 @@
 						Brosur Lipat
 					</div>
 					<a href="{{URL::asset('shop/flyerlipat')}}">
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-z-fold.png')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/flyer-z-fold.png')}}?2.05.001">
 					</a>
 				</div>
 				<div class="list-item">
@@ -348,7 +348,7 @@
 						<div class="highlight">
 							PROMO
 						</div>
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/xbanner.png')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/xbanner.png')}}?2.05.001">
 					</a>
 				</div>
 				<div class="list-item hidden-sm-down">
@@ -359,16 +359,16 @@
 						<div class="highlight">
 							from Rp 190,-
 						</div>
-						<img ng-src="{{URL::asset('image/jobsubtypeicons/letterhead-simple.png')}}">
+						<img ng-src="{{URL::asset('image/jobsubtypeicons/letterhead-simple.png')}}?2.05.001">
 					</a>
 				</div>
 			</div>
 		</div>
 		<div class="offvsdigi-note text-xs-center">
-			<button class="btn">
+			<a href="{{URL::asset('orderlistcustomer')}}" class="btn">
 				dan masih banyak lagi 
 				<small class="fas fa-arrow-circle-right fa-fw"></small>
-			</button>
+			</a>
 		</div>
 		<div class="offvsdigi-note">
 			<div class="txt">
@@ -404,7 +404,7 @@
 		<div class="hm-desc hm-benefit">
 			<div class="benefit-list">
 				<div class="image">
-					<img ng-src="{{URL::asset('image/home/hm-benefit-speed.png')}}">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-speed.png')}}?2.05.001">
 				</div>
 				<div class="header">
 					CEPAT
@@ -415,7 +415,7 @@
 			</div>
 			<div class="benefit-list">
 				<div class="image">
-					<img ng-src="{{URL::asset('image/home/hm-benefit-easyaccess.png')}}">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-easyaccess.png')}}?2.05.001">
 				</div>
 				<div class="header">
 					GA RIBET
@@ -426,7 +426,7 @@
 			</div>
 			<div class="benefit-list">
 				<div class="image">
-					<img ng-src="{{URL::asset('image/home/hm-benefit-cheap.png')}}">
+					<img ng-src="{{URL::asset('image/home/hm-benefit-cheap.png')}}?2.05.001ƒ">
 				</div>
 				<div class="header">
 					MURAH

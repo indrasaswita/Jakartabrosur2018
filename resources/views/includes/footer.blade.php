@@ -134,5 +134,8 @@
 		<span class="tx-gray">&copy; {{date('Y')}} Jakartabrosur.com.</span> All right reserved. <a href="{{URL::asset('terms')}}" class="a-purple">Syarat & Ketentuan</a>
 		<br>
 		<i class="fa fa-code"></i>
-		Design & Code by Jakartabrosur Team. v2.04.00x
+		Design & Code by Jakartabrosur Team. 
+		<span ng-if="app_version != null">
+			v[[app_version]]
+		</span>
 </div>

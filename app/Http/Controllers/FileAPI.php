@@ -12,6 +12,7 @@ class FileAPI extends Controller
 		$files = null;
 		if($userID != null)
 			$files = Files::where('customerID', '=', $userID)
+					->with('customer')
 					->doesnthave('cartfile')
 					->get();
 

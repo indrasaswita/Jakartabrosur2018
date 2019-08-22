@@ -31,6 +31,8 @@ require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/includes.nav.subnav")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/order.cart.modal.changefile")(app);
+require("./controllers/order.cart.modal.addfile")(app);
 require("./controllers/account.notification")(app);
 require("./controllers/account.profiles")(app);
 require("./controllers/account.resendemail")(app);

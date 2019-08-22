@@ -3,6 +3,10 @@ module.exports = function(app){
 		function($scope, $http, API_URL, BASE_URL, $window){
 			$scope.nextUrl = '';
 			$scope.alertshow = false;
+			$(function() {
+				$("#login-username").focus();
+			});
+			
 			//$scope.clearAllData.call();
 			$scope.setNews = function(value){
 				if (value) $scope.customerData.news = 1;

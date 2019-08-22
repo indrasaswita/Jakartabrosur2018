@@ -42,6 +42,6 @@ class RedirectIfLoggedIn
 				return $next($request);
 			}
 		}
-		return redirect()->route('pages.home');
+		return redirect()->route('pages.account.login');
 	}
 }

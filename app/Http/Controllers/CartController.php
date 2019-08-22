@@ -13,6 +13,7 @@ use App\Cartdetailfinishing;
 use Carbon\Carbon;
 use App\Cartheader;
 use App\Customer;
+use App\Delivery;
 
 class CartController extends Controller
 {
@@ -24,7 +25,9 @@ class CartController extends Controller
 	public function index()
 	{
 		$carts = $this->queryGetCart();
-		return view('pages.order.cart.index', compact('carts'));
+		$deliveries = Delivery::orderBy('price', 'ASC')
+									->get();
+		return view('pages.order.cart.index', compact('carts', 'deliveries'));
 	}
 
 	public function setToDeleted(Request $request)
@@ -59,29 +62,7 @@ class CartController extends Controller
 		return $carts;
 	}
 
-	public function cartDelete(Request $request){
-		$id = $request->get(0);
-
-		// HARUS CHILDNYA DULUAN
-		$files = Cartfile::where('cartID', '=', $id)
-						->get();
-		foreach ($files as $item) {
-			$item->delete();
-			File::delete($item['path']);
-			File::delete($item['icon']);
-			File::delete($item['preview']);
-		}
-
-		$cart = Cartdetail::findOrFail($id);
-		$cart->delete();
-
-		foreach ($files as $item) {
-			$item->delete();
-		}
-
-		$carts = $this->queryGetCart(0);
-		return $carts;
-	}
+	
 
 	public function createHeader(Request $request){
 		$selected = $request->all();

@@ -56,7 +56,7 @@
 								Transaksi Anda
 								<!-- <i class="far fa-hammer fa-fw tx-lightgray"></i> -->
 							</div>
-							<a class="dropdown-item" href="{{URL::asset('cart')}}"><span class="far fa-fw fa-shopping-basket icon"></span>Cart</a>
+							<a class="dropdown-item" href="{{URL::asset('cart')}}"><span class="far fa-fw fa-shopping-basket icon"></span>Keranjang</a>
 							<a class="dropdown-item" href="{{URL::asset('sales/all')}}"><span class="far fa-fw fa-shopping-bag icon"></span>Pembelian</a>
 						</div>
 					</div>
@@ -73,6 +73,18 @@
       	<div class="dropdown-menu-center">
       		<div class="wrapper">
 						<div class="dropdown-menu">
+							<div class="dropdown-title">
+								Add New User
+								<i class="fas fa-eye fa-fw tx-purple"></i>
+							</div>
+							<a class="dropdown-item" href="{{URL::asset('admin/addusernopass')}}">
+								<span class="far fa-fw fa-user-plus icon"></span>
+								Add User No-Pass
+							</a>
+							<a class="dropdown-item" href="{{URL::asset('admin/setcartperuser')}}">
+								<span class="far fa-fw fa-bezier-curve icon"></span>
+								Set Cart Per-User
+							</a>
 							<div class="dropdown-title">
 								View 
 								<i class="fas fa-eye fa-fw tx-purple"></i>
@@ -262,7 +274,7 @@
 							</div>
 							<a class="dropdown-item" href="{{URL::asset('notification')}}" ng-if="notifcount>0">
 								<span class="far fa-fw fa-bell icon"></span> 
-								Notification
+								Notifikasi
 								<div class="badge-notif">
 									[[notifcount]]
 								</div>
@@ -273,7 +285,7 @@
 							</a>
 							<a class="dropdown-item" href="{{URL::asset('chpass')}}">
 								<span class="far fa-fw fa-key icon"></span> 
-								Change Password
+								Ubah Password
 							</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{URL::asset('logout')}}">

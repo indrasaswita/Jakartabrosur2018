@@ -80,7 +80,7 @@
 									</span>
 								</span>
 							</span>
-							<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/[[item.icon]]')}}" ng-if="item.icon!=''&&item.active" alt="no image found" onerror="this.onerror=null;this.src='{{URL::asset('image/jobsubtypeicons/nophoto.png')}}'">
+							<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/[[item.icon]]')}}?2.05.002" ng-if="item.icon!=''&&item.active" alt="no image found" onerror="this.onerror=null;this.src='{{URL::asset('image/jobsubtypeicons/nophoto.png')}}?2.05.002'">
 							<div class="list-image-addon" hidden>
 								<img class="addon1" ng-src="{{URL::asset('image/smallicons/[[item.sicon1]]')}}" ng-if="item.sicon1!=''">
 								<img class="addon2" ng-src="{{URL::asset('image/smallicons/[[item.sicon2]]')}}" ng-if="item.sicon2!=''">

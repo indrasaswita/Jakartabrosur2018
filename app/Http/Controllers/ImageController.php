@@ -103,14 +103,51 @@ class ImageController extends Controller
 		return $this->getPendingImage();
 	}
 
+	public function reviseUploadCustomer(Request $request, $cartid, $fileid)
+	{
+		//BY USER (CUSTOMER)
+		$data = $request->all();
+		$custid = session()->get('userid');
+
+		if (array_key_exists("files", $data))
+		{
+			$response = $this->image->uploadSelective($data['files'][0]);
+			if($response instanceof Files)
+			{
+				$response->customerID = $custid;
+				//save untuk insert dibatalin -> pindah ke update di bawah
+				//$response->save(); // jika response dalam bentuk Object Files
+
+				$file = Files::findOrFail($fileid);
+				$file->path = $response->path;
+				$file->filename = $response->filename;
+				$file->icon = $response->icon;
+				$file->size = $response->size;
+				$file->revision++;
+				$file->save(); //save update
+			}
+			else
+			{
+				//jika response berupa kode error - string
+				return $response;
+			}
+		}
+
+		return $this->getNotPendingByCartID($cartid);
+	}
+
+	public function getNotPendingByCartID($cartID){
+		$datas = Cartfile::where('cartID', $cartID)
+				->with('file')
+				->get();
+		return $datas;
+	}
+
 	public function originalUploadEmployee(Request $request, $custid, $cartid)
 	{
 		//BY ADMIN (EMPLOYEE)
-
 		$data = $request->all();
-		//$length = count($photo['files']);
-		$length = 0; // DEPRECATED
-		//return array('photo'=>$photo['files'][0]->getClientOriginalName());
+
 		if (array_key_exists("files", $data))
 		{
 			$response = $this->image->uploadSelective($data['files'][0]);

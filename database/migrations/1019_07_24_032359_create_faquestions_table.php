@@ -18,7 +18,7 @@ class CreateFaquestionsTable extends Migration
 				id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 				title VARCHAR(100),
 				favourite TINYINT NOT NULL DEFAULT 0,
-				description VARCHAR(255),
+				description VARCHAR(4000),
 				questiontypeID INT UNSIGNED NOT NULL,
 				linkheader VARCHAR(255) NOT NULL DEFAULT '',
 				linkurl VARCHAR(255) NOT NULL DEFAULT '',

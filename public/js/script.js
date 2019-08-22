@@ -32,6 +32,8 @@ require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/includes.nav.subnav")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/order.cart.modal.changefile")(app);
+require("./controllers/order.cart.modal.addfile")(app);
 require("./controllers/account.notification")(app);
 require("./controllers/account.profiles")(app);
 require("./controllers/account.resendemail")(app);
@@ -83,7 +85,7 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":2,"./constants/variable":3,"./controllers/account.login":4,"./controllers/account.notification":5,"./controllers/account.profiles":6,"./controllers/account.resendemail":7,"./controllers/account.signup":8,"./controllers/admin.cart.addbyadmin":9,"./controllers/admin.cart.index":10,"./controllers/admin.changetheworld.index":11,"./controllers/admin.master.customer.index":12,"./controllers/admin.master.customer.pendingcompany":13,"./controllers/admin.master.finishing.index":14,"./controllers/admin.master.jobactivation":15,"./controllers/admin.master.jobeditor":16,"./controllers/admin.master.jobfinishings":17,"./controllers/admin.master.jobpapers":18,"./controllers/admin.master.jobquantities":19,"./controllers/admin.master.jobsizes":20,"./controllers/admin.master.onesignal.index":21,"./controllers/admin.master.paper.changeprice":22,"./controllers/admin.master.paper.newpaper":23,"./controllers/admin.master.paper.paperdetailstore":24,"./controllers/admin.master.pricetext.index":25,"./controllers/admin.master.shoppricing":26,"./controllers/admin.master.vendor.index":27,"./controllers/admin.master.verifcustomer":28,"./controllers/admin.sales.index":29,"./controllers/admin.tracking.index":30,"./controllers/aice.index":31,"./controllers/createheader":32,"./controllers/description":33,"./controllers/global.includes.floatingcontact":34,"./controllers/global.nav.header":35,"./controllers/godhands":36,"./controllers/home":37,"./controllers/includes.modals.compaccno":38,"./controllers/includes.nav.subnav":39,"./controllers/main":40,"./controllers/order.cart.index":41,"./controllers/order.sales.commit":42,"./controllers/order.sales.history":43,"./controllers/order.sales.index":44,"./controllers/order.shop.calculation.customer":45,"./controllers/order.shop.create.page":46,"./controllers/order.shop.lists.customer":47,"./controllers/roles":48,"./controllers/salespaymentconfirm":49,"./controllers/salespayments":50,"./controllers/trackingcustomer":51,"./controllers/viewfile-modal":52,"./customs/sticky-shop-total":53,"./directives/bootstrap-select-addon":54,"./directives/bootstrap-tooltip":55,"./directives/pagination/dirPagination":56,"./init":57,"angular":67,"angular-cookies":59,"angular-resource":61,"angular-route":63,"angular-sanitize":65,"node-gzip":83}],2:[function(require,module,exports){
+},{"./constants/analytics":2,"./constants/variable":3,"./controllers/account.login":4,"./controllers/account.notification":5,"./controllers/account.profiles":6,"./controllers/account.resendemail":7,"./controllers/account.signup":8,"./controllers/admin.cart.addbyadmin":9,"./controllers/admin.cart.index":10,"./controllers/admin.changetheworld.index":11,"./controllers/admin.master.customer.index":12,"./controllers/admin.master.customer.pendingcompany":13,"./controllers/admin.master.finishing.index":14,"./controllers/admin.master.jobactivation":15,"./controllers/admin.master.jobeditor":16,"./controllers/admin.master.jobfinishings":17,"./controllers/admin.master.jobpapers":18,"./controllers/admin.master.jobquantities":19,"./controllers/admin.master.jobsizes":20,"./controllers/admin.master.onesignal.index":21,"./controllers/admin.master.paper.changeprice":22,"./controllers/admin.master.paper.newpaper":23,"./controllers/admin.master.paper.paperdetailstore":24,"./controllers/admin.master.pricetext.index":25,"./controllers/admin.master.shoppricing":26,"./controllers/admin.master.vendor.index":27,"./controllers/admin.master.verifcustomer":28,"./controllers/admin.sales.index":29,"./controllers/admin.tracking.index":30,"./controllers/aice.index":31,"./controllers/createheader":32,"./controllers/description":33,"./controllers/global.includes.floatingcontact":34,"./controllers/global.nav.header":35,"./controllers/godhands":36,"./controllers/home":37,"./controllers/includes.modals.compaccno":38,"./controllers/includes.nav.subnav":39,"./controllers/main":40,"./controllers/order.cart.index":41,"./controllers/order.cart.modal.addfile":42,"./controllers/order.cart.modal.changefile":43,"./controllers/order.sales.commit":44,"./controllers/order.sales.history":45,"./controllers/order.sales.index":46,"./controllers/order.shop.calculation.customer":47,"./controllers/order.shop.create.page":48,"./controllers/order.shop.lists.customer":49,"./controllers/roles":50,"./controllers/salespaymentconfirm":51,"./controllers/salespayments":52,"./controllers/trackingcustomer":53,"./controllers/viewfile-modal":54,"./customs/sticky-shop-total":55,"./directives/bootstrap-select-addon":56,"./directives/bootstrap-tooltip":57,"./directives/pagination/dirPagination":58,"./init":59,"angular":69,"angular-cookies":61,"angular-resource":63,"angular-route":65,"angular-sanitize":67,"node-gzip":85}],2:[function(require,module,exports){
 module.exports = function(app){
 	
 }
@@ -92,7 +94,7 @@ module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	$public_path = '/'; 
+	// $public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
@@ -105,6 +107,10 @@ module.exports = function(app){
 		function($scope, $http, API_URL, BASE_URL, $window){
 			$scope.nextUrl = '';
 			$scope.alertshow = false;
+			$(function() {
+				$("#login-username").focus();
+			});
+			
 			//$scope.clearAllData.call();
 			$scope.setNews = function(value){
 				if (value) $scope.customerData.news = 1;
@@ -6162,8 +6168,7 @@ module.exports = function(app) {
 
 			$scope.faquestionsloading = false;
 			$scope.faquestions = [];
-
-
+			$scope.faquestionsmaster = [];
 
 			$scope.hoverfloatingcontact = function() {
 				$('#floating-link').removeClass('hide');
@@ -6181,14 +6186,17 @@ module.exports = function(app) {
 					$scope.faquestionsloading = true;
 					$http({
 						method: "GET",
-						url: AJAX_URL + "faquestions"
+						url: AJAX_URL+"faquestions"
 					}).then(function(response) {
 						if (response != null) {
 							if (response.data != null) {
-								if (typeof response.data == "string") {
-									$scope.faquestionsmaster = response.data;
-									$scope.faquestions = $scope.clone($scope.faquestionsmaster);
-								}
+								$scope.faquestionsmaster = response.data;
+								$.each($scope.faquestionsmaster, function($index, $item){
+									$scope.faquestionsmaster[$index].show = false;
+								});
+								$scope.faquestions = $scope.getfavourites($scope.faquestionsmaster);
+								console.log($scope.faquestions);
+								console.log("masuk ques");
 							} else {
 								console.log("The return value is null, not error");
 							}
@@ -6199,6 +6207,54 @@ module.exports = function(app) {
 						$scope.faquestionsloading = false;
 					});
 				}
+			}
+
+			$scope.getfavourites = function($master){
+				$temp = [];
+				$.each($master, function($i, $ii){
+					if ($ii.favourite == 1) {
+						$temp.push($ii);
+					}
+				});
+				return $temp;
+			}
+
+			$scope.gettemennya = function($master, $typeid){
+				$temp = [];
+				$.each($master, function($i, $ii){
+					//insert selain type id dia, yang fav
+					if ($ii.favourite == 1 && $ii.questiontypeID != $typeid) {
+						$temp.push($ii);
+					}
+					//insert yang type idnya sama - temennya
+					if($ii.questiontypeID == $typeid){
+						$temp.push($ii);
+					}
+				});
+				return $temp;
+			}
+
+			$scope.selecttemennya = function($item){
+				//input berupa faquestion (single)
+				if($item.show == false){
+					//kalo masi hidden
+					$scope.faquestions = $scope.gettemennya($scope.faquestionsmaster, $item.questiontypeID);
+					$scope.hideall();
+					$.each($scope.faquestions, function($i, $ii) {
+						if ($item.id == $ii.id) {
+							$scope.faquestions[$i].show = true;	
+						}
+					});
+				}else{
+					//kalo show -> make hidden
+					$scope.hideall();
+				}
+			}
+
+			$scope.hideall = function(){
+				$.each($scope.faquestions, function($index, $item) {
+					$scope.faquestions[$index].show = false;
+				});
 			}
 
 		}
@@ -6281,6 +6337,7 @@ module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
 			$scope.godSalesID = 0;
+			$scope.app_version = "2.05.001";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -6395,7 +6452,7 @@ module.exports = function(app){
 			}
 
 			String.prototype.toTitleCase = function () {
-			  	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+					return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 			};
 
 			$scope.togglerClicked = function(){
@@ -6620,7 +6677,7 @@ module.exports = function(app){
 			}
 
 			$scope.isURL = function(value) {
-			  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+				return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
 			}
 
 			$scope.trustAsUrl = function($input){
@@ -6672,7 +6729,7 @@ module.exports = function(app){
 			$scope.round = function($input) {
 				return Math.round($input);
 			}
- 			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
+			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
 			$scope.total2kg = function($total, $gram, $w, $l) {
 				$result = $total * 20000 / $gram / $w / $l;
 				return Math.round($result / 100) * 100;
@@ -6710,24 +6767,24 @@ module.exports = function(app){
 					var hasil = e;
 					var x;
 					if(!e.startsWith("08")){
-					  x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
-					  if(x!=null)
-					  	hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
+						x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
+						if(x!=null)
+							hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
 					}
 					else{
 						if(e.length==10){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{3})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}else if(e.length==11){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{4})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==12){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})/);
 							if(x!=null)
-					  	hasil = x[1] + '-' + x[2] + '-' + x[3];
+							hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==13){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/);
@@ -6735,9 +6792,88 @@ module.exports = function(app){
 								hasil = x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4];
 						}
 					}
-				  return hasil;
+					return hasil;
 				}else
 					return "";
+			}
+
+			$scope.val_ext = function($type, $ext){
+				if($type == "upload-file"){
+					if ($ext == 'cdr' || $ext == 'zip' ||
+						$ext == 'rar' || $ext == 'ai' ||
+						$ext == 'xls' || $ext == 'xlsx' ||
+						$ext == 'doc' || $ext == 'docx' ||
+						$ext == 'tiff' || $ext == 'tif' ||
+						$ext == 'pdf' || $ext == 'jpg' ||
+						$ext == 'jpeg' || $ext == 'psd' ||
+						$ext == '7z' || $ext == 'txt' ||
+						$ext == 'indd') {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+
+			$scope.val_size = function($size){
+				if($size <= 50 * 1024 * 1024){
+					return true;
+				} else{
+					return false;
+				}
+			}
+
+
+
+			$scope.uploadprogress = function(type, data, url, whendone, whenfailed) {
+
+				$.ajax({
+					// Your server script to process the upload
+					url: url,
+					type: type,
+					data: data,
+
+					// Tell jQuery not to process data or worry about content-type
+					// You *must* include these options!
+					cache: false,
+					contentType: false,
+					processData: false,
+					withCredentials: true,
+					headers: { 'Content-Type': undefined },
+					//headers: {"X-CSRF-Token":token},
+					transformRequest: angular.identity,
+
+					// Custom XMLHttpRequest
+					xhr: function() {
+						var myXhr = $.ajaxSettings.xhr();
+						if (myXhr.upload) {
+							// For handling the progress of the upload
+							myXhr.upload.addEventListener('progress', function(e) {
+								if (e.lengthComputable) {
+									$('.progress-bar').css('width', (e.loaded / e.total * 100) + "%");
+									var value = e.loaded / e.total * 100;
+								}
+							}
+							, false);
+
+							myXhr.upload.addEventListener('loadend', function(e) {
+								$scope.filesize = e.total;
+								$scope.loadingfiles = false;
+								$scope.uploadwaiting = false;
+								$scope.errormessage = "";
+							}
+								, false);
+						}
+						return myXhr;
+					}
+				}).done(function(response) {
+					whendone(response);
+					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+					$scope.$apply(function() { });
+				}).fail(function(response) {
+					whenfailed(response);
+					$scope.$apply(function() { });
+				});
 			}
 		}
 	]);
@@ -6897,15 +7033,30 @@ module.exports = function(app){
 }
 },{}],41:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
+		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
 
 			$scope.selected=[];
 			$scope.selectedPrice = 0;
+			$scope.totalSelected = 0;
 			$scope.jobtypes = ["flyer"];
 			$scope.error = "";
 			$scope.second = 0;
+			$scope.deliveries = [];
+
+			$scope.selectedCart = [];
+			$scope.selectedCartDelete = [];
+			$scope.cartdeleteloading = false;
+			$scope.cartduplicateloading = false;
+			$scope.cartedittitleloading = false;
+			$scope.newtitle = "";
+			$scope.selectedFile = [];
+			$scope.selectedFileindex = -1;
+			$scope.allchecked;
+			$scope.stateupload = "";
+			$scope.uploadwaiting = false;
+			$scope.errormessage = ""; // untuk di add dan changefile
 
 			$scope.tick = function(){
 				$scope.second = parseInt(Date.now()/1000);
@@ -6916,15 +7067,42 @@ module.exports = function(app){
 			$scope.initSelectedID = function($id){
 				if ($id != 0)
 				{
-					for (var i = 0; i < $scope.carts.length; i++) {
-						if($scope.carts[i].id == $id && $scope.carts[i].filestatus == true){
-							$scope.carts[i].checked = true;
-							$scope.selectedPush($scope.carts[i]);
+					$.each($scope.carts, function($i, $ii) {
+						if($ii.id == $id){
+							if(!$ii.showdetail)
+								$scope.showingdetail($ii, $i);
 						}
-					}
+					});
 				}
 			}
+			$scope.initSelectedDetail = function($stat) {
+				if ($stat != "") {
+					$.each($scope.carts, function($i, $ii) {
+						if ($ii.showdetail) {
+							if ($stat == "fl" && !$ii.showfile){
+								$ii.showinfo = false;
+								$ii.showfile = true;
+								$ii.showdelivery = false;
+							} else if ($stat == "dl" && !$ii.showdelivery){
+								$ii.showinfo = false;
+								$ii.showfile = false;
+								$ii.showdelivery = true;
+							} else if ($stat == "in" && !$ii.showinfo) {
+								$ii.showinfo = true;
+								$ii.showfile = false;
+								$ii.showdelivery = false;
+							}
+						}
+					});
+				}
+			}
+			$scope.showeditfile = function ($cart, $file){
+				$scope.selectedCart = $cart;
+				$scope.selectedFile = $file;
 
+				$scope.stateupload = "revisi";
+				$("#changeFileModal").modal('show');
+			}
 			$scope.changeTitle = function($item){
 				$('#changeTitleModal').modal('show');
 				$scope.setSelectedItem($item);
@@ -6950,55 +7128,133 @@ module.exports = function(app){
 				$scope.updatePrice();
 			}
 
-			$scope.selectedPush = function ($item){
-				$scope.selected.push($item);
-				$scope.countSelectedPrice();
-			}
 			$scope.countSelectedPrice = function(){
 				$scope.selectedPrice = 0;
-				for($i=0;$i<$scope.selected.length;$i++){
-					$item = $scope.selected[$i];
-					$scope.selectedPrice+=parseFloat($item.printprice)+parseFloat($item.deliveryprice)-parseFloat($item.discount);
+				$scope.totalSelected = 0;
+
+				$.each($scope.carts, function($i, $ii){
+					if($ii.checked){
+						$scope.selectedPrice += parseFloat($ii.printprice) + parseFloat($ii.deliveryprice) - parseFloat($ii.discount);
+						$scope.totalSelected++;
+					}
+				});
+
+				if($scope.totalSelected == $scope.carts.length){
+					$scope.allchecked = true;
+				}else{
+					$scope.allchecked = false;
 				}
+
+			}
+
+			$scope.checkAll = function(){
+				if ($scope.allchecked == true) {
+					//deselect all
+					$.each($scope.carts, function($index, $item) {
+						$scope.carts[$index].checked = false;
+					});
+				} else {
+					//select all
+					$.each($scope.carts, function($index, $item) {
+						$scope.carts[$index].checked = true;
+					});
+				}
+
+				$.each($scope.carts, function($index, $item){
+					$item.showdetail = false;
+				})
+
+				$scope.countSelectedPrice();
 			}
 
 			$scope.checkChanged = function($item){
-				//if($item.filestatus == 1)
-					if($item.checked == true)
-					{
-						$scope.selectedPush($item);
-					}
-					else
-					{
-						for (var i = 0; i < $scope.selected.length; i++) {
-							if($scope.selected[i].id == $item.id){
-								$scope.selected.splice(i, 1);
-							}
-						}
-						$scope.countSelectedPrice();
-					}
-				/*else
-				{
-					$item.checked = false;
-					$scope.error = "Sebelum Anda dapat memilih, Jakartabrosur harus melakukan pengecekan file.";
+				$scope.countSelectedPrice();
 
-					$timeout(function(){
-						$("html, body").stop().animate({scrollTop:$('#errorfocus').offset().top-20}, 500, 'swing');
-					});
-				}*/
+				if ($scope.totalSelected == $scope.carts.length) {
+					if ($scope.allchecked == false)
+						$scope.allchecked = true;
+				} else {
+					if ($scope.allchecked == true)
+						$scope.allchecked = false;
+				}
 			}
 
-			$scope.initData = function($input){
-				$scope.carts = JSON.parse($input);
-				for($i = 0; $i < $scope.carts.length; $i++){
-					$scope.carts[$i].checked = false;
-					$.each($scope.carts[$i].cartdetail, function($index, $item){
-						$item.jobtype = 
-							($item.jobtype == "OF") ? "Offset Print" :
-							($item.jobtype == "DG") ? "Digital Print" :
-							($item.jobtype == "PL") ? "Large Format" : "Others";
+			$scope.initData = function($carts, $deliveries){
+				$scope.carts = JSON.parse($carts);
+				$scope.deliveries = JSON.parse($deliveries);
+				$scope.allchecked = true;
+				$scope.checkAll(); //hitung total dan check all and hide all
+				$.each($scope.carts, function($i, $ii){
+					if ($i == 0) {
+						$scope.carts[$i].showdetail = true;
+						$scope.selectedCart = $scope.carts[$i];
+					}
+
+					$scope.carts[$i].showinfo = true;
+					$scope.carts[$i].showfile = false;
+					$scope.carts[$i].showdelivery = false;
+					if($ii.created_at != null)
+						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
+					if ($ii.updated_at != null)
+						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
+
+
+					$.each($ii.cartdetail, function($j, $jj) {
+						$jj.jobtype =
+							($jj.jobtype == "OF") ? "Offset Print" :
+								($jj.jobtype == "DG") ? "Digital Print" :
+									($jj.jobtype == "PL") ? "Large Format" : "Others";
 					});
+
+					$.each($ii.cartfile, function($j, $jj){
+						if ($jj.file.created_at != null)
+							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
+						if ($jj.file.updated_at != null)
+							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+				});
+
+			}
+
+			$scope.showingdetail = function($cart, $index){
+				if ($cart.showdetail == true) {
+					$scope.selectedcartindex = -1;
+					$cart.showdetail = false;
+				} else {
+					$scope.hideall();
+					$scope.selectedcartindex = $index;
+					$scope.selectedCart = $cart;
+					$cart.showdetail = true;
+					$scope.showinfo($cart);
 				}
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showinfo = function($cart) {
+				$cart.showinfo = true;
+				$cart.showfile = false;
+				$cart.showdelivery = false;
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showdelivery = function($cart) {
+				$cart.showinfo = false;
+				$cart.showfile = false;
+				$cart.showdelivery = true;
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showfile = function($cart) {
+				$cart.showinfo = false;
+				$cart.showfile = true;
+				$cart.showdelivery = false;
+			}
+
+			$scope.hideall = function(){
+				$.each($scope.carts, function($i, $ii){
+					$scope.carts[$i].showdetail = false;
+				});
 			}
 
 			$scope.setPapersize = function($width, $length){
@@ -7006,35 +7262,10 @@ module.exports = function(app){
 				$scope.edit.length = parseFloat($length);
 			}
 
-			$scope.createcartfile = function($file){
-				if(!$scope.loadingcartfiles)
-				{
-					$data = {
-						'cartID' : $scope.tempcart.id,
-						'fileID' : $file.id
-					};
-					$scope.loadingcartfiles = true;
-					$http({
-						method: "POST",
-						url 	: API_URL+"cartfiles/create",
-						data 	: $data
-					}).then(function(response){
-						if(response != null)
-							$scope.tempcart.cartfile = response.data;
-						else
-							console.log('error when send data - create cartfile');
-
-						$scope.toggleupload = false;
-						$scope.loadingcartfiles = false;
-					});
-				}
-
-			}
-
 			$scope.addnewfile = function(){
-				$scope.toggleupload=true;
 				if(!$scope.loadingunbindfiles)
 				{
+					$scope.unbindedfiles = [];
 					$scope.loadingunbindfiles = true;
 					$http({
 						method:'GET',
@@ -7042,124 +7273,147 @@ module.exports = function(app){
 					}).then(function(response){
 						$scope.unbindedfiles = response.data;
 						$scope.loadingunbindfiles = false;
+					}, function(error){
+						if(error != null){
+							if(error.status == "403"){
+								$window.location.reload();
+							}
+						}
 					});
 				}
+				$scope.stateupload = "addnew";
+				$("#addFileModal").modal('show');
 			}
 
-			$scope.removecartfile = function($item){
-				if(!$scope.loadingcartfiles)
-				{
-					$scope.loadingcartfiles = true;
-
-					$http({
-						method: "GET",
-						url 	: API_URL+"cartfiles/"+$item.id+"/delete"
-					}).then(function(response){
-						$scope.tempcart.cartfile = response.data;
-						$scope.loadingcartfiles = false;
-					});
-				}
+			$scope.warningdelete = function($selectedcartdelete){
+				$scope.selectedCartDelete = $selectedcartdelete;
+				$("#warningcartdelete").modal("show");
 			}
 
-			$('#real-dropzonew').on('change', function(e) 
-			{
-				e.preventDefault();
-				e.stopPropagation();
-				if ($(this)[0]['file'].files){
-					if ($(this)[0]['file'].files.length > 0) {
-						$scope.upload($(this)[0]['file'].files);
+			$scope.cartdelete = function(){
+				if ($scope.selectedCartDelete != null) {
+					if(!$scope.cartdeleteloading){
+						$scope.cartdeleteloading = true;
+						$http(
+							{
+								method: 'POST',
+								url: AJAX_URL + 'cart/delete',
+								data: $scope.selectedCartDelete.id
+							}
+						).then(function(response) {
+							if (response != null) {
+								if (response.data != null) {
+									$scope.carts = response.data;
+									$("#warningcartdelete").modal("hide");
+									$scope.checkAll();
+								}
+							} else
+								console.log('response = null');
+							$scope.cartdeleteloading = false;
+						}, function(error) {
+							if (error != null) {
+								if (error.status == 403) {
+									$window.location.reload();
+								}
+							}
+							$scope.cartdeleteloading = false;
+						});
 					}
-				} 
-				return false;
-			});
-
-			$scope.upload = function(files){
-				if(!$scope.loadingcartfiles)
-				{
-
-					var data = new FormData();
-
-					angular.forEach(files, function(value){
-						$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
-						if ($ext != 'cdr' &&
-							$ext != 'zip' &&
-							$ext != 'rar' &&
-							$ext != 'ai' &&
-							$ext != 'xls' &&
-							$ext != 'xlsx' &&
-							$ext != 'doc' &&
-							$ext != 'docx' &&
-							$ext != 'tiff' &&
-							$ext != 'tif' &&
-							$ext != 'pdf' &&
-							$ext != 'jpg' &&
-							$ext != 'jpeg' &&
-							$ext != 'psd' &&
-							$ext != '7z' &&
-							$ext != 'indd') //indesign
-						{
-							//FORMAT NGACOK
-							$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
-						}
-						else if(value.size > 50 * 1024 * 1024)
-						{
-							$scope.uploaderror = value.name+" : file terlalu besar.";
-						}
-						else 
-						{
-							$scope.uploaderror = "";
-							//BERHASIL -> ADD files[] ke data
-							data.append("files[]", value);
-							//data.append('jobsubtypeID', $scope.selected.jobsubtypeID);
-							//jobsubtypeID -> dibuang, ditambahkan dengan user dapat 
-						}
-					});
-
-					//tempcart --> yang di select pas buka tombol changefile.blade.php
-					$scope.loadingcartfiles = true;
-					$http({
-						method: 'POST',
-						url 	: API_URL+"cartfiles/"+$scope.tempcart.id+"/upload",
-						data 	: data,
-						withCredentials: true,
-						headers: {'Content-Type': undefined },
-						transformRequest: angular.identity
-					}).then(
-						function(response){
-							$scope.tempcart.cartfile = response.data;
-							$scope.toggleupload = false;
-							$scope.loadingcartfiles = false;
-						},function(error){
-							alert(response);
-						}
-					);
 				}
 			}
 
-			$scope.delete = function($input){
-				//console.log($input['id']);
-				$http(
-					{
-						method : 'POST',
-						url : API_URL + 'cart/delete',
-						data : $input['id']
-					}
-				).then(function(response) {
-					//alert(response);
-			    	if(response!=null){
-			    		$scope.carts = response.data;
-			    		//if ($scope.uploadedfiles.length > 0) $scope.tableshow = true;
-			    	}else
-			    		console.log	('response = null');
-					//alert('resonse' + response);
+			$scope.cartduplicate = function($cartid) {
+				if (!$scope.cartduplicateloading) {
+					$scope.cartduplicateloading = true;
+					$http(
+						{
+							method: 'POST',
+							url: AJAX_URL + 'cart/duplicate',
+							data: $cartid
+						}
+					).then(function(response) {
+						if (response != null) {
+							if (response.data != null) {
+								$scope.carts = response.data;
+								$("#warningcartdelete").modal("hide");
+								$scope.checkAll();
+							}
+						} else
+							console.log('response = null');
+						$scope.cartduplicateloading = false;
+					}, function(error) {
+						if (error != null) {
+							if (error.status == 403) {
+								$window.location.reload();
+							}
+						}
+						$scope.cartduplicateloading = false;
+					});
+				}
+			}
+
+			$scope.showedittitle = function($cart){
+				$scope.selectedCartTitle = $cart;
+				$scope.newtitle = $scope.selectedCartTitle.jobtitle;
+				$("#editcarttitle").modal('show');
+				$('#editcarttitle').on('shown.bs.modal', function() {
+					$('#editcart-newtitle').focus();
+					$('#editcart-newtitle').keypress(function(event){
+						var keycode = (event.keyCode ? event.keyCode : event.which);
+						if (keycode == '13') {
+							$scope.edittitle();
+						}
+					});
 				});
 			}
 
+			$scope.edittitle = function(){
+				if ($scope.selectedCartTitle != null && $scope.selectedCartTitle.jobtitle != $scope.newtitle) {
+					if (!$scope.cartedittitleloading) {
+						$scope.cartedittitleloading = true;
+						$http(
+							{
+								method: 'POST',
+								url: AJAX_URL + 'cart/edittitle',
+								data: {
+									0: $scope.selectedCartTitle.id,
+									1: $scope.newtitle
+								}
+							}
+						).then(function(response) {
+							if (response != null) {
+								if (response.data != null) {
+									$scope.carts = response.data;
+									$("#editcarttitle").modal("hide");
+									$scope.checkAll();
+								}
+							} else
+								console.log('response = null');
+							$scope.cartedittitleloading = false;
+						}, function(error) {
+							if (error != null) {
+								if (error.status == 403) {
+									$window.location.reload();
+								}
+							}
+							$scope.cartedittitleloading = false;
+						});
+					}
+				}
+			}
+
+			
+
+			$scope.review = function(){
+				$scope.selected = [];
+				$.each($scope.carts, function($i, $ii) {
+					$scope.selected.push($ii);
+				});
+
+				$("#reviewCartModal").modal("show");
+			}
+
 			$scope.checkout = function(){
-				/*$selectedids = [];
-				$.each($scope.selected, function($index, $item){
-					$selectedids.push($item['id']);
-				});*/
 
 				$http(
 					{
@@ -7211,7 +7465,7 @@ module.exports = function(app){
 
 			$scope.showfiles = function($cart, $cartid){
 				$scope.loadingcartfiles = false;
-				$scope.tempcart = $cart;
+				//$scope.tempcart = $cart;
 				//console.log($scope.tempcart);
 				//$scope.fillCartfiles($cartid);
 				//ga usa refresh lagi, soalnya kan di page pertama load uda ada
@@ -7221,7 +7475,6 @@ module.exports = function(app){
 							$scope.setFilePreview($cart.cartfile[0].file);
 
 
-				$scope.toggleupload = false;
 				$scope.loadingcartfiles = false;
 				$('#changeFileModal').modal('show');
 			}
@@ -7285,10 +7538,260 @@ module.exports = function(app){
 					}
 				});
 			}
+
+
+			$(function() {
+				var token = $('input[name="_token"]').val();
+				$(document).ajaxSend(function(e, xhr, options) {
+					console.log("ajax token!!!");
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				});
+			});
+
+			$('#is-uploader').on('change', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				if ($(this)[0]['file'].files) {
+					if ($(this)[0]['file'].files.length > 0) {
+						$scope.upload($(this)[0]['file'].files);
+					}
+				}
+				return false;
+			});
+
+			$scope.choosefileclicked = function() {
+				$('#btn-choose-file').click();
+			}
+
+			$scope.upload = function(files) {
+				var data = new FormData();
+				$scope.errormessage = '';
+				$scope.uploadwaiting = true;
+				$scope.loadingfiles = true;
+
+				$counterror = 0;
+				$scope.$apply(function() { });
+
+				angular.forEach(files, function(value) {
+					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
+					if (!$scope.val_ext("upload-file", $ext)) {
+						$scope.errormessage = value.name + " : tidak bisa upload dengan file format " + $ext + ".";
+						$counterror++;
+					} else if (!$scope.val_size(value.size)) {
+						$scope.errormessage = value.name + "( "+(value.size/1024/1024)+" MB ): file terlalu besar.";
+						$counterror++;
+					} else {
+						$scope.errormessage = "";
+						data.append("files[]", value);
+					}
+					$scope.$apply(function() { });
+
+					if ($scope.errormessage != '') {
+						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
+						console.log($scope.errormessage);
+						try {
+							$http({
+								method: 'GET',
+								url: BASE_URL,
+								data: data,
+								withCredentials: true,
+								headers: { 'Content-Type': undefined },
+								transformRequest: angular.identity
+							}).then(function(response) { },
+								function(error) {
+									console.log(error);
+								});
+						} catch (error) { }
+
+
+						//refesh data kalo ga bisa ke upload (loading filesnya jangan di apus)
+						$scope.loadingfiles = false;
+						$scope.uploadwaiting = false;
+						//$scope.refreshUploadedImage();
+						//$scope.uploadwaiting = false;
+						$scope.$apply(function() { });
+					}else{
+
+						//UPLOAD FILE DATA
+						$url = "";
+						if($scope.stateupload == "revisi"){
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/revision/' + $scope.selectedFile.id;
+						} else if($scope.stateupload == "addnew") {
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/upload';
+						}
+
+						$scope.uploadprogress("POST", data, $url, function(response){
+							//WHEN DONE
+							if (response != null) {
+								console.log(response.constructor);
+								if (response.constructor === Array) {
+									$scope.selectedCart.cartfile = [];
+									$scope.selectedCart.cartfile = response;
+									$.each($scope.selectedCart.cartfile, function($i, $ii) {
+										if ($ii.file.id == $scope.selectedFile.id) {
+											$scope.selectedFile = $ii.file;
+										}
+									});
+
+									if ($scope.stateupload == "revisi") {
+										$scope.errormessage = "file berhasil diganti..";
+									} else if ($scope.stateupload == "addnew") {
+										$scope.errormessage = "berhasil tambah file..";
+									}
+								}
+								else if (response.constructor === String) {
+									$scope.errormessage = response.constructor;
+									$scope.uploadedfiles = [];
+								}
+								else {
+									$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (empty).";
+									$scope.uploadedfiles = [];
+								}
+							}
+							else {
+								$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (null).";
+								$scope.uploadedfiles = [];
+								//console.log	('NO DATA in PendIMG');
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							//$scope.errormessage = "";
+						}, function(response){
+							//WHEN FAILED
+							console.log(response);
+							if (response.status == 419) {
+								$scope.errormessage = "Unknown Status: May be the Session is over, please re-login to upload";
+							} else {
+								$scope.errormessage = response.statusText;
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							$scope.uploadsuccess = false;;
+						});
+					}
+				});
+
+				//JANGAN DI BUANG, harusnya di pake
+				//$scope.clearFileInput('file');
+			};
+
 		}
 	]);
 };
 },{}],42:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('CartAddfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+
+
+			$scope.createcartfile = function($file) {
+				if (!$scope.loadingcartfiles) {
+					$data = {
+						'cartID': $scope.selectedCart.id,
+						'fileID': $file.id
+					};
+					$scope.loadingcartfiles = true;
+					$http({
+						method: "POST",
+						url: API_URL + "cartfiles/create",
+						data: $data
+					}).then(function(response) {
+						if (response != null){
+							//$scope.tempcart.cartfile = response.data;
+							$scope.selectedCart.cartfile = response.data;
+							$scope.addnewfile();
+						}
+						else
+							console.log('error when send data - create cartfile');
+
+						$scope.loadingcartfiles = false;
+					});
+				}
+
+			}
+			
+
+		}
+	]);
+};
+},{}],43:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('CartChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+			$scope.savechangeloading = false;
+
+			$scope.savechangefile = function(whendone){
+				if ($scope.savechangeloading == false) {
+					$scope.errormessage = "";
+					$scope.savechangeloading = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL + "carts/changefile/save",
+						data: $scope.selectedFile
+					}).then(function(response) {
+						if (response != null) {
+							if (response.data != null) {
+								if (response.data.constructor === Object) {
+									$result = response.data;
+
+									$scope.errormessage = $result.message;
+									console.log($result.code+" - "+$result.message);
+									$scope.savechangeloading = false;
+								} else {
+									$scope.errormessage = "Error message cannot be displayed.";
+								}
+								whendone(response.data);
+							} else {
+								$scope.errormessage = "Error message cannot be displayed.";
+								whendone(null);
+							}
+						}
+						$scope.savechangeloading = false;
+						whendone(null);
+					}, function(error) {
+						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
+						console.log(error);
+						$scope.savechangeloading = false;
+						whendone(null);
+					});
+				}
+			}
+
+			$scope.saveandclose = function(){
+				$scope.savechangefile(function($result){
+					if ($result == null) {
+						//error
+						$scope.errormessage = "Error: NO RETURN RESULT";
+					} else if ($result.code == 200) {
+						console.log($("#changeFileModal"));
+						$("#changeFileModal").modal('hide');
+					}
+				});
+			}
+
+			$scope.removecartfile = function() {
+				if (!$scope.loadingcartfiles) {
+					$scope.loadingcartfiles = true;
+
+					$http({
+						method: "GET",
+						url: API_URL + "cartfiles/" + $scope.selectedFile.id + "/delete"
+					}).then(function(response) {
+						$scope.selectedCart.cartfile = response.data;
+						$scope.loadingcartfiles = false;
+						$("#changeFileModal").modal('hide');
+					}, function(error){
+						$scope.loadingcartfiles = false;
+					});
+				}
+			}
+		}
+	]);
+};
+},{}],44:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -7462,7 +7965,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -7520,7 +8023,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -7855,7 +8358,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, AJAX_URL, API_URL, BASE_URL, $window){
@@ -7957,6 +8460,120 @@ module.exports = function(app){
 					$scope.role = "customer";
 					$scope.allowed();
 				}
+			}
+
+			$scope.setSelectedByURL = function($input){
+				$tmps = JSON.parse($input);
+				$finclone = $scope.clone($scope.selected.finishings);
+
+				$scope.selected = Object.assign($scope.selected, $tmps);
+				//SELECT SIZE
+				$.each($scope.datas.jobsubtypesize, function($i, $ii){
+					if($ii.size.id == $scope.selected.sizeID){
+						$scope.selected.size = $ii.size;
+					}
+				});
+				//SELECT JENIS MATERIAL
+				$.each($scope.datas.jobsubtypepaper,function($i, $ii){
+					if($ii.paper.id == $scope.selected.paperID){
+						$scope.selected.paper = $ii.paper;
+					}
+				});
+				//SELECT SISI CETAK
+				//sudah langsung cek ke sideprint: 1/2
+				//SELECT FINISHING
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
+					//$s <- dari url (selected)
+					$.each($scope.selected.finishings, function($s, $ss){
+						if($ss.finishingID == $ii.finishing.id){
+							//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
+							$tidakadasama = true;
+							$.each($ii.finishing.finishingoption, function($j, $jj){
+								if($jj.id == $ss.optionID){
+									//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
+									$scope.selected.finishings[$s] = $scope.clone($jj);
+									$tidakadasama = false;
+								}
+								//jika tidak ada yang sama satu pun maka masuk ke bawah
+							});
+							//jika tidak ada yang sama
+							if($tidakadasama == true){
+								//jika optionID tidak ada: error, maka dimasukkan default
+								$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+								//finclone sudah di copy di awal
+							}
+						}
+					});
+				});
+				//SELECT DELIVERY TYPE
+				$dlvfound = false;
+				$.each($scope.deliveries, function($i, $ii){
+					if($ii.id == $scope.selected.deliveryID){
+						$scope.selected.delivery = $ii;
+						$dlvfound = true;
+					}
+				});
+				if($dlvfound){
+					$.each($scope.customeraddresses, function($i, $ii){
+						if($ii.addressID == $scope.selected.deliveryaddressID){
+							$scope.selected.deliveryaddress = $ii;
+						}
+					})
+				}
+
+				//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
+			}
+
+			$scope.hapusbro = function(){
+				$tmps = $scope.clone($scope.selected);
+
+
+
+				//RAPIHIN FILE
+				$tmpfl = [];
+				$.each($tmps.files, function($i, $ii){
+					$temp = {
+						"fileID": $ii.id
+					}
+					$tmpfl.push($temp);
+				});
+				delete $tmps.files;
+				$tmps.files = $tmpfl;
+
+				//RAPIHIN FINISHING + OPTION
+				$tmpsf = [];
+				$.each($tmps.finishings, function($i, $ii){
+					$temp = {
+						"finishingID": $ii.finishingID,
+						"optionID": $ii.id
+					};
+					$tmpsf.push($temp);
+				});
+				delete $tmps.finishings;
+				$tmps.finishings = $tmpsf;
+
+
+				$tmps.deliveryaddressID = $tmps.deliveryaddress.addressID;
+				delete $tmps.deliveryaddress;
+				$tmps.sizeID = $tmps.size.id;
+				delete $tmps.size;
+				$tmps.deliveryID = $tmps.delivery.id;
+				delete $tmps.delivery;
+				$tmps.paperID = $tmps.paper.id;
+				delete $tmps.paper;
+				$link = $tmps.jobsubtypelink;
+				delete $tmps.jobsubtypelink;
+
+				if($tmps.resellername == ""){
+					delete $tmps.resellername;
+					delete $tmps.resellerphone;
+					delete $tmps.reselleraddress;
+				}
+
+				$addurl = JSON.stringify($tmps);
+				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
+				
+				console.log($addurl);
 			}
 
 			$scope.restrictNotLogined = function()
@@ -8524,7 +9141,7 @@ module.exports = function(app){
 					delete $post.delivery;
 					delete $post.deliverylocked;
 					delete $post.pagename;
-					delete $post.jobsubtypename;
+					delete $post.jobsubtypelink;
 					if(!$scope.customsize){
 						$post.sizeID = $scope.selected.size.id;
 						if ($post.sizeID != 0)
@@ -8820,6 +9437,7 @@ module.exports = function(app){
 				$scope.master = $datas;
 
 				$scope.selected.jobsubtypeID = $datas.id;
+				$scope.selected.jobsubtypelink = $datas.link;
 				$scope.selected.pagename = $datas.name;
 				$scope.selected.satuan = $datas.satuan;
 
@@ -8833,6 +9451,7 @@ module.exports = function(app){
 			}
 
 			$scope.showsavedialog = function(){
+				console.log($scope.selected);
 				if($scope.role == "customer"){
 					$scope.getPrice();
 					$scope.setFinishingName();
@@ -8876,51 +9495,6 @@ module.exports = function(app){
 
 			$scope.showeasyaccess = function(){
 				$('#easyaccess').modal('show');
-			}
-
-			$scope.showdelivery = function(){
-				//AMBIL DATA DARI DATABASE
-				$http({
-					"method" 	: "POST",
-					"url"			: API_URL + "delivery"
-				}).then(
-					function(response){
-						if(response != null)
-						{
-							if(response.data.length > 0)
-							{
-								$('#deliveryModal').modal('show');	
-								$scope.deliveries = response.data;
-								if($scope.selected.delivery != null)
-								{
-									$adadioption = false;
-									$.each($scope.deliveries, function($index, $item){
-										if($item.id == $scope.selected.delivery.id)
-										{
-											$adadioption = true;
-											$scope.selected.delivery = $item; // <-- BUG
-											// HARUS DI SET ULANG
-											// KALO GA DIA GA MAU KE SET, KETIKA KEBUKA KEDUA
-										}
-									});
-									if($adadioption == false){
-										$scope.selected.delivery = response[0];
-									}
-								}
-							}
-						}
-						else
-						{
-							//$scope.selectpickerrefresh($timeout);
-							$scope.selected.delivery = response[0];	
-						}
-						//KALO BISA BARU DI SHOW	
-						$scope.changedelivery($scope.selected.delivery);
-						//KALO UDA DI SHOW, HARUS DI REFRESH DATANYA		
-					},function(error){
-						console.log("ERROR, GA BISA BACA DATA DARI DELIVERIES");
-					}
-				);
 			}
 
 			$scope.sizeChanged = function($item)
@@ -9245,8 +9819,22 @@ module.exports = function(app){
 								if(response.data.constructor === Array)
 								{
 									$scope.uploadedfiles = response.data;
-									if ($scope.uploadedfiles.length > 0) 
+									if ($scope.uploadedfiles.length > 0) {
 										$scope.tableshow = true;
+										$filclone = $scope.clone($scope.selected.files);
+										$scope.selected.files = [];
+										$.each($scope.uploadedfiles, function($i, $ii) {
+											//$ss <- from searched url
+											$.each($filclone, function($s, $ss) {
+												//auto select kalo di temukan
+												//buat jadi $ii.checked
+												if ($ii.id == $ss.fileID) {
+													$ii.checked = true;
+													//$scope.checkSelectedFiles($ii);
+												}
+											})
+										});
+									}
 									$scope.allowed();
 								}
 								else
@@ -9630,12 +10218,9 @@ module.exports = function(app){
 
 			$scope.choosefileclicked = function(){
 				$('#btn-choose-file').click();
-
-				console.log($("#btn-choose-file"));
 			}
 
-			$('#real-dropzonew').on('change', function(e) 
-			{ 
+			$('#real-dropzonew').on('change', function(e) { 
 				e.preventDefault();
 				e.stopPropagation();
 				if ($(this)[0]['file'].files){
@@ -9652,7 +10237,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -10894,7 +11479,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -10928,7 +11513,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -11004,7 +11589,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -11164,7 +11749,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -11223,7 +11808,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],51:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -11267,7 +11852,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],52:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('ViewfileModal', ['$scope', '$http', 'API_URL',
 		function($scope, $http, API_URL){
@@ -11276,7 +11861,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],53:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -11298,7 +11883,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],54:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -11313,7 +11898,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -11330,7 +11915,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],56:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -11971,7 +12556,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],57:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -11986,7 +12571,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -12241,11 +12826,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":58}],60:[function(require,module,exports){
+},{"./angular-cookies":60}],62:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -13158,11 +13743,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],61:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":60}],62:[function(require,module,exports){
+},{"./angular-resource":62}],64:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -14429,11 +15014,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":62}],64:[function(require,module,exports){
+},{"./angular-route":64}],66:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -15348,11 +15933,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],65:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":64}],66:[function(require,module,exports){
+},{"./angular-sanitize":66}],68:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -51581,11 +52166,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],67:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":66}],68:[function(require,module,exports){
+},{"./angular":68}],70:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -52079,7 +52664,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":71}],69:[function(require,module,exports){
+},{"util/":73}],71:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -52104,14 +52689,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],70:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],71:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -52701,7 +53286,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":70,"_process":96,"inherits":69}],72:[function(require,module,exports){
+},{"./support/isBuffer":72,"_process":98,"inherits":71}],74:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -52854,9 +53439,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],73:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 /* eslint camelcase: "off" */
@@ -53268,7 +53853,7 @@ Zlib.prototype._reset = function () {
 
 exports.Zlib = Zlib;
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":96,"assert":68,"buffer":76,"pako/lib/zlib/constants":86,"pako/lib/zlib/deflate.js":88,"pako/lib/zlib/inflate.js":90,"pako/lib/zlib/zstream":94}],75:[function(require,module,exports){
+},{"_process":98,"assert":70,"buffer":78,"pako/lib/zlib/constants":88,"pako/lib/zlib/deflate.js":90,"pako/lib/zlib/inflate.js":92,"pako/lib/zlib/zstream":96}],77:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -53880,7 +54465,7 @@ util.inherits(DeflateRaw, Zlib);
 util.inherits(InflateRaw, Zlib);
 util.inherits(Unzip, Zlib);
 }).call(this,require('_process'))
-},{"./binding":74,"_process":96,"assert":68,"buffer":76,"stream":111,"util":116}],76:[function(require,module,exports){
+},{"./binding":76,"_process":98,"assert":70,"buffer":78,"stream":113,"util":118}],78:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -55659,7 +56244,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":72,"ieee754":79}],77:[function(require,module,exports){
+},{"base64-js":74,"ieee754":81}],79:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -55770,7 +56355,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":81}],78:[function(require,module,exports){
+},{"../../is-buffer/index.js":83}],80:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -56295,7 +56880,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],79:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -56381,9 +56966,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],80:[function(require,module,exports){
-arguments[4][69][0].apply(exports,arguments)
-},{"dup":69}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
+arguments[4][71][0].apply(exports,arguments)
+},{"dup":71}],83:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -56406,14 +56991,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],83:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');
@@ -56436,7 +57021,7 @@ module.exports = {
     return promise;
   }
 };
-},{"zlib":75}],84:[function(require,module,exports){
+},{"zlib":77}],86:[function(require,module,exports){
 'use strict';
 
 
@@ -56543,7 +57128,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],85:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -56596,7 +57181,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -56666,7 +57251,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],87:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -56727,7 +57312,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],88:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -58603,7 +59188,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":84,"./adler32":85,"./crc32":87,"./messages":92,"./trees":93}],89:[function(require,module,exports){
+},{"../utils/common":86,"./adler32":87,"./crc32":89,"./messages":94,"./trees":95}],91:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -58950,7 +59535,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60508,7 +61093,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":84,"./adler32":85,"./crc32":87,"./inffast":89,"./inftrees":91}],91:[function(require,module,exports){
+},{"../utils/common":86,"./adler32":87,"./crc32":89,"./inffast":91,"./inftrees":93}],93:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60853,7 +61438,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":84}],92:[function(require,module,exports){
+},{"../utils/common":86}],94:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -60887,7 +61472,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -62109,7 +62694,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":84}],94:[function(require,module,exports){
+},{"../utils/common":86}],96:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -62158,7 +62743,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -62206,7 +62791,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":96}],96:[function(require,module,exports){
+},{"_process":98}],98:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -62392,10 +62977,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":98}],98:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":100}],100:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -62527,7 +63112,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":100,"./_stream_writable":102,"core-util-is":77,"inherits":80,"process-nextick-args":95}],99:[function(require,module,exports){
+},{"./_stream_readable":102,"./_stream_writable":104,"core-util-is":79,"inherits":82,"process-nextick-args":97}],101:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -62575,7 +63160,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":101,"core-util-is":77,"inherits":80}],100:[function(require,module,exports){
+},{"./_stream_transform":103,"core-util-is":79,"inherits":82}],102:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -63597,7 +64182,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":98,"./internal/streams/BufferList":103,"./internal/streams/destroy":104,"./internal/streams/stream":105,"_process":96,"core-util-is":77,"events":78,"inherits":80,"isarray":82,"process-nextick-args":95,"safe-buffer":110,"string_decoder/":112,"util":73}],101:[function(require,module,exports){
+},{"./_stream_duplex":100,"./internal/streams/BufferList":105,"./internal/streams/destroy":106,"./internal/streams/stream":107,"_process":98,"core-util-is":79,"events":80,"inherits":82,"isarray":84,"process-nextick-args":97,"safe-buffer":112,"string_decoder/":114,"util":75}],103:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -63812,7 +64397,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":98,"core-util-is":77,"inherits":80}],102:[function(require,module,exports){
+},{"./_stream_duplex":100,"core-util-is":79,"inherits":82}],104:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -64502,7 +65087,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":98,"./internal/streams/destroy":104,"./internal/streams/stream":105,"_process":96,"core-util-is":77,"inherits":80,"process-nextick-args":95,"safe-buffer":110,"timers":113,"util-deprecate":114}],103:[function(require,module,exports){
+},{"./_stream_duplex":100,"./internal/streams/destroy":106,"./internal/streams/stream":107,"_process":98,"core-util-is":79,"inherits":82,"process-nextick-args":97,"safe-buffer":112,"timers":115,"util-deprecate":116}],105:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64582,7 +65167,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":110,"util":73}],104:[function(require,module,exports){
+},{"safe-buffer":112,"util":75}],106:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -64657,13 +65242,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":95}],105:[function(require,module,exports){
+},{"process-nextick-args":97}],107:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":78}],106:[function(require,module,exports){
+},{"events":80}],108:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":107}],107:[function(require,module,exports){
+},{"./readable":109}],109:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -64672,13 +65257,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":98,"./lib/_stream_passthrough.js":99,"./lib/_stream_readable.js":100,"./lib/_stream_transform.js":101,"./lib/_stream_writable.js":102}],108:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":100,"./lib/_stream_passthrough.js":101,"./lib/_stream_readable.js":102,"./lib/_stream_transform.js":103,"./lib/_stream_writable.js":104}],110:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":107}],109:[function(require,module,exports){
+},{"./readable":109}],111:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":102}],110:[function(require,module,exports){
+},{"./lib/_stream_writable.js":104}],112:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -64742,7 +65327,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":76}],111:[function(require,module,exports){
+},{"buffer":78}],113:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64871,7 +65456,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":78,"inherits":80,"readable-stream/duplex.js":97,"readable-stream/passthrough.js":106,"readable-stream/readable.js":107,"readable-stream/transform.js":108,"readable-stream/writable.js":109}],112:[function(require,module,exports){
+},{"events":80,"inherits":82,"readable-stream/duplex.js":99,"readable-stream/passthrough.js":108,"readable-stream/readable.js":109,"readable-stream/transform.js":110,"readable-stream/writable.js":111}],114:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -65168,7 +65753,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":110}],113:[function(require,module,exports){
+},{"safe-buffer":112}],115:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -65247,7 +65832,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":96,"timers":113}],114:[function(require,module,exports){
+},{"process/browser.js":98,"timers":115}],116:[function(require,module,exports){
 (function (global){
 
 /**
@@ -65318,8 +65903,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],115:[function(require,module,exports){
-arguments[4][70][0].apply(exports,arguments)
-},{"dup":70}],116:[function(require,module,exports){
-arguments[4][71][0].apply(exports,arguments)
-},{"./support/isBuffer":115,"_process":96,"dup":71,"inherits":80}]},{},[1]);
+},{}],117:[function(require,module,exports){
+arguments[4][72][0].apply(exports,arguments)
+},{"dup":72}],118:[function(require,module,exports){
+arguments[4][73][0].apply(exports,arguments)
+},{"./support/isBuffer":117,"_process":98,"dup":73,"inherits":82}]},{},[1]);

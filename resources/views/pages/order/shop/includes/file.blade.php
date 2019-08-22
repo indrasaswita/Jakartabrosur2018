@@ -73,7 +73,7 @@
 						</td>
 						<td class="width-min text-center">
 							<label class="custom-checkbox">
-								<input type="checkbox" ng-model="item.checked" ng-checked="checkSelectedFiles(item)">
+								<input type="checkbox" ng-model="item.checked" ng-change="checkSelectedFiles(item)" class="file-11">
 								<span class="checkmark"></span>
 							</label>
 						</td>

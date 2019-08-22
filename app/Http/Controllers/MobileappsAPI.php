@@ -283,7 +283,6 @@ class MobileappsAPI extends Controller
 
 				$verified = false;
 				foreach ($employee['employeeonesignal'] as $i => $ii) {
-					return $ii['id']." -> ".$ii['app_token']." = ".$app_token;
 					if($ii['app_token'] == $app_token){
 						$verified = true;
 					}
@@ -360,7 +359,7 @@ class MobileappsAPI extends Controller
 
 					//cek dulu employeeonesignalnya ada ga?
 					$employeeonesignal = Employeeonesignal::where('onesignalID', $onesignal['id'])
-							->where('customerID', $user['id'])
+							->where('employeeID', $user['id'])
 							->first();
 
 					// sampe step ini, tidak ada EMployee onesignal

@@ -29,9 +29,7 @@
 			<!-- <div class="flyer-content" ng-controller = "OffsetPricing"> -->
 				<div ng-controller="OrderShopCalculationController">
 
-					<div ng-init="setUserLogin('{{Session::get('role')}}', '{{Session::get('userid')}}')">
-						
-					</div>
+					<div ng-init="setUserLogin('{{Session::get('role')}}', '{{Session::get('userid')}}')"></div>
 
 					<div class="margin-0-15">
 						@include('includes.nav.subnav')
@@ -39,8 +37,11 @@
 
 
 					<div class="order-wrapper" ng-init="setData({{json_encode($datas)}})" ng-hide="underconstruction==true">
+
+					@if(app('request')->input('ss') != null)
+						<div ng-init="setSelectedByURL('{{app('request')->input('ss')}}')"></div>
+					@endif
 						
-						<!-- <div class="col-lg-3 sidebar sidebar-offcanvas"> -->
 						<div class="order-description-wrapper hidden-xs-down">
 							@include('pages.order.shop.sidebar-left')
 						</div>

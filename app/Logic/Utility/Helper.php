@@ -22,4 +22,12 @@ class Helper
 		}
 		return $ip;
 	}
+
+	public static function indexOf($text, $find){
+		return strpos($text, $find);
+	}
+
+	public static function lastIndexOf(){
+
+	}
 }

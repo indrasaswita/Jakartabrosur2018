@@ -31,20 +31,24 @@ class UserController extends Controller
 				session()->put('email', $customer['email']);
 				session()->put('userid', $customer['id']);
 
-				if($customer['verify_token'] != null)
-				{
-					//DIA BAKAL LGIN, TAPI KALO ADA TOKEN, dia redirect langsung ke verificationpage
-					$msg = "";
-					$typ = "verification";
-					$userid = "VR".$customer['id'];
-				}
-				else
-				{
-					//DIA CEK kalo uda berhasil verify, BRARTI langsung ke halaman HOME / redirect ke page yang ada di url 
-					$msg = "LOG-IN berhasil!";
-					$typ = "alert-success";
-					$userid = "CU".$customer['id'];
-				}
+				$msg = "LOG-IN berhasil!";
+				$typ = "alert-success";
+				$userid = "CU".$customer['id'];
+
+				// if($customer['verify_token'] != null)
+				// {
+				// 	//DIA BAKAL LGIN, TAPI KALO ADA TOKEN, dia redirect langsung ke verificationpage
+				// 	$msg = "";
+				// 	$typ = "verification";
+				// 	$userid = "VR".$customer['id'];
+				// }
+				// else
+				// {
+				// 	//DIA CEK kalo uda berhasil verify, BRARTI langsung ke halaman HOME / redirect ke page yang ada di url 
+				// 	$msg = "LOG-IN berhasil!";
+				// 	$typ = "alert-success";
+				// 	$userid = "CU".$customer['id'];
+				// }
 			}
 			else
 			{
@@ -134,10 +138,21 @@ class UserController extends Controller
 
 	public function loginpage(Request $request){
 		$data = $request->all();
+
+		//return $data;
+		$url = "";
 		if($data!=null)
-			$url = $data['url'];
-		else
-			$url = '';
+			if(array_keys($data)[0] == "url"){
+				$url = "";
+				$ix = 0;
+				foreach ($data as $i => $ii) {
+					if ($ix == 0)
+						$url .= $ii;
+					else
+						$url .= "&".$i."=".$ii;
+					$ix++;
+				}
+			}
 		//dd(session()->all());
 		return view('pages.account.loginpage', compact('url'));
 	}

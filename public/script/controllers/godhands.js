@@ -2,6 +2,7 @@ module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
 			$scope.godSalesID = 0;
+			$scope.app_version = "2.05.001";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -116,7 +117,7 @@ module.exports = function(app){
 			}
 
 			String.prototype.toTitleCase = function () {
-			  	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+					return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 			};
 
 			$scope.togglerClicked = function(){
@@ -341,7 +342,7 @@ module.exports = function(app){
 			}
 
 			$scope.isURL = function(value) {
-			  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+				return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
 			}
 
 			$scope.trustAsUrl = function($input){
@@ -393,7 +394,7 @@ module.exports = function(app){
 			$scope.round = function($input) {
 				return Math.round($input);
 			}
- 			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
+			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
 			$scope.total2kg = function($total, $gram, $w, $l) {
 				$result = $total * 20000 / $gram / $w / $l;
 				return Math.round($result / 100) * 100;
@@ -431,24 +432,24 @@ module.exports = function(app){
 					var hasil = e;
 					var x;
 					if(!e.startsWith("08")){
-					  x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
-					  if(x!=null)
-					  	hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
+						x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
+						if(x!=null)
+							hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
 					}
 					else{
 						if(e.length==10){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{3})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}else if(e.length==11){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{4})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==12){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})/);
 							if(x!=null)
-					  	hasil = x[1] + '-' + x[2] + '-' + x[3];
+							hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==13){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/);
@@ -456,9 +457,88 @@ module.exports = function(app){
 								hasil = x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4];
 						}
 					}
-				  return hasil;
+					return hasil;
 				}else
 					return "";
+			}
+
+			$scope.val_ext = function($type, $ext){
+				if($type == "upload-file"){
+					if ($ext == 'cdr' || $ext == 'zip' ||
+						$ext == 'rar' || $ext == 'ai' ||
+						$ext == 'xls' || $ext == 'xlsx' ||
+						$ext == 'doc' || $ext == 'docx' ||
+						$ext == 'tiff' || $ext == 'tif' ||
+						$ext == 'pdf' || $ext == 'jpg' ||
+						$ext == 'jpeg' || $ext == 'psd' ||
+						$ext == '7z' || $ext == 'txt' ||
+						$ext == 'indd') {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+
+			$scope.val_size = function($size){
+				if($size <= 50 * 1024 * 1024){
+					return true;
+				} else{
+					return false;
+				}
+			}
+
+
+
+			$scope.uploadprogress = function(type, data, url, whendone, whenfailed) {
+
+				$.ajax({
+					// Your server script to process the upload
+					url: url,
+					type: type,
+					data: data,
+
+					// Tell jQuery not to process data or worry about content-type
+					// You *must* include these options!
+					cache: false,
+					contentType: false,
+					processData: false,
+					withCredentials: true,
+					headers: { 'Content-Type': undefined },
+					//headers: {"X-CSRF-Token":token},
+					transformRequest: angular.identity,
+
+					// Custom XMLHttpRequest
+					xhr: function() {
+						var myXhr = $.ajaxSettings.xhr();
+						if (myXhr.upload) {
+							// For handling the progress of the upload
+							myXhr.upload.addEventListener('progress', function(e) {
+								if (e.lengthComputable) {
+									$('.progress-bar').css('width', (e.loaded / e.total * 100) + "%");
+									var value = e.loaded / e.total * 100;
+								}
+							}
+							, false);
+
+							myXhr.upload.addEventListener('loadend', function(e) {
+								$scope.filesize = e.total;
+								$scope.loadingfiles = false;
+								$scope.uploadwaiting = false;
+								$scope.errormessage = "";
+							}
+								, false);
+						}
+						return myXhr;
+					}
+				}).done(function(response) {
+					whendone(response);
+					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+					$scope.$apply(function() { });
+				}).fail(function(response) {
+					whenfailed(response);
+					$scope.$apply(function() { });
+				});
 			}
 		}
 	]);

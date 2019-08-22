@@ -1,13 +1,28 @@
 module.exports = function(app){
-	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
+		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
 			$scope.URL = 'http://localhost:8000/';
 
 			$scope.selected=[];
 			$scope.selectedPrice = 0;
+			$scope.totalSelected = 0;
 			$scope.jobtypes = ["flyer"];
 			$scope.error = "";
 			$scope.second = 0;
+			$scope.deliveries = [];
+
+			$scope.selectedCart = [];
+			$scope.selectedCartDelete = [];
+			$scope.cartdeleteloading = false;
+			$scope.cartduplicateloading = false;
+			$scope.cartedittitleloading = false;
+			$scope.newtitle = "";
+			$scope.selectedFile = [];
+			$scope.selectedFileindex = -1;
+			$scope.allchecked;
+			$scope.stateupload = "";
+			$scope.uploadwaiting = false;
+			$scope.errormessage = ""; // untuk di add dan changefile
 
 			$scope.tick = function(){
 				$scope.second = parseInt(Date.now()/1000);
@@ -18,15 +33,42 @@ module.exports = function(app){
 			$scope.initSelectedID = function($id){
 				if ($id != 0)
 				{
-					for (var i = 0; i < $scope.carts.length; i++) {
-						if($scope.carts[i].id == $id && $scope.carts[i].filestatus == true){
-							$scope.carts[i].checked = true;
-							$scope.selectedPush($scope.carts[i]);
+					$.each($scope.carts, function($i, $ii) {
+						if($ii.id == $id){
+							if(!$ii.showdetail)
+								$scope.showingdetail($ii, $i);
 						}
-					}
+					});
 				}
 			}
+			$scope.initSelectedDetail = function($stat) {
+				if ($stat != "") {
+					$.each($scope.carts, function($i, $ii) {
+						if ($ii.showdetail) {
+							if ($stat == "fl" && !$ii.showfile){
+								$ii.showinfo = false;
+								$ii.showfile = true;
+								$ii.showdelivery = false;
+							} else if ($stat == "dl" && !$ii.showdelivery){
+								$ii.showinfo = false;
+								$ii.showfile = false;
+								$ii.showdelivery = true;
+							} else if ($stat == "in" && !$ii.showinfo) {
+								$ii.showinfo = true;
+								$ii.showfile = false;
+								$ii.showdelivery = false;
+							}
+						}
+					});
+				}
+			}
+			$scope.showeditfile = function ($cart, $file){
+				$scope.selectedCart = $cart;
+				$scope.selectedFile = $file;
 
+				$scope.stateupload = "revisi";
+				$("#changeFileModal").modal('show');
+			}
 			$scope.changeTitle = function($item){
 				$('#changeTitleModal').modal('show');
 				$scope.setSelectedItem($item);
@@ -52,55 +94,133 @@ module.exports = function(app){
 				$scope.updatePrice();
 			}
 
-			$scope.selectedPush = function ($item){
-				$scope.selected.push($item);
-				$scope.countSelectedPrice();
-			}
 			$scope.countSelectedPrice = function(){
 				$scope.selectedPrice = 0;
-				for($i=0;$i<$scope.selected.length;$i++){
-					$item = $scope.selected[$i];
-					$scope.selectedPrice+=parseFloat($item.printprice)+parseFloat($item.deliveryprice)-parseFloat($item.discount);
+				$scope.totalSelected = 0;
+
+				$.each($scope.carts, function($i, $ii){
+					if($ii.checked){
+						$scope.selectedPrice += parseFloat($ii.printprice) + parseFloat($ii.deliveryprice) - parseFloat($ii.discount);
+						$scope.totalSelected++;
+					}
+				});
+
+				if($scope.totalSelected == $scope.carts.length){
+					$scope.allchecked = true;
+				}else{
+					$scope.allchecked = false;
 				}
+
+			}
+
+			$scope.checkAll = function(){
+				if ($scope.allchecked == true) {
+					//deselect all
+					$.each($scope.carts, function($index, $item) {
+						$scope.carts[$index].checked = false;
+					});
+				} else {
+					//select all
+					$.each($scope.carts, function($index, $item) {
+						$scope.carts[$index].checked = true;
+					});
+				}
+
+				$.each($scope.carts, function($index, $item){
+					$item.showdetail = false;
+				})
+
+				$scope.countSelectedPrice();
 			}
 
 			$scope.checkChanged = function($item){
-				//if($item.filestatus == 1)
-					if($item.checked == true)
-					{
-						$scope.selectedPush($item);
-					}
-					else
-					{
-						for (var i = 0; i < $scope.selected.length; i++) {
-							if($scope.selected[i].id == $item.id){
-								$scope.selected.splice(i, 1);
-							}
-						}
-						$scope.countSelectedPrice();
-					}
-				/*else
-				{
-					$item.checked = false;
-					$scope.error = "Sebelum Anda dapat memilih, Jakartabrosur harus melakukan pengecekan file.";
+				$scope.countSelectedPrice();
 
-					$timeout(function(){
-						$("html, body").stop().animate({scrollTop:$('#errorfocus').offset().top-20}, 500, 'swing');
-					});
-				}*/
+				if ($scope.totalSelected == $scope.carts.length) {
+					if ($scope.allchecked == false)
+						$scope.allchecked = true;
+				} else {
+					if ($scope.allchecked == true)
+						$scope.allchecked = false;
+				}
 			}
 
-			$scope.initData = function($input){
-				$scope.carts = JSON.parse($input);
-				for($i = 0; $i < $scope.carts.length; $i++){
-					$scope.carts[$i].checked = false;
-					$.each($scope.carts[$i].cartdetail, function($index, $item){
-						$item.jobtype = 
-							($item.jobtype == "OF") ? "Offset Print" :
-							($item.jobtype == "DG") ? "Digital Print" :
-							($item.jobtype == "PL") ? "Large Format" : "Others";
+			$scope.initData = function($carts, $deliveries){
+				$scope.carts = JSON.parse($carts);
+				$scope.deliveries = JSON.parse($deliveries);
+				$scope.allchecked = true;
+				$scope.checkAll(); //hitung total dan check all and hide all
+				$.each($scope.carts, function($i, $ii){
+					if ($i == 0) {
+						$scope.carts[$i].showdetail = true;
+						$scope.selectedCart = $scope.carts[$i];
+					}
+
+					$scope.carts[$i].showinfo = true;
+					$scope.carts[$i].showfile = false;
+					$scope.carts[$i].showdelivery = false;
+					if($ii.created_at != null)
+						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
+					if ($ii.updated_at != null)
+						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
+
+
+					$.each($ii.cartdetail, function($j, $jj) {
+						$jj.jobtype =
+							($jj.jobtype == "OF") ? "Offset Print" :
+								($jj.jobtype == "DG") ? "Digital Print" :
+									($jj.jobtype == "PL") ? "Large Format" : "Others";
 					});
+
+					$.each($ii.cartfile, function($j, $jj){
+						if ($jj.file.created_at != null)
+							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
+						if ($jj.file.updated_at != null)
+							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+				});
+
+			}
+
+			$scope.showingdetail = function($cart, $index){
+				if ($cart.showdetail == true) {
+					$scope.selectedcartindex = -1;
+					$cart.showdetail = false;
+				} else {
+					$scope.hideall();
+					$scope.selectedcartindex = $index;
+					$scope.selectedCart = $cart;
+					$cart.showdetail = true;
+					$scope.showinfo($cart);
 				}
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showinfo = function($cart) {
+				$cart.showinfo = true;
+				$cart.showfile = false;
+				$cart.showdelivery = false;
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showdelivery = function($cart) {
+				$cart.showinfo = false;
+				$cart.showfile = false;
+				$cart.showdelivery = true;
+			}
+
+			//SHOW INFO - DELIVERY - FILE
+			$scope.showfile = function($cart) {
+				$cart.showinfo = false;
+				$cart.showfile = true;
+				$cart.showdelivery = false;
+			}
+
+			$scope.hideall = function(){
+				$.each($scope.carts, function($i, $ii){
+					$scope.carts[$i].showdetail = false;
+				});
 			}
 
 			$scope.setPapersize = function($width, $length){
@@ -108,35 +228,10 @@ module.exports = function(app){
 				$scope.edit.length = parseFloat($length);
 			}
 
-			$scope.createcartfile = function($file){
-				if(!$scope.loadingcartfiles)
-				{
-					$data = {
-						'cartID' : $scope.tempcart.id,
-						'fileID' : $file.id
-					};
-					$scope.loadingcartfiles = true;
-					$http({
-						method: "POST",
-						url 	: API_URL+"cartfiles/create",
-						data 	: $data
-					}).then(function(response){
-						if(response != null)
-							$scope.tempcart.cartfile = response.data;
-						else
-							console.log('error when send data - create cartfile');
-
-						$scope.toggleupload = false;
-						$scope.loadingcartfiles = false;
-					});
-				}
-
-			}
-
 			$scope.addnewfile = function(){
-				$scope.toggleupload=true;
 				if(!$scope.loadingunbindfiles)
 				{
+					$scope.unbindedfiles = [];
 					$scope.loadingunbindfiles = true;
 					$http({
 						method:'GET',
@@ -144,124 +239,147 @@ module.exports = function(app){
 					}).then(function(response){
 						$scope.unbindedfiles = response.data;
 						$scope.loadingunbindfiles = false;
+					}, function(error){
+						if(error != null){
+							if(error.status == "403"){
+								$window.location.reload();
+							}
+						}
 					});
 				}
+				$scope.stateupload = "addnew";
+				$("#addFileModal").modal('show');
 			}
 
-			$scope.removecartfile = function($item){
-				if(!$scope.loadingcartfiles)
-				{
-					$scope.loadingcartfiles = true;
-
-					$http({
-						method: "GET",
-						url 	: API_URL+"cartfiles/"+$item.id+"/delete"
-					}).then(function(response){
-						$scope.tempcart.cartfile = response.data;
-						$scope.loadingcartfiles = false;
-					});
-				}
+			$scope.warningdelete = function($selectedcartdelete){
+				$scope.selectedCartDelete = $selectedcartdelete;
+				$("#warningcartdelete").modal("show");
 			}
 
-			$('#real-dropzonew').on('change', function(e) 
-			{
-				e.preventDefault();
-				e.stopPropagation();
-				if ($(this)[0]['file'].files){
-					if ($(this)[0]['file'].files.length > 0) {
-						$scope.upload($(this)[0]['file'].files);
+			$scope.cartdelete = function(){
+				if ($scope.selectedCartDelete != null) {
+					if(!$scope.cartdeleteloading){
+						$scope.cartdeleteloading = true;
+						$http(
+							{
+								method: 'POST',
+								url: AJAX_URL + 'cart/delete',
+								data: $scope.selectedCartDelete.id
+							}
+						).then(function(response) {
+							if (response != null) {
+								if (response.data != null) {
+									$scope.carts = response.data;
+									$("#warningcartdelete").modal("hide");
+									$scope.checkAll();
+								}
+							} else
+								console.log('response = null');
+							$scope.cartdeleteloading = false;
+						}, function(error) {
+							if (error != null) {
+								if (error.status == 403) {
+									$window.location.reload();
+								}
+							}
+							$scope.cartdeleteloading = false;
+						});
 					}
-				} 
-				return false;
-			});
-
-			$scope.upload = function(files){
-				if(!$scope.loadingcartfiles)
-				{
-
-					var data = new FormData();
-
-					angular.forEach(files, function(value){
-						$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
-						if ($ext != 'cdr' &&
-							$ext != 'zip' &&
-							$ext != 'rar' &&
-							$ext != 'ai' &&
-							$ext != 'xls' &&
-							$ext != 'xlsx' &&
-							$ext != 'doc' &&
-							$ext != 'docx' &&
-							$ext != 'tiff' &&
-							$ext != 'tif' &&
-							$ext != 'pdf' &&
-							$ext != 'jpg' &&
-							$ext != 'jpeg' &&
-							$ext != 'psd' &&
-							$ext != '7z' &&
-							$ext != 'indd') //indesign
-						{
-							//FORMAT NGACOK
-							$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
-						}
-						else if(value.size > 50 * 1024 * 1024)
-						{
-							$scope.uploaderror = value.name+" : file terlalu besar.";
-						}
-						else 
-						{
-							$scope.uploaderror = "";
-							//BERHASIL -> ADD files[] ke data
-							data.append("files[]", value);
-							//data.append('jobsubtypeID', $scope.selected.jobsubtypeID);
-							//jobsubtypeID -> dibuang, ditambahkan dengan user dapat 
-						}
-					});
-
-					//tempcart --> yang di select pas buka tombol changefile.blade.php
-					$scope.loadingcartfiles = true;
-					$http({
-						method: 'POST',
-						url 	: API_URL+"cartfiles/"+$scope.tempcart.id+"/upload",
-						data 	: data,
-						withCredentials: true,
-						headers: {'Content-Type': undefined },
-						transformRequest: angular.identity
-					}).then(
-						function(response){
-							$scope.tempcart.cartfile = response.data;
-							$scope.toggleupload = false;
-							$scope.loadingcartfiles = false;
-						},function(error){
-							alert(response);
-						}
-					);
 				}
 			}
 
-			$scope.delete = function($input){
-				//console.log($input['id']);
-				$http(
-					{
-						method : 'POST',
-						url : API_URL + 'cart/delete',
-						data : $input['id']
-					}
-				).then(function(response) {
-					//alert(response);
-			    	if(response!=null){
-			    		$scope.carts = response.data;
-			    		//if ($scope.uploadedfiles.length > 0) $scope.tableshow = true;
-			    	}else
-			    		console.log	('response = null');
-					//alert('resonse' + response);
+			$scope.cartduplicate = function($cartid) {
+				if (!$scope.cartduplicateloading) {
+					$scope.cartduplicateloading = true;
+					$http(
+						{
+							method: 'POST',
+							url: AJAX_URL + 'cart/duplicate',
+							data: $cartid
+						}
+					).then(function(response) {
+						if (response != null) {
+							if (response.data != null) {
+								$scope.carts = response.data;
+								$("#warningcartdelete").modal("hide");
+								$scope.checkAll();
+							}
+						} else
+							console.log('response = null');
+						$scope.cartduplicateloading = false;
+					}, function(error) {
+						if (error != null) {
+							if (error.status == 403) {
+								$window.location.reload();
+							}
+						}
+						$scope.cartduplicateloading = false;
+					});
+				}
+			}
+
+			$scope.showedittitle = function($cart){
+				$scope.selectedCartTitle = $cart;
+				$scope.newtitle = $scope.selectedCartTitle.jobtitle;
+				$("#editcarttitle").modal('show');
+				$('#editcarttitle').on('shown.bs.modal', function() {
+					$('#editcart-newtitle').focus();
+					$('#editcart-newtitle').keypress(function(event){
+						var keycode = (event.keyCode ? event.keyCode : event.which);
+						if (keycode == '13') {
+							$scope.edittitle();
+						}
+					});
 				});
 			}
 
+			$scope.edittitle = function(){
+				if ($scope.selectedCartTitle != null && $scope.selectedCartTitle.jobtitle != $scope.newtitle) {
+					if (!$scope.cartedittitleloading) {
+						$scope.cartedittitleloading = true;
+						$http(
+							{
+								method: 'POST',
+								url: AJAX_URL + 'cart/edittitle',
+								data: {
+									0: $scope.selectedCartTitle.id,
+									1: $scope.newtitle
+								}
+							}
+						).then(function(response) {
+							if (response != null) {
+								if (response.data != null) {
+									$scope.carts = response.data;
+									$("#editcarttitle").modal("hide");
+									$scope.checkAll();
+								}
+							} else
+								console.log('response = null');
+							$scope.cartedittitleloading = false;
+						}, function(error) {
+							if (error != null) {
+								if (error.status == 403) {
+									$window.location.reload();
+								}
+							}
+							$scope.cartedittitleloading = false;
+						});
+					}
+				}
+			}
+
+			
+
+			$scope.review = function(){
+				$scope.selected = [];
+				$.each($scope.carts, function($i, $ii) {
+					$scope.selected.push($ii);
+				});
+
+				$("#reviewCartModal").modal("show");
+			}
+
 			$scope.checkout = function(){
-				/*$selectedids = [];
-				$.each($scope.selected, function($index, $item){
-					$selectedids.push($item['id']);
-				});*/
 
 				$http(
 					{
@@ -313,7 +431,7 @@ module.exports = function(app){
 
 			$scope.showfiles = function($cart, $cartid){
 				$scope.loadingcartfiles = false;
-				$scope.tempcart = $cart;
+				//$scope.tempcart = $cart;
 				//console.log($scope.tempcart);
 				//$scope.fillCartfiles($cartid);
 				//ga usa refresh lagi, soalnya kan di page pertama load uda ada
@@ -323,7 +441,6 @@ module.exports = function(app){
 							$scope.setFilePreview($cart.cartfile[0].file);
 
 
-				$scope.toggleupload = false;
 				$scope.loadingcartfiles = false;
 				$('#changeFileModal').modal('show');
 			}
@@ -387,6 +504,144 @@ module.exports = function(app){
 					}
 				});
 			}
+
+
+			$(function() {
+				var token = $('input[name="_token"]').val();
+				$(document).ajaxSend(function(e, xhr, options) {
+					console.log("ajax token!!!");
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				});
+			});
+
+			$('#is-uploader').on('change', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				if ($(this)[0]['file'].files) {
+					if ($(this)[0]['file'].files.length > 0) {
+						$scope.upload($(this)[0]['file'].files);
+					}
+				}
+				return false;
+			});
+
+			$scope.choosefileclicked = function() {
+				$('#btn-choose-file').click();
+			}
+
+			$scope.upload = function(files) {
+				var data = new FormData();
+				$scope.errormessage = '';
+				$scope.uploadwaiting = true;
+				$scope.loadingfiles = true;
+
+				$counterror = 0;
+				$scope.$apply(function() { });
+
+				angular.forEach(files, function(value) {
+					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
+					if (!$scope.val_ext("upload-file", $ext)) {
+						$scope.errormessage = value.name + " : tidak bisa upload dengan file format " + $ext + ".";
+						$counterror++;
+					} else if (!$scope.val_size(value.size)) {
+						$scope.errormessage = value.name + "( "+(value.size/1024/1024)+" MB ): file terlalu besar.";
+						$counterror++;
+					} else {
+						$scope.errormessage = "";
+						data.append("files[]", value);
+					}
+					$scope.$apply(function() { });
+
+					if ($scope.errormessage != '') {
+						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
+						console.log($scope.errormessage);
+						try {
+							$http({
+								method: 'GET',
+								url: BASE_URL,
+								data: data,
+								withCredentials: true,
+								headers: { 'Content-Type': undefined },
+								transformRequest: angular.identity
+							}).then(function(response) { },
+								function(error) {
+									console.log(error);
+								});
+						} catch (error) { }
+
+
+						//refesh data kalo ga bisa ke upload (loading filesnya jangan di apus)
+						$scope.loadingfiles = false;
+						$scope.uploadwaiting = false;
+						//$scope.refreshUploadedImage();
+						//$scope.uploadwaiting = false;
+						$scope.$apply(function() { });
+					}else{
+
+						//UPLOAD FILE DATA
+						$url = "";
+						if($scope.stateupload == "revisi"){
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/revision/' + $scope.selectedFile.id;
+						} else if($scope.stateupload == "addnew") {
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/upload';
+						}
+
+						$scope.uploadprogress("POST", data, $url, function(response){
+							//WHEN DONE
+							if (response != null) {
+								console.log(response.constructor);
+								if (response.constructor === Array) {
+									$scope.selectedCart.cartfile = [];
+									$scope.selectedCart.cartfile = response;
+									$.each($scope.selectedCart.cartfile, function($i, $ii) {
+										if ($ii.file.id == $scope.selectedFile.id) {
+											$scope.selectedFile = $ii.file;
+										}
+									});
+
+									if ($scope.stateupload == "revisi") {
+										$scope.errormessage = "file berhasil diganti..";
+									} else if ($scope.stateupload == "addnew") {
+										$scope.errormessage = "berhasil tambah file..";
+									}
+								}
+								else if (response.constructor === String) {
+									$scope.errormessage = response.constructor;
+									$scope.uploadedfiles = [];
+								}
+								else {
+									$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (empty).";
+									$scope.uploadedfiles = [];
+								}
+							}
+							else {
+								$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (null).";
+								$scope.uploadedfiles = [];
+								//console.log	('NO DATA in PendIMG');
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							//$scope.errormessage = "";
+						}, function(response){
+							//WHEN FAILED
+							console.log(response);
+							if (response.status == 419) {
+								$scope.errormessage = "Unknown Status: May be the Session is over, please re-login to upload";
+							} else {
+								$scope.errormessage = response.statusText;
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							$scope.uploadsuccess = false;;
+						});
+					}
+				});
+
+				//JANGAN DI BUANG, harusnya di pake
+				//$scope.clearFileInput('file');
+			};
+
 		}
 	]);
 };

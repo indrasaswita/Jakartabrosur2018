@@ -101,6 +101,120 @@ module.exports = function(app){
 				}
 			}
 
+			$scope.setSelectedByURL = function($input){
+				$tmps = JSON.parse($input);
+				$finclone = $scope.clone($scope.selected.finishings);
+
+				$scope.selected = Object.assign($scope.selected, $tmps);
+				//SELECT SIZE
+				$.each($scope.datas.jobsubtypesize, function($i, $ii){
+					if($ii.size.id == $scope.selected.sizeID){
+						$scope.selected.size = $ii.size;
+					}
+				});
+				//SELECT JENIS MATERIAL
+				$.each($scope.datas.jobsubtypepaper,function($i, $ii){
+					if($ii.paper.id == $scope.selected.paperID){
+						$scope.selected.paper = $ii.paper;
+					}
+				});
+				//SELECT SISI CETAK
+				//sudah langsung cek ke sideprint: 1/2
+				//SELECT FINISHING
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
+					//$s <- dari url (selected)
+					$.each($scope.selected.finishings, function($s, $ss){
+						if($ss.finishingID == $ii.finishing.id){
+							//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
+							$tidakadasama = true;
+							$.each($ii.finishing.finishingoption, function($j, $jj){
+								if($jj.id == $ss.optionID){
+									//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
+									$scope.selected.finishings[$s] = $scope.clone($jj);
+									$tidakadasama = false;
+								}
+								//jika tidak ada yang sama satu pun maka masuk ke bawah
+							});
+							//jika tidak ada yang sama
+							if($tidakadasama == true){
+								//jika optionID tidak ada: error, maka dimasukkan default
+								$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+								//finclone sudah di copy di awal
+							}
+						}
+					});
+				});
+				//SELECT DELIVERY TYPE
+				$dlvfound = false;
+				$.each($scope.deliveries, function($i, $ii){
+					if($ii.id == $scope.selected.deliveryID){
+						$scope.selected.delivery = $ii;
+						$dlvfound = true;
+					}
+				});
+				if($dlvfound){
+					$.each($scope.customeraddresses, function($i, $ii){
+						if($ii.addressID == $scope.selected.deliveryaddressID){
+							$scope.selected.deliveryaddress = $ii;
+						}
+					})
+				}
+
+				//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
+			}
+
+			$scope.hapusbro = function(){
+				$tmps = $scope.clone($scope.selected);
+
+
+
+				//RAPIHIN FILE
+				$tmpfl = [];
+				$.each($tmps.files, function($i, $ii){
+					$temp = {
+						"fileID": $ii.id
+					}
+					$tmpfl.push($temp);
+				});
+				delete $tmps.files;
+				$tmps.files = $tmpfl;
+
+				//RAPIHIN FINISHING + OPTION
+				$tmpsf = [];
+				$.each($tmps.finishings, function($i, $ii){
+					$temp = {
+						"finishingID": $ii.finishingID,
+						"optionID": $ii.id
+					};
+					$tmpsf.push($temp);
+				});
+				delete $tmps.finishings;
+				$tmps.finishings = $tmpsf;
+
+
+				$tmps.deliveryaddressID = $tmps.deliveryaddress.addressID;
+				delete $tmps.deliveryaddress;
+				$tmps.sizeID = $tmps.size.id;
+				delete $tmps.size;
+				$tmps.deliveryID = $tmps.delivery.id;
+				delete $tmps.delivery;
+				$tmps.paperID = $tmps.paper.id;
+				delete $tmps.paper;
+				$link = $tmps.jobsubtypelink;
+				delete $tmps.jobsubtypelink;
+
+				if($tmps.resellername == ""){
+					delete $tmps.resellername;
+					delete $tmps.resellerphone;
+					delete $tmps.reselleraddress;
+				}
+
+				$addurl = JSON.stringify($tmps);
+				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
+				
+				console.log($addurl);
+			}
+
 			$scope.restrictNotLogined = function()
 			{
 				$scope.error.message = "Anda harus login untuk upload file!";
@@ -666,7 +780,7 @@ module.exports = function(app){
 					delete $post.delivery;
 					delete $post.deliverylocked;
 					delete $post.pagename;
-					delete $post.jobsubtypename;
+					delete $post.jobsubtypelink;
 					if(!$scope.customsize){
 						$post.sizeID = $scope.selected.size.id;
 						if ($post.sizeID != 0)
@@ -962,6 +1076,7 @@ module.exports = function(app){
 				$scope.master = $datas;
 
 				$scope.selected.jobsubtypeID = $datas.id;
+				$scope.selected.jobsubtypelink = $datas.link;
 				$scope.selected.pagename = $datas.name;
 				$scope.selected.satuan = $datas.satuan;
 
@@ -975,6 +1090,7 @@ module.exports = function(app){
 			}
 
 			$scope.showsavedialog = function(){
+				console.log($scope.selected);
 				if($scope.role == "customer"){
 					$scope.getPrice();
 					$scope.setFinishingName();
@@ -1018,51 +1134,6 @@ module.exports = function(app){
 
 			$scope.showeasyaccess = function(){
 				$('#easyaccess').modal('show');
-			}
-
-			$scope.showdelivery = function(){
-				//AMBIL DATA DARI DATABASE
-				$http({
-					"method" 	: "POST",
-					"url"			: API_URL + "delivery"
-				}).then(
-					function(response){
-						if(response != null)
-						{
-							if(response.data.length > 0)
-							{
-								$('#deliveryModal').modal('show');	
-								$scope.deliveries = response.data;
-								if($scope.selected.delivery != null)
-								{
-									$adadioption = false;
-									$.each($scope.deliveries, function($index, $item){
-										if($item.id == $scope.selected.delivery.id)
-										{
-											$adadioption = true;
-											$scope.selected.delivery = $item; // <-- BUG
-											// HARUS DI SET ULANG
-											// KALO GA DIA GA MAU KE SET, KETIKA KEBUKA KEDUA
-										}
-									});
-									if($adadioption == false){
-										$scope.selected.delivery = response[0];
-									}
-								}
-							}
-						}
-						else
-						{
-							//$scope.selectpickerrefresh($timeout);
-							$scope.selected.delivery = response[0];	
-						}
-						//KALO BISA BARU DI SHOW	
-						$scope.changedelivery($scope.selected.delivery);
-						//KALO UDA DI SHOW, HARUS DI REFRESH DATANYA		
-					},function(error){
-						console.log("ERROR, GA BISA BACA DATA DARI DELIVERIES");
-					}
-				);
 			}
 
 			$scope.sizeChanged = function($item)
@@ -1387,8 +1458,22 @@ module.exports = function(app){
 								if(response.data.constructor === Array)
 								{
 									$scope.uploadedfiles = response.data;
-									if ($scope.uploadedfiles.length > 0) 
+									if ($scope.uploadedfiles.length > 0) {
 										$scope.tableshow = true;
+										$filclone = $scope.clone($scope.selected.files);
+										$scope.selected.files = [];
+										$.each($scope.uploadedfiles, function($i, $ii) {
+											//$ss <- from searched url
+											$.each($filclone, function($s, $ss) {
+												//auto select kalo di temukan
+												//buat jadi $ii.checked
+												if ($ii.id == $ss.fileID) {
+													$ii.checked = true;
+													//$scope.checkSelectedFiles($ii);
+												}
+											})
+										});
+									}
 									$scope.allowed();
 								}
 								else
@@ -1772,12 +1857,9 @@ module.exports = function(app){
 
 			$scope.choosefileclicked = function(){
 				$('#btn-choose-file').click();
-
-				console.log($("#btn-choose-file"));
 			}
 
-			$('#real-dropzonew').on('change', function(e) 
-			{ 
+			$('#real-dropzonew').on('change', function(e) { 
 				e.preventDefault();
 				e.stopPropagation();
 				if ($(this)[0]['file'].files){

@@ -2,6 +2,11 @@
 
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->
+
+		<button class="btn btn-sm btn-purple" ng-click="hapusbro()">
+			MAKE URL
+		</button>
+
 		<div class="block-list">
 			<div class="input">
 				<div class="main">

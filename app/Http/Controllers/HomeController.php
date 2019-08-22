@@ -25,7 +25,6 @@ class HomeController extends Controller
 
 				return view('pages.home', compact('customers'));
 			}else{
-
 				return view('pages.home');
 			}
 		}
