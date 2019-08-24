@@ -6591,6 +6591,9 @@ module.exports = function(app){
 					if(response.data!=null)
 						if(response.data.length>0)
 							$scope.cities = response.data;
+				}, function(error){
+					console.log("cannot get city data");
+					console.log(error);
 				});
 			};
 
@@ -7200,7 +7203,7 @@ module.exports = function(app){
 
 
 					$.each($ii.cartdetail, function($j, $jj) {
-						$jj.jobtype =
+						$jj.jobtypelong =
 							($jj.jobtype == "OF") ? "Offset Print" :
 								($jj.jobtype == "DG") ? "Digital Print" :
 									($jj.jobtype == "PL") ? "Large Format" : "Others";
@@ -7211,6 +7214,13 @@ module.exports = function(app){
 							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
 						if ($jj.file.updated_at != null)
 							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+					$.each($scope.deliveries, function($j, $jj){
+						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
+						if($jj.id == $ii.deliveryID){
+							$ii.delivery = $jj;
+						}
 					});
 
 				});
@@ -7350,6 +7360,71 @@ module.exports = function(app){
 						$scope.cartduplicateloading = false;
 					});
 				}
+			}
+
+			$scope.edititem = function($item){
+
+				//convert
+				$tmps = $scope.clone($item);
+
+				delete $tmps.cartfile;
+				$tmps.deliveryID = $tmps.delivery.id;
+				delete $tmps.delivery;
+				if($tmps.deliveryID == 0){
+					$tmps.deliverylocked = true;
+				} else {
+					$tmps.deliverylocked = false;
+				}
+
+				$tmps.pagename = $tmps.jobsubtype.link;
+				delete $tmps.jobsubtype;
+				delete $tmps.buyprice;
+				delete $tmps.checked;
+				delete $tmps.created_at;
+				delete $tmps.updated_at;
+				delete $tmps.customerID;
+				delete $tmps.deliveryprice;
+				delete $tmps.deliverytime;
+				delete $tmps.discount;
+				delete $tmps.filestatus;
+				delete $tmps.printprice;
+				delete $tmps.processtime;
+				delete $tmps.quantitytypename;
+				delete $tmps.showdelivery;
+				delete $tmps.showdetail;
+				delete $tmps.showfile;
+				delete $tmps.showinfo;
+				delete $tmps.totalweight;
+				delete $tmps.totalpackage;
+
+				if($tmps.cartdetail.length == 1){
+					//no detail
+					$cd = $tmps.cartdetail[0];
+					$tmps.paperID = $cd.paperID;
+					$tmps.printerID = $cd.printerID;
+					if($cd.side2 > 0){
+						$tmps.sideprint = "2";
+					}else{
+						$tmps.sideprint = "1";
+					}
+					//$tmps.sizeID = $cd.sizeID; //size id carinya dari database
+					//karena yang di simpan dalam bentuk imagewidth dan image length
+					$tmps.finishings = [];
+					$.each($cd.cartdetailfinishing, function($i, $ii){
+						$temp = {
+							"finishingID": $ii.id,
+							"optionID": $ii.optionID
+						};
+						$tmps.finishings.push($temp);
+					});
+					$tmps.printtype = $cd.jobtype;
+				}
+				$tmps.cartID = $tmps.id;
+				delete $tmps.id;
+				delete $tmps.cartdetail;
+				$addurl = JSON.stringify($tmps);
+				$goto = BASE_URL + "shop/" + $tmps.pagename + "?ss=" + $addurl;
+				$window.location.href = $goto;
 			}
 
 			$scope.showedittitle = function($cart){
@@ -8484,9 +8559,11 @@ module.exports = function(app){
 				//SELECT FINISHING
 				$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
 					//$s <- dari url (selected)
+					$tidakadadiurl = true;
 					$.each($scope.selected.finishings, function($s, $ss){
 						if($ss.finishingID == $ii.finishing.id){
 							//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
+							$tidakadadiurl = false;
 							$tidakadasama = true;
 							$.each($ii.finishing.finishingoption, function($j, $jj){
 								if($jj.id == $ss.optionID){
@@ -8504,6 +8581,9 @@ module.exports = function(app){
 							}
 						}
 					});
+					if($tidakadadiurl == true){
+						$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
+					}
 				});
 				//SELECT DELIVERY TYPE
 				$dlvfound = false;
@@ -8511,22 +8591,43 @@ module.exports = function(app){
 					if($ii.id == $scope.selected.deliveryID){
 						$scope.selected.delivery = $ii;
 						$dlvfound = true;
+						if($ii.id != 0){
+							$scope.fillCities();
+							//kalo bukan pick up di fill cities buat tambah address;
+						}
 					}
 				});
 				if($dlvfound){
 					$.each($scope.customeraddresses, function($i, $ii){
 						if($ii.addressID == $scope.selected.deliveryaddressID){
-							$scope.selected.deliveryaddress = $ii;
+							if($ii.id != 0)
+								$scope.selected.deliveryaddress = $ii;
+							else{
+								$scope.selected.deliveryaddress = "";
+							}
 						}
-					})
+					});
+				}else{
+					$scope.selected.deliveryaddress = "";
+				}
+				
+				if ($scope.selected.deliveryaddress == "") {
+					if ($scope.customeraddresses.length > 0) {
+						$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+					}
 				}
 
 				//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
+
+				//kalo ada cartID -> berarti edit data
+				//matiin file
+				$("#file-headtab").parent().hide();
+				$scope.getPrice();
 			}
 
 			$scope.hapusbro = function(){
 				$tmps = $scope.clone($scope.selected);
-
+				console.log($scope.selected);
 
 
 				//RAPIHIN FILE
@@ -8573,6 +8674,8 @@ module.exports = function(app){
 				$addurl = JSON.stringify($tmps);
 				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
 				
+				//console.log($tmps);
+
 				console.log($addurl);
 			}
 
@@ -9250,6 +9353,7 @@ module.exports = function(app){
 					$scope.error.savebtnval = "File belum ada!";
 				else
 				{
+					console.log($scope.selected);
 					$http({
 						"method" 	: "POST",
 						"url"			: API_URL + "storecartdetail",
@@ -9823,6 +9927,7 @@ module.exports = function(app){
 										$scope.tableshow = true;
 										$filclone = $scope.clone($scope.selected.files);
 										$scope.selected.files = [];
+										//abis di hapus jangan lupa masukin ke selected.fileslagi
 										$.each($scope.uploadedfiles, function($i, $ii) {
 											//$ss <- from searched url
 											$.each($filclone, function($s, $ss) {
@@ -9830,6 +9935,7 @@ module.exports = function(app){
 												//buat jadi $ii.checked
 												if ($ii.id == $ss.fileID) {
 													$ii.checked = true;
+													$scope.selected.files.push($ii);
 													//$scope.checkSelectedFiles($ii);
 												}
 											})

@@ -166,7 +166,7 @@ module.exports = function(app){
 
 
 					$.each($ii.cartdetail, function($j, $jj) {
-						$jj.jobtype =
+						$jj.jobtypelong =
 							($jj.jobtype == "OF") ? "Offset Print" :
 								($jj.jobtype == "DG") ? "Digital Print" :
 									($jj.jobtype == "PL") ? "Large Format" : "Others";
@@ -177,6 +177,13 @@ module.exports = function(app){
 							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
 						if ($jj.file.updated_at != null)
 							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+					$.each($scope.deliveries, function($j, $jj){
+						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
+						if($jj.id == $ii.deliveryID){
+							$ii.delivery = $jj;
+						}
 					});
 
 				});
@@ -316,6 +323,71 @@ module.exports = function(app){
 						$scope.cartduplicateloading = false;
 					});
 				}
+			}
+
+			$scope.edititem = function($item){
+
+				//convert
+				$tmps = $scope.clone($item);
+
+				delete $tmps.cartfile;
+				$tmps.deliveryID = $tmps.delivery.id;
+				delete $tmps.delivery;
+				if($tmps.deliveryID == 0){
+					$tmps.deliverylocked = true;
+				} else {
+					$tmps.deliverylocked = false;
+				}
+
+				$tmps.pagename = $tmps.jobsubtype.link;
+				delete $tmps.jobsubtype;
+				delete $tmps.buyprice;
+				delete $tmps.checked;
+				delete $tmps.created_at;
+				delete $tmps.updated_at;
+				delete $tmps.customerID;
+				delete $tmps.deliveryprice;
+				delete $tmps.deliverytime;
+				delete $tmps.discount;
+				delete $tmps.filestatus;
+				delete $tmps.printprice;
+				delete $tmps.processtime;
+				delete $tmps.quantitytypename;
+				delete $tmps.showdelivery;
+				delete $tmps.showdetail;
+				delete $tmps.showfile;
+				delete $tmps.showinfo;
+				delete $tmps.totalweight;
+				delete $tmps.totalpackage;
+
+				if($tmps.cartdetail.length == 1){
+					//no detail
+					$cd = $tmps.cartdetail[0];
+					$tmps.paperID = $cd.paperID;
+					$tmps.printerID = $cd.printerID;
+					if($cd.side2 > 0){
+						$tmps.sideprint = "2";
+					}else{
+						$tmps.sideprint = "1";
+					}
+					//$tmps.sizeID = $cd.sizeID; //size id carinya dari database
+					//karena yang di simpan dalam bentuk imagewidth dan image length
+					$tmps.finishings = [];
+					$.each($cd.cartdetailfinishing, function($i, $ii){
+						$temp = {
+							"finishingID": $ii.id,
+							"optionID": $ii.optionID
+						};
+						$tmps.finishings.push($temp);
+					});
+					$tmps.printtype = $cd.jobtype;
+				}
+				$tmps.cartID = $tmps.id;
+				delete $tmps.id;
+				delete $tmps.cartdetail;
+				$addurl = JSON.stringify($tmps);
+				$goto = BASE_URL + "shop/" + $tmps.pagename + "?ss=" + $addurl;
+				$window.location.href = $goto;
 			}
 
 			$scope.showedittitle = function($cart){

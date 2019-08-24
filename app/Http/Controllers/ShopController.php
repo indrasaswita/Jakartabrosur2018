@@ -154,7 +154,8 @@ class ShopController extends Controller
 		$header->processtype = $data['processtime'];
 		$header->processtime = $total['processday'];
 		$header->deliveryID = $data['delivery']['id'];
-		$header->deliveryaddress = $data['deliveryaddress']==null?"":$data['deliveryaddress']['address']['address'];
+		$header->deliveryaddressID = $data['deliveryaddress']==null?"":$data['deliveryaddress']['address']['id'];
+		//dd($data['deliveryaddress']['address']['id']);
 
 		$header->deliverytime = $total['deliveryday'];
 		

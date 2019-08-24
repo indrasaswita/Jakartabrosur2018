@@ -20,7 +20,7 @@
 				</a>
 			</li>
 			<li class="nav-item" ng-show="role==null">
-	    	<a class="nav-link" href="{{URL::asset('login')}}">
+	    	<a class="nav-link" href="{{URL::asset('login')}}?url={{substr(url()->current(), strlen(url('/'))+1)}}?ss={{app('request')->input('ss')}}">
 	    		<i class="fal fa-fw fa-user-lock"></i> Log-in dulu ...
 	    	</a>
     	</li>

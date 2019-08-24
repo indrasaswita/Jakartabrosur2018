@@ -256,6 +256,9 @@ module.exports = function(app){
 					if(response.data!=null)
 						if(response.data.length>0)
 							$scope.cities = response.data;
+				}, function(error){
+					console.log("cannot get city data");
+					console.log(error);
 				});
 			};
 

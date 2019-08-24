@@ -145,7 +145,7 @@
 						</div>
 						<div class="machine">
 							<i class="fal fa-print fa-fw"></i>
-							[[item2.jobtype]]&nbsp;<span class="tx-lightgray">(</span><span class="tx-purple">[[item2.printer.machinename]]</span><span class="tx-lightgray">)</span>.
+							[[item2.jobtypelong]]&nbsp;<span class="tx-lightgray">(</span><span class="tx-purple">[[item2.printer.machinename]]</span><span class="tx-lightgray">)</span>.
 						</div>
 						<div class="size">
 							<i class="fal fa-expand-arrows-alt fa-fw"></i>
@@ -247,7 +247,7 @@
 							</div>
 						</div>
 						<div class="select-delivery">
-							<select ng-model="item.delivery.id" ng-options="item.id as item.deliveryname for item in deliveries"></select>
+							<select ng-model="item.delivery" ng-options="item as item.deliveryname for item in deliveries"></select>
 							<input type="text" ng-model="item.deliveryaddress" placeholder="Alamat Lengkap Anda" ng-if="item.delivery.id!=1">
 							<div class="rahayu-loc" ng-if="item.delivery.id==1">
 								Lokasi Pengambilan:
@@ -270,13 +270,16 @@
 			<div class="subtotal-wrapper ease">
 				<div class="action">
 					<button class="btn btn-sm btn-outline-purple" ng-click="showedittitle(item)">
-						ganti judul
+						ubah judul
+					</btn>
+					<button class="btn btn-sm btn-outline-purple" ng-click="edititem(item)">
+						edit item
+					</btn>
+					<button class="btn btn-sm btn-outline-purple hidden-xs-down" ng-click="cartduplicate(item.id)">
+						duplicate product
 					</btn>
 					<button class="btn btn-sm btn-outline-purple" ng-click="warningdelete(item)">
 						delete item
-					</btn>
-					<button class="btn btn-sm btn-outline-purple" ng-click="cartduplicate(item.id)">
-						duplicate product
 					</btn>
 				</div>
 				<div class="price"s>
@@ -454,7 +457,7 @@
 											Tipe
 										</div>
 										<div class="text">
-											[[item2.jobtype]]&nbsp;<span class="tx-lightgray">(</span><span class="tx-purple">[[item2.printer.machinename]]</span><span class="tx-lightgray">)</span>
+											[[item2.jobtypelong]]&nbsp;<span class="tx-lightgray">(</span><span class="tx-purple">[[item2.printer.machinename]]</span><span class="tx-lightgray">)</span>
 										</div>
 									</div>
 									<div class="description-item">
