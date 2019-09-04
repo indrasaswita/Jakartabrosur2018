@@ -9,7 +9,7 @@ class Salesheader extends Model
 {
 	//use SoftDeletes;
 
-	protected $fillable = ['customerID', 'tempo', 'estdate'];
+	protected $fillable = ['customerID', 'name', 'tempo', 'estdate'];
 	protected $guarded = ['id'];
 	protected $dates = ['tempo', 'estdate', 'created_at', 'updated_at', 'deleted_at'];
 

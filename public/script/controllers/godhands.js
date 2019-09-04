@@ -188,6 +188,7 @@ module.exports = function(app){
 			$scope.makeDateTime = function($input){
 				if ($input == null) return null;
 				if ($input == 'null') return null;
+				if ($input == '') return null;
 				$temp = $input.split(' ')[0];
 				$temp = $temp.split('-');
 				$temp2 = $input.split(' ')[1];
@@ -262,7 +263,7 @@ module.exports = function(app){
 				});
 			};
 
-			$scope.fillCompanyBankAccs = function()
+			$scope.fillCompanyBankAccs = function(whendone)
 			{
 				$http(
 					{
@@ -272,13 +273,17 @@ module.exports = function(app){
 				).then(function(response) {
 					$scope.compaccs = response.data;
 					if(response.data!=null){
-						if(response.data.length>0)
+						if(response.data.length>0){
 							$scope.showncompacc = $scope.compaccs[0];
+							if (whendone instanceof Function) { whendone(); }
+						}
 					}
+				}, function(error){
+					console.log("Error when calling company bank accounts - Godhands");
 				});
 			};
 
-			$scope.copyToClipboard = function(containerid){
+			$scope.copyToClipboard = async function(containerid){
 				if (document.selection) { 
 					var range = document.body.createTextRange();
 					range.moveToElementText(document.getElementById(containerid));
@@ -286,10 +291,21 @@ module.exports = function(app){
 					document.execCommand("copy");
 
 				} else if (window.getSelection) {
-					var range = document.createRange();
-					range.selectNode(document.getElementById(containerid));
-					window.getSelection().addRange(range);
-					document.execCommand("copy");
+					try {
+						var range = document.createRange();
+						range.selectNode(document.getElementById(containerid));
+						window.getSelection().addRange(range);
+						document.execCommand("copy");
+					} catch (err1){
+						try {
+							// 1) Copy text
+							await navigator.clipboard.writeText(containerid);
+
+							// 2) Catch errors
+						} catch (err) {
+							console.error('Failed to copy: ', err);
+						}
+					}
 				}
 			}
 

@@ -27,7 +27,7 @@ class MobileappsAPI extends Controller
 				->orderBy('id', 'desc')
 				->with('company')
 				->with('customeraddress')
-				->with('onesignal')
+				->with('customeronesignal')
 				->get();
 
 		return $customers;
@@ -140,7 +140,7 @@ class MobileappsAPI extends Controller
 
 	public function getemployees(){
 		$employees = Employee::with('role')
-				->with('onesignal')
+				->with('employeeonesignal')
 				->get();
 
 		return $employees;

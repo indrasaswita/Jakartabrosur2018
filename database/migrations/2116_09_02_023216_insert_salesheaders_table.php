@@ -15,12 +15,14 @@ class InsertSalesheadersTable extends Migration
     {
         DB::table('salesheaders')->insert([
             "customerID" => 1,
+            "name" => 'Potong Septi',
             "tempo" => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
         DB::table('salesheaders')->insert([
             "customerID" => 2,
+            "name" => 'Potong Kambing',
             "tempo" => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

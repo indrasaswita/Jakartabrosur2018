@@ -7,6 +7,7 @@ use File;
 use App\Cartfile;
 use App\Cartdetail;
 use App\Cartheader;
+use App\Salesdetail;
 use App\Http\Controllers\CartController;
 
 class CartAJAX extends Controller
@@ -77,6 +78,25 @@ class CartAJAX extends Controller
 		$cartCtrl = new CartController();
 		$carts = $cartCtrl->queryGetCart();
 		return $carts;
+	}
+
+	public function cartCheck($cartID){
+		dd($cartID);
+		$checksalesdetail = Salesdetail::where("cartID", $cartID)
+			->get();
+		if($checksalesdetail){
+			$msg = "Data sudah masuk sales";
+		}
+		else{
+			$checkcartheader = Cartheader::findOrFail($cartID);
+			if($checkcartheader){
+				$msg = "edit";
+			}
+			else{
+				$msg = "new";
+			}
+		}	
+		return $msg;
 	}
 
 }

@@ -1315,16 +1315,25 @@ input[type=number]::-webkit-outer-spin-button {
 
 @keyframes vib {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(-5deg);
   }
   50% {
-    transform: rotate(8deg);
+    transform: rotate(5deg);
   }
 }
 .vibrate {
   animation: vib 0.15s infinite;
 }
 
+/** ============================
+ ** variable
+ ** ============================ */
+/** ============================
+ ** function circular-progress
+ ** ============================ */
+/** ============================
+ ** Mixins Circular Progress
+ ** ============================ */
 /*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -7067,7 +7076,7 @@ button.close {
 .modal .modal-body .modal-flat-button,
 .modal .modal-footer .modal-flat-button {
   text-align: center;
-  margin: 20px 0 10px 0;
+  margin: 5px 0 5px 0;
 }
 .modal .modal-body .modal-flat-button button.btn, .modal .modal-body .modal-flat-button .panel .panel-item .panel-item-block .btn-group button.btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .modal .modal-body .modal-flat-button button.btn.flyer-qty-btn,
 .modal .modal-body .modal-flat-button .panel .panel-item .panel-item-block .input-group button.btn.flyer-qty-btn,
@@ -14174,7 +14183,7 @@ ol {
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-file {
   display: block;
-  background-color: #def;
+  background-color: #e8f8ff;
   display: flex;
   color: #666;
   box-shadow: inset 50px 0 50px -70px #0060c4;
@@ -14292,7 +14301,7 @@ ol {
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-delivery {
   display: block;
-  background-color: #fde;
+  background-color: #ffe8f8;
   display: flex;
   box-shadow: inset 50px 0 50px -70px rgba(128, 0, 0, 0.8);
   color: #666;
@@ -14343,6 +14352,7 @@ ol {
   border-top: 0;
   border-left: 0;
   border-right: 0;
+  margin-bottom: 5px;
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-delivery .delivery-wrapper .select-delivery input {
   width: 100%;
@@ -14366,7 +14376,8 @@ ol {
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-delivery .delivery-wrapper .delivery-price {
   text-align: right;
-  padding: 10px 3px 0 0;
+  margin-top: 5px;
+  padding: 3px 0 0;
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-delivery .delivery-wrapper .delivery-price .number {
   font-size: 130%;
@@ -14385,7 +14396,7 @@ ol {
   background-color: #efe;
 }
 .order-cart-wrapper .cart-list-wrapper .subdetail-wrapper .job-delivery::before {
-  border-left: 10px solid #def;
+  border-left: 10px solid #e8f8ff;
   border-bottom: 10px solid transparent;
   border-top: 10px solid transparent;
   content: " ";
@@ -16312,186 +16323,6 @@ ol {
   font-size: 80%;
 }
 
-@media screen and (max-width: 450px) {
-  .table-custom-allsales,
-.panel-sales-wrapper {
-    font-size: 11px;
-  }
-
-  .table-custom-allsales .th-action .btn .fas, .table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .fas, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .fas,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far {
-    font-size: 11px;
-  }
-  .table-custom-allsales .th-action.act-3 {
-    width: 112px;
-  }
-  .table-custom-allsales .th-action.act-4 {
-    width: 152px;
-  }
-
-  .table-cartheader > tbody > tr > td .detail-description > .description-item {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail > .description-item {
-    width: 100%;
-  }
-}
-@media screen and (min-width: 451px) and (max-width: 767px) {
-  .table-custom-allsales,
-.panel-sales-wrapper {
-    font-size: 12px;
-  }
-
-  .table-custom-allsales .th-action .btn .fas, .table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .fas, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .fas,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far {
-    font-size: 12px;
-  }
-  .table-custom-allsales .th-action.act-3 {
-    width: 112px;
-  }
-  .table-custom-allsales .th-action.act-4 {
-    width: 152px;
-  }
-
-  .table-cartheader > tbody > tr > td .detail-description > .description-item {
-    width: 50%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail > .description-item {
-    width: 50%;
-  }
-}
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .table-custom-allsales,
-.panel-sales-wrapper {
-    font-size: 14px;
-  }
-
-  .table-custom-allsales .th-action .btn .fas, .table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .fas, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .fas,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far {
-    font-size: 14px;
-  }
-  .table-custom-allsales .th-action.act-3 {
-    width: 110px;
-  }
-  .table-custom-allsales .th-action.act-4 {
-    width: 147px;
-  }
-
-  .table-cartheader > tbody > tr > td .detail-description > .description-item {
-    width: 33%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail > .description-item {
-    width: 33%;
-  }
-
-  .description-item,
-.description-item-full {
-    font-size: 90%;
-  }
-}
-@media screen and (min-width: 992px) and (max-width: 1999px) {
-  .table-custom-allsales,
-.panel-sales-wrapper {
-    font-size: 15px;
-  }
-
-  .table-custom-allsales .th-action .btn .fas, .table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .fas, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .fas,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far {
-    font-size: 17px;
-  }
-  .table-custom-allsales .th-action.act-3 {
-    width: 120px;
-  }
-  .table-custom-allsales .th-action.act-4 {
-    width: 158px;
-  }
-
-  .table-cartheader > tbody > tr > td .detail-description > .description-item {
-    width: 25%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail > .description-item {
-    width: 25%;
-  }
-
-  .description-item,
-.description-item-full {
-    font-size: 85%;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .table-custom-allsales,
-.panel-sales-wrapper {
-    font-size: 15px;
-  }
-
-  .table-custom-allsales .th-action .btn .fas, .table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .fas, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .fas,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .fas,
-.table-custom-allsales .th-action .btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .btn-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far,
-.table-custom-allsales .th-action .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn .far,
-.panel .panel-item .panel-item-block .input-group .table-custom-allsales .th-action .btn.flyer-qty-btn .far {
-    font-size: 17px;
-  }
-  .table-custom-allsales .th-action.act-3 {
-    width: 120px;
-  }
-  .table-custom-allsales .th-action.act-4 {
-    width: 158px;
-  }
-
-  .table-cartheader > tbody > tr > td .detail-description > .description-item {
-    width: 20%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail {
-    width: 100%;
-  }
-  .table-cartheader > tbody > tr > td .detail-description .multi-detail > .description-item {
-    width: 20%;
-  }
-
-  .description-item,
-.description-item-full {
-    font-size: 85%;
-  }
-}
 .panel-sales-wrapper .btn, .panel-sales-wrapper .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .panel-sales-wrapper .btn.flyer-qty-btn,
 .panel-sales-wrapper .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
 .panel .panel-item .panel-item-block .input-group .panel-sales-wrapper .btn.flyer-qty-btn {
@@ -16516,33 +16347,27 @@ ol {
 .table-custom-allsales > tbody {
   color: black;
 }
-.table-custom-allsales > tbody button.btn-secondary:hover {
-  background: #fff;
-  color: #70a;
-}
-.table-custom-allsales > tbody button.btn-secondary:hover .far,
-.table-custom-allsales > tbody button.btn-secondary:hover .fas,
-.table-custom-allsales > tbody button.btn-secondary:hover .fab {
-  color: #70a;
-}
 .table-custom-allsales > tbody tr.content-header {
   border-top: 8px #f7f7f7 solid;
-  color: black;
-}
-.table-custom-allsales > tbody tr.content-header:not(.selected) {
   border-left: 2px #70a solid;
   background-color: #eee;
+  box-shadow: inset 0 -10px 30px -25px rgba(0, 0, 0, 0.5);
+  font-family: Google;
+  font-weight: 400;
+  color: black;
 }
-.table-custom-allsales > tbody tr.content-header:not(.selected) .number svg {
+.table-custom-allsales > tbody tr.content-header .number svg {
   color: #ccc !important;
 }
-.table-custom-allsales > tbody tr.content-header.selected {
-  border-left: 2px #0275d8 solid;
-  background-color: #bef;
+.table-custom-allsales > tbody tr.content-header > td {
+  padding: 10px 4px;
 }
 .table-custom-allsales > tbody tr.content-header .number {
   text-align: center;
   color: rgba(0, 0, 0, 0.5);
+}
+.table-custom-allsales > tbody tr.content-header .th-action > .btn-group {
+  text-align: center;
 }
 .table-custom-allsales > tbody tr.content-header .th-action > .btn-group .btn, .table-custom-allsales > tbody tr.content-header .panel .panel-item .panel-item-block .th-action > .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .table-custom-allsales > tbody tr.content-header .th-action > .btn-group .btn.flyer-qty-btn,
 .table-custom-allsales > tbody tr.content-header .th-action > .btn-group .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn {
@@ -16555,302 +16380,741 @@ ol {
   color: #509;
   background-color: white;
 }
+.table-custom-allsales > tbody tr.content-header .th-action > .btn-group .btn.expand {
+  border-radius: 100px;
+  padding: 2px 20px;
+  font-size: 90%;
+}
+.table-custom-allsales > tbody tr.content-detail > td {
+  padding: 0 2px 5px 2px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail-tabs {
+  display: flex;
+  margin: -1px 0 0;
+  font-family: Google;
+  font-weight: 200;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail-tabs .tab-list {
+  width: 100%;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 0 0 2px;
+  border-color: #f9c;
+  background-color: #ffe0f8;
+  padding: 7px 0 3px;
+  color: #444;
+  box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.07);
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail-tabs .tab-list.selected {
+  background-color: #fce;
+  border-color: #f59;
+  font-weight: 400;
+  color: black;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail-tabs .tab-list:not(:last-child) {
+  border-right: 0;
+}
 .table-custom-allsales > tbody tr.content-detail > td > .detail {
   border: 2px dotted #70a;
   border-top: 0;
   border-radius: 0 0 10px 10px;
-  margin-top: -5px;
-  padding: 15px 10px 10px 10px;
+  margin: -5px 2px 0 2px;
+  padding: 15px 4px 5px;
   text-align: center;
   background: white;
 }
+.table-custom-allsales > tbody tr.content-detail > td > .detail .btn, .table-custom-allsales > tbody tr.content-detail > td > .detail .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .table-custom-allsales > tbody tr.content-detail > td > .detail .btn.flyer-qty-btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .table-custom-allsales > tbody tr.content-detail > td > .detail .btn.flyer-qty-btn {
+  font-size: inherit;
+}
 .table-custom-allsales > tbody tr.content-detail > td > .detail .subheader {
-  font-family: "Magra";
-  font-weight: bold;
+  font-family: Google;
+  font-weight: 200;
   font-style: italic;
-  padding-bottom: 3px;
+  padding: 0 3px;
+  margin-top: 15px;
   text-align: left;
-  color: #777;
+  color: #059;
   font-size: 115%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .subheader .txt {
+  background-color: white;
+  z-index: 1;
+  display: inline-block;
+  padding-right: 6px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .subheader:after {
+  z-index: 0;
+  border-bottom: 1px solid #059;
+  width: 100%;
+  content: " ";
+  height: 1px;
+  display: block;
+  margin-top: -8px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader {
+  text-align: left;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title {
+  padding: 10px 5px 3px;
+  display: flex;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p10 {
+  background: linear-gradient(90deg, #E0E0E0 50%, transparent 50%, transparent), linear-gradient(126deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p10::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "10%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p10:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p25 {
+  background: linear-gradient(90deg, #E0E0E0 50%, transparent 50%, transparent), linear-gradient(180deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p25::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "25%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p25:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p40 {
+  background: linear-gradient(90deg, #E0E0E0 50%, transparent 50%, transparent), linear-gradient(234deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p40::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "40%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p40:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p55 {
+  background: linear-gradient(-72deg, #FF70A6 50%, transparent 50%, transparent), linear-gradient(270deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p55::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "55%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p55:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p70 {
+  background: linear-gradient(-18deg, #FF70A6 50%, transparent 50%, transparent), linear-gradient(270deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p70::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "70%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p70:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p85 {
+  background: linear-gradient(36deg, #FF70A6 50%, transparent 50%, transparent), linear-gradient(270deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p85::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "85%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p85:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p100 {
+  background: linear-gradient(90deg, #FF70A6 50%, transparent 50%, transparent), linear-gradient(270deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p100::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "100%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .circular-progress.p100:hover {
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .title-text {
+  padding: 3px 0 2px;
+  color: #444;
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .title-text .big {
+  font-size: 180%;
+  font-weight: 200;
+  line-height: 1;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .title-text .small {
+  padding: 2px 2px 0 0;
+  font-size: 110%;
+  font-weight: 400;
+  line-height: 1.1;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .button-progress {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-title .button-progress .btn {
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 100px;
+  font-family: Google;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content-toggle {
+  padding: 2px 0 5px 0;
+  font-family: Google;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content-toggle .btn {
+  width: 100%;
+  text-align: center;
+  font-size: 90%;
+  border-radius: 100px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 5px 0 2px;
+  display: flex;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper {
+  padding: 0 3px;
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: white;
+  padding: 3px 6px;
+  margin: 3px 0;
+  width: 100%;
+  display: inline-block;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-title {
+  font-weight: 600;
+  font-style: italic;
+  color: #07a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-title svg {
+  opacity: 0.7;
+  color: #246;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text {
+  line-height: 1.2;
+  color: #444;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text svg {
+  opacity: 0.7;
+  margin-right: 5px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .proc {
+  text-align: center;
+  padding: 3px;
+  line-height: 1;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 1px 0;
+  margin: 2px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .proc svg {
+  color: #fa0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .btn.btn-sm, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .btn-group-sm > .btn, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn {
+  padding: 5px 20px;
+  border-radius: 100px;
+  margin: 10px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .alert.alert-sm {
+  margin: 3px 0;
+  border: 1px solid #059;
+  background-color: #f4faff;
+  color: #235;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .subheader .txt {
+  background-color: #ffe;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-header {
+  font-family: Google;
+  line-height: 1.1;
+  font-weight: 200;
+  text-align: center;
+  padding: 10px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-header .totalprice {
+  font-size: 160%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-header .btn.move-to-detail {
+  border-radius: 100px;
+  padding: 5px 20px;
+  font-size: 95%;
+  margin: 5px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet {
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 1px 1px 0;
+  margin: 10px 10px 0 10px;
+  padding: 0 10px;
+  border-radius: 4px 4px 0 0;
+  background-color: #ffe;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper {
+  margin: 10px 0;
+  font-family: Google;
+  font-weight: 200;
+  display: flex;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list {
+  width: 100%;
+  line-height: 1.1;
+  margin: 0 2px;
+  padding: 10px 5px;
+  border-width: 0;
+  border-style: solid;
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 5px;
+  background-color: white;
+  text-decoration: none;
+  color: inherit;
+  font-size: 85%;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list .image {
+  padding: 0 5px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list .image img {
+  min-width: 45px;
+  height: 25px;
+  display: block;
+  margin: 5px auto 18px auto;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list .title {
+  font-size: 100%;
+  font-weight: 600;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list:hover, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list:focus {
+  color: inherit;
+  text-decoration: none;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list.selected {
+  border-color: #5cb85c;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .norek-wrapper .norek-list.selected:after {
+  content: " ";
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid #5cb85c;
+  position: relative;
+  margin: 9px auto -28px;
+  align-self: center;
+  display: block;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info {
+  border: 1px solid #5cb85c;
+  border-radius: 5px;
+  margin: 16px 2px 10px;
+  padding: 15px 5px;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc {
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .bank-name {
+  color: #2d449c;
+  font-family: Google;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-norek {
+  font-size: 200%;
+  font-family: Google;
+  font-weight: 600;
+  padding: 10px 0;
+  line-height: 0.95;
+  color: #70a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-norek .btn.btn-sm, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-norek .btn-group-sm > .btn, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-norek .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-norek .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn {
+  border-radius: 100px;
+  padding: 4px 30px;
+  font-size: 40%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-bankacc .nopay-description {
+  color: #555;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .arrow-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  padding: 0 10px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer {
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .title {
+  color: #2d449c;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal {
+  font-size: 200%;
+  font-family: Google;
+  font-weight: 600;
+  padding: 10px 0;
+  line-height: 0.95;
+  color: #70a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal .rp {
+  font-size: 50%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal .btn.btn-sm, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal .btn-group-sm > .btn, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-info .nopay-transfer .nopay-nominal .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn {
+  border-radius: 100px;
+  padding: 4px 30px;
+  font-size: 40%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek {
+  margin: 10px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek button,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek input {
+  font-size: inherit;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab {
+  display: flex;
+  padding: 3px 0;
+  margin-bottom: 5px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab .btn {
+  border-radius: 0;
+  width: 100%;
+  border: 1px solid #509;
+  background-color: white;
+  color: #509;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab .btn.selected {
+  background-color: #509;
+  color: white;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab .btn:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab .btn:not(:last-child) {
+  margin-right: -1px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-tab .btn:last-child {
+  border-radius: 0 3px 3px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input {
+  font-family: Google;
+  padding: 3px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input {
+  border-radius: 0;
+  border-color: #509;
+  border-width: 1px;
+  border-style: solid;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:not(:last-child),
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:not(:last-child) {
+  margin-bottom: -1px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:first-child,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:first-child {
+  border-radius: 3px 3px 0 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:last-child,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:last-child {
+  border-radius: 0 0 3px 3px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input {
+  color: #509;
+  background-color: white;
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button {
+  color: #509;
+  background-color: white;
+  font-weight: 200;
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-info {
+  font-family: Google;
+  font-size: 85%;
+  font-weight: 200;
+  color: #70a;
+  margin-bottom: 5px;
+  text-align: left;
+  padding: 0 3px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .paydone {
+  padding: 10px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .paydone .text {
+  line-height: 1.1;
+  margin: 5px 0;
+  font-weight: 400;
+  font-size: 90%;
+  font-family: Google;
+  color: #05a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .paydone .btn {
+  padding: 5px 25px;
+  border-radius: 100px;
+  margin: 10px 0;
+  font-family: Google;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet-toggle,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail-toggle {
+  margin: 0 0 10px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet-toggle .btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail-toggle .btn {
+  padding: 5px 10px;
+  width: 100%;
+  border-radius: 100px;
+  font-family: Google;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail {
+  margin: 10px 10px 0;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table {
+  font-family: Google;
+  font-weight: 200;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table td {
+  border-top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
+  padding: 3px 5px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table > tbody > tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table > tbody > tr.title td {
+  padding: 9px 2px 0;
+  font-weight: 400;
+  color: #1d94ef;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table > tbody > tr > td:not(.price) {
+  text-align: left;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table > tbody > tr > td.price {
+  text-align: right;
+  font-size: 110%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .table > tbody > tr > td.price .rp {
+  font-size: 60%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-detail .payment-detail-info {
+  padding: 3px 2px;
+  border: 1px solid #fea;
+  background: #ffe;
+  margin-top: 10px;
+  color: #444;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-print-pdf {
+  font-family: Google;
+  margin: 10px 0;
+  padding: 5px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-print-pdf .btn {
+  padding: 5px 20px;
+  border-radius: 100px;
+  margin: 10px 0;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .payment-print-pdf .text {
+  padding: 5px 0;
+  line-height: 1.1;
+  font-weight: 400;
+  font-size: 90%;
+  color: #05a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-delivery .table td {
+  padding: 3px 2px;
 }
 .table-custom-allsales .subheader {
   margin-top: 10px;
-}
-
-.table-cartdetail {
-  border: 4px solid rgba(196, 128, 64, 0.3);
-  margin-bottom: 5px;
-}
-.table-cartdetail td .context-input {
-  border: none;
-  border-bottom: 2px solid #999;
-  background: transparent;
-  padding: 2px 2px 0 2px;
-  width: 100%;
-  border-radius: 3px;
-  color: deeppink;
-  font-weight: bold;
-  text-align: center;
-}
-.table-cartdetail td .context-input:focus, .table-cartdetail td .context-input:active {
-  border-bottom-color: #f5a;
-}
-.table-cartdetail td .context-input:hover {
-  border-bottom-color: #777;
-}
-
-.table-cartheader tbody,
-.table-cartheader thead {
-  text-align: center;
-  border-bottom: 3px solid #aaa;
-}
-.table-cartheader tbody tr.row-header,
-.table-cartheader thead tr.row-header {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center),
-.table-cartheader tbody th,
-.table-cartheader thead td:not(.nomor):not(.v-center),
-.table-cartheader thead th {
-  vertical-align: top;
-  padding: 3px 1px;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description,
-.table-cartheader tbody th .detail-description,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description,
-.table-cartheader thead th .detail-description {
-  display: inline;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .multi-detail,
-.table-cartheader tbody th .detail-description .multi-detail,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .multi-detail,
-.table-cartheader thead th .detail-description .multi-detail {
-  background-color: #ffffda;
-  padding: 2px 0;
-  margin: 2px 0;
-  display: inline-block;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .multi-detail > .description-title,
-.table-cartheader tbody th .detail-description .multi-detail > .description-title,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .multi-detail > .description-title,
-.table-cartheader thead th .detail-description .multi-detail > .description-title {
-  text-align: left;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-title,
-.table-cartheader tbody th .detail-description .description-title,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-title,
-.table-cartheader thead th .detail-description .description-title {
-  width: 100% !important;
-  color: #70a;
-  padding: 0 0 0 10px;
-  margin: 0;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-title .label,
-.table-cartheader tbody th .detail-description .description-title .label,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-title .label,
-.table-cartheader thead th .detail-description .description-title .label {
-  text-align: left;
-  font-weight: bold;
-  background-color: #ffe;
-  display: inline-block;
-  float: left;
-  padding-right: 5px;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-title .line,
-.table-cartheader tbody th .detail-description .description-title .line,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-title .line,
-.table-cartheader thead th .detail-description .description-title .line {
-  border-bottom: 1px solid #baf;
-  margin: 12px;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item,
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item-full,
-.table-cartheader tbody th .detail-description .description-item,
-.table-cartheader tbody th .detail-description .description-item-full,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item-full,
-.table-cartheader thead th .detail-description .description-item,
-.table-cartheader thead th .detail-description .description-item-full {
-  padding: 2px 5px;
-  margin: 0;
-  float: left;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item .label,
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item-full .label,
-.table-cartheader tbody th .detail-description .description-item .label,
-.table-cartheader tbody th .detail-description .description-item-full .label,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item .label,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item-full .label,
-.table-cartheader thead th .detail-description .description-item .label,
-.table-cartheader thead th .detail-description .description-item-full .label {
-  display: inline-block;
-  float: left;
-  color: #062;
-  font-family: Signika;
-  padding: 0 3px;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item .text,
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item-full .text,
-.table-cartheader tbody th .detail-description .description-item .text,
-.table-cartheader tbody th .detail-description .description-item-full .text,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item .text,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item-full .text,
-.table-cartheader thead th .detail-description .description-item .text,
-.table-cartheader thead th .detail-description .description-item-full .text {
-  display: flex;
-  padding: 0 3px;
-  margin: 0;
-  color: black;
-  border-radius: 0 0 5px 0;
-  border-bottom: 2px solid #999;
-  text-align: left;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item .text::after,
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item-full .text::after,
-.table-cartheader tbody th .detail-description .description-item .text::after,
-.table-cartheader tbody th .detail-description .description-item-full .text::after,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item .text::after,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item-full .text::after,
-.table-cartheader thead th .detail-description .description-item .text::after,
-.table-cartheader thead th .detail-description .description-item-full .text::after {
-  content: " ";
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .detail-description .description-item-full,
-.table-cartheader tbody th .detail-description .description-item-full,
-.table-cartheader thead td:not(.nomor):not(.v-center) .detail-description .description-item-full,
-.table-cartheader thead th .detail-description .description-item-full {
-  width: 100%;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .context-title,
-.table-cartheader tbody th .context-title,
-.table-cartheader thead td:not(.nomor):not(.v-center) .context-title,
-.table-cartheader thead th .context-title {
-  font-family: Signika;
-  font-size: 80%;
-  font-weight: bold;
-  color: #777;
-  font-style: italic;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .context-input,
-.table-cartheader tbody th .context-input,
-.table-cartheader thead td:not(.nomor):not(.v-center) .context-input,
-.table-cartheader thead th .context-input {
-  border: none;
-  border-bottom: 2px solid #999;
-  background: transparent;
-  padding: 2px 2px 0 2px;
-  width: 100%;
-  border-radius: 3px;
-  color: deeppink;
-  font-weight: bold;
-  text-align: center;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .context-input:focus, .table-cartheader tbody td:not(.nomor):not(.v-center) .context-input:active,
-.table-cartheader tbody th .context-input:focus,
-.table-cartheader tbody th .context-input:active,
-.table-cartheader thead td:not(.nomor):not(.v-center) .context-input:focus,
-.table-cartheader thead td:not(.nomor):not(.v-center) .context-input:active,
-.table-cartheader thead th .context-input:focus,
-.table-cartheader thead th .context-input:active {
-  border-bottom-color: #f5a;
-}
-.table-cartheader tbody td:not(.nomor):not(.v-center) .context-input:hover,
-.table-cartheader tbody th .context-input:hover,
-.table-cartheader thead td:not(.nomor):not(.v-center) .context-input:hover,
-.table-cartheader thead th .context-input:hover {
-  border-bottom-color: #777;
-}
-.table-cartheader tbody td.nomor,
-.table-cartheader thead td.nomor {
-  vertical-align: middle;
-  padding: 5px 5px;
-  border-right: 1px solid #ccc;
-}
-.table-cartheader tbody td.v-center,
-.table-cartheader thead td.v-center {
-  vertical-align: middle;
-  padding: 5px 5px;
-}
-
-.table-cartheader table.table-subdetail,
-.table-cartdetail table.table-subdetail {
-  margin: 5px 0;
-  border: 2px solid #f5a;
-  background-color: white;
-}
-.table-cartheader table.table-subdetail .input-wrapper > .input-group input.form-control,
-.table-cartdetail table.table-subdetail .input-wrapper > .input-group input.form-control {
-  width: 100%;
-  border-bottom: 1px solid #999;
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
-  padding: 3px 10px;
-  font-size: 100%;
-}
-.table-cartheader table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn,
-.table-cartdetail table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn {
-  padding: 3px 10px;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: lightgray;
-}
-.table-cartheader table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn:hover, .table-cartheader table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn:active,
-.table-cartdetail table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn:hover,
-.table-cartdetail table.table-subdetail .input-wrapper > .input-group .input-group-btn .btn:active {
-  color: #5cb85c;
-}
-.table-cartheader table.table-subdetail .input-wrapper > .input-group .input-group-addon,
-.table-cartdetail table.table-subdetail .input-wrapper > .input-group .input-group-addon {
-  padding: 3px 5px 3px 0;
-  margin: 0;
-  border: 0;
-  background: none;
-}
-.table-cartheader table.table-subdetail tbody > tr:not(:first-child) td,
-.table-cartdetail table.table-subdetail tbody > tr:not(:first-child) td {
-  border-top: 0;
-}
-.table-cartheader table.table-subdetail tbody:not(:last-child),
-.table-cartheader table.table-subdetail thead:not(:last-child),
-.table-cartdetail table.table-subdetail tbody:not(:last-child),
-.table-cartdetail table.table-subdetail thead:not(:last-child) {
-  border-bottom: 4px double #f5a;
-}
-.table-cartheader table.table-subdetail tbody:last-child,
-.table-cartheader table.table-subdetail thead:last-child,
-.table-cartdetail table.table-subdetail tbody:last-child,
-.table-cartdetail table.table-subdetail thead:last-child {
-  border-bottom: 0;
-}
-
-.trf-detail {
-  display: flex;
-  border: 1px solid #ffc400;
-  background: rgba(255, 127, 0, 0.05);
-  border-radius: 6px;
-  padding: 15px 5px;
-  margin: 10px 0;
-}
-.trf-detail .left-side {
-  width: 50%;
-  margin: 0;
-  padding: 0 5px 0 0;
-  border-right: 1px solid #777;
-  text-align: right;
-}
-.trf-detail .right-side {
-  text-align: left;
-  width: 50%;
-  margin: 0;
-  padding: 0 0 0 5px;
-}
-.trf-detail .right-side .nominal,
-.trf-detail .left-side .nominal {
-  font-weight: bold;
-  font-size: 20px;
-  margin: 0 5px;
 }
 
 @media screen and (min-width: 992px) {
@@ -17845,6 +18109,119 @@ ol {
 }
 .select-company .table tbody tr:hover {
   background-color: #ded;
+}
+
+.allacc-sales-cartheader-wrapper {
+  font-family: Google;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title {
+  padding: 10px 5px;
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .circular-progress {
+  background: linear-gradient(90deg, #E0E0E0 50%, transparent 50%, transparent), linear-gradient(126deg, #FF70A6 50%, #E0E0E0 50%, #E0E0E0);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  height: 40px;
+  margin: 2em auto;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  margin: 0 10px;
+  transition: all 0.3s linear;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .circular-progress::before {
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.75);
+  content: "10%";
+  font-size: 13.5px;
+  font-weight: bold;
+  height: 100%;
+  left: 0;
+  line-height: 40px;
+  font-family: Google;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: scale(0.87);
+  width: 100%;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .circular-progress:hover {
+  cursor: pointer;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .title-text {
+  line-height: 1;
+  padding: 0;
+  color: #444;
+  width: 100%;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .title-text .big {
+  font-size: 200%;
+  font-weight: 200;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .title-text .small {
+  padding: 0 2px;
+  font-size: 110%;
+  font-weight: 400;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress .btn, .allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress .btn.flyer-qty-btn,
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-title .button-progress .btn.flyer-qty-btn {
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 100px;
+  font-family: Google;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content {
+  display: flex;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper {
+  padding: 0 3px;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: white;
+  padding: 3px 6px;
+  margin: 3px 0;
+  width: 100%;
+  display: inline-block;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-title {
+  font-weight: 600;
+  font-style: italic;
+  color: #07a;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text {
+  line-height: 1.2;
+  color: #444;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text svg {
+  opacity: 0.7;
+  margin-right: 5px;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .proc {
+  text-align: center;
+  padding: 3px;
+  line-height: 1;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 1px 0;
+  margin: 2px 0;
+}
+.allacc-sales-cartheader-wrapper .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .proc svg {
+  color: #fa0;
 }
 
 .paymentverif-wrapper {
@@ -19008,7 +19385,7 @@ ol {
 .btn-filter-scroll-x .btn, .btn-filter-scroll-x .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .btn-filter-scroll-x .btn.flyer-qty-btn,
 .btn-filter-scroll-x .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
 .panel .panel-item .panel-item-block .input-group .btn-filter-scroll-x .btn.flyer-qty-btn {
-  color: #444;
+  color: #777;
   border-radius: 6px 6px 0 0;
   border-top: 0;
   border-left: 0;
@@ -19018,7 +19395,7 @@ ol {
   padding: 10px 10px 7px;
   background-color: #ddd;
   font-family: Google;
-  font-weight: 100;
+  font-weight: 400;
   font-size: 80%;
   margin-right: 2px;
   text-transform: capitalize;
@@ -19041,10 +19418,11 @@ ol {
 .btn-filter-scroll-x .btn.active, .btn-filter-scroll-x .panel .panel-item .panel-item-block .btn-group .active.btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .btn-filter-scroll-x .active.btn.flyer-qty-btn,
 .btn-filter-scroll-x .panel .panel-item .panel-item-block .input-group .active.btn.flyer-qty-btn,
 .panel .panel-item .panel-item-block .input-group .btn-filter-scroll-x .active.btn.flyer-qty-btn {
-  border-color: yellow;
-  color: white;
-  background-color: #444;
-  box-shadow: inset 0 -4px 4px -4px yellow;
+  border-color: #ccc;
+  color: #666;
+  background-color: #fcfcfc;
+  border-width: 1px 1px 0;
+  border-style: solid;
 }
 
 img {

@@ -16,9 +16,12 @@
 		<?php
 			$temp2 = str_replace(array('\r', '\"', '\n', '\''), '?', $deliveries);
 		?>
+		<?php
+			$temp3 = str_replace(array('\r', '\"', '\n', '\''), '?', $custaddresses);
+		?>
 
 		@if(count($carts) != 0)
-	<div ng-init="initData('{{$temp}}', '{{$temp2}}')"></div>
+	<div ng-init="initData('{{$temp}}', '{{$temp2}}', '{{$temp3}}')"></div>
 		@endif
 	@endif
 @endif
@@ -248,7 +251,8 @@
 						</div>
 						<div class="select-delivery">
 							<select ng-model="item.delivery" ng-options="item as item.deliveryname for item in deliveries"></select>
-							<input type="text" ng-model="item.deliveryaddress" placeholder="Alamat Lengkap Anda" ng-if="item.delivery.id!=1">
+							<select ng-model="item.deliveryaddress" ng-options="item.address as item.address.address for item in custaddresses"
+							 ng-if="item.delivery.id!=1"></select>
 							<div class="rahayu-loc" ng-if="item.delivery.id==1">
 								Lokasi Pengambilan:
 								<br>
@@ -260,7 +264,7 @@
 							<span class="number">
 								[[item.deliveryprice|number:0]]
 							</span>
-							<button class="btn btn-sm">
+							<button class="btn btn-sm" ng-click="infodeliveryshow()">
 								<i class="fas fa-info"></i>
 							</button>
 						</div>
@@ -563,6 +567,7 @@
 	@include ('pages.order.cart.modals.editcarttitle')
 	@include ('pages.order.cart.modals.changefile')
 	@include ('pages.order.cart.modals.addfile')
+	@include ('pages.order.cart.modals.infodelivery')
 	@include ('pages.order.cart.modals.changespec')
 	@include ('pages.order.cart.modals.changetitle')
 	

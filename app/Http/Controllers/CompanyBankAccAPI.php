@@ -9,8 +9,7 @@ use App\Http\Requests;
 class CompanyBankAccAPI extends Controller
 {
 	public function getAll(){
-		$companybankaccs = Companybankacc::join('banks', 'banks.id', '=', 'bankID')
-				->select('banks.*', 'companybankaccs.*')
+		$companybankaccs = Companybankacc::with('bank')
 				->get();
 		return $companybankaccs;
 	}

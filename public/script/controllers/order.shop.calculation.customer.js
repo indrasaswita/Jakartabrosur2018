@@ -1,3 +1,4 @@
+
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, AJAX_URL, API_URL, BASE_URL, $window){
@@ -913,33 +914,41 @@ module.exports = function(app){
 					$scope.error.savebtnval = "Belum ada judul cetakan!";
 				else if($scope.selected.jobtitle.length < 8)
 					$scope.error.savebtnval = "Judul Cetakan, kurang spesifik!";
-				else if($scope.selected.files.length ==0)
-					$scope.error.savebtnval = "File belum ada!";
+				/*else if($scope.selected.files.length ==0)
+					$scope.error.savebtnval = "File belum ada!";*/
 				else
 				{
-					console.log($scope.selected);
+					//ngefek baru, edit, udah ada di sales atau belum
+					console.log($scope.selected.cartID);
 					$http({
-						"method" 	: "POST",
-						"url"			: API_URL + "storecartdetail",
-						"data" 		: {
-							"selected": $scope.selected,
-							"key": $scope.key,
-							"total": $scope.total
-						}
+						"method"	: "GET",
+						"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
 					}).then(function(response){
-						$scope.error.savebtnval = "";
-						if(response.data != null){
-							if(response.data.constructor === String)
-							{
-								if(response.data == "success")
-									$window.location.href=BASE_URL+"cart";
-							}
-						}
-						else
-						{
-							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
-						}
+						console.log(response);
 					});
+
+					// $http({
+					// 	"method" 	: "POST",
+					// 	"url"			: API_URL + "storecartdetail",
+					// 	"data" 		: {
+					// 		"selected": $scope.selected,
+					// 		"key": $scope.key,
+					// 		"total": $scope.total
+					// 	}
+					// }).then(function(response){
+					// 	$scope.error.savebtnval = "";
+					// 	if(response.data != null){
+					// 		if(response.data.constructor === String)
+					// 		{
+					// 			if(response.data == "success")
+					// 				$window.location.href=BASE_URL+"cart";
+					// 		}
+					// 	}
+					// 	else
+					// 	{
+					// 		alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
+					// 	}
+					// });
 				}
 			}
 
@@ -1145,8 +1154,8 @@ module.exports = function(app){
 						$scope.error.savecartval = "Belum ada judul cetakan!";
 					else if($scope.selected.jobtitle.length < 8)
 						$scope.error.savecartval = "Judul Cetakan, kurang spesifik!";
-					else if($scope.selected.files.length == 0)
-						$scope.error.savecartval = "File belum ada! Upload di tab 'Deskripsi'";
+					/*else if($scope.selected.files.length == 0)
+						$scope.error.savecartval = "File belum ada! Upload di tab 'File'";*/
 					else if($scope.selected.deliveryaddress.length<10 && !$scope.selected.deliverylocked)
 						$scope.error.savecartval = "Buat alamat pengiriman yang lengkap";
 					else{

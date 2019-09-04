@@ -33,7 +33,7 @@ class CreateCartheadersTable extends Migration
 				processtype VARCHAR(16) NOT NULL,
 				processtime INT UNSIGNED NOT NULL,
 				deliveryID INT UNSIGNED NOT NULL,
-				deliveryaddressID INT UNSIGNED NOT NULL,
+				deliveryaddressID INT UNSIGNED NULL,
 				deliverytime INT UNSIGNED NOT NULL,
 				totalpackage INT UNSIGNED NOT NULL,
 				totalweight INT UNSIGNED NOT NULL,

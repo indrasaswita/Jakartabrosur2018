@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Cartheader;
 use App\Customer;
 use App\Delivery;
+use App\Customeraddress;
 
 class CartController extends Controller
 {
@@ -24,10 +25,15 @@ class CartController extends Controller
 	 */
 	public function index()
 	{
+		$userid = session()->get('userid');
+
 		$carts = $this->queryGetCart();
 		$deliveries = Delivery::orderBy('price', 'ASC')
 									->get();
-		return view('pages.order.cart.index', compact('carts', 'deliveries'));
+		$custaddresses = Customeraddress::where('customerID', $userid)
+				->with('address')
+				->get();
+		return view('pages.order.cart.index', compact('carts', 'deliveries', 'custaddresses'));
 	}
 
 	public function setToDeleted(Request $request)
@@ -50,7 +56,9 @@ class CartController extends Controller
 		$carts = Cartheader::with('cartdetail')
 				->with('cartfile')
 				->with('delivery')
+				->with('customer')
 				->with('jobsubtype')
+				->with('deliveryaddress')
 				->where('customerID', '=', $customer)
 				->where('filestatus', '>', -2) //-2 deleted -1 itu file rejected
 				->whereNotIn('id', function($query){

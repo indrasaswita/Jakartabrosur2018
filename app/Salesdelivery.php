@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Salesdelivery extends Model
 {
-	protected $fillable = ['salesID', 'deliveryID', 'employeeID', 'address', 'receiver', 'customernote', 'employeenote', 'suratimage', 'suratno', 'arrivedtime'];
+	protected $fillable = ['salesID', 'deliveryID', 'employeeID', 'addressID', 'receiver', 'customernote', 'employeenote', 'suratimage', 'suratno', 'arrivedtime'];
 	protected $guarded = ['id'];
-	protected $hidden = ['created_at', 'updated_at'];
+	//protected $hidden = ['created_at', 'updated_at'];
 	protected $dates = ['arrivedtime', 'created_at', 'updated_at'];
 
 	public function salesdeliverydetail(){
@@ -25,5 +25,9 @@ class Salesdelivery extends Model
 
 	public function delivery(){
 		return $this->belongsTo('App\Delivery', 'deliveryID');
+	}
+
+	public function address(){
+		return $this->belongsTo('App\Address', 'addressID');
 	}
 }

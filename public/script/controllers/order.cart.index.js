@@ -145,9 +145,23 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.initData = function($carts, $deliveries){
+			$scope.initData = function($carts, $deliveries, $custaddresses){
 				$scope.carts = JSON.parse($carts);
 				$scope.deliveries = JSON.parse($deliveries);
+				$scope.custaddresses = JSON.parse($custaddresses);
+
+				//select addressnya harus dari $scope.customeraddresses di select index
+				$.each($scope.carts, function($c, $cc){
+					//dipilihin setiap cartsnya
+					$.each($scope.custaddresses, function($i, $ii) {
+						//di cek setiap customer addressnya ada yang sama ga idnya
+						if ($ii.addressID == $cc.deliveryaddressID) {
+							$cc.deliveryaddress = $ii.address;
+						}
+					});
+				});
+				
+
 				$scope.allchecked = true;
 				$scope.checkAll(); //hitung total dan check all and hide all
 				$.each($scope.carts, function($i, $ii){
@@ -440,13 +454,17 @@ module.exports = function(app){
 				}
 			}
 
-			
+			$scope.infodeliveryshow = function(){
+				$("#infodelivery").modal("show");
+			}
 
 			$scope.review = function(){
 				$scope.selected = [];
 				$.each($scope.carts, function($i, $ii) {
-					$scope.selected.push($ii);
+					if($ii.checked)
+						$scope.selected.push($ii);
 				});
+				$scope.countSelectedPrice();
 
 				$("#reviewCartModal").modal("show");
 			}

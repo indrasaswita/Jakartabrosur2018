@@ -1,6 +1,7 @@
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
+			$scope.konfirmasi = {};
 			$scope.URL = 'http://localhost:8000/';
 			$scope.selectedfilter = null;
 			$scope.filters = [
@@ -69,7 +70,7 @@ module.exports = function(app){
 				$.each($scope.sales, function($index, $item){
 					if($item!=null){
 						$scope.loadingfilter = false;
-	$item.created_at = $scope.makeDateTime($item.created_at);
+						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
 						$item.showdetail = false;
@@ -79,6 +80,12 @@ module.exports = function(app){
 							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
 							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
 							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+
+							$.each($item2.cartheader.cartdetail, function($j, $jj){
+								$jj.jobtypelong = 
+									($jj.jobtype == "OF") ? "Offset Print" : 
+									($jj.jobtype == "DG") ? "Digital Print" : "Not Set";
+							});
 
 							if($item2.updated_at != null)
 								$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
@@ -90,6 +97,10 @@ module.exports = function(app){
 							$.each($item2.salesdeliverydetail, function($j, $jj){
 								$item2.totalkirim += parseInt($jj.quantity);
 								$item2.totalhargakirim += parseFloat($jj.actualprice);
+								if ($jj.salesdelivery != null) {
+									$jj.salesdelivery.created_at = $scope.makeDateTime($jj.salesdelivery.created_at);
+									$jj.salesdelivery.arrivedtime = $scope.makeDateTime($jj.salesdelivery.arrivedtime);
+								}
 							});
 						})
 						$item.totalpay = 0;
@@ -141,7 +152,15 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs.call();
+			$scope.fillCompanyBankAccs(function(){
+				if($scope.compaccs != null)
+					if($scope.compaccs.length > 0)
+						$scope.selectbanktrf($scope.compaccs[0])
+			});
+
+			$scope.selectbanktrf = function(compacc){
+				$scope.konfirmasi.compacc = $scope.clone(compacc);
+			}
 
 			$scope.commit = function($item, $item2){
 				//yang di send item2 <= salesdetail dari item
@@ -219,10 +238,28 @@ module.exports = function(app){
 
 			$scope.hidealldetail = function(){
 				$.each($scope.sales, function($index, $item){
-					$item.showdetail = false;
+					$item.showinfo = false;
 					$item.showdelivery = false;
 					$item.showpayment = false;
 					$item.showtracking = false;
+					$.each($item.salesdetail, function($j, $jj) {
+						$jj.showsubinfo = false;
+					});
+					$item.showpaymentconfirm = false;
+					$item.showpaymentinfo = false;
+				});
+			}
+			$scope.hideallsubpayment = function(){
+				$.each($scope.sales, function($index, $item) {
+					$item.showpaymentconfirm = false;
+					$item.showpaymentinfo = false;
+				});
+			}
+			$scope.hideallsubinfo = function() {
+				$.each($scope.sales, function($index, $item) {
+					$.each($item.salesdetail, function($j, $jj){
+						$jj.showsubinfo = false;
+					});
 				});
 			}
 
@@ -231,23 +268,52 @@ module.exports = function(app){
 				$scope.previewfile = $item;
 			}
 
+			$scope.showprogress = function($salesdetail){
+				//$scope.salesdetail => untuk variable di dalam printprogress
+				$scope.salesdetail = $salesdetail;
+				$("#print-progress-modal").modal('show');
+			}
+
 			$scope.showdelivery = function($item){
 				$show = $item.showdelivery;
 				$scope.hidealldetail();
-				if(!$show) $item.showdelivery = true;
-				else $item.showdelivery = false;
+				$item.showdelivery = true;
 			}
 			$scope.showpayment = function($item){
 				$show = $item.showpayment;
 				$scope.hidealldetail();	
-				if(!$show) $item.showpayment = true;
-				else $item.showpayment = false;
+				$item.showpayment = true;
 			}
-			$scope.showdetail = function($item){
+			$scope.showdetail = function($item) {
 				$show = $item.showdetail;
-				$scope.hidealldetail();
-				if(!$show) $item.showdetail = true;
+				if(!$item.showinfo && !$item.showdelivery && !$item.showpayment){
+					$item.showinfo = true;
+				}
+				if (!$show) $item.showdetail = true;
 				else $item.showdetail = false;
+			}
+			$scope.showpaymentconfirm = function($item){
+				$show = $item.showpaymentconfirm;
+				$scope.hideallsubpayment();
+				if(!$show) $item.showpaymentconfirm = true;
+				else $item.showpaymentconfirm = false;
+			}
+			$scope.showpaymentinfo = function($item) {
+				$show = $item.showpaymentinfo;
+				$scope.hideallsubpayment();
+				if (!$show) $item.showpaymentinfo = true;
+				else $item.showpaymentinfo = false;
+			}
+			$scope.showinfo = function($item) {
+				$show = $item.showinfo;
+				$scope.hidealldetail();
+				$item.showinfo = true;
+			}
+			$scope.showsubinfo = function($item) {
+				$show = $item.showsubinfo;
+				$scope.hideallsubinfo();
+				if (!$show) $item.showsubinfo = true;
+				else $item.showsubinfo = false;
 			}
 			$scope.showtracking = function($item){
 				$show = $item.showtracking;

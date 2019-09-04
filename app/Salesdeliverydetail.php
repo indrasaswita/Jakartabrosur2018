@@ -12,7 +12,7 @@ class Salesdeliverydetail extends Model
   protected $dates = ['created_at', 'updated_at'];
 
   public function salesdelivery(){
-  	return $this->belongsTo('App\Salesdelivery', 'salesdeliveryID');
+  	return $this->belongsTo('App\Salesdelivery', 'salesdeliveryID')->with('employee', 'delivery');
   }
 
   public function salesdetail(){

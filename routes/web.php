@@ -60,6 +60,7 @@ Route::post('API/aice/master/push', 'AiceAPI@updateAice');*/
 Route::group(['middleware'=>['loggedin']], function(){
 	
 	//HARUS SUDAH LOGIN (CUST/ADMIN)
+	Route::get("sales/cartheader/{cartid}", 'AllaccCartheaderController@show');
 });
 
 Route::get('chpass', "ProfileController@changepass");
@@ -298,6 +299,7 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post ('AJAX/cart/duplicate', 'CartAJAX@cartDuplicate');
 	Route::post ('AJAX/cart/edittitle', 'CartAJAX@cartChangeTitle');
 	Route::post ('API/sales/create', 'CartController@createHeader');
+	Route::get('AJAX/cartcheck/{cartID}', 'CartAJAX@cartCheck');
 	Route::post("API/storecartdetail", 'ShopController@storingData');
 	Route::post("API/cartdetails/delete", "CartController@setToDeleted");
 	Route::post('API/payment/confirm', 'PaymentController@confirmStore');
