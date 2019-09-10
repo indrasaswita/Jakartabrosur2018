@@ -384,7 +384,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .margin-top-10 {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .margin-top-20 {
@@ -830,6 +830,10 @@ input[type=number]::-webkit-outer-spin-button {
   font-family: "Google" !important;
 }
 
+.fontawesome {
+  font-family: Google, Font Awesome\ 5 Pro !important;
+}
+
 .line-11 {
   line-height: 1.1 !important;
 }
@@ -1225,6 +1229,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 .clear {
   clear: both;
+}
+
+.input-group-btn {
+  font-size: inherit !important;
+}
+.input-group-btn .btn, .input-group-btn .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .input-group-btn .btn.flyer-qty-btn,
+.input-group-btn .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .input-group-btn .btn.flyer-qty-btn {
+  font-size: inherit !important;
 }
 
 .display-flex {
@@ -14720,6 +14733,244 @@ ol {
   border-radius: 0;
 }
 
+.sales-modal-cartfile .header {
+  line-height: 0.6;
+  margin: 0 0 20px 0;
+}
+.sales-modal-cartfile .header svg {
+  opacity: 0.6;
+}
+.sales-modal-cartfile .header .file-title {
+  font-size: 160%;
+}
+.sales-modal-cartfile .header .cart-title {
+  font-size: 120%;
+}
+.sales-modal-cartfile .content {
+  margin: 20px 0;
+  line-height: 1;
+}
+.sales-modal-cartfile .content svg {
+  opacity: 0.7;
+  color: #f47;
+  min-width: 28px;
+}
+.sales-modal-cartfile .content div {
+  padding: 5px 2px;
+  border-bottom: 1px solid #EEE;
+  background-color: #fafafa;
+  margin: 2px 0;
+  display: flex;
+  align-items: center;
+}
+.sales-modal-cartfile .content div input {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  width: 100%;
+  padding: 3px 5px 1px 5px;
+}
+.sales-modal-cartfile .progress {
+  margin-bottom: 20px;
+}
+.sales-modal-cartfile .action-btn {
+  text-align: center;
+}
+.sales-modal-cartfile .error {
+  padding: 2px 5px;
+  background-color: rgba(255, 0, 0, 0.05);
+  color: black;
+  border-top: 1px solid rgba(160, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(160, 0, 0, 0.4);
+  border-radius: 0;
+  text-align: center;
+  width: 100%;
+  margin: 10px auto 0 auto;
+}
+
+.sales-modal-cartpreview .modal-body {
+  background-color: #f8f8f8;
+}
+.sales-modal-cartpreview .modal-body .preview img {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #aaa;
+  background-color: white;
+  border-radius: 3px;
+}
+.sales-modal-cartpreview .modal-body .view {
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 5px;
+}
+.sales-modal-cartpreview .modal-body .view .btn, .sales-modal-cartpreview .modal-body .view .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .sales-modal-cartpreview .modal-body .view .btn.flyer-qty-btn,
+.sales-modal-cartpreview .modal-body .view .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .sales-modal-cartpreview .modal-body .view .btn.flyer-qty-btn {
+  padding: 5px 20px;
+  border-radius: 100px;
+}
+.sales-modal-cartpreview .modal-body .data {
+  padding: 5px 0;
+}
+.sales-modal-cartpreview .modal-body .data input {
+  font-size: inherit;
+}
+.sales-modal-cartpreview .modal-body .data .comment {
+  padding: 2px;
+  border-bottom: 1px solid #ddd;
+}
+.sales-modal-cartpreview .modal-body .data .comment input {
+  font-weight: 400;
+}
+.sales-modal-cartpreview .modal-body .data .comment .text {
+  font-size: 85%;
+  font-weight: 600;
+}
+.sales-modal-cartpreview .modal-body .data .commit {
+  padding: 10px 5px;
+  line-height: 1.1;
+  font-size: 92%;
+  font-weight: 600;
+  border: 1px solid #059;
+  color: #059;
+  border-radius: 3px;
+  margin: 10px 0;
+  background-color: rgba(0, 128, 255, 0.05);
+  text-align: center;
+}
+.sales-modal-cartpreview .modal-body .data .commit .button {
+  width: 100%;
+  margin: 10px 0;
+  text-align: center;
+}
+.sales-modal-cartpreview .modal-body .data .commit .button .btn.btn-sm, .sales-modal-cartpreview .modal-body .data .commit .button .btn-group-sm > .btn, .sales-modal-cartpreview .modal-body .data .commit .button .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn,
+.sales-modal-cartpreview .modal-body .data .commit .button .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn {
+  padding: 5px 20px;
+  font-size: inherit;
+  border-radius: 100px;
+}
+.sales-modal-cartpreview .modal-body .data .commit .warning {
+  font-size: 85%;
+  color: #900;
+}
+
+.ordersales-customer-selectbank .modal .modal-body .bank-search input {
+  border-top: 1px solid rgba(0, 96, 196, 0.1);
+  border-left: 1px solid rgba(0, 96, 196, 0.1);
+  border-right: 1px solid rgba(0, 96, 196, 0.1);
+  border-bottom: 3px solid #509;
+  box-shadow: 2px 1px 10px rgba(0, 0, 0, 0.05);
+  color: #206;
+  border-radius: 0;
+  background-color: white;
+  padding: 13px 15px 8px;
+  font-size: 130%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list {
+  padding: 0;
+}
+.ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list li {
+  list-style: none;
+  line-height: 1;
+  font-size: 14px;
+  padding: 6px 8px 4px;
+  border: 1px solid rgba(96, 0, 255, 0.15);
+  background-color: rgba(96, 0, 255, 0.03);
+  margin: 3px 0;
+  border-radius: 2px;
+  display: flex;
+  cursor: pointer;
+}
+.ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list li .bank-alias {
+  font-weight: 400;
+  margin-right: 5px;
+}
+.ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list li .bank-name {
+  font-weight: 200;
+  color: rgba(0, 0, 0, 0.7);
+}
+.ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list li:hover, .ordersales-customer-selectbank .modal .modal-body .bank-list-wrapper ul.bank-list li:focus {
+  background-color: rgba(128, 48, 255, 0.1);
+  border-color: rgba(96, 48, 196, 0.5);
+}
+
+.ordersales-payment-confirm .modal-body .action {
+  text-align: center;
+}
+.ordersales-payment-confirm .modal-body .action .nominal {
+  padding: 10px;
+  line-height: 1.1;
+}
+.ordersales-payment-confirm .modal-body .action .nominal .text {
+  font-size: 95%;
+  font-weight: 200;
+}
+.ordersales-payment-confirm .modal-body .action .nominal .num {
+  font-size: 130%;
+}
+.ordersales-payment-confirm .modal-body .action .nominal .num input {
+  font-size: inherit;
+  font-family: Google;
+  text-align: center;
+  border-color: #059;
+  border-style: solid;
+  border-width: 0 0 2px 0;
+  padding: 5px 2px 3px;
+  background-color: #f3faff;
+}
+.ordersales-payment-confirm .modal-body .action .nominal svg {
+  color: #25a;
+  margin: 5px 0;
+}
+.ordersales-payment-confirm .modal-body .action .bank {
+  max-width: 260px;
+  margin: 0 auto;
+  line-height: 1.1;
+  padding: 10px 5px;
+  border: 1px solid #a9c;
+  background-color: #fbf8ff;
+  border-radius: 5px;
+}
+.ordersales-payment-confirm .modal-body .action .bank .bank-name {
+  font-weight: 600;
+  font-size: 80%;
+  color: #509;
+  margin-bottom: 5px;
+}
+.ordersales-payment-confirm .modal-body .action .bank .bank-name .alias {
+  margin-right: 4px;
+}
+.ordersales-payment-confirm .modal-body .action .bank .acc-no {
+  font-size: 95%;
+  font-weight: 200;
+}
+.ordersales-payment-confirm .modal-body .action .bank .acc-name {
+  font-size: 100%;
+  font-weight: 400;
+}
+.ordersales-payment-confirm .modal-body .confirm-end {
+  padding: 10px 0;
+  text-align: center;
+  line-height: 1.2;
+  border-top: 1px solid #aaa;
+  margin-top: 20px;
+}
+.ordersales-payment-confirm .modal-body .confirm-end .btn.btn-sm, .ordersales-payment-confirm .modal-body .confirm-end .panel .panel-item .panel-item-block .btn-group .btn-sm.btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .ordersales-payment-confirm .modal-body .confirm-end .btn-sm.btn.flyer-qty-btn,
+.ordersales-payment-confirm .modal-body .confirm-end .panel .panel-item .panel-item-block .input-group .btn-sm.btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .ordersales-payment-confirm .modal-body .confirm-end .btn-sm.btn.flyer-qty-btn, .ordersales-payment-confirm .modal-body .confirm-end .btn-group-sm > .btn, .ordersales-payment-confirm .modal-body .confirm-end .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .ordersales-payment-confirm .modal-body .confirm-end .btn-group-sm > .btn.flyer-qty-btn,
+.ordersales-payment-confirm .modal-body .confirm-end .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .ordersales-payment-confirm .modal-body .confirm-end .btn-group-sm > .btn.flyer-qty-btn {
+  padding: 5px 20px;
+  border-radius: 100px;
+  margin: 2px 0;
+  font-size: inherit;
+}
+
 @media screen and (max-width: 300px) {
   .order-panel .panel-block .block-list .input .info {
     display: none !important;
@@ -16762,6 +17013,7 @@ ol {
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-title svg {
   opacity: 0.7;
   color: #246;
+  margin-left: 10px;
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text {
   line-height: 1.2;
@@ -16769,7 +17021,6 @@ ol {
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text svg {
   opacity: 0.7;
-  margin-right: 5px;
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card .detail-card-text .proc {
   text-align: center;
@@ -16794,6 +17045,47 @@ ol {
   border: 1px solid #059;
   background-color: #f4faff;
   color: #235;
+  font-size: 80%;
+  font-weight: bold;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail {
+  margin: 2px 0;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #568;
+  border-radius: 3px;
+  padding: 4px 2px;
+  display: flex;
+  cursor: pointer;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail .icon {
+  border-right: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #777;
+  margin-right: 5px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail .data {
+  line-height: 1.1;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail .data .filename {
+  font-size: 120%;
+  font-weight: 200;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail .data .data-list svg {
+  color: #333;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail:hover {
+  background-color: white;
+  color: #111;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail:hover .icon {
+  color: #d7a;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-cartheader .cartheader-content .card-wrapper .detail-card.file-list .detail-card-text .detail:hover .data .data-list svg {
+  color: #d7a;
+  opacity: 1;
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .subheader .txt {
   background-color: #ffe;
@@ -16982,37 +17274,60 @@ ol {
   font-family: Google;
   padding: 3px 0;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button,
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input button,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input input {
   border-radius: 0;
   border-color: #509;
   border-width: 1px;
   border-style: solid;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:not(:last-child),
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:not(:last-child) {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input button:not(:last-child),
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input input:not(:last-child) {
   margin-bottom: -1px;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:first-child,
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:first-child {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input button:first-child,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input input:first-child {
   border-radius: 3px 3px 0 0;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button:last-child,
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input:last-child {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input button:last-child,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input input:last-child {
   border-radius: 0 0 3px 3px;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek input {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input input {
   color: #509;
   background-color: white;
   font-weight: 400;
   width: 100%;
   text-align: center;
 }
-.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input.newrek button {
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input button {
   color: #509;
   background-color: white;
   font-weight: 200;
   width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn {
+  display: flex;
+  line-height: 1.1;
+  padding: 5px 2px 3px;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn.selected {
+  background-color: #f4fff4;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn .bankinfo {
+  color: #444;
+  width: 100%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn .bank-check {
+  width: 0%;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn .bank-check.show svg {
+  opacity: 1;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-input:not(.newrek) .btn .bank-check svg {
+  font-size: 110%;
+  opacity: 0;
+  color: #072;
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .custrek-info {
   font-family: Google;
@@ -17021,7 +17336,14 @@ ol {
   color: #70a;
   margin-bottom: 5px;
   text-align: left;
-  padding: 0 3px;
+  padding: 3px;
+  line-height: 1.1;
+}
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .newrek-action .btn.btn-sm, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .newrek-action .btn-group-sm > .btn, .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .newrek-action .panel .panel-item .panel-item-block .btn-group .btn-group-sm > .btn.flyer-qty-btn,
+.table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .nopay-custrek .newrek-action .panel .panel-item .panel-item-block .input-group .btn-group-sm > .btn.flyer-qty-btn {
+  padding: 5px 20px;
+  border-radius: 100px;
+  font-family: Google;
 }
 .table-custom-allsales > tbody tr.content-detail > td > .detail .allacc-sales-payment .nopay-yet .paydone {
   padding: 10px 0;

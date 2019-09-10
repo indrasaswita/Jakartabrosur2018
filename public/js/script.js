@@ -19,11 +19,14 @@ require('./constants/analytics')(app);
 
 //CONTROLLERS
 require("./controllers/global.nav.header")(app);
-require("./controllers/viewfile-modal")(app);
 require("./controllers/roles")(app);
 require("./controllers/salespaymentconfirm")(app);
 require("./controllers/salespayments")(app);
 require("./controllers/order.sales.index")(app); //ALL SALES BY CUSTOMER
+require("./controllers/order.sales.modal.changefile")(app);
+require("./controllers/order.sales.modal.showpreview")(app);
+require("./controllers/order.sales.modal.cust-selectbank")(app);
+require("./controllers/order.sales.modal.confirm")(app);
 require("./controllers/order.sales.commit")(app); //COMMIT DATA SEBELOM CETAK
 require("./controllers/order.shop.lists.customer")(app);
 require("./controllers/order.shop.calculation.customer")(app);
@@ -87,7 +90,7 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":2,"./constants/variable":3,"./controllers/account.login":4,"./controllers/account.notification":5,"./controllers/account.profiles":6,"./controllers/account.resendemail":7,"./controllers/account.signup":8,"./controllers/admin.cart.addbyadmin":9,"./controllers/admin.cart.index":10,"./controllers/admin.changetheworld.index":11,"./controllers/admin.master.customer.index":12,"./controllers/admin.master.customer.pendingcompany":13,"./controllers/admin.master.finishing.index":14,"./controllers/admin.master.jobactivation":15,"./controllers/admin.master.jobeditor":16,"./controllers/admin.master.jobfinishings":17,"./controllers/admin.master.jobpapers":18,"./controllers/admin.master.jobquantities":19,"./controllers/admin.master.jobsizes":20,"./controllers/admin.master.onesignal.index":21,"./controllers/admin.master.paper.changeprice":22,"./controllers/admin.master.paper.newpaper":23,"./controllers/admin.master.paper.paperdetailstore":24,"./controllers/admin.master.pricetext.index":25,"./controllers/admin.master.shoppricing":26,"./controllers/admin.master.vendor.index":27,"./controllers/admin.master.verifcustomer":28,"./controllers/admin.sales.index":29,"./controllers/admin.tracking.index":30,"./controllers/aice.index":31,"./controllers/allacc.sales.cartheader":32,"./controllers/createheader":33,"./controllers/description":34,"./controllers/global.includes.floatingcontact":35,"./controllers/global.nav.header":36,"./controllers/godhands":37,"./controllers/home":38,"./controllers/includes.modals.compaccno":39,"./controllers/includes.nav.subnav":40,"./controllers/main":41,"./controllers/order.cart.index":42,"./controllers/order.cart.modal.addfile":43,"./controllers/order.cart.modal.changefile":44,"./controllers/order.sales.commit":45,"./controllers/order.sales.history":46,"./controllers/order.sales.index":47,"./controllers/order.shop.calculation.customer":48,"./controllers/order.shop.create.page":49,"./controllers/order.shop.lists.customer":50,"./controllers/roles":51,"./controllers/salespaymentconfirm":52,"./controllers/salespayments":53,"./controllers/trackingcustomer":54,"./controllers/viewfile-modal":55,"./customs/sticky-shop-total":56,"./directives/bootstrap-select-addon":57,"./directives/bootstrap-tooltip":58,"./directives/pagination/dirPagination":59,"./init":60,"angular":70,"angular-cookies":62,"angular-resource":64,"angular-route":66,"angular-sanitize":68,"node-gzip":86}],2:[function(require,module,exports){
+},{"./constants/analytics":2,"./constants/variable":3,"./controllers/account.login":4,"./controllers/account.notification":5,"./controllers/account.profiles":6,"./controllers/account.resendemail":7,"./controllers/account.signup":8,"./controllers/admin.cart.addbyadmin":9,"./controllers/admin.cart.index":10,"./controllers/admin.changetheworld.index":11,"./controllers/admin.master.customer.index":12,"./controllers/admin.master.customer.pendingcompany":13,"./controllers/admin.master.finishing.index":14,"./controllers/admin.master.jobactivation":15,"./controllers/admin.master.jobeditor":16,"./controllers/admin.master.jobfinishings":17,"./controllers/admin.master.jobpapers":18,"./controllers/admin.master.jobquantities":19,"./controllers/admin.master.jobsizes":20,"./controllers/admin.master.onesignal.index":21,"./controllers/admin.master.paper.changeprice":22,"./controllers/admin.master.paper.newpaper":23,"./controllers/admin.master.paper.paperdetailstore":24,"./controllers/admin.master.pricetext.index":25,"./controllers/admin.master.shoppricing":26,"./controllers/admin.master.vendor.index":27,"./controllers/admin.master.verifcustomer":28,"./controllers/admin.sales.index":29,"./controllers/admin.tracking.index":30,"./controllers/aice.index":31,"./controllers/allacc.sales.cartheader":32,"./controllers/createheader":33,"./controllers/description":34,"./controllers/global.includes.floatingcontact":35,"./controllers/global.nav.header":36,"./controllers/godhands":37,"./controllers/home":38,"./controllers/includes.modals.compaccno":39,"./controllers/includes.nav.subnav":40,"./controllers/main":41,"./controllers/order.cart.index":42,"./controllers/order.cart.modal.addfile":43,"./controllers/order.cart.modal.changefile":44,"./controllers/order.sales.commit":45,"./controllers/order.sales.history":46,"./controllers/order.sales.index":47,"./controllers/order.sales.modal.changefile":48,"./controllers/order.sales.modal.confirm":49,"./controllers/order.sales.modal.cust-selectbank":50,"./controllers/order.sales.modal.showpreview":51,"./controllers/order.shop.calculation.customer":52,"./controllers/order.shop.create.page":53,"./controllers/order.shop.lists.customer":54,"./controllers/roles":55,"./controllers/salespaymentconfirm":56,"./controllers/salespayments":57,"./controllers/trackingcustomer":58,"./customs/sticky-shop-total":59,"./directives/bootstrap-select-addon":60,"./directives/bootstrap-tooltip":61,"./directives/pagination/dirPagination":62,"./init":63,"angular":73,"angular-cookies":65,"angular-resource":67,"angular-route":69,"angular-sanitize":71,"node-gzip":89}],2:[function(require,module,exports){
 module.exports = function(app){
 	
 }
@@ -6359,10 +6362,10 @@ module.exports = function(app) {
 };
 },{}],37:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
+	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
+		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.app_version = "2.05.001";
+			$scope.app_version = "2.05.004";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -6490,6 +6493,12 @@ module.exports = function(app){
 						$('.navbar-toggler .glyphicon').removeClass("rotate");
 					}
 				});
+			}
+
+			$scope.scrollTo = function($id, $plus=0){
+				$('html, body').animate({
+					scrollTop: $($id).offset().top+$plus
+				}, 1000);
 			}
 
 			$scope.singkatText0 = function($text, $totalhuruf)
@@ -6631,15 +6640,36 @@ module.exports = function(app){
 						url : API_URL + 'compaccs'
 					}
 				).then(function(response) {
-					$scope.compaccs = response.data;
 					if(response.data!=null){
 						if(response.data.length>0){
-							$scope.showncompacc = $scope.compaccs[0];
+							$scope.compaccs = response.data;
 							if (whendone instanceof Function) { whendone(); }
 						}
+					} else {
+						console.log('Null return when calling company bank accounts - Godhands')
 					}
 				}, function(error){
 					console.log("Error when calling company bank accounts - Godhands");
+				});
+			};
+
+			$scope.fillCustomerBankAccs = function(whendone) {
+				$http(
+					{
+						method: 'GET',
+						url: AJAX_URL + 'custaccs'
+					}
+				).then(function(response) {
+					if (response.data != null) {
+						if (response.data.length > 0) {
+							$scope.custaccs = response.data;
+							if (whendone instanceof Function) { whendone(); }
+						}
+					} else {
+						console.log('Null return when calling customer bank accounts - Godhands')
+					}
+				}, function(error) {
+					console.log("Error when calling customer bank accounts - Godhands");
 				});
 			};
 
@@ -6709,6 +6739,45 @@ module.exports = function(app){
 						$scope.klikbca = null;
 					}
 				});
+			}
+
+			$scope.recfindinside = function($text, $letter){
+				
+				if($letter == null)
+					return true;
+				if($letter.length == 0){
+					return true;
+				}else if ($text.length == 0) {
+					//kalo textnya abis tapi findny masih ada
+					return false;
+				}
+
+				$index = $text.indexOf($letter.charAt(0));
+				//console.log($text+": dapat "+$letter.charAt(0)+" pada index-"+$index);
+
+				if($index == -1)
+					//kalo langsung ga ketemu return false
+					return false;
+				else{
+					$find = $letter.substring(1);
+					$sisa = $text.substring($index + 1);
+
+					//kalo ketemu , TAPI
+					//setelah itu tidak ada leternya 
+					//console.log($sisa+", find:"+$find);
+
+
+					return $scope.recfindinside($sisa, $find);
+				}
+			}
+
+			String.prototype.findInside = function($letter){
+				if(this == null)
+					return false;
+				else if(this.length == 0)
+					return false;
+				else
+					return $scope.recfindinside(this, $letter);
 			}
 
 			String.prototype.replaceAll = function(search, replacement) {
@@ -8161,7 +8230,16 @@ module.exports = function(app){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
-			$scope.konfirmasi = {};
+
+			$scope.konfirmasi = {
+				"newcustacc": {
+					"accno": "",
+					"accname": "",
+					"bankid": ""
+				},
+				"inputnew": true,
+			};
+			$scope.searchbankinput = "";
 			$scope.URL = 'http://localhost:8000/';
 			$scope.selectedfilter = null;
 			$scope.filters = [
@@ -8191,6 +8269,8 @@ module.exports = function(app){
 					"link": "selesai"
 				}
 			];
+
+			$scope.loadingsavecustacc = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
 				$scope.selectedfilter = $input;
@@ -8312,9 +8392,23 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs(function(){
-				if($scope.compaccs != null)
-					if($scope.compaccs.length > 0)
+			$scope.fillCustomerBankAccs(function(){
+				if($scope.custaccs != null)
+					if($scope.custaccs.length > 0){
+						$scope.selectbanksender($scope.custaccs[0]);
+
+						//$scope.konfirmasi.newcustacc.bank = $scope.clone(custacc.bank);
+					}
+			});
+
+			$scope.selectbanksender = function(custacc){
+				$scope.konfirmasi.custacc = custacc;
+			}
+
+			//darigodhands
+			$scope.fillCompanyBankAccs(function() {
+				if ($scope.compaccs != null)
+					if ($scope.compaccs.length > 0)
 						$scope.selectbanktrf($scope.compaccs[0])
 			});
 
@@ -8396,6 +8490,11 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.linkmakepayment = function(item){
+				$scope.showpayment(item);
+				$scope.showpaymentconfirm(item);
+			}
+
 			$scope.hidealldetail = function(){
 				$.each($scope.sales, function($index, $item){
 					$item.showinfo = false;
@@ -8433,7 +8532,30 @@ module.exports = function(app){
 				$scope.salesdetail = $salesdetail;
 				$("#print-progress-modal").modal('show');
 			}
-
+			$scope.showconfirmmodal = function($salesheader){
+				$scope.konfirmasi.paymentammount = $salesheader.totalprice - $salesheader.totalpay;
+				$scope.konfirmasi.salesID = $salesheader.id;
+				$scope.selectedSalesheader = $salesheader;
+				$('#ordersales-payment-confirm').modal('show');
+			}
+			$scope.showselectbank = function() {
+				$('#ordersales-customer-selectbank').on('shown.bs.modal', function() {
+					$('#input-banksearch').focus();
+					$('#input-banksearch').val("");
+				})  
+				$('#ordersales-customer-selectbank').modal('show');
+			}
+			$scope.showselectedfile = function($file, $cart, $salesdetail){
+				$scope.selectedFile = $file;
+				$scope.selectedCart = $cart;
+				$scope.selectedSalesdetail = $salesdetail;
+				$("#viewcartfile-modal").modal('show');
+			}
+			$scope.showcartpreview = function($file, $preview) {
+				$scope.selectedFile = $file;
+				$scope.selectedCartpreview = $preview;
+				$("#viewcartpreview-modal").modal('show');
+			}
 			$scope.showdelivery = function($item){
 				$show = $item.showdelivery;
 				$scope.hidealldetail();
@@ -8445,6 +8567,7 @@ module.exports = function(app){
 				$item.showpayment = true;
 			}
 			$scope.showdetail = function($item) {
+
 				$show = $item.showdetail;
 				if(!$item.showinfo && !$item.showdelivery && !$item.showpayment){
 					$item.showinfo = true;
@@ -8506,6 +8629,50 @@ module.exports = function(app){
 					}
 				);
 			}
+
+			$scope.savecustbankacc = function(){
+				if($scope.konfirmasi.newcustacc.bank == null){
+					$scope.errorsavecustacc = "Anda wajib pilih akun bank Anda.";
+				}else if($scope.konfirmasi.newcustacc.accname == ""){
+					$scope.errorsavecustacc = "Nama Pemilik Akun wajib diisi.";
+				}else{
+					if(!$scope.loadingsavecustacc)
+					{
+						$scope.loadingsavecustacc = true;
+						$http({
+							method: "POST",
+							url: AJAX_URL+"custbankaccs/save",
+							data: $scope.konfirmasi.newcustacc
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "object"){
+										$scope.custaccs = response.data[1];
+
+										console.log($scope.custaccs.length + " -> " + response.data[1].length);
+
+										$.each($scope.custaccs, function($index, $item){
+											if($item.id == response.data[0]){
+												$scope.konfirmasi.custacc = $item;
+											}
+										});
+
+										$scope.konfirmasi.newcustacc = {};
+										$scope.konfirmasi.inputnew = false;
+									}
+								}else{
+									console.log("The return value is null, not error");
+								}
+							}
+							$scope.loadingsavecustacc = false;
+						}, function(error){
+							console.log(error);
+							$scope.loadingsavecustacc = false;
+						});
+					}
+				}
+			}
+
 			$scope.deletecartfile = function($item, $index){
 				console.log($item);
 				$http({
@@ -8527,38 +8694,237 @@ module.exports = function(app){
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
-			// $scope.filtersales = function($id){
-			// 	if (!$scope.loadingfilter) {
-			// 		$scope.loadingfilter = true;
-			// 		$http({
-			// 			method: "GET",
-			// 			url: API_URL + "filtersales/" + $id
-			// 		}).then(function(response) {
-			// 			$scope.sales = [];
-			// 			$scope.sales = response.data;
-			// 			console.log(response.data);
-			// 			$.each($scope.sales, function($index, $item) {
-			// 				$item.created_at = $scope.makeDateTime($item.created_at);
-			// 			});
-			// 			$("#filter-0").removeClass("active");
-			// 			$("#filter-1").removeClass("active");
-			// 			$("#filter-2").removeClass("active");
-			// 			$("#filter-3").removeClass("active");
-			// 			$("#filter-4").removeClass("active");
-
-			// 			$("#filter-" + $id).addClass("active");
-
-			// 			$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
-			// 			$scope.loadingfilter = false;
-			// 		}, function(error) {
-			// 			$scope.loadingfilter = false;
-			// 		});
-			// 	}	
-			// }
 		}
 	]);
 };
 },{}],48:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('SalesChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+			$scope.savechangeloading = false;
+
+			$scope.savechangefile = function(whendone) {
+				if ($scope.savechangeloading == false) {
+					$scope.errormessage = "";
+					$scope.savechangeloading = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL + "carts/changefile/save",
+						data: $scope.selectedFile
+					}).then(function(response) {
+						if (response != null) {
+							if (response.data != null) {
+								if (response.data.constructor === Object) {
+									$result = response.data;
+
+									$scope.errormessage = $result.message;
+									console.log($result.code + " - " + $result.message);
+									$scope.savechangeloading = false;
+								} else {
+									$scope.errormessage = "Error message cannot be displayed.";
+								}
+								whendone(response.data);
+							} else {
+								$scope.errormessage = "Error message cannot be displayed.";
+								whendone(null);
+							}
+						}
+						$scope.savechangeloading = false;
+						whendone(null);
+					}, function(error) {
+						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
+						console.log(error);
+						$scope.savechangeloading = false;
+						whendone(null);
+					});
+				}
+			}
+
+			$scope.saveandclose = function() {
+				$scope.savechangefile(function($result) {
+					if ($result == null) {
+						//error
+						$scope.errormessage = "Error: NO RETURN RESULT";
+					} else if ($result.code == 200) {
+						console.log($("#changeFileModal"));
+						$("#changeFileModal").modal('hide');
+					}
+				});
+			}
+
+			$scope.removecartfile = function() {
+				if (!$scope.loadingcartfiles) {
+					$scope.loadingcartfiles = true;
+
+					$http({
+						method: "GET",
+						url: API_URL + "cartfiles/" + $scope.selectedFile.id + "/delete"
+					}).then(function(response) {
+						$scope.selectedCart.cartfile = response.data;
+						$scope.loadingcartfiles = false;
+						$("#changeFileModal").modal('hide');
+					}, function(error) {
+						$scope.loadingcartfiles = false;
+					});
+				}
+			}
+
+		}
+	]);
+};
+},{}],49:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('OrdersalesPaymentconfirmController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+			$scope.doconfirm = function(){
+				
+				$http({
+					method: "POST",
+					url: AJAX_URL+"salespayment/insert",
+					data: $scope.konfirmasi
+				}).then(function(response){
+					if(response!=null){
+						if(response.data != null){
+							if(typeof response.data == "object"){
+								$scope.selectedSalesheader.salespayment = response.data;
+
+								$scope.selectedSalesheader.totalpay = 0;
+								$.each($scope.selectedSalesheader.salespayment, function($index, $item){
+									$scope.selectedSalesheader.totalpay+=$item.ammount;
+								});
+
+								//KOPAS DARI ORDER SALES INDEX
+								if ($scope.selectedSalesheader.totalpay > $scope.selectedSalesheader.totalprice)
+									$scope.selectedSalesheader.paymentdetail = "LEBIH BAYAR. Kelebihan pembayaran akan ditransfer kerekening Anda keesokan hari.";
+								else if ($scope.selectedSalesheader.totalpay == $scope.selectedSalesheader.totalprice) {
+									if ($scope.selectedSalesheader.tungguverif == true)
+										$scope.selectedSalesheader.paymentdetail = "Sedang menunggu proses verifikasi pembayaran. Hubungi kami u/ mempercepat.";
+									else
+										$scope.selectedSalesheader.paymentdetail = "LUNAS";
+								}
+								else {
+									if ($scope.selectedSalesheader.totalpay == 0)
+										$scope.selectedSalesheader.paymentdetail = "Belum ada pembayaran, silahkan lakukan pembayaran.";
+									else
+										$scope.selectedSalesheader.paymentdetail = "Anda kurang bayar.";
+								}
+
+								$scope.afterpayment();
+							}
+						}else{
+							//tidak berhasil save ke db;
+							console.log("tidak berhasil save ke db");
+						}
+					}
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			$scope.afterpayment = function(){
+				$("#ordersales-payment-confirm").modal('hide');
+
+				$scope.showpaymentinfo($scope.selectedSalesheader);
+
+				var maxTime = 5000, // 5 seconds
+					startTime = Date.now();
+
+				var interval = setInterval(function() {
+					if ($("#payment-detail-" + $scope.selectedSalesheader.id).is(':visible')) {
+						// visible, do something
+						$scope.scrollTo("#payment-detail-" + $scope.selectedSalesheader.id, -10);
+						clearInterval(interval);
+					} else {
+						// still hidden
+						if (Date.now() - startTime > maxTime) {
+							// hidden even after 'maxTime'. stop checking.
+							clearInterval(interval);
+						}
+					}
+				},
+					100 // 0.1 second (wait time between checks)
+				);
+			}
+
+		}
+	]);
+};
+},{}],50:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('OrdersalesSelectbankController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+			var a = "BANK INDONESIA";
+			var b = "AAA";
+			console.log(a.findInside(b));
+
+			$scope.banks = [];
+			$scope.searchbankinput = "";
+
+			$scope.fillbanks = function(whendone) {
+				$http(
+					{
+						method: 'GET',
+						url: API_URL + 'banks'
+					}
+				).then(function(response) {
+					if (response.data != null) {
+						if (response.data.length > 0) {
+							$scope.banks = response.data;
+							if (whendone instanceof Function) { whendone(); }
+						}
+					} else {
+						console.log('Null return when calling banks - order.sales.modal.cust-selectbank')
+					}
+				}, function(error) {
+					console.log("Error when calling banks - order.sales.modal.cust-selectbank");
+				});
+			};
+
+			$scope.searchbank = function(){
+				if ($scope.searchbankinput == "") {
+					$.each($scope.banks, function($index, $item) {
+						$item.show = true;
+					});
+				} else {
+					$.each($scope.banks, function($index, $item){
+						if ($item.alias.toLowerCase().findInside($scope.searchbankinput.toLowerCase())
+							|| $item.bankname.toLowerCase().findInside($scope.searchbankinput.toLowerCase())) {
+							$item.show = true;
+						}else{
+							$item.show = false;
+						}
+					});
+				}
+			}
+
+			$scope.fillbanks(function(){
+				$scope.searchbank();
+			});
+
+			$scope.setcustbankconf = function($bank){
+				$scope.konfirmasi.newcustacc.bank = $scope.clone($bank);
+				$("#ordersales-customer-selectbank").modal('hide');
+			}
+
+		}
+	]);
+};
+},{}],51:[function(require,module,exports){
+module.exports = function(app) {
+	app.controller('SalesShowpreviewController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
+
+			$scope.test = function(){
+
+			}
+
+		}
+	]);
+};
+},{}],52:[function(require,module,exports){
 
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
@@ -9480,36 +9846,36 @@ module.exports = function(app){
 				else
 				{
 					//ngefek baru, edit, udah ada di sales atau belum
-					console.log($scope.selected.cartID);
-					$http({
-						"method"	: "GET",
-						"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
-					}).then(function(response){
-						console.log(response);
-					});
-
+					// console.log($scope.selected.cartID);
 					// $http({
-					// 	"method" 	: "POST",
-					// 	"url"			: API_URL + "storecartdetail",
-					// 	"data" 		: {
-					// 		"selected": $scope.selected,
-					// 		"key": $scope.key,
-					// 		"total": $scope.total
-					// 	}
+					// 	"method"	: "GET",
+					// 	"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
 					// }).then(function(response){
-					// 	$scope.error.savebtnval = "";
-					// 	if(response.data != null){
-					// 		if(response.data.constructor === String)
-					// 		{
-					// 			if(response.data == "success")
-					// 				$window.location.href=BASE_URL+"cart";
-					// 		}
-					// 	}
-					// 	else
-					// 	{
-					// 		alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
-					// 	}
+					// 	console.log(response);
 					// });
+
+					$http({
+						"method" 	: "POST",
+						"url"			: API_URL + "storecartdetail",
+						"data" 		: {
+							"selected": $scope.selected,
+							"key": $scope.key,
+							"total": $scope.total
+						}
+					}).then(function(response){
+						$scope.error.savebtnval = "";
+						if(response.data != null){
+							if(response.data.constructor === String)
+							{
+								if(response.data == "success")
+									$window.location.href=BASE_URL+"cart";
+							}
+						}
+						else
+						{
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
+						}
+					});
 				}
 			}
 
@@ -10477,7 +10843,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -11719,7 +12085,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -11753,7 +12119,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -11829,7 +12195,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],52:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -11989,7 +12355,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -12048,7 +12414,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -12092,16 +12458,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],55:[function(require,module,exports){
-module.exports = function(app){
-	app.controller('ViewfileModal', ['$scope', '$http', 'API_URL',
-		function($scope, $http, API_URL){
-			
-			
-		}
-	]);
-}
-},{}],56:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -12123,7 +12480,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],57:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -12138,7 +12495,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],58:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -12155,7 +12512,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],59:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -12796,7 +13153,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],60:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -12811,7 +13168,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],61:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -13066,11 +13423,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],62:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":61}],63:[function(require,module,exports){
+},{"./angular-cookies":64}],66:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -13983,11 +14340,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],64:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":63}],65:[function(require,module,exports){
+},{"./angular-resource":66}],68:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -15254,11 +15611,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],66:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":65}],67:[function(require,module,exports){
+},{"./angular-route":68}],70:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -16173,11 +16530,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],68:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":67}],69:[function(require,module,exports){
+},{"./angular-sanitize":70}],72:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -52406,11 +52763,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],70:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":69}],71:[function(require,module,exports){
+},{"./angular":72}],74:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -52904,7 +53261,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":74}],72:[function(require,module,exports){
+},{"util/":77}],75:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -52929,14 +53286,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],73:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -53526,7 +53883,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":73,"_process":99,"inherits":72}],75:[function(require,module,exports){
+},{"./support/isBuffer":76,"_process":102,"inherits":75}],78:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -53679,9 +54036,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],76:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 
-},{}],77:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 /* eslint camelcase: "off" */
@@ -54093,7 +54450,7 @@ Zlib.prototype._reset = function () {
 
 exports.Zlib = Zlib;
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":99,"assert":71,"buffer":79,"pako/lib/zlib/constants":89,"pako/lib/zlib/deflate.js":91,"pako/lib/zlib/inflate.js":93,"pako/lib/zlib/zstream":97}],78:[function(require,module,exports){
+},{"_process":102,"assert":74,"buffer":82,"pako/lib/zlib/constants":92,"pako/lib/zlib/deflate.js":94,"pako/lib/zlib/inflate.js":96,"pako/lib/zlib/zstream":100}],81:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -54705,7 +55062,7 @@ util.inherits(DeflateRaw, Zlib);
 util.inherits(InflateRaw, Zlib);
 util.inherits(Unzip, Zlib);
 }).call(this,require('_process'))
-},{"./binding":77,"_process":99,"assert":71,"buffer":79,"stream":114,"util":119}],79:[function(require,module,exports){
+},{"./binding":80,"_process":102,"assert":74,"buffer":82,"stream":117,"util":122}],82:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -56484,7 +56841,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":75,"ieee754":82}],80:[function(require,module,exports){
+},{"base64-js":78,"ieee754":85}],83:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -56595,7 +56952,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":84}],81:[function(require,module,exports){
+},{"../../is-buffer/index.js":87}],84:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -57120,7 +57477,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],82:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -57206,9 +57563,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],83:[function(require,module,exports){
-arguments[4][72][0].apply(exports,arguments)
-},{"dup":72}],84:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
+arguments[4][75][0].apply(exports,arguments)
+},{"dup":75}],87:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -57231,14 +57588,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],85:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],86:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');
@@ -57261,7 +57618,7 @@ module.exports = {
     return promise;
   }
 };
-},{"zlib":78}],87:[function(require,module,exports){
+},{"zlib":81}],90:[function(require,module,exports){
 'use strict';
 
 
@@ -57368,7 +57725,7 @@ exports.setTyped = function (on) {
 
 exports.setTyped(TYPED_OK);
 
-},{}],88:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict';
 
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
@@ -57421,7 +57778,7 @@ function adler32(adler, buf, len, pos) {
 
 module.exports = adler32;
 
-},{}],89:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -57491,7 +57848,7 @@ module.exports = {
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
 
-},{}],90:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 'use strict';
 
 // Note: we can't get significant speed boost here.
@@ -57552,7 +57909,7 @@ function crc32(crc, buf, len, pos) {
 
 module.exports = crc32;
 
-},{}],91:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -59428,7 +59785,7 @@ exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
 
-},{"../utils/common":87,"./adler32":88,"./crc32":90,"./messages":95,"./trees":96}],92:[function(require,module,exports){
+},{"../utils/common":90,"./adler32":91,"./crc32":93,"./messages":98,"./trees":99}],95:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -59775,7 +60132,7 @@ module.exports = function inflate_fast(strm, start) {
   return;
 };
 
-},{}],93:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61333,7 +61690,7 @@ exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
 
-},{"../utils/common":87,"./adler32":88,"./crc32":90,"./inffast":92,"./inftrees":94}],94:[function(require,module,exports){
+},{"../utils/common":90,"./adler32":91,"./crc32":93,"./inffast":95,"./inftrees":97}],97:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61678,7 +62035,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   return 0;
 };
 
-},{"../utils/common":87}],95:[function(require,module,exports){
+},{"../utils/common":90}],98:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -61712,7 +62069,7 @@ module.exports = {
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
 
-},{}],96:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -62934,7 +63291,7 @@ exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
 
-},{"../utils/common":87}],97:[function(require,module,exports){
+},{"../utils/common":90}],100:[function(require,module,exports){
 'use strict';
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -62983,7 +63340,7 @@ function ZStream() {
 
 module.exports = ZStream;
 
-},{}],98:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -63031,7 +63388,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":99}],99:[function(require,module,exports){
+},{"_process":102}],102:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -63217,10 +63574,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],100:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":101}],101:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":104}],104:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -63352,7 +63709,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":103,"./_stream_writable":105,"core-util-is":80,"inherits":83,"process-nextick-args":98}],102:[function(require,module,exports){
+},{"./_stream_readable":106,"./_stream_writable":108,"core-util-is":83,"inherits":86,"process-nextick-args":101}],105:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -63400,7 +63757,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":104,"core-util-is":80,"inherits":83}],103:[function(require,module,exports){
+},{"./_stream_transform":107,"core-util-is":83,"inherits":86}],106:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -64422,7 +64779,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":101,"./internal/streams/BufferList":106,"./internal/streams/destroy":107,"./internal/streams/stream":108,"_process":99,"core-util-is":80,"events":81,"inherits":83,"isarray":85,"process-nextick-args":98,"safe-buffer":113,"string_decoder/":115,"util":76}],104:[function(require,module,exports){
+},{"./_stream_duplex":104,"./internal/streams/BufferList":109,"./internal/streams/destroy":110,"./internal/streams/stream":111,"_process":102,"core-util-is":83,"events":84,"inherits":86,"isarray":88,"process-nextick-args":101,"safe-buffer":116,"string_decoder/":118,"util":79}],107:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -64637,7 +64994,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":101,"core-util-is":80,"inherits":83}],105:[function(require,module,exports){
+},{"./_stream_duplex":104,"core-util-is":83,"inherits":86}],108:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -65327,7 +65684,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":101,"./internal/streams/destroy":107,"./internal/streams/stream":108,"_process":99,"core-util-is":80,"inherits":83,"process-nextick-args":98,"safe-buffer":113,"timers":116,"util-deprecate":117}],106:[function(require,module,exports){
+},{"./_stream_duplex":104,"./internal/streams/destroy":110,"./internal/streams/stream":111,"_process":102,"core-util-is":83,"inherits":86,"process-nextick-args":101,"safe-buffer":116,"timers":119,"util-deprecate":120}],109:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65407,7 +65764,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":113,"util":76}],107:[function(require,module,exports){
+},{"safe-buffer":116,"util":79}],110:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -65482,13 +65839,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":98}],108:[function(require,module,exports){
+},{"process-nextick-args":101}],111:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":81}],109:[function(require,module,exports){
+},{"events":84}],112:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":110}],110:[function(require,module,exports){
+},{"./readable":113}],113:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -65497,13 +65854,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":101,"./lib/_stream_passthrough.js":102,"./lib/_stream_readable.js":103,"./lib/_stream_transform.js":104,"./lib/_stream_writable.js":105}],111:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":104,"./lib/_stream_passthrough.js":105,"./lib/_stream_readable.js":106,"./lib/_stream_transform.js":107,"./lib/_stream_writable.js":108}],114:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":110}],112:[function(require,module,exports){
+},{"./readable":113}],115:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":105}],113:[function(require,module,exports){
+},{"./lib/_stream_writable.js":108}],116:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -65567,7 +65924,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":79}],114:[function(require,module,exports){
+},{"buffer":82}],117:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -65696,7 +66053,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":81,"inherits":83,"readable-stream/duplex.js":100,"readable-stream/passthrough.js":109,"readable-stream/readable.js":110,"readable-stream/transform.js":111,"readable-stream/writable.js":112}],115:[function(require,module,exports){
+},{"events":84,"inherits":86,"readable-stream/duplex.js":103,"readable-stream/passthrough.js":112,"readable-stream/readable.js":113,"readable-stream/transform.js":114,"readable-stream/writable.js":115}],118:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -65993,7 +66350,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":113}],116:[function(require,module,exports){
+},{"safe-buffer":116}],119:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -66072,7 +66429,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":99,"timers":116}],117:[function(require,module,exports){
+},{"process/browser.js":102,"timers":119}],120:[function(require,module,exports){
 (function (global){
 
 /**
@@ -66143,8 +66500,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],118:[function(require,module,exports){
-arguments[4][73][0].apply(exports,arguments)
-},{"dup":73}],119:[function(require,module,exports){
-arguments[4][74][0].apply(exports,arguments)
-},{"./support/isBuffer":118,"_process":99,"dup":74,"inherits":83}]},{},[1]);
+},{}],121:[function(require,module,exports){
+arguments[4][76][0].apply(exports,arguments)
+},{"dup":76}],122:[function(require,module,exports){
+arguments[4][77][0].apply(exports,arguments)
+},{"./support/isBuffer":121,"_process":102,"dup":77,"inherits":86}]},{},[1]);

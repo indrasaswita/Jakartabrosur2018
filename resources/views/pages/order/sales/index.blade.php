@@ -209,38 +209,39 @@
 														</div>
 													</div>
 												</div>
-												<div class="detail-card">
+												<div class="detail-card file-list">
 													<div class="detail-card-title">
 														DATA GAMBAR & FILE
 														<i class="fab fa-adobe fa-fw"></i>
 													</div>
 													<div class="detail-card-text">
-														<div class="detail">
-															<div ng-repeat="cfile in salesdetail.cartheader.cartfile">
-																<div class="">
-																	<i class="fal fa-copy fa-fw"></i> [[cfile.file.filename]]
-																	<span ng-if="cfile.file.revision>1">
+														<div class="detail ease" ng-repeat="cfile in salesdetail.cartheader.cartfile" ng-click="showselectedfile(cfile.file, salesdetail.cartheader, salesdetail)">
+															<div class="icon">
+																<i class="fal fa-copy fa-fw fa-2x"></i>
+															</div>
+															<div class="data">
+																<div class="filename">
+																	[[cfile.file.filename]]
+																</div>
+																<div class="data-list" ng-if="cfile.file.revision>1">
+																	<i class="fal fa-history fa-fw"></i>
 																	revisi ke-[[(cfile.file.revision-1)|number:0]]
-																</span>
 																</div>
-																<div class="">
-																	<i class="fal fa-chevron-right fa-fw"></i>
-																	<i class="fal fa-compact-disc tx-purple"></i>
-																	<b>[[(cfile.file.size/1024/1024)|number:2]]MB</b>
+																<div class="data-list">
+																	<i class="fal fa-compact-disc fa-fw"></i>
+																	[[(cfile.file.size/1024/1024)|number:2]]MB
 																</div>
-																<div class="">
-																	<i class="fal fa-chevron-right fa-fw"></i>
-																	<i class="fal fa-history tx-purple"></i>
-
+																<div class="data-list">
+																	<i class="fal fa-history fa-fw"></i>
 																	<span ng-if="cfile.file.updated_at==null">
-																	[[cfile.file.created_at]]
-																</span>
+																		[[cfile.file.created_at]]
+																	</span>
 																	<span ng-if="cfile.file.updated_at!=null">
-																	[[cfile.file.updated_at]]
-																</span>
+																		[[cfile.file.updated_at]]
+																	</span>
 																</div>
-																<div class="" ng-if="cfile.file.detail.length>0">
-																	<i class="fal fa-chevron-right fa-fw"></i> [[cfile.file.detail]]
+																<div class="data-list" ng-if="cfile.file.detail.length>0">
+																	<i class="fal fa-info-circle fa-fw"></i> [[cfile.file.detail]]
 																</div>
 															</div>
 														</div>
@@ -280,24 +281,34 @@
 														</div>
 													</div>
 												</div>
-												<div class="detail-card">
+												<div class="detail-card file-list">
 													<div class="detail-card-title">
 														PREVIEW & SAMPEL PROOF DIGITAL
-														<i class="fas fa-signature fa-fw"></i>
 													</div>
 													<div class="detail-card-text">
-														<div class="detail">
-															<div class="preview" ng-repeat="preview in salesdetail.cartheader.cartpreview">
-																<i class="fal fa-fw fa-check"></i>	
+														<div class="detail ease" ng-repeat="preview in salesdetail.cartheader.cartpreview" ng-click="showcartpreview(preview.file, preview)">
+															<div class="icon">
+																<i class="fal fa-copy fa-fw"></i>
+															</div>
+															<div class="data">
 																[[preview.file.filename]]
 															</div>		
+														</div>
+														<div class="alert alert-sm margin-top-10">
+															Adalah file yang kami upload sebagai dummy untuk pencetakan. File dapat berupa,
+															<ol>
+																<li>Gambar foto dari handphone,</li>
+																<li>Hasil scan, atau</li>
+																<li>Upload image dari hasil JPEG.</li>
+															</ol>
+															<br>
+															Jika ada permintaan khusus silahkan diinfokan lebih lanjut kepada pihak kami. Dan pastikan Anda sudah memeriksa tulisan dan gambar pada file preview diatas.
 														</div>
 													</div>
 												</div>
 												<div class="detail-card">
 													<div class="detail-card-title">
 														KETERANGAN CETAK
-														<i class="fas fa-info-square fa-fw"></i>
 													</div>
 													<div class="detail-card-text">
 														<div class="detail">
@@ -320,7 +331,7 @@
 																</span>
 																<span ng-if="salesdetail.commited">
 																	<i class="fal fa-fw fa-vote-yea"></i>
-																	Status: Sudah Commit
+																	Status: <span class="tx-primary">Sudah Commit</span>
 																</span>
 															</div>
 														</div>
@@ -330,12 +341,12 @@
 															</button>
 														</div>
 														<div class="detail text-xs-center" ng-if="item.totalprice>item.totalpay">
-															<button class="btn btn-sm btn-outline-purple" ng-click="showpayment(item)">
+															<button class="btn btn-sm btn-outline-purple" ng-click="linkmakepayment(item)">
 																Buat Pembayaran
 															</button>
 														</div>
 														<div class="alert alert-sm" ng-if="item.totalprice<=item.totalpay">
-															Setelah setuju (commit),
+															Setelah setuju (commit) dengan hasil dummy (preview),
 															<ol>
 																<li>Proses dijalankan.</li>
 																<li>Tidak bisa ubah file lagi.</li>
@@ -514,7 +525,7 @@
 														<span class="rp">
 															Rp
 														</span>
-														[[item.totalprice|number:0]]<br>
+														[[(item.totalprice-item.totalpay)|number:0]]<br>
 														<button class="btn btn-sm btn-outline-purple" ng-click="copyToClipboard(item.totalprice)">
 															SALIN
 														</button>
@@ -528,28 +539,71 @@
 											</div>
 											<div class="nopay-custrek">
 												<div class="custrek-tab">
-													<button class="btn selected">
+													<button class="btn ease" ng-class="{'selected':konfirmasi.inputnew}" ng-click="konfirmasi.inputnew=true">
 														INPUT BARU
 													</button>
-													<button class="btn">
+													<button class="btn ease" ng-class="{'selected':!konfirmasi.inputnew}" ng-click="konfirmasi.inputnew=false">
 														DAFTAR REKENING
 													</button>
 												</div>
-												<div class="custrek-input newrek">
-													<button class="btn">
-														Pilih Bank Anda 
-														<span class="hidden-sm-down">
-															(sebagai Pengirim)
+												<div class="custrek-input newrek" ng-if="konfirmasi.inputnew">
+													<button class="btn" ng-click="showselectbank()">
+														<span ng-if="konfirmasi.newcustacc.bank == null">
+															Pilih Bank Anda 
+															<span class="hidden-sm-down">
+																(sebagai Pengirim)
+															</span>
 														</span>
-														<i class="fas fa-caret-down fa-fw pull-xs-right"></i>
+														<span ng-if="konfirmasi.newcustacc.bank != null">
+															<b ng-if="konfirmasi.newcustacc.bank.alias.length>0">
+																[[konfirmasi.newcustacc.bank.alias]]
+															</b>
+															<b ng-if="konfirmasi.newcustacc.bank.alias.length<=0">
+																[[konfirmasi.newcustacc.bank.bankname.toTitleCase()]]
+															</b>
+														</span>
+														<i class="fas fa-caret-down pull-xs-right"></i>
 													</button>
 
-													<input type="number" class="form-control" placeholder="Nama Pemilik Rekening">
-													<input type="number" class="form-control" placeholder="Nomor Rekening (optional)">
+													<input type="text" class="form-control" ng-class="{'uppercase':konfirmasi.newcustacc.accname}" ng-model="konfirmasi.newcustacc.accname" placeholder="Nama Pemilik Rekening">
+													<input type="text" class="form-control" ng-model="konfirmasi.newcustacc.accno" placeholder="Nomor Rekening (optional)">
 												</div>
-												<div class="custrek-info">
+												<div class="custrek-info" ng-if="konfirmasi.inputnew">
 													<i class="fal fa-info-circle fa-fw"></i>
 													Nomor Rekening tidak wajib diisi, akan diperlukan hanya untuk pengembalian dana karena kelebihan bayar atau pembatalan transaksi.
+												</div>
+												<div class="newrek-action" ng-if="konfirmasi.inputnew">
+													<button class="btn btn-sm btn-outline-purple" ng-click="savecustbankacc()">
+														<span ng-if="!loadingsavecustacc">
+															SIMPAN REKENING SAYA
+														</span>
+														<span ng-if="loadingsavecustacc">
+															<i class="fas fa-spin fa-spinner fa-fw"></i>
+															Saving...
+														</span>
+													</button>
+												</div>
+												<div class="custrek-input" ng-if="!konfirmasi.inputnew">
+													<button class="btn ease" ng-class="{'selected':custbankacc.id==konfirmasi.custacc.id}" ng-repeat="custbankacc in custaccs" ng-click="selectbanksender(custbankacc)">
+														<div class="bankinfo">
+															<div class="size-80p text-bold">
+																<i class="far fa-sack-dollar tx-gray fa-fw"></i>
+																<span ng-if="custbankacc.bank.alias.length==0">
+																	[[custbankacc.bank.bankname]]
+																</span>
+																<span ng-if="custbankacc.bank.alias.length>0">
+																	[[custbankacc.bank.alias]]
+																</span>
+															</div>
+															<div>
+																[[custbankacc.accname.toTitleCase()]] -
+																[[custbankacc.accno]]
+															</div>
+														</div>
+														<div class="bank-check" ng-class="{'show':custbankacc.id==konfirmasi.custacc.id}">
+															<i class="fad fa-check-circle fa-fw pull-xs-right ease"></i>
+														</div>
+													</button>
 												</div>
 											</div>
 											<div class="subheader">
@@ -562,7 +616,7 @@
 													<div class="text">
 														Bila sudah transfer silahkan klik Tombol dibawah ini,<br>agar kami dapat melakukan pengecekan dan proses cetak.
 													</div>
-													<button class="btn btn-sm btn-outline-purple">
+													<button class="btn btn-sm btn-outline-purple" ng-click="showconfirmmodal(item)">
 														BENAR, SAYA SUDAH TRANSFER
 													</button>
 												</div>
@@ -581,7 +635,7 @@
 												<i class="fas fa-caret-up fa-fw pull-xs-right" ng-if="item.showpaymentconfirm"></i>
 											</button>
 										</div>
-										<div class="payment-detail" ng-show="item.showpaymentinfo">
+										<div id="payment-detail-[[item.id]]" class="payment-detail" ng-show="item.showpaymentinfo">
 											<table class="table table-sm">
 												<tbody>
 													<tr class="title">
@@ -600,6 +654,7 @@
 															[[(detail.cartheader.printprice-detail.cartheader.discount+detail.cartheader.deliveryprice)|number:0]]
 														</td>
 													</tr>
+
 													<tr ng-if="item.salesdetail.length>1">
 														<td>Total Harga</td>
 														<td class="price">
@@ -616,7 +671,7 @@
 													</tr>
 													<tr class="" ng-repeat="payment in item.salespayment">
 														<td class="text-xs-left">
-															Transfer [[payment.paydate]] 
+															Trf. [[payment.paydate]] &nbsp;
 															<span class="tag tag-danger signika size-80p" ng-show="payment.salespaymentverif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="hubungi <b>0813-1551-9889</b>,<br>untuk mempercepat proses">
 																&nbsp;
 																<i class="fas fa-hourglass-half fa-spin"></i> &nbsp;&nbsp;
@@ -627,15 +682,25 @@
 																[[payment.salespaymentverif.veriftime]]
 															</span>
 															<br>
-															[[payment.customeracc.bank.bankname]]
+															<span ng-if="payment.customeracc.bank.alias.length==0">
+																[[payment.customeracc.bank.bankname.toTitleCase()]]
+															</span>
+															<span ng-if="payment.customeracc.bank.alias.length>0">
+																[[payment.customeracc.bank.alias]]
+															</span>
 															<span class="hidden-sm-down">
 															 [[payment.customeracc.accno]]
 														 </span> 
 														 <span class="hidden-xs-down">
-														 	a/n. [[payment.customeracc.accname]]
+														 	<b>[[payment.customeracc.accname.toTitleCase()]]</b>
 														 </span>
 															<i class="fal fa-arrow-alt-right fa-fw"></i>
-															[[payment.companyacc.bank.bankname]]
+															<span ng-if="payment.companyacc.bank.alias.length==0">
+																[[payment.companyacc.bank.bankname.toTitleCase()]]
+															</span>
+															<span ng-if="payment.companyacc.bank.alias.length>0">
+																[[payment.companyacc.bank.alias]]
+															</span>
 														</td>
 														<td class="price">
 															<span class="rp">
@@ -730,10 +795,13 @@
 			FILTER WASNT SET YET
 		</div>
 
-		<!-- MODAL -->
-		@include ('pages.order.sales.modals.files') 
+		<!-- MODAL --> 
 		@include ('includes.modals.compaccno')
+		@include ('pages.order.sales.modals.cartfile')
+		@include ('pages.order.sales.modals.cartpreview')
+		@include ('pages.order.sales.modals.cust-selectbank')
 		@include ('pages.allaccess.sales.modals.printprogress')
+		@include ('pages.order.sales.modals.confirm')
 		<!-- END OF MODAL -->
 
 		@else

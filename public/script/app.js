@@ -18,11 +18,14 @@ require('./constants/analytics')(app);
 
 //CONTROLLERS
 require("./controllers/global.nav.header")(app);
-require("./controllers/viewfile-modal")(app);
 require("./controllers/roles")(app);
 require("./controllers/salespaymentconfirm")(app);
 require("./controllers/salespayments")(app);
 require("./controllers/order.sales.index")(app); //ALL SALES BY CUSTOMER
+require("./controllers/order.sales.modal.changefile")(app);
+require("./controllers/order.sales.modal.showpreview")(app);
+require("./controllers/order.sales.modal.cust-selectbank")(app);
+require("./controllers/order.sales.modal.confirm")(app);
 require("./controllers/order.sales.commit")(app); //COMMIT DATA SEBELOM CETAK
 require("./controllers/order.shop.lists.customer")(app);
 require("./controllers/order.shop.calculation.customer")(app);

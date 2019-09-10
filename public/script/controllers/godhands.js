@@ -1,8 +1,8 @@
 module.exports = function(app){
-	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
+	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
+		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.app_version = "2.05.001";
+			$scope.app_version = "2.05.004";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -130,6 +130,12 @@ module.exports = function(app){
 						$('.navbar-toggler .glyphicon').removeClass("rotate");
 					}
 				});
+			}
+
+			$scope.scrollTo = function($id, $plus=0){
+				$('html, body').animate({
+					scrollTop: $($id).offset().top+$plus
+				}, 1000);
 			}
 
 			$scope.singkatText0 = function($text, $totalhuruf)
@@ -271,15 +277,36 @@ module.exports = function(app){
 						url : API_URL + 'compaccs'
 					}
 				).then(function(response) {
-					$scope.compaccs = response.data;
 					if(response.data!=null){
 						if(response.data.length>0){
-							$scope.showncompacc = $scope.compaccs[0];
+							$scope.compaccs = response.data;
 							if (whendone instanceof Function) { whendone(); }
 						}
+					} else {
+						console.log('Null return when calling company bank accounts - Godhands')
 					}
 				}, function(error){
 					console.log("Error when calling company bank accounts - Godhands");
+				});
+			};
+
+			$scope.fillCustomerBankAccs = function(whendone) {
+				$http(
+					{
+						method: 'GET',
+						url: AJAX_URL + 'custaccs'
+					}
+				).then(function(response) {
+					if (response.data != null) {
+						if (response.data.length > 0) {
+							$scope.custaccs = response.data;
+							if (whendone instanceof Function) { whendone(); }
+						}
+					} else {
+						console.log('Null return when calling customer bank accounts - Godhands')
+					}
+				}, function(error) {
+					console.log("Error when calling customer bank accounts - Godhands");
 				});
 			};
 
@@ -349,6 +376,45 @@ module.exports = function(app){
 						$scope.klikbca = null;
 					}
 				});
+			}
+
+			$scope.recfindinside = function($text, $letter){
+				
+				if($letter == null)
+					return true;
+				if($letter.length == 0){
+					return true;
+				}else if ($text.length == 0) {
+					//kalo textnya abis tapi findny masih ada
+					return false;
+				}
+
+				$index = $text.indexOf($letter.charAt(0));
+				//console.log($text+": dapat "+$letter.charAt(0)+" pada index-"+$index);
+
+				if($index == -1)
+					//kalo langsung ga ketemu return false
+					return false;
+				else{
+					$find = $letter.substring(1);
+					$sisa = $text.substring($index + 1);
+
+					//kalo ketemu , TAPI
+					//setelah itu tidak ada leternya 
+					//console.log($sisa+", find:"+$find);
+
+
+					return $scope.recfindinside($sisa, $find);
+				}
+			}
+
+			String.prototype.findInside = function($letter){
+				if(this == null)
+					return false;
+				else if(this.length == 0)
+					return false;
+				else
+					return $scope.recfindinside(this, $letter);
 			}
 
 			String.prototype.replaceAll = function(search, replacement) {

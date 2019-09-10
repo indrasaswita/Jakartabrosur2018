@@ -461,4 +461,37 @@ class MobileappsAPI extends Controller
 
 		return $datas;
 	}
+
+	public function register(Request $request){
+		dd($request);
+		$datas = $request->all();
+
+		if($datas['email']!=null){
+			$customer = Customer::where('email', $datas['email'])
+				->get();
+				$msg = "Data customer sudah ada";
+				dd($msg);
+			if($customer != null){
+				return $msg;
+			}
+			else{
+				$newcustomer = new Customer();
+				$newcustomer->companyID = '1';
+				$newcustomer->email = $datas['email'];
+				$newcustomer->password = Hash::make('123456');
+				$newcustomer->name = $datas['name'];
+				$newcustomer->type = 'personal';
+				$newcustomer->title = 'Mr.';
+				$newcustomer->postcode = '';
+				$newcustomer->phone1 = $datas['telp1'];
+				$newcustomer->phone2 = $datas['telp2'];
+				$newcustomer->phone3 = $datas['telp3'];
+				$newcustomer->news = 'true';
+				$newcustomer->balance = '0';
+				$newcustomer->remember_token = '';
+				$newcustomer->verify_token = '';
+				$newcustomer->save();
+			}
+		}
+	}
 }

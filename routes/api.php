@@ -39,7 +39,7 @@ Route::get('/papersizes', 'PaperSizeAPI@all');
 Route::get("/sizes", "SizesAPI@getall");
 Route::get('/papers/OF', 'PaperAPI@showFlyer');
 Route::get('/papers', 'PaperAPI@getAll');
-Route::get('/custaccs', 'CustomeraccountAPI@all');
+Route::get('/custaccs/{custid}', 'CustomeraccountAPI@getBycustID');
 
 Route::get('/custadds/{custid}', 'CustomeraddressAPI@bycustid');
 Route::get('/custadds', 'CustomeraddressAPI@all');

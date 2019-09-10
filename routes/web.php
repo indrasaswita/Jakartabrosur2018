@@ -99,8 +99,14 @@ Route::group(['middleware'=>['verified']], function(){
 	Route::get('cart', 'CartController@index');
 	Route::get('sales/all', 'AllSalesCustomerView@indexempty');
 	Route::get('sales/all/{link}', 'AllSalesCustomerView@index');
+	Route::get('AJAX/file/{id}/download', 'FileAJAX@downloadByFileID');
+	Route::get('AJAX/file/preview/{id}/download', 'FileAJAX@downloadPreviewByFileID');
 
 	Route::get('sales/commit/{id}/{sid}/{tk}', 'SalesdetailController@showCommitByID');
+	Route::post('AJAX/custbankaccs/save', 'CustomerbankaccAJAX@insert');
+	Route::post('AJAX/custbankaccs/{id}/update', 'CustomerbankaccAJAX@update'); //belom kepake tapi uda di buat
+
+	Route::post('AJAX/salespayment/insert', 'SalespaymentAJAX@insert');
 
 	Route::get('notification', 'NotificationController@index'); // di employee juga ada
 });

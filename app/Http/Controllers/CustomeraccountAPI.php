@@ -8,11 +8,11 @@ use App\Customer;
 
 class CustomeraccountAPI extends Controller
 {
-	public function getByID($id)
+	public function getBycustID($custid)
 	{
 		//$id = customerID
 		$acc = Customerbankacc::join('banks', 'banks.id', '=', 'bankID')
-				->where('customerID', '=', $id)
+				->where('customerID', '=', $custid)
 				->orderBy('bankID', 'ASC')
 				->select('customerbankaccs.id', 'accno', 'accname', 'alias', 'bankname')
 				->get();

@@ -34,7 +34,7 @@ class ImageController extends Controller
 			if($response instanceof Files)
 			{
 				//response ini file yang mau di input ke database
-				$response->customerID = 1; // default buat employee // harusnya employeeID
+				$response->customerID = 0; //dibuat 0, jadi kalo yang di upload by employee ga ada customernya
 				$response->save(); // jika response dalam bentuk Object Files
 
 				$file = Files::orderBy('id', 'desc')

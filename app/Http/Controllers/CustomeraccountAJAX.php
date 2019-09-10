@@ -9,9 +9,9 @@ class CustomeraccountAJAX extends Controller
 {
 	public function all(){
 		$custid = session()->get('userid');
-		$accs = Customerbankacc::join('banks', 'bankID', '=', 'banks.id')
+		$accs = Customerbankacc::with('bank')
+				->with('customer')
 				->where('customerID', '=', $custid)
-				->select('banks.*', 'customerbankaccs.*')
 				->get();
 		return $accs;
 	}

@@ -919,36 +919,36 @@ module.exports = function(app){
 				else
 				{
 					//ngefek baru, edit, udah ada di sales atau belum
-					console.log($scope.selected.cartID);
-					$http({
-						"method"	: "GET",
-						"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
-					}).then(function(response){
-						console.log(response);
-					});
-
+					// console.log($scope.selected.cartID);
 					// $http({
-					// 	"method" 	: "POST",
-					// 	"url"			: API_URL + "storecartdetail",
-					// 	"data" 		: {
-					// 		"selected": $scope.selected,
-					// 		"key": $scope.key,
-					// 		"total": $scope.total
-					// 	}
+					// 	"method"	: "GET",
+					// 	"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
 					// }).then(function(response){
-					// 	$scope.error.savebtnval = "";
-					// 	if(response.data != null){
-					// 		if(response.data.constructor === String)
-					// 		{
-					// 			if(response.data == "success")
-					// 				$window.location.href=BASE_URL+"cart";
-					// 		}
-					// 	}
-					// 	else
-					// 	{
-					// 		alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
-					// 	}
+					// 	console.log(response);
 					// });
+
+					$http({
+						"method" 	: "POST",
+						"url"			: API_URL + "storecartdetail",
+						"data" 		: {
+							"selected": $scope.selected,
+							"key": $scope.key,
+							"total": $scope.total
+						}
+					}).then(function(response){
+						$scope.error.savebtnval = "";
+						if(response.data != null){
+							if(response.data.constructor === String)
+							{
+								if(response.data == "success")
+									$window.location.href=BASE_URL+"cart";
+							}
+						}
+						else
+						{
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
+						}
+					});
 				}
 			}
 
