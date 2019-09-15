@@ -21,13 +21,13 @@
 			</div>
 			<div class="login-block">
 				<div class="form-group">
-					<input type="text" id="login-username" class="login-text-input" data-toggle="tooltip" data-placement="top" title="email@example.com" placeholder="Email Anda" ng-model="customerData.email" name="email">
+					<input type="text" id="login-username" class="login-text-input" data-toggle="tooltip" data-placement="top" title="email@example.com" placeholder="email (username@mail.com)" ng-model="customerData.email" name="email">
 					<div class="login-text-error">
 						[[error.email]]
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="password" id="login-password" class="login-text-input" data-toggle="tooltip" data-placement="bottom" title="min. 6 digits" placeholder="Password Anda" ng-model="customerData.password" name="password">
+					<input type="password" id="login-password" class="login-text-input" data-toggle="tooltip" data-placement="bottom" title="min. 6 digits" placeholder="password" ng-model="customerData.password" name="password">
 					<div class="login-text-error">
 						[[error.password]]
 					</div>
@@ -40,7 +40,13 @@
 				<input type="submit" class="btn login-submit" value="Login" ng-click="loginButtonClicked('home')" >
 			</div>
 			<div class="login-redirector">
-				Jika belum punya account?<br />Silahkan <a href="{{URL::asset('signup')}}">sign-up</a> disini!
+				Jika belum punya account?<br />Silahkan <a href="{{URL::asset('signup')}}"><b>REGISTER</b></a> disini!
+				<div class="redirect">
+					<button class="btn">
+						<i class="fal fa-user-plus fa-fw"></i>
+						REGISTER
+					</button>
+				</div>
 			</div>
 		</div>
 	</form>

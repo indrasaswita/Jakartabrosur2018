@@ -15,7 +15,7 @@ class CreateFilesTable extends Migration
 		DB::unprepared("
 			CREATE TABLE files(
 				id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-				customerID INT UNSIGNED NOT NULL,
+				customerID INT UNSIGNED DEFAULT NULL,
 				filename VARCHAR(100) NOT NULL,
 				size NUMERIC(10,2) NOT NULL DEFAULT 0,
 				detail VARCHAR(500) NOT NULL DEFAULT '',

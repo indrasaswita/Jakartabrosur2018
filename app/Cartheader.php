@@ -9,7 +9,7 @@ class Cartheader extends Model
 {
 	//use SoftDeletes;
 	
-	protected $fillable = ['customerID', 'jobsubtypeID', 'jobtitle', 'quantity', 'quantitytypename', 'customernote', 'itemdescription', 'resellername', 'resellerphone', 'reselleraddress', 'buyprice', 'printprice', 'deliveryprice', 'discount', 'processtype', 'processtime', 'deliveryID', 'deliveryaddress', 'deliverytime', 'totalpackage', 'totalweight', 'filestatus'];
+	protected $fillable = ['customerID', 'jobsubtypeID', 'jobtitle', 'quantity', 'quantitytypename', 'customernote', 'itemdescription', 'resellername', 'resellerphone', 'reselleraddress', 'buyprice', 'printprice', 'deliveryprice', 'discount', 'processtype', 'processtime', 'deliveryID', 'deliveryaddressID', 'deliverytime', 'totalpackage', 'totalweight', 'filestatus'];
 	protected $guarded = ['id'];
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $hidden = ['deleted_at'];
@@ -35,6 +35,10 @@ class Cartheader extends Model
 
 	public function salesdetail(){
 		return $this->hasMany('App\Salesdetail', 'cartID')->with('salesheader');
+	}
+
+	public function deliveryaddress(){
+		return $this->belongsTo('App\Address', 'deliveryaddressID');
 	}
 
 	public function delivery(){

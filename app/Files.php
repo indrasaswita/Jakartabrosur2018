@@ -20,4 +20,8 @@ class Files extends Model
     public function cartfile(){
     	return $this->hasOne("App\Cartfile", 'fileID')->with('cartheader');
     }
+
+    public function cartpreview(){
+        return $this->hasOne("App\Cartpreview", 'fileID')->with('cartheader');
+    }
 }

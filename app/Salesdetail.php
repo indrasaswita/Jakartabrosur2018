@@ -16,9 +16,9 @@ class Salesdetail extends Model
 	}
 
 	public function cartheader(){
-		return $this->belongsTo("App\Cartheader", 'cartID')->with('customer', 'jobsubtype', 'cartdetail', 'cartfile', 'delivery', 'cartpreview');
-		}
+		return $this->belongsTo("App\Cartheader", 'cartID')->with('customer', 'jobsubtype', 'cartdetail', 'cartfile', 'delivery', 'cartpreview', 'deliveryaddress');
+	}
 	public function salesdeliverydetail(){
-		return $this->hasMany('App\Salesdeliverydetail', 'salesdetailID');
-		}
+		return $this->hasMany('App\Salesdeliverydetail', 'salesdetailID')->with('salesdelivery');
+	}
 }

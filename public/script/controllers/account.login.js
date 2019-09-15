@@ -3,6 +3,10 @@ module.exports = function(app){
 		function($scope, $http, API_URL, BASE_URL, $window){
 			$scope.nextUrl = '';
 			$scope.alertshow = false;
+			$(function() {
+				$("#login-username").focus();
+			});
+			
 			//$scope.clearAllData.call();
 			$scope.setNews = function(value){
 				if (value) $scope.customerData.news = 1;
@@ -20,10 +24,10 @@ module.exports = function(app){
 						method : 'POST',
 						url : API_URL + 'login',
 						data : 
-							{
-								'email' : $scope.customerData.email,
-								'password' : $scope.customerData.password
-							}
+						{
+							'email' : $scope.customerData.email,
+							'password' : $scope.customerData.password
+						}
 					}
 				).then(function(response) {
 					if(response.data.message != null){
@@ -32,6 +36,9 @@ module.exports = function(app){
 						$scope.alerttype = response.data.type;
 						$scope.alertshow = true;
 						if (response.data.type == "alert-success"){
+							$userid = response.data.userid!=null?response.data.userid:"NULL";
+							$scope.gtag('set', {'user_id': $userid}); 
+							// Set the user ID using signed-in user_id.
 							if($link == null)
 								location.reload();
 							else if($scope.nextUrl != '')

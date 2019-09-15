@@ -62,20 +62,11 @@
 				<ul class="ordersublist">
 					<li ng-class="{'inactive':item.active==0, 'active':item.active==1}" ng-repeat="item in jobtype.jobsubtype" ng-mouseover="tooltip('<b class=\'tx-purple\'>'+item.name+'</b><br>'+item.description)" ng-mouseleave="tooltip('')">
 						<a ng-click="linkclicked(item.link, item.active)">
-							<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/[[item.icon]]')}}" ng-if="item.icon!=''&&item.active" alt="no image found" onerror="this.onerror=null;this.src='{{URL::asset('image/jobsubtypeicons/nophoto.png')}}'">
-							<div class="list-image-addon" hidden>
-								<img class="addon1" ng-src="{{URL::asset('image/smallicons/[[item.sicon1]]')}}" ng-if="item.sicon1!=''">
-								<img class="addon2" ng-src="{{URL::asset('image/smallicons/[[item.sicon2]]')}}" ng-if="item.sicon2!=''">
-							</div>
-							<div class="margin-10-0" ng-if="!item.active">
-								<i class="fal fa-5x fa-tools tx-danger" hidden></i>
-
-								<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/onconstruction.png')}}" alt="no image found">
-							</div>
-							<span class="sublist-title">[[item.name]]</span>
-							<span class="sublist-detail" ng-if="item.active==1">
+							<span class="sublist-detail" ng-if="item.active==1" ng-class="{'hide':item.shortlabel.length<=1}">
 								<!-- ACTIVE -->
-								min. [[item.mindigital]] [[item.satuan]]
+								&nbsp;
+								[[item.shortlabel]]
+								&nbsp;
 							</span>
 							<span class="sublist-detail" ng-if="item.active==0">
 								<!-- NOT ACTIVE -->
@@ -89,12 +80,27 @@
 									</span>
 								</span>
 							</span>
+							<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/[[item.icon]]')}}?2.05.002" ng-if="item.icon!=''&&item.active" alt="no image found" onerror="this.onerror=null;this.src='{{URL::asset('image/jobsubtypeicons/nophoto.png')}}?2.05.002'">
+							<div class="list-image-addon" hidden>
+								<img class="addon1" ng-src="{{URL::asset('image/smallicons/[[item.sicon1]]')}}" ng-if="item.sicon1!=''">
+								<img class="addon2" ng-src="{{URL::asset('image/smallicons/[[item.sicon2]]')}}" ng-if="item.sicon2!=''">
+							</div>
+							<div class="margin-10-0" ng-if="!item.active">
+								<i class="fal fa-5x fa-tools tx-danger" hidden></i>
+
+								<img class="list-image" ng-src="{{URL::asset('image/jobsubtypeicons/onconstruction.png')}}" alt="no image found">
+							</div>
+							<span class="sublist-title">[[item.name]]</span>
 						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
+
+	@include('includes.floating-contact')
+
 </div>
+
 
 @stop

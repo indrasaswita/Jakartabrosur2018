@@ -1,6 +1,16 @@
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
+
+			$scope.konfirmasi = {
+				"newcustacc": {
+					"accno": "",
+					"accname": "",
+					"bankid": ""
+				},
+				"inputnew": true,
+			};
+			$scope.searchbankinput = "";
 			$scope.URL = 'http://localhost:8000/';
 			$scope.selectedfilter = null;
 			$scope.filters = [
@@ -30,6 +40,8 @@ module.exports = function(app){
 					"link": "selesai"
 				}
 			];
+
+			$scope.loadingsavecustacc = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
 				$scope.selectedfilter = $input;
@@ -69,7 +81,7 @@ module.exports = function(app){
 				$.each($scope.sales, function($index, $item){
 					if($item!=null){
 						$scope.loadingfilter = false;
-	$item.created_at = $scope.makeDateTime($item.created_at);
+						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
 						$item.showdetail = false;
@@ -79,6 +91,12 @@ module.exports = function(app){
 							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
 							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
 							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+
+							$.each($item2.cartheader.cartdetail, function($j, $jj){
+								$jj.jobtypelong = 
+									($jj.jobtype == "OF") ? "Offset Print" : 
+									($jj.jobtype == "DG") ? "Digital Print" : "Not Set";
+							});
 
 							if($item2.updated_at != null)
 								$item2.updated_at = $scope.makeDateTime($item2.updated_at+'');
@@ -90,6 +108,10 @@ module.exports = function(app){
 							$.each($item2.salesdeliverydetail, function($j, $jj){
 								$item2.totalkirim += parseInt($jj.quantity);
 								$item2.totalhargakirim += parseFloat($jj.actualprice);
+								if ($jj.salesdelivery != null) {
+									$jj.salesdelivery.created_at = $scope.makeDateTime($jj.salesdelivery.created_at);
+									$jj.salesdelivery.arrivedtime = $scope.makeDateTime($jj.salesdelivery.arrivedtime);
+								}
 							});
 						})
 						$item.totalpay = 0;
@@ -141,7 +163,29 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs.call();
+			$scope.fillCustomerBankAccs(function(){
+				if($scope.custaccs != null)
+					if($scope.custaccs.length > 0){
+						$scope.selectbanksender($scope.custaccs[0]);
+
+						//$scope.konfirmasi.newcustacc.bank = $scope.clone(custacc.bank);
+					}
+			});
+
+			$scope.selectbanksender = function(custacc){
+				$scope.konfirmasi.custacc = custacc;
+			}
+
+			//darigodhands
+			$scope.fillCompanyBankAccs(function() {
+				if ($scope.compaccs != null)
+					if ($scope.compaccs.length > 0)
+						$scope.selectbanktrf($scope.compaccs[0])
+			});
+
+			$scope.selectbanktrf = function(compacc){
+				$scope.konfirmasi.compacc = $scope.clone(compacc);
+			}
 
 			$scope.commit = function($item, $item2){
 				//yang di send item2 <= salesdetail dari item
@@ -217,12 +261,35 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.linkmakepayment = function(item){
+				$scope.showpayment(item);
+				$scope.showpaymentconfirm(item);
+			}
+
 			$scope.hidealldetail = function(){
 				$.each($scope.sales, function($index, $item){
-					$item.showdetail = false;
+					$item.showinfo = false;
 					$item.showdelivery = false;
 					$item.showpayment = false;
 					$item.showtracking = false;
+					$.each($item.salesdetail, function($j, $jj) {
+						$jj.showsubinfo = false;
+					});
+					$item.showpaymentconfirm = false;
+					$item.showpaymentinfo = false;
+				});
+			}
+			$scope.hideallsubpayment = function(){
+				$.each($scope.sales, function($index, $item) {
+					$item.showpaymentconfirm = false;
+					$item.showpaymentinfo = false;
+				});
+			}
+			$scope.hideallsubinfo = function() {
+				$.each($scope.sales, function($index, $item) {
+					$.each($item.salesdetail, function($j, $jj){
+						$jj.showsubinfo = false;
+					});
 				});
 			}
 
@@ -231,23 +298,76 @@ module.exports = function(app){
 				$scope.previewfile = $item;
 			}
 
+			$scope.showprogress = function($salesdetail){
+				//$scope.salesdetail => untuk variable di dalam printprogress
+				$scope.salesdetail = $salesdetail;
+				$("#print-progress-modal").modal('show');
+			}
+			$scope.showconfirmmodal = function($salesheader){
+				$scope.konfirmasi.paymentammount = $salesheader.totalprice - $salesheader.totalpay;
+				$scope.konfirmasi.salesID = $salesheader.id;
+				$scope.selectedSalesheader = $salesheader;
+				$('#ordersales-payment-confirm').modal('show');
+			}
+			$scope.showselectbank = function() {
+				$('#ordersales-customer-selectbank').on('shown.bs.modal', function() {
+					$('#input-banksearch').focus();
+					$('#input-banksearch').val("");
+				})  
+				$('#ordersales-customer-selectbank').modal('show');
+			}
+			$scope.showselectedfile = function($file, $cart, $salesdetail){
+				$scope.selectedFile = $file;
+				$scope.selectedCart = $cart;
+				$scope.selectedSalesdetail = $salesdetail;
+				$("#viewcartfile-modal").modal('show');
+			}
+			$scope.showcartpreview = function($file, $preview) {
+				$scope.selectedFile = $file;
+				$scope.selectedCartpreview = $preview;
+				$("#viewcartpreview-modal").modal('show');
+			}
 			$scope.showdelivery = function($item){
 				$show = $item.showdelivery;
 				$scope.hidealldetail();
-				if(!$show) $item.showdelivery = true;
-				else $item.showdelivery = false;
+				$item.showdelivery = true;
 			}
 			$scope.showpayment = function($item){
 				$show = $item.showpayment;
 				$scope.hidealldetail();	
-				if(!$show) $item.showpayment = true;
-				else $item.showpayment = false;
+				$item.showpayment = true;
 			}
-			$scope.showdetail = function($item){
+			$scope.showdetail = function($item) {
+
 				$show = $item.showdetail;
-				$scope.hidealldetail();
-				if(!$show) $item.showdetail = true;
+				if(!$item.showinfo && !$item.showdelivery && !$item.showpayment){
+					$item.showinfo = true;
+				}
+				if (!$show) $item.showdetail = true;
 				else $item.showdetail = false;
+			}
+			$scope.showpaymentconfirm = function($item){
+				$show = $item.showpaymentconfirm;
+				$scope.hideallsubpayment();
+				if(!$show) $item.showpaymentconfirm = true;
+				else $item.showpaymentconfirm = false;
+			}
+			$scope.showpaymentinfo = function($item) {
+				$show = $item.showpaymentinfo;
+				$scope.hideallsubpayment();
+				if (!$show) $item.showpaymentinfo = true;
+				else $item.showpaymentinfo = false;
+			}
+			$scope.showinfo = function($item) {
+				$show = $item.showinfo;
+				$scope.hidealldetail();
+				$item.showinfo = true;
+			}
+			$scope.showsubinfo = function($item) {
+				$show = $item.showsubinfo;
+				$scope.hideallsubinfo();
+				if (!$show) $item.showsubinfo = true;
+				else $item.showsubinfo = false;
 			}
 			$scope.showtracking = function($item){
 				$show = $item.showtracking;
@@ -280,6 +400,50 @@ module.exports = function(app){
 					}
 				);
 			}
+
+			$scope.savecustbankacc = function(){
+				if($scope.konfirmasi.newcustacc.bank == null){
+					$scope.errorsavecustacc = "Anda wajib pilih akun bank Anda.";
+				}else if($scope.konfirmasi.newcustacc.accname == ""){
+					$scope.errorsavecustacc = "Nama Pemilik Akun wajib diisi.";
+				}else{
+					if(!$scope.loadingsavecustacc)
+					{
+						$scope.loadingsavecustacc = true;
+						$http({
+							method: "POST",
+							url: AJAX_URL+"custbankaccs/save",
+							data: $scope.konfirmasi.newcustacc
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "object"){
+										$scope.custaccs = response.data[1];
+
+										console.log($scope.custaccs.length + " -> " + response.data[1].length);
+
+										$.each($scope.custaccs, function($index, $item){
+											if($item.id == response.data[0]){
+												$scope.konfirmasi.custacc = $item;
+											}
+										});
+
+										$scope.konfirmasi.newcustacc = {};
+										$scope.konfirmasi.inputnew = false;
+									}
+								}else{
+									console.log("The return value is null, not error");
+								}
+							}
+							$scope.loadingsavecustacc = false;
+						}, function(error){
+							console.log(error);
+							$scope.loadingsavecustacc = false;
+						});
+					}
+				}
+			}
+
 			$scope.deletecartfile = function($item, $index){
 				console.log($item);
 				$http({
@@ -301,34 +465,6 @@ module.exports = function(app){
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
-			// $scope.filtersales = function($id){
-			// 	if (!$scope.loadingfilter) {
-			// 		$scope.loadingfilter = true;
-			// 		$http({
-			// 			method: "GET",
-			// 			url: API_URL + "filtersales/" + $id
-			// 		}).then(function(response) {
-			// 			$scope.sales = [];
-			// 			$scope.sales = response.data;
-			// 			console.log(response.data);
-			// 			$.each($scope.sales, function($index, $item) {
-			// 				$item.created_at = $scope.makeDateTime($item.created_at);
-			// 			});
-			// 			$("#filter-0").removeClass("active");
-			// 			$("#filter-1").removeClass("active");
-			// 			$("#filter-2").removeClass("active");
-			// 			$("#filter-3").removeClass("active");
-			// 			$("#filter-4").removeClass("active");
-
-			// 			$("#filter-" + $id).addClass("active");
-
-			// 			$scope.allsalespagetitle = $id == 0 ? "<i class='far fa-filter margin-right-5'></i> Semua Transaksi / Tanpa Filter" : $id == 1 ? "<i class='far fa-wallet margin-right-5'></i> Transaksi Masih Butuh Pembayaran" : $id == 2 ? "<i class='far fa-tasks margin-right-5'></i> Transaksi Dalam Proses Cetak" : $id == 3 ? "<i class='far fa-truck-loading margin-right-5'></i> Transaksi Dalam Pengiriman" : "<i class='far fa-box-check margin-right-5'></i> Transaksi Sudah Selesai";
-			// 			$scope.loadingfilter = false;
-			// 		}, function(error) {
-			// 			$scope.loadingfilter = false;
-			// 		});
-			// 	}	
-			// }
 		}
 	]);
 };

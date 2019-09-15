@@ -21,6 +21,7 @@
 			<li><a href="{{URL::asset('shop/letterhead')}}">Kop Surat</a></li>
 			<li><a href="{{URL::asset('shop/flyer')}}">Digital A3+</a></li>
 			<li><a href="{{URL::asset('shop/businesscard')}}">Kartu Nama</a></li>
+			<li><a href="{{URL::asset('shop/cuttingsticker')}}">Cutting Sticker</a></li>
 			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
 				<i class="far fa-wrench fa-fw tx-danger"></i>
 				Katalog
@@ -28,10 +29,6 @@
 			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
 				<i class="far fa-wrench fa-fw tx-danger"></i>
 				Booklet
-			</li>
-			<li class="tx-lightgray" data-toggle="tooltip" data-placement="right" data-title="<span class='tx-red'>underconstruction</span>" data-html="true">
-				<i class="far fa-wrench fa-fw tx-danger"></i>
-				Cutting Sticker
 			</li>
 		</ul>
 		<div class="products-detail"> 
@@ -87,8 +84,8 @@
 			</li>
 			<li>
 				<i class="fab fa-fw fa-whatsapp footer-icon"></i>
-				<a href="https://api.whatsapp.com/send?phone=62816889889" target="_blank">
-					Wa: 0816-889-889
+				<a href="https://api.whatsapp.com/send?phone=6281315519889" target="_blank">
+					Wa: 0813-1551-9889
 				</a>
 			</li>
 			<li>
@@ -99,18 +96,14 @@
 			</li>
 			<li>
 				<i class="fal fa-fw fa-mobile-alt footer-icon"></i>
-				<a href="tel:+62816889889" target="_top">Hotline: 0816-889-889</a>
-			</li>
-			<li>
-				<i class="fal fa-fw fa-mobile-alt footer-icon"></i>
-				<a href="tel:+6281315519889" target="_top">Hotline: 0813-1551-9889</a>
+				<a href="tel:+6281315519889" target="_top">Hotline: 081315519889</a>
 			</li>
 			<li>
 				<i class="fal fa-fw fa-home footer-icon"></i>
 				<span data-toggle="tooltip" data-placement="top" data-html="true" data-title="<b>Klik untuk lihat di Google Map</b>">
 					<a class="a-purple" href="https://www.google.co.id/maps/place/Jakarta+Brosur/@-6.1410584,106.825155,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69f5fa2f737f37:0x43667f0d0a3cbf7f!8m2!3d-6.1410637!4d106.8273437?hl=en" target="_blank">
 						<b>
-							P. Jayakarta 113, Jakarta
+							P. Jayakarta 113, Jak-Pus
 						</b> 
 						<i class="fas fa-location-circle"></i>
 					</a>
@@ -122,6 +115,18 @@
 					support@jakartabrosur.com
 				</a>
 			</li>
+			<li>
+				<i class="fal fa-fw fa-envelope footer-icon"></i>
+				<a href="mailto:support@jakartabrosur.com?Subject=Asking Something" target="_top">
+					complain@jakartabrosur.com
+				</a>
+			</li>
+			<li>
+				<i class="fal fa-fw fa-envelope footer-icon"></i>
+				<a href="mailto:support@jakartabrosur.com?Subject=Asking Something" target="_top">
+					sendfile@jakartabrosur.com
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -129,5 +134,8 @@
 		<span class="tx-gray">&copy; {{date('Y')}} Jakartabrosur.com.</span> All right reserved. <a href="{{URL::asset('terms')}}" class="a-purple">Syarat & Ketentuan</a>
 		<br>
 		<i class="fa fa-code"></i>
-		Design & Code by Jakartabrosur Team. v2.03.010
+		Design & Code by Jakartabrosur Team. 
+		<span ng-if="app_version != null">
+			v[[app_version]]
+		</span>
 </div>

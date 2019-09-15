@@ -27,13 +27,13 @@ class InsertPrintingdigitalprice extends Migration
 			INSERT INTO printingdigitalprices VALUES('12', '8', '15', '40000', now(), now());
 			INSERT INTO printingdigitalprices VALUES('13', '8', '30', '30000', now(), now());
 			INSERT INTO printingdigitalprices VALUES('14', '8', '80', '25000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('15', '9', '1', '18500', now(), now());
-			INSERT INTO printingdigitalprices VALUES('16', '9', '5', '10000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('17', '9', '10', '7000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('18', '9', '20', '5000', now(), now());
+			INSERT INTO printingdigitalprices VALUES('15', '9', '1', '5000', now(), now());
+			INSERT INTO printingdigitalprices VALUES('16', '9', '5', '3800', now(), now());
+			INSERT INTO printingdigitalprices VALUES('17', '9', '10', '3400', now(), now());
+			/*INSERT INTO printingdigitalprices VALUES('18', '9', '20', '5000', now(), now());
 			INSERT INTO printingdigitalprices VALUES('19', '9', '30', '4500', now(), now());
 			INSERT INTO printingdigitalprices VALUES('30', '9', '40', '4000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('31', '9', '70', '3800', now(), now());
+			INSERT INTO printingdigitalprices VALUES('31', '9', '70', '3800', now(), now());*/
 			INSERT INTO printingdigitalprices VALUES('20', '10', '1', '20', now(), now());
 			INSERT INTO printingdigitalprices VALUES('21', '10', '40', '15', now(), now());
 			INSERT INTO printingdigitalprices VALUES('22', '10', '100', '10', now(), now());

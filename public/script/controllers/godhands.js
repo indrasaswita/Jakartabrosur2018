@@ -1,8 +1,25 @@
 module.exports = function(app){
-	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window', '$sce',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window, $sce){
+	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
+		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			
+			$scope.app_version = "2.05.004";
+
+			/*Global site tag (gtag.js) - Google Analytics */
+			// ============================================
+			$window.dataLayer = $window.dataLayer || [];
+			$scope.gtag = function(){
+				dataLayer.push(arguments);
+			}
+
+			$scope.submitGoogleAnalytics = function($ip){
+				if(!$ip.startsWith('192.168')&&$ip!='::1'){
+					$scope.gtag('js', new Date());
+					$scope.gtag('config', 'UA-144197477-1');
+				}
+			}
+			// ==========================================
+			/*Global site tag (gtag.js) - Google Analytics */
+
 
 			$scope.showAlertOK = function($title, $detail, $login = false){
 				$scope.alertmessage = {
@@ -57,6 +74,11 @@ module.exports = function(app){
 				$('#preloader-wrapper').hide();
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
+				try{
+					$('#landingpage').modal('show'); //dihome page
+				}catch(e){
+					console.log("Landing page error - runtime error");
+				}
 			});
 
 
@@ -95,7 +117,7 @@ module.exports = function(app){
 			}
 
 			String.prototype.toTitleCase = function () {
-			  	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+					return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 			};
 
 			$scope.togglerClicked = function(){
@@ -108,6 +130,12 @@ module.exports = function(app){
 						$('.navbar-toggler .glyphicon').removeClass("rotate");
 					}
 				});
+			}
+
+			$scope.scrollTo = function($id, $plus=0){
+				$('html, body').animate({
+					scrollTop: $($id).offset().top+$plus
+				}, 1000);
 			}
 
 			$scope.singkatText0 = function($text, $totalhuruf)
@@ -166,6 +194,7 @@ module.exports = function(app){
 			$scope.makeDateTime = function($input){
 				if ($input == null) return null;
 				if ($input == 'null') return null;
+				if ($input == '') return null;
 				$temp = $input.split(' ')[0];
 				$temp = $temp.split('-');
 				$temp2 = $input.split(' ')[1];
@@ -234,10 +263,13 @@ module.exports = function(app){
 					if(response.data!=null)
 						if(response.data.length>0)
 							$scope.cities = response.data;
+				}, function(error){
+					console.log("cannot get city data");
+					console.log(error);
 				});
 			};
 
-			$scope.fillCompanyBankAccs = function()
+			$scope.fillCompanyBankAccs = function(whendone)
 			{
 				$http(
 					{
@@ -245,15 +277,40 @@ module.exports = function(app){
 						url : API_URL + 'compaccs'
 					}
 				).then(function(response) {
-					$scope.compaccs = response.data;
 					if(response.data!=null){
-						if(response.data.length>0)
-							$scope.showncompacc = $scope.compaccs[0];
+						if(response.data.length>0){
+							$scope.compaccs = response.data;
+							if (whendone instanceof Function) { whendone(); }
+						}
+					} else {
+						console.log('Null return when calling company bank accounts - Godhands')
 					}
+				}, function(error){
+					console.log("Error when calling company bank accounts - Godhands");
 				});
 			};
 
-			$scope.copyToClipboard = function(containerid){
+			$scope.fillCustomerBankAccs = function(whendone) {
+				$http(
+					{
+						method: 'GET',
+						url: AJAX_URL + 'custaccs'
+					}
+				).then(function(response) {
+					if (response.data != null) {
+						if (response.data.length > 0) {
+							$scope.custaccs = response.data;
+							if (whendone instanceof Function) { whendone(); }
+						}
+					} else {
+						console.log('Null return when calling customer bank accounts - Godhands')
+					}
+				}, function(error) {
+					console.log("Error when calling customer bank accounts - Godhands");
+				});
+			};
+
+			$scope.copyToClipboard = async function(containerid){
 				if (document.selection) { 
 					var range = document.body.createTextRange();
 					range.moveToElementText(document.getElementById(containerid));
@@ -261,10 +318,21 @@ module.exports = function(app){
 					document.execCommand("copy");
 
 				} else if (window.getSelection) {
-					var range = document.createRange();
-					range.selectNode(document.getElementById(containerid));
-					window.getSelection().addRange(range);
-					document.execCommand("copy");
+					try {
+						var range = document.createRange();
+						range.selectNode(document.getElementById(containerid));
+						window.getSelection().addRange(range);
+						document.execCommand("copy");
+					} catch (err1){
+						try {
+							// 1) Copy text
+							await navigator.clipboard.writeText(containerid);
+
+							// 2) Catch errors
+						} catch (err) {
+							console.error('Failed to copy: ', err);
+						}
+					}
 				}
 			}
 
@@ -310,6 +378,45 @@ module.exports = function(app){
 				});
 			}
 
+			$scope.recfindinside = function($text, $letter){
+				
+				if($letter == null)
+					return true;
+				if($letter.length == 0){
+					return true;
+				}else if ($text.length == 0) {
+					//kalo textnya abis tapi findny masih ada
+					return false;
+				}
+
+				$index = $text.indexOf($letter.charAt(0));
+				//console.log($text+": dapat "+$letter.charAt(0)+" pada index-"+$index);
+
+				if($index == -1)
+					//kalo langsung ga ketemu return false
+					return false;
+				else{
+					$find = $letter.substring(1);
+					$sisa = $text.substring($index + 1);
+
+					//kalo ketemu , TAPI
+					//setelah itu tidak ada leternya 
+					//console.log($sisa+", find:"+$find);
+
+
+					return $scope.recfindinside($sisa, $find);
+				}
+			}
+
+			String.prototype.findInside = function($letter){
+				if(this == null)
+					return false;
+				else if(this.length == 0)
+					return false;
+				else
+					return $scope.recfindinside(this, $letter);
+			}
+
 			String.prototype.replaceAll = function(search, replacement) {
 				var target = this;
 				return target.replace(new RegExp(search, 'g'), replacement);
@@ -320,7 +427,7 @@ module.exports = function(app){
 			}
 
 			$scope.isURL = function(value) {
-			  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+				return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
 			}
 
 			$scope.trustAsUrl = function($input){
@@ -372,7 +479,7 @@ module.exports = function(app){
 			$scope.round = function($input) {
 				return Math.round($input);
 			}
- 			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
+			//perhitungan dan pakai di admin.master.paper.paperdetailstore.js
 			$scope.total2kg = function($total, $gram, $w, $l) {
 				$result = $total * 20000 / $gram / $w / $l;
 				return Math.round($result / 100) * 100;
@@ -410,24 +517,24 @@ module.exports = function(app){
 					var hasil = e;
 					var x;
 					if(!e.startsWith("08")){
-					  x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
-					  if(x!=null)
-					  	hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
+						x = e.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{4})/);
+						if(x!=null)
+							hasil = '(' + x[1] + ') ' + x[2] + '-' + x[3];
 					}
 					else{
 						if(e.length==10){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{3})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}else if(e.length==11){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{3})(\d{4})/);
 							if(x!=null)
-					  		hasil = x[1] + '-' + x[2] + '-' + x[3];
+								hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==12){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})/);
 							if(x!=null)
-					  	hasil = x[1] + '-' + x[2] + '-' + x[3];
+							hasil = x[1] + '-' + x[2] + '-' + x[3];
 						}
 						else if(e.length==13){
 							x = e.replace(/\D/g, '').match(/(\d{4})(\d{4})(\d{4})(\d{4})/);
@@ -435,9 +542,88 @@ module.exports = function(app){
 								hasil = x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4];
 						}
 					}
-				  return hasil;
+					return hasil;
 				}else
 					return "";
+			}
+
+			$scope.val_ext = function($type, $ext){
+				if($type == "upload-file"){
+					if ($ext == 'cdr' || $ext == 'zip' ||
+						$ext == 'rar' || $ext == 'ai' ||
+						$ext == 'xls' || $ext == 'xlsx' ||
+						$ext == 'doc' || $ext == 'docx' ||
+						$ext == 'tiff' || $ext == 'tif' ||
+						$ext == 'pdf' || $ext == 'jpg' ||
+						$ext == 'jpeg' || $ext == 'psd' ||
+						$ext == '7z' || $ext == 'txt' ||
+						$ext == 'indd') {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+
+			$scope.val_size = function($size){
+				if($size <= 50 * 1024 * 1024){
+					return true;
+				} else{
+					return false;
+				}
+			}
+
+
+
+			$scope.uploadprogress = function(type, data, url, whendone, whenfailed) {
+
+				$.ajax({
+					// Your server script to process the upload
+					url: url,
+					type: type,
+					data: data,
+
+					// Tell jQuery not to process data or worry about content-type
+					// You *must* include these options!
+					cache: false,
+					contentType: false,
+					processData: false,
+					withCredentials: true,
+					headers: { 'Content-Type': undefined },
+					//headers: {"X-CSRF-Token":token},
+					transformRequest: angular.identity,
+
+					// Custom XMLHttpRequest
+					xhr: function() {
+						var myXhr = $.ajaxSettings.xhr();
+						if (myXhr.upload) {
+							// For handling the progress of the upload
+							myXhr.upload.addEventListener('progress', function(e) {
+								if (e.lengthComputable) {
+									$('.progress-bar').css('width', (e.loaded / e.total * 100) + "%");
+									var value = e.loaded / e.total * 100;
+								}
+							}
+							, false);
+
+							myXhr.upload.addEventListener('loadend', function(e) {
+								$scope.filesize = e.total;
+								$scope.loadingfiles = false;
+								$scope.uploadwaiting = false;
+								$scope.errormessage = "";
+							}
+								, false);
+						}
+						return myXhr;
+					}
+				}).done(function(response) {
+					whendone(response);
+					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+					$scope.$apply(function() { });
+				}).fail(function(response) {
+					whenfailed(response);
+					$scope.$apply(function() { });
+				});
 			}
 		}
 	]);

@@ -1,3 +1,4 @@
+
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, AJAX_URL, API_URL, BASE_URL, $window){
@@ -31,6 +32,7 @@ module.exports = function(app){
 				'location':"",
 				'city':[]
 			}
+			$scope.selectedTab = '';
 
 			$scope.texttoread = '';
 			$scope.textcombination = '';
@@ -65,6 +67,27 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
+			$(document).ready(function() {
+				$scope.selectTab("calculation");
+				var url = document.location.toString();
+				if (url.match('#')) {
+					var temp = url.split('#')[2];
+					if(temp == "calculation" ||
+						temp == "description" ||
+						temp == "file"){
+						$scope.selectTab(temp);
+					}
+				}
+			});
+
+			$scope.selectTab = function($tab){
+				if($scope.selected.cartID != null && $tab == "file"){
+					$scope.selectedTab = "calculation";
+				}else{
+					$scope.selectedTab = $tab;
+				}
+			}
+
 			$scope.setUserLogin = function($role, $userid)
 			{
 				if ($userid != null) {
@@ -84,6 +107,149 @@ module.exports = function(app){
 					$scope.role = "customer";
 					$scope.allowed();
 				}
+			}
+
+			$scope.setSelectedByURL = function($input){
+				$tmps = JSON.parse($input);
+				$finclone = $scope.clone($scope.selected.finishings);
+
+				$scope.selected = Object.assign($scope.selected, $tmps);
+
+				//SELECT SIZE
+				$.each($scope.datas.jobsubtypesize, function($i, $ii){
+					if($ii.size.id == $scope.selected.sizeID){
+						$scope.selected.size = $ii.size;
+					}
+				});
+				//SELECT JENIS MATERIAL
+				$.each($scope.datas.jobsubtypepaper,function($i, $ii){
+					if($ii.paper.id == $scope.selected.paperID){
+						$scope.selected.paper = $ii.paper;
+					}
+				});
+				//SELECT SISI CETAK
+				//sudah langsung cek ke sideprint: 1/2
+				//SELECT FINISHING
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
+					//$s <- dari url (selected)
+					$tidakadadiurl = true;
+					$.each($scope.selected.finishings, function($s, $ss){
+						if($ss.finishingID == $ii.finishing.id){
+							//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
+							$tidakadadiurl = false;
+							$tidakadasama = true;
+							$.each($ii.finishing.finishingoption, function($j, $jj){
+								if($jj.id == $ss.optionID){
+									//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
+									$scope.selected.finishings[$s] = $scope.clone($jj);
+									$tidakadasama = false;
+								}
+								//jika tidak ada yang sama satu pun maka masuk ke bawah
+							});
+							//jika tidak ada yang sama
+							if($tidakadasama == true){
+								//jika optionID tidak ada: error, maka dimasukkan default
+								$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+								//finclone sudah di copy di awal
+							}
+						}
+					});
+					if($tidakadadiurl == true){
+						$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
+					}
+				});
+				//SELECT DELIVERY TYPE
+				$dlvfound = false;
+				$.each($scope.deliveries, function($i, $ii){
+					if($ii.id == $scope.selected.deliveryID){
+						$scope.selected.delivery = $ii;
+						$dlvfound = true;
+						if($ii.id != 0){
+							$scope.fillCities();
+							//kalo bukan pick up di fill cities buat tambah address;
+						}
+					}
+				});
+				if($dlvfound){
+					$.each($scope.customeraddresses, function($i, $ii){
+						if($ii.addressID == $scope.selected.deliveryaddressID){
+							if($ii.id != 0)
+								$scope.selected.deliveryaddress = $ii;
+							else{
+								$scope.selected.deliveryaddress = "";
+							}
+						}
+					});
+				}else{
+					$scope.selected.deliveryaddress = "";
+				}
+				
+				if ($scope.selected.deliveryaddress == "") {
+					if ($scope.customeraddresses.length > 0) {
+						$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+					}
+				}
+
+				//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
+
+				//kalo ada cartID -> berarti edit data
+				//matiin file
+				$("#file-headtab").parent().hide();
+				$scope.getPrice();
+			}
+
+			$scope.hapusbro = function(){
+				$tmps = $scope.clone($scope.selected);
+				console.log($scope.selected);
+
+
+				//RAPIHIN FILE
+				$tmpfl = [];
+				$.each($tmps.files, function($i, $ii){
+					$temp = {
+						"fileID": $ii.id
+					}
+					$tmpfl.push($temp);
+				});
+				delete $tmps.files;
+				$tmps.files = $tmpfl;
+
+				//RAPIHIN FINISHING + OPTION
+				$tmpsf = [];
+				$.each($tmps.finishings, function($i, $ii){
+					$temp = {
+						"finishingID": $ii.finishingID,
+						"optionID": $ii.id
+					};
+					$tmpsf.push($temp);
+				});
+				delete $tmps.finishings;
+				$tmps.finishings = $tmpsf;
+
+
+				$tmps.deliveryaddressID = $tmps.deliveryaddress.addressID;
+				delete $tmps.deliveryaddress;
+				$tmps.sizeID = $tmps.size.id;
+				delete $tmps.size;
+				$tmps.deliveryID = $tmps.delivery.id;
+				delete $tmps.delivery;
+				$tmps.paperID = $tmps.paper.id;
+				delete $tmps.paper;
+				$link = $tmps.jobsubtypelink;
+				delete $tmps.jobsubtypelink;
+
+				if($tmps.resellername == ""){
+					delete $tmps.resellername;
+					delete $tmps.resellerphone;
+					delete $tmps.reselleraddress;
+				}
+
+				$addurl = JSON.stringify($tmps);
+				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
+				
+				//console.log($tmps);
+
+				console.log($addurl);
 			}
 
 			$scope.restrictNotLogined = function()
@@ -293,8 +459,12 @@ module.exports = function(app){
 					$.each($item.finishing.finishingoption, function($j, $jj){
 						if($jj.defaultoption == true){
 							$scope.selected.finishings[$index] = $item.finishing.finishingoption[$j];
+							
+							//ganti finishing changed kalo ada default option (favourite)
+							$scope.finishingchanged($item.finishing.name, $scope.selected.finishings[$index]);
 						}
 					});
+
 				});
 			}
 
@@ -500,8 +670,10 @@ module.exports = function(app){
 					if($ii.mustdo){
 						$ii.finishing.finishingoption[0].disabled = true;
 						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
-						if($scope.selected.finishings[$i].id == 0)
+						if($scope.selected.finishings[$i].id == 0){
 							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
+						}
 						//console.log($ii.finishing.finishingoption);
 					}
 				});
@@ -645,7 +817,7 @@ module.exports = function(app){
 					delete $post.delivery;
 					delete $post.deliverylocked;
 					delete $post.pagename;
-					delete $post.jobsubtypename;
+					delete $post.jobsubtypelink;
 					if(!$scope.customsize){
 						$post.sizeID = $scope.selected.size.id;
 						if ($post.sizeID != 0)
@@ -750,13 +922,22 @@ module.exports = function(app){
 					$scope.error.savebtnval = "Belum ada judul cetakan!";
 				else if($scope.selected.jobtitle.length < 8)
 					$scope.error.savebtnval = "Judul Cetakan, kurang spesifik!";
-				else if($scope.selected.files.length ==0)
-					$scope.error.savebtnval = "File belum ada!";
-				else
+				/*else if($scope.selected.files.length ==0)
+					$scope.error.savebtnval = "File belum ada!";*/
+				else if($scope.selected.cartID == null)
 				{
+					//ngefek baru, edit, udah ada di sales atau belum
+					// console.log($scope.selected.cartID);
+					// $http({
+					// 	"method"	: "GET",
+					// 	"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
+					// }).then(function(response){
+					// 	console.log(response);
+					// });
+
 					$http({
 						"method" 	: "POST",
-						"url"			: API_URL + "storecartdetail",
+						"url"		: AJAX_URL + "shop/storecart",
 						"data" 		: {
 							"selected": $scope.selected,
 							"key": $scope.key,
@@ -773,7 +954,30 @@ module.exports = function(app){
 						}
 						else
 						{
-							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813.1551.9889");
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
+						}
+					});
+				}else if($scope.selected.cartID != null){
+					$http({
+						"method" 	: "POST",
+						"url"		: AJAX_URL + "shop/updatecart",
+						"data" 		: {
+							"selected": $scope.selected,
+							"key": $scope.key,
+							"total": $scope.total
+						}
+					}).then(function(response){
+						$scope.error.savebtnval = "";
+						if(response.data != null){
+							if(response.data.constructor === String)
+							{
+								if(response.data == "success")
+									$window.location.href=BASE_URL+"cart?c="+$scope.selected.cartID+"d=in";
+							}
+						}
+						else
+						{
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
 						}
 					});
 				}
@@ -784,8 +988,15 @@ module.exports = function(app){
 					$scope.newaddress.name = "";
 					$scope.newaddress.location = "";
 					$scope.newaddress.note = "";
-					$scope.newaddress.city = null;
-					$scope.fillCities();
+					if($scope.cities.length > 0){
+						$scope.newaddress.city = $scope.cities[0];
+						$.each($scope.cities, function($index, $item){
+							if($item.name == "Jakarta"){
+								$scope.newaddress.city = $scope.cities[$index];
+							}
+						});
+					}
+					//$scope.fillCities(); //pindah ke setiap pindah ke gojek
 				}
 			}
 
@@ -793,17 +1004,24 @@ module.exports = function(app){
 				$pickupadd = "----------"; 
 				if(delivery.locked == 1)
 				{
-					$scope.selected.deliverylocked = true;
+					$scope.selected.deliverylocked = true; //buat hide delivery detail
 					$scope.selected.deliveryaddress = '';
 				}
 				else
 				{
-					$scope.selected.deliverylocked = false;
-					if($scope.selected.deliveryaddress == $pickupadd){
+					$scope.selected.deliverylocked = false; // buat show delivery detail
+					if($scope.selected.deliveryaddress != $pickupadd){
 						if($scope.customeraddresses.length>1)
-							$scope.selected.deliveryaddress = $scope.customeraddresses[$scope.customeraddresses.length-1];
+							//$scope.selected.deliveryaddress = $scope.customeraddresses[$scope.customeraddresses.length-1];
+							$scope.selected.deliveryaddress = $scope.customeraddresses[0];
 						else
 							$scope.selected.deliveryaddress = '';
+
+						if($scope.cities == null){
+							$scope.fillCities();
+						}else if($scope.cities.length > 0){
+							$scope.fillCities();
+						}
 					}
 				}
 				//LEMPAR KE SERVER - DeliveryAPI
@@ -927,6 +1145,7 @@ module.exports = function(app){
 				$scope.master = $datas;
 
 				$scope.selected.jobsubtypeID = $datas.id;
+				$scope.selected.jobsubtypelink = $datas.link;
 				$scope.selected.pagename = $datas.name;
 				$scope.selected.satuan = $datas.satuan;
 
@@ -940,6 +1159,7 @@ module.exports = function(app){
 			}
 
 			$scope.showsavedialog = function(){
+				console.log($scope.selected);
 				if($scope.role == "customer"){
 					$scope.getPrice();
 					$scope.setFinishingName();
@@ -965,8 +1185,8 @@ module.exports = function(app){
 						$scope.error.savecartval = "Belum ada judul cetakan!";
 					else if($scope.selected.jobtitle.length < 8)
 						$scope.error.savecartval = "Judul Cetakan, kurang spesifik!";
-					else if($scope.selected.files.length == 0)
-						$scope.error.savecartval = "File belum ada! Upload di tab 'Deskripsi'";
+					/*else if($scope.selected.files.length == 0)
+						$scope.error.savecartval = "File belum ada! Upload di tab 'File'";*/
 					else if($scope.selected.deliveryaddress.length<10 && !$scope.selected.deliverylocked)
 						$scope.error.savecartval = "Buat alamat pengiriman yang lengkap";
 					else{
@@ -983,51 +1203,6 @@ module.exports = function(app){
 
 			$scope.showeasyaccess = function(){
 				$('#easyaccess').modal('show');
-			}
-
-			$scope.showdelivery = function(){
-				//AMBIL DATA DARI DATABASE
-				$http({
-					"method" 	: "POST",
-					"url"			: API_URL + "delivery"
-				}).then(
-					function(response){
-						if(response != null)
-						{
-							if(response.data.length > 0)
-							{
-								$('#deliveryModal').modal('show');	
-								$scope.deliveries = response.data;
-								if($scope.selected.delivery != null)
-								{
-									$adadioption = false;
-									$.each($scope.deliveries, function($index, $item){
-										if($item.id == $scope.selected.delivery.id)
-										{
-											$adadioption = true;
-											$scope.selected.delivery = $item; // <-- BUG
-											// HARUS DI SET ULANG
-											// KALO GA DIA GA MAU KE SET, KETIKA KEBUKA KEDUA
-										}
-									});
-									if($adadioption == false){
-										$scope.selected.delivery = response[0];
-									}
-								}
-							}
-						}
-						else
-						{
-							//$scope.selectpickerrefresh($timeout);
-							$scope.selected.delivery = response[0];	
-						}
-						//KALO BISA BARU DI SHOW	
-						$scope.changedelivery($scope.selected.delivery);
-						//KALO UDA DI SHOW, HARUS DI REFRESH DATANYA		
-					},function(error){
-						console.log("ERROR, GA BISA BACA DATA DARI DELIVERIES");
-					}
-				);
 			}
 
 			$scope.sizeChanged = function($item)
@@ -1158,6 +1333,14 @@ module.exports = function(app){
 					} 
 					else
 						$scope.finStat('spot varnish', true, $finishingfield);
+				}else if ($name == "Cutting"){
+					if($selected.optionname.toLowerCase().indexOf("die cut") != -1){
+						$selected.warningmessage = "Untuk potongan Die Cut, harap cantumkan keterangan potong pada file. Harga diatas (belum fix) akan disesuaikan setelah data kami terima, dan akan diberitahukan melalui telepon.";
+					}
+				} else if ($name == "Standing") {
+					if ($selected.optionname.toLowerCase().indexOf("x banner") != -1) {
+						$selected.warningmessage = "Agar lebih kuat, silahkan buat design dengan ukuran 60x155 cm, agar kokoh pada tiang penyangga.";
+					}
 				}
 
 				$scope.getPrice();
@@ -1344,8 +1527,24 @@ module.exports = function(app){
 								if(response.data.constructor === Array)
 								{
 									$scope.uploadedfiles = response.data;
-									if ($scope.uploadedfiles.length > 0) 
+									if ($scope.uploadedfiles.length > 0) {
 										$scope.tableshow = true;
+										$filclone = $scope.clone($scope.selected.files);
+										$scope.selected.files = [];
+										//abis di hapus jangan lupa masukin ke selected.fileslagi
+										$.each($scope.uploadedfiles, function($i, $ii) {
+											//$ss <- from searched url
+											$.each($filclone, function($s, $ss) {
+												//auto select kalo di temukan
+												//buat jadi $ii.checked
+												if ($ii.id == $ss.fileID) {
+													$ii.checked = true;
+													$scope.selected.files.push($ii);
+													//$scope.checkSelectedFiles($ii);
+												}
+											})
+										});
+									}
 									$scope.allowed();
 								}
 								else
@@ -1729,12 +1928,9 @@ module.exports = function(app){
 
 			$scope.choosefileclicked = function(){
 				$('#btn-choose-file').click();
-
-				console.log($("#btn-choose-file"));
 			}
 
-			$('#real-dropzonew').on('change', function(e) 
-			{ 
+			$('#real-dropzonew').on('change', function(e) { 
 				e.preventDefault();
 				e.stopPropagation();
 				if ($(this)[0]['file'].files){

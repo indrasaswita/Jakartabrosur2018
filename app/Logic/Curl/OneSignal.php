@@ -7,7 +7,7 @@ define('APP_ID', 'a64fd1d6-473a-4181-9f27-b14bc0bdd2d7');
 define('API_KEY', 'YWQ2YTBiZDItOTExNS00ZmY0LTlkMWQtY2EyNzU5ZWM2NWZm');
 define('PLAYER_ID_BOY', '7e9a4edb-5567-4505-9cbe-435cbeabce86');
 
-class OneSignal {
+class Onesignal {
 
 	protected $segments;
 

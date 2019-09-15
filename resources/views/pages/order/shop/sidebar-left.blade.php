@@ -35,7 +35,7 @@
 		</div>
 	</div>
 
-	<div class="description-panel" ng-show="datas.jobsubtypetemplate.length>0">
+	<div class="description-panel" ng-show="datas.jobsubtypetemplate.length>0" hidden>
 		<div class="panel-subheader">
 			<div class="txt">
 				Easy Access

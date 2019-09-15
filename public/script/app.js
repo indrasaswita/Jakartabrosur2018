@@ -11,17 +11,21 @@ require("node-gzip");
 var app = require("./init");
 
 require('./constants/variable')(app);
+require('./constants/analytics')(app);
 
 //require("./route")(app);
 
 
 //CONTROLLERS
 require("./controllers/global.nav.header")(app);
-require("./controllers/viewfile-modal")(app);
 require("./controllers/roles")(app);
 require("./controllers/salespaymentconfirm")(app);
 require("./controllers/salespayments")(app);
 require("./controllers/order.sales.index")(app); //ALL SALES BY CUSTOMER
+require("./controllers/order.sales.modal.changefile")(app);
+require("./controllers/order.sales.modal.showpreview")(app);
+require("./controllers/order.sales.modal.cust-selectbank")(app);
+require("./controllers/order.sales.modal.confirm")(app);
 require("./controllers/order.sales.commit")(app); //COMMIT DATA SEBELOM CETAK
 require("./controllers/order.shop.lists.customer")(app);
 require("./controllers/order.shop.calculation.customer")(app);
@@ -30,6 +34,8 @@ require("./controllers/includes.modals.compaccno")(app);
 require("./controllers/includes.nav.subnav")(app);
 require("./controllers/home")(app);
 require("./controllers/order.cart.index")(app);
+require("./controllers/order.cart.modal.changefile")(app);
+require("./controllers/order.cart.modal.addfile")(app);
 require("./controllers/account.notification")(app);
 require("./controllers/account.profiles")(app);
 require("./controllers/account.resendemail")(app);
@@ -42,6 +48,8 @@ require("./controllers/main")(app);
 require("./controllers/godhands")(app);
 require("./controllers/order.sales.history")(app);
 
+//ADMIN + CUSTOMER ORDER
+require("./controllers/allacc.sales.cartheader")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -65,6 +73,8 @@ require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);
 require("./controllers/admin.changetheworld.index")(app);
+require("./controllers/admin.master.onesignal.index")(app);
+require("./controllers/global.includes.floatingcontact")(app);
 
 
 

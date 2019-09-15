@@ -26,7 +26,7 @@ module.exports = function(app) {
 				},
 				{
 					link: BASE_URL + 'sales/all',
-					route: ['sales/all', 'payment', 'payment/{payment}', 'payment/confirm', 'payment/confirm/{id}', 'addresses', 'addresses/{addresses}'],
+					route: ['sales/all', 'payment', 'payment/{payment}', 'payment/confirm', 'payment/confirm/{id}', 'addresses', 'addresses/{addresses}', 'sales/cartheader/{cartid}'],
 					label: 'Proses & Pembayaran',
 					glyphicon: 'fa-shopping-bag',
 					login: 'true'

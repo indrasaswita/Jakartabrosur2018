@@ -56,7 +56,7 @@ class ImageRepository
 
 		$file->path= "images/original/".$allowed_filename;
 		$file->detail = "";
-		$file->filename = $originalName;
+		$file->filename = $originalNameWithoutExt;
 		$file->revision = 1;
 		return $file;
 	}
@@ -105,7 +105,7 @@ class ImageRepository
 			$file->size = $photo->getSize(); // GETSIZE HARUS SEBELOM MOVE
 			$photo->move(public_path("images/original/"), $allowed_filename);
 
-			$file->icon= "image/exdt-".$extension.'.png';
+			$file->icon= "image/ext/".$extension.'.png';
 		}else{
 			return "File lebih besar dari 25MB, untuk upload data lebih besar dari 25MB silahkan upload via shared URL.";
 		}
@@ -115,7 +115,7 @@ class ImageRepository
 		Cache::put('filepath', $file->path, 600);
 		Cache::put('filesize', $file->size, 600);
 		$file->detail = "";
-		$file->filename = $originalName;
+		$file->filename = ucfirst(strlen($originalNameWithoutExt)>50?substr($originalNameWithoutExt, 0, 48)."...":$originalNameWithoutExt);
 		$file->revision = 1;
 		return $file;
 	}
@@ -222,6 +222,12 @@ class ImageRepository
 	public function createUniqueFilename( $type, $filename, $extension )
 	{
 		//$full_size_dir = Config::get('images.full_size');
+
+		$extlen = strlen($extension);
+		$filename = strlen($filename)+$extlen>100?substr($filename, 0, 97-$extlen)."...":$filename;
+		//MAX VARCHAR PATH = 128
+		//pas upload standard JPG Length = 117 char saat ini. (AMAN)
+
 		$full_size_dir = public_path('images/'.$type.'/');
 		$full_image_path = $full_size_dir . $filename . '.' . $extension;
 

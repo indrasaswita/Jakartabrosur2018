@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Employee;
 use App\Customer;
 use App\Onesignal;
+use Cookie;
 
 
 class HomeController extends Controller
@@ -15,6 +16,7 @@ class HomeController extends Controller
 
 	public function index()
 	{
+
 		if(session()->has('role')){
 			//LOGINED
 			if(session()->get('role') == 'Administrator'){
@@ -23,12 +25,13 @@ class HomeController extends Controller
 
 				return view('pages.home', compact('customers'));
 			}else{
-
 				return view('pages.home');
 			}
 		}
 		else{
-			//KALO BELOM LOGIN
+			if(!Cookie::has('landing'))
+				Cookie::queue('landing', 'waiting', 60);
+
 			return view('pages.home');
 		}
 	}

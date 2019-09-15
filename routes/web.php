@@ -60,6 +60,7 @@ Route::post('API/aice/master/push', 'AiceAPI@updateAice');*/
 Route::group(['middleware'=>['loggedin']], function(){
 	
 	//HARUS SUDAH LOGIN (CUST/ADMIN)
+	Route::get("sales/cartheader/{cartid}", 'AllaccCartheaderController@show');
 });
 
 Route::get('chpass', "ProfileController@changepass");
@@ -98,8 +99,14 @@ Route::group(['middleware'=>['verified']], function(){
 	Route::get('cart', 'CartController@index');
 	Route::get('sales/all', 'AllSalesCustomerView@indexempty');
 	Route::get('sales/all/{link}', 'AllSalesCustomerView@index');
+	Route::get('AJAX/file/{id}/download', 'FileAJAX@downloadByFileID');
+	Route::get('AJAX/file/preview/{id}/download', 'FileAJAX@downloadPreviewByFileID');
 
 	Route::get('sales/commit/{id}/{sid}/{tk}', 'SalesdetailController@showCommitByID');
+	Route::post('AJAX/custbankaccs/save', 'CustomerbankaccAJAX@insert');
+	Route::post('AJAX/custbankaccs/{id}/update', 'CustomerbankaccAJAX@update'); //belom kepake tapi uda di buat
+
+	Route::post('AJAX/salespayment/insert', 'SalespaymentAJAX@insert');
 
 	Route::get('notification', 'NotificationController@index'); // di employee juga ada
 });
@@ -122,6 +129,7 @@ Route::group    (['middleware'=>['employee']], function(){
 
 
 	//ADMIN MASTER WEB
+	Route::get('admin/master/onesignal', 'AdmOnesignalController@index');
 	Route::get("admin/master/pricepaper", 'AdmPaperController@changeprice');
 	Route::get("admin/master/newpaper", 'AdmPaperController@newpaper');
 	Route::get("admin/master/finishings", 'AdmFinishingController@master');
@@ -176,7 +184,7 @@ Route::group    (['middleware'=>['employee']], function(){
 Route::get('AJAX/custaccs', 'CustomeraccountAJAX@all');
 Route::post('AJAX/custaccs/store', 'CustomeraccountAJAX@store');
 Route::post("AJAX/cekharga", 'Calculation@calcPrice');
-
+Route::get('AJAX/faquestions', 'FaquestionsAJAX@getByGroup');
 
 
 Route::get  ("API/cartfiles/{cartID}",  "CartfileAPI@getFileByCartID"); // HARUS SUDAH LOGIN
@@ -186,6 +194,7 @@ Route::get("API/cartfiles/{id}/delete", 'CartfileAPI@deleteCartfileByID'); // ha
 Route::post('AJAX/files/saveurl', 'FileAJAX@saveurl');
 Route::post('AJAX/files/savedetail', 'FileAJAX@savedetail');
 Route::get('AJAX/allsales/filterorder/{link}', 'AllSalesCustomerAJAX@filterorder');
+Route::post('AJAX/carts/changefile/save', 'CartfileAJAX@savefile');
 
 //HARUS LOGIN ADMIN
 Route::get('AJAX/admin/ctw/getbytablename/{table}', 'AdmChangetheworldAJAX@getByTablename');
@@ -224,7 +233,6 @@ Route::post ('API/login',   'UserController@login');
 
 
 Route::get  ("API/data/customers/name", "CustomerAPI@apiGetName");
-
 Route::get  ("API/salesdetails/{id}/header", ["as"=>"api.salesdetails.view", "uses"=>"SalesdetailController@apiGetSpecific"]);
 Route::get  ("API/cartdetails/{id}/header", ["as"=>"api.cartdetails.view", "uses"=>"CartdetailController@apiGetSpecificBySalesID"]);
 Route::post ("API/cartdetails/title/update", "CartdetailController@apiUpdateTitle"); 
@@ -242,7 +250,7 @@ Route::post("API/calc/planosize", "Calculation@calcPlanoSize_url");
 /*** EMPLOYEE API ***/
 /*** EMPLOYEE API ***/
 Route::group(['middleware'=>"employeeAPI"], function(){
-	Route::post ('API/upload/preview/{cartid}', ['as' => 'upload-post', 'uses' =>'ImageController@previewUploadEmployee']);
+	Route::post ('API/upload/preview/{cartid}', ['as' => 'upload-post-preview', 'uses' =>'ImageController@previewUploadEmployee']);
 	Route::post ('API/upload/original/{custid}/{cartid}',   ['as' => 'upload-post', 'uses' =>'ImageController@originalUploadEmployee']);
 
 	//change status tracking
@@ -284,7 +292,8 @@ Route::group(['middleware'=>"employeeAPI"], function(){
 /*** CUSTOMER API ***/
 Route::group(['middleware'=>"customerAPI"], function(){
 
-	Route::post('API/cartfiles/{cartid}/upload', 'ImageController@originalUploadCustomerByCart');
+	Route::post('AJAX/cartfiles/{cartid}/upload', 'ImageController@originalUploadCustomerByCart');
+	Route::post('AJAX/cartfiles/{cartid}/revision/{fileid}', 'ImageController@reviseUploadCustomer');
 
 	Route::post('API/order/tracking/chstdone', 'ChangeTrackingAPI@changeStatusDone');
 
@@ -292,9 +301,13 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post ('API/upload/delete', ['as' => 'upload-remove', 'uses' =>'ImageController@deleteUpload']);
 	Route::get  ('API/pendimg', ['as'=>'upload-pendimg', 'uses' => 'ImageController@getPendingImage']);
 
-	Route::post ('API/cart/delete', 'CartController@cartDelete');
+	Route::post ('AJAX/cart/delete', 'CartAJAX@cartDelete');
+	Route::post ('AJAX/cart/duplicate', 'CartAJAX@cartDuplicate');
+	Route::post ('AJAX/cart/edittitle', 'CartAJAX@cartChangeTitle');
 	Route::post ('API/sales/create', 'CartController@createHeader');
-	Route::post("API/storecartdetail", 'ShopController@storingData');
+	Route::get('AJAX/cartcheck/{cartID}', 'CartAJAX@cartCheck');
+	Route::post("AJAX/shop/storecart", 'ShopController@storeCart');
+	Route::post("AJAX/shop/updatecart", 'ShopController@storeCart');
 	Route::post("API/cartdetails/delete", "CartController@setToDeleted");
 	Route::post('API/payment/confirm', 'PaymentController@confirmStore');
 	Route::get("API/addresses/custactive", "AddressAPI@apiGetByActiveCustomer");

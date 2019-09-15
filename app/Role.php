@@ -10,7 +10,7 @@ class Role extends Model
 	protected $guarded = ['id'];
 	protected $dates = ['created_at', 'updated_at'];
 
-	protected function employee(){
+	public function employee(){
 		return $this->hasMany('App\Employee', 'roleID');
 	}
 }

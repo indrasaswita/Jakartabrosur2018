@@ -27,16 +27,6 @@ class CartdetailController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
@@ -47,28 +37,6 @@ class CartdetailController extends Controller
 		$input = $request->all();
 		Cartdetail::create($input);
 		return redirect()->back();
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit($id)
-	{
-		//
 	}
 
 	/**
@@ -154,17 +122,6 @@ class CartdetailController extends Controller
 	}
 
 	public function downloadByFileID($id){
-		/*
-		$file = Cartfile::join('files', 'files.id', '=', 'fileID')
-						->join('cartdetails', 'cartdetails.id', '=', 'cartdetailID')
-						->join('customers', 'customers.id', '=', 'cartdetails.customerID')
-						->where('fileID', '=', $id)
-						->select('customers.name as customername', 'cartdetails.*', 'cartfiles.*', 'files.*')
-						->first(); //-> $id = fileID
-
-					*/
-
-
 		$file = Files::where('id', '=', $id)
 						->with('customer')
 						->with('cartfile')
@@ -174,7 +131,6 @@ class CartdetailController extends Controller
 			return ["status"=>"error", 'data'=>"Wrong ID inputed"];
 		else
 		{
-			//return "download";
 			$filepath = public_path().'/'.$file['path'];
 			if(file_exists($filepath))
 				return response()->download($filepath, 'C'.sprintf("%04d", $file['cartfile']['cartheader']['id']).'-'.'F'.sprintf("%04d", $file['id']).'-'.substr($file['customer']['name'], 0, strpos($file['customer']['name'], ' ')).'-'.$file['cartfile']['cartheader']['jobtitle'].'('.$file['cartfile']['cartheader']['jobsubtype']['name'].')-R'.$file['revision'].substr($file['path'], strpos($file['path'], '.')));

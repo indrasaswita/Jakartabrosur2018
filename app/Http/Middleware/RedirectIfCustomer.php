@@ -15,6 +15,7 @@ class RedirectIfCustomer
 	 */
 	public function handle($request, Closure $next)
 	{
+
 		if (session()->has('role'))
 			if (session()->get('role') == "customer")
 				return $next($request);

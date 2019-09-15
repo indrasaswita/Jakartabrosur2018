@@ -439,6 +439,10 @@ class Job
 
 			$totalarea = floatval($combination[2]) * floatval($combination[3]);
 			if($mostefficient == -1 || $mostefficient > $totalarea){
+
+				if($totalarea < 10000)
+					$totalarea = 10000;
+
 				$mostefficient = $totalarea;
 				$temp['totalarea'] = $totalarea;
 				$temp = $combination;

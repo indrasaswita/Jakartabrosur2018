@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Customer;
+use App\Logic\Utility\Helper;
 
 class RedirectIfVerified
 {
@@ -16,7 +17,12 @@ class RedirectIfVerified
 	 */
 	public function handle($request, Closure $next)
 	{
-
+		$url_full = $request->getRequestUri();
+		$position = Helper::indexOf($url_full, "public/");
+		$url_trimmed = substr($url_full, $position+7);
+		$url_start = substr($url_full, 0, $position+7);
+//dd($url_start."login?url=".$url_trimmed);
+		
 		if (session()->has('role')){
 			if (session()->get('role') == "customer"){
 
@@ -41,6 +47,6 @@ class RedirectIfVerified
 				}
 			}
 		}
-		return redirect()->route('pages.home');
+		return redirect()->to("login?url=".$url_trimmed);//->route('pages.account.login');
 	}
 }

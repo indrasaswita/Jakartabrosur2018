@@ -25,12 +25,12 @@ class InsertTambahanCustomerSales extends Migration
 
 
 			
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('1', null, '2018-06-22 12:00:00', null, '2018-06-20 12:00:23', '2018-06-20 12:00:23', null);
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('2', null, '2018-06-23 12:00:00', null, '2018-06-21 17:05:00', '2018-06-21 17:05:00', null);
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('3', null, '2018-06-24 12:00:00', null, '2018-06-21 16:00:09', '2018-06-21 16:00:09', null);
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('4', null, '2018-06-25 12:00:00', null, '2018-06-22 18:23:24', '2018-06-22 18:23:24', null);
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('5', null, '2018-07-02 10:00:00', null, '2018-07-01 3:02:04', '2018-07-01 3:02:04', null);
-			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('6', null, '2018-08-01 10:00:00', null, '2018-07-01 7:23:00', '2018-07-01 7:23:00', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('1', 'Flyer bekas', null, '2018-06-22 12:00:00', null, '2018-06-20 12:00:23', '2018-06-20 12:00:23', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('2', 'Sapphire Moonlight', null, '2018-06-23 12:00:00', null, '2018-06-21 17:05:00', '2018-06-21 17:05:00', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('3', 'It feel like oh-la-la..', null, '2018-06-24 12:00:00', null, '2018-06-21 16:00:09', '2018-06-21 16:00:09', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('4', 'Tequila Sunrise', null, '2018-06-25 12:00:00', null, '2018-06-22 18:23:24', '2018-06-22 18:23:24', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('5', 'Hello World 102', null, '2018-07-02 10:00:00', null, '2018-07-01 3:02:04', '2018-07-01 3:02:04', null);
+			INSERT INTO salesheaders(customerID, tempo, estdate, companyname, created_at, updated_at, deleted_at) VALUES ('6', 'Hello World', null, '2018-08-01 10:00:00', null, '2018-07-01 7:23:00', '2018-07-01 7:23:00', null);
 
 
 			
