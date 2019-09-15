@@ -10,39 +10,40 @@
 		<div class="panel-title">{{$datas['name']}}</div>
 		<div class="panel-subtitle">SEGERA HITUNG KEBUTUHAN ANDA DISINI</div>
 	</div> -->
+	[[role]]
 	<div class="order-panel-tabs">
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a class="nav-link active" id="calc-headtab" data-toggle="tab" href="#calculation">
+				<a class="nav-link" id="calc-headtab" ng-class="{'active':selectedTab=='calculation'}" data-toggle="tab" href="#calculation" ng-click="selectTab('calculation')">
 					<i class="fal fa-fw fa-calculator"></i>	
 					<span class="hidden-xs-down">Kalkulasi</span>
 					<span class="hidden-sm-up">Calc</span>
+ 				</a>
+			</li>
+			<li class="nav-item" ng-if="role==null">
+				<a class="nav-link" href="{{URL::asset('login')}}?url={{substr(url()->current(), strlen(url('/'))+1)}}?ss={{app('request')->input('ss')}}">
+					<i class="fal fa-fw fa-user-lock"></i> Log-in dulu ...
 				</a>
 			</li>
-			<li class="nav-item" ng-show="role==null">
-	    	<a class="nav-link" href="{{URL::asset('login')}}?url={{substr(url()->current(), strlen(url('/'))+1)}}?ss={{app('request')->input('ss')}}">
-	    		<i class="fal fa-fw fa-user-lock"></i> Log-in dulu ...
-	    	</a>
-    	</li>
-	    <li class="nav-item" ng-show="role!=null">
-	    	<a class="nav-link" id="desc-headtab" data-toggle="tab" href="#description">
-	    		<i class="fal fa-fw fa-edit"></i>
-	    		<span class="hidden-xs-down">Deskripsi</span>
-	    		<span class="hidden-sm-up">Desc</span>
-	    	</a>
-	    	<div class="warning" ng-show="selected.jobtitle.length<3">
-		    	<i class="fas fa-exclamation-circle tx-red"></i>
-		    </div>
-    	</li>
-			<li class="nav-item" ng-show="role!=null">
-				<a class="nav-link" id="file-headtab" data-toggle="tab" href="#file">
+			<li class="nav-item" ng-if="role!=null">
+				<a class="nav-link" id="desc-headtab" ng-class="{'active':selectedTab=='description'}" data-toggle="tab" href="#description" ng-click="selectTab('description')">
+					<i class="fal fa-fw fa-edit"></i>
+					<span class="hidden-xs-down">Deskripsi</span>
+					<span class="hidden-sm-up">Desc</span>
+				</a>
+				<div class="warning" ng-show="selected.jobtitle.length<3">
+					<i class="fas fa-exclamation-circle tx-red"></i>
+				</div>
+			</li>
+			<li class="nav-item" ng-if="role!=null">
+				<a class="nav-link" id="file-headtab" ng-class="{'active':selectedTab=='file'}" data-toggle="tab" href="#file" ng-click="selectTab('file')">
 					<i class="fal fa-fw fa-copy"></i>	
 					<span class="hidden-xs-down">File</span>
 					<span class="hidden-sm-up">File</span>
 				</a>
-	    	<div class="warning" ng-show="selected.files.length==0">
-		    	<i class="fas fa-exclamation-circle tx-red"></i>
-		    </div>
+				<div class="warning" ng-show="selected.files.length==0">
+					<i class="fas fa-exclamation-circle tx-red"></i>
+				</div>
 			</li>
 		</ul>
 	</div>

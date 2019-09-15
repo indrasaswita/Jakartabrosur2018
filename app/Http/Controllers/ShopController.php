@@ -115,11 +115,38 @@ class ShopController extends Controller
 		}
 	}
 
-	public function storingData(Request $request)
+
+	public function updateCart(Request $request)
+	{
+		$userid = session()->get('userid');
+		if($userid == null)
+			return null;
+
+		$data = $input['selected'];
+		if(!array_key_exists('cartID', $data))
+			return "wrongurl";
+		$cartID = $data['cartID'];
+		$test = Cartheader::where('id', $cartID)
+				->where('customerID', $userid)
+				->get();
+
+		if(count($test)==0){
+			return "wronguser";
+		}else{
+			return $this->storeCart($request);
+		}
+	}
+
+	public function storeCart(Request $request)
 	{
 		$input = $request->all();
 
+
 		$data = $input['selected'];
+		$new = false;
+		if(!array_key_exists('cartID', $data))
+			$new = true;
+
 		$key = Crypt::decrypt($input['key']);
 
 		$calc = $key['calculation'];
@@ -129,7 +156,17 @@ class ShopController extends Controller
 
 		$customerID = session()->get('userid');
 
-		$header = new Cartheader();
+		$header = null;
+		if($new)
+			$header = new Cartheader();
+		else{
+			$cartID = $data['cartID'];
+			$header = Cartheader::where('id'	, $cartID)
+					->with('cartdetail')
+					->first();
+		}
+		if($header == null)
+			return "noheaderfound";
 
 		$header->customerID = $customerID;
 		$header->jobsubtypeID = $data['jobsubtypeID']==null?"":$data['jobsubtypeID'];
@@ -164,6 +201,19 @@ class ShopController extends Controller
 		$header->filestatus = 0; 
 
 		//SAVE HEADER PINDAH KE BAWAH (BIAR KALO ADA ERROR DIA GA SAVE HEADERNYA DULU)
+
+		if(!$new){
+			if($header['cartdetail'] != null){
+				foreach ($header['cartdetail'] as $d => $detail) {
+					foreach ($detail['cartdetailfinishing'] as $f => $finishing) {
+						$fin = Cartdetailfinishing::find($finishing['id']);
+						$fin->delete();
+					}
+					$det = Cartdetail::find($detail['id']);
+					$det->delete();
+				}
+			}
+		}
 
 		//BUAT DETAIL BARU UNTUK INDEX KE 0
 		$detail = new Cartdetail();
@@ -205,11 +255,13 @@ class ShopController extends Controller
 		$detail->totalpaperprice = $calc['totalpaperprice'];
 		//$detail->deliveryprice = $total['deliv'];
 
-		$cartfiles = [];
-		foreach ($data['files'] as $i => $file) {
-			$temp = new Cartfile();
-			$temp->fileID = $file['id'];
-			array_push($cartfiles, $temp);
+		if($new){
+			$cartfiles = [];
+			foreach ($data['files'] as $i => $file) {
+				$temp = new Cartfile();
+				$temp->fileID = $file['id'];
+				array_push($cartfiles, $temp);
+			}
 		}
 
 
@@ -239,29 +291,23 @@ class ShopController extends Controller
 		// 1.
 		// SAVE HEADER
 		// ===============
-		$sblominsert = Cartheader::orderBy('id', 'desc')
-				->select('id')
-				->first();
 
-		if($sblominsert == null)
-			$idawalh = 0;
-		else
-			$idawalh = $sblominsert['id'];
+		$result = $header->save();
 
-		$header->save();
+		if($result == false)
+			return "headercannotbesaved";
 
-		//AFTER INSERT
-		$stelahinsert = Cartheader::orderBy('id', 'desc')
-				->select('id')
-				->first();
+		$idakhirh = 0;
+		if($new){
+			//AFTER INSERT
+			$stelahinsert = Cartheader::orderBy('id', 'desc')
+					->select('id')
+					->first();
 
-		if($stelahinsert == null)
-			$idakhirh = 0;
-		else
 			$idakhirh = $stelahinsert['id'];
-
-		if($idawalh == $idakhirh)
-			return null;
+		}else{
+			$idakhirh = $header['id'];
+		}
 
 		// 2.
 		// SAVE DETAIL
@@ -292,10 +338,12 @@ class ShopController extends Controller
 		if($idawald == $idakhird)
 			return null; // kalo tidak ke store
 
-		//cartfiles diisi ketika diatas
-		foreach ($cartfiles as $i => $file) {
-			$file->cartID = $idakhirh;
-			$file->save();
+		if($new){
+			//cartfiles diisi ketika diatas
+			foreach ($cartfiles as $i => $file) {
+				$file->cartID = $idakhirh;
+				$file->save();
+			}
 		}
 
 
@@ -307,25 +355,25 @@ class ShopController extends Controller
 		}
 
 		/*Mail::send('index', ['datas'=>$data], function ($message)
-    {
-      //$message->from('indrasaswita@gmail.com', 'Jakarta Brosur No-reply');
-      $message->to('rahayu_printing@yahoo.co.id')
-        ->subject('Cart Placed Reminder!');
-    });*/
+	{
+	  //$message->from('indrasaswita@gmail.com', 'Jakarta Brosur No-reply');
+	  $message->to('rahayu_printing@yahoo.co.id')
+		->subject('Cart Placed Reminder!');
+	});*/
 
 
-    $notif = new Notification();
-    $notif->owner = 'EM';
-    $notif->ownerID = null;
-    $notif->icon = 'fas fa-puzzle-piece fa-fw tx-success';
-    $notif->title = 'Order Baru!';
-    $notif->content = '<b>New Order</b> JOB. ID: '.$idakhirh.'<br>Nama cust.: '.session()->get('name').'<br>Judul Cetakan: '.$data['quantity'].' '.$data['satuan'].' '.$data['jobtitle'].'<br>Proses: '.$total['processday'].'(kerja)+'.$total['deliveryday'].'(deliv.) hari';
-    $notif->viewed = 0;
-    $notif->save();
+	$notif = new Notification();
+	$notif->owner = 'EM';
+	$notif->ownerID = null;
+	$notif->icon = 'fas fa-puzzle-piece fa-fw tx-success';
+	$notif->title = 'Order Baru!';
+	$notif->content = '<b>New Order</b> JOB. ID: '.$idakhirh.'<br>Nama cust.: '.session()->get('name').'<br>Judul Cetakan: '.$data['quantity'].' '.$data['satuan'].' '.$data['jobtitle'].'<br>Proses: '.$total['processday'].'(kerja)+'.$total['deliveryday'].'(deliv.) hari';
+	$notif->viewed = 0;
+	$notif->save();
 
 
-    $notif = new OneSignal();
-    $result = $notif->sendMessage('New Order Placed!', 'NoJob. '.$idakhirh.', ['.$data['jobtitle'].'] total '.$data['quantity'].' '.$data['satuan'].'');
+	$notif = new OneSignal();
+	$result = $notif->sendMessage('New Order Placed!', 'NoJob. '.$idakhirh.', ['.$data['jobtitle'].'] total '.$data['quantity'].' '.$data['satuan'].'');
 
 
 		return "success";

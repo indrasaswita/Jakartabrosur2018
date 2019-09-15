@@ -1,4 +1,4 @@
-<div class="order-panel tab-pane fade in active" id="calculation">
+<div class="order-panel tab-pane fade in" id="calculation" ng-class="{'active':selectedTab=='calculation'}">
 
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->

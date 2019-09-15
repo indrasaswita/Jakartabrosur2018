@@ -32,6 +32,7 @@ module.exports = function(app){
 				'location':"",
 				'city':[]
 			}
+			$scope.selectedTab = '';
 
 			$scope.texttoread = '';
 			$scope.textcombination = '';
@@ -66,20 +67,26 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
-			//tab navigation bar
 			$(document).ready(function() {
+				$scope.selectTab("calculation");
 				var url = document.location.toString();
 				if (url.match('#')) {
 					var temp = url.split('#')[2];
 					if(temp == "calculation" ||
 						temp == "description" ||
 						temp == "file"){
-						$('.nav-tabs a[href="#' + temp + '"]').tab('show');
-					}else if(temp == "OF" || temp == "DG"){
-						$scope.setprinttype(temp);
+						$scope.selectTab(temp);
 					}
 				}
 			});
+
+			$scope.selectTab = function($tab){
+				if($scope.selected.cartID != null && $tab == "file"){
+					$scope.selectedTab = "calculation";
+				}else{
+					$scope.selectedTab = $tab;
+				}
+			}
 
 			$scope.setUserLogin = function($role, $userid)
 			{
@@ -107,6 +114,7 @@ module.exports = function(app){
 				$finclone = $scope.clone($scope.selected.finishings);
 
 				$scope.selected = Object.assign($scope.selected, $tmps);
+
 				//SELECT SIZE
 				$.each($scope.datas.jobsubtypesize, function($i, $ii){
 					if($ii.size.id == $scope.selected.sizeID){
@@ -916,7 +924,7 @@ module.exports = function(app){
 					$scope.error.savebtnval = "Judul Cetakan, kurang spesifik!";
 				/*else if($scope.selected.files.length ==0)
 					$scope.error.savebtnval = "File belum ada!";*/
-				else
+				else if($scope.selected.cartID == null)
 				{
 					//ngefek baru, edit, udah ada di sales atau belum
 					// console.log($scope.selected.cartID);
@@ -929,7 +937,7 @@ module.exports = function(app){
 
 					$http({
 						"method" 	: "POST",
-						"url"			: API_URL + "storecartdetail",
+						"url"		: AJAX_URL + "shop/storecart",
 						"data" 		: {
 							"selected": $scope.selected,
 							"key": $scope.key,
@@ -942,6 +950,29 @@ module.exports = function(app){
 							{
 								if(response.data == "success")
 									$window.location.href=BASE_URL+"cart";
+							}
+						}
+						else
+						{
+							alert("Ada error dari server, untuk pemesanan bisa langsung WA / telp ke 0813 1551 9889");
+						}
+					});
+				}else if($scope.selected.cartID != null){
+					$http({
+						"method" 	: "POST",
+						"url"		: AJAX_URL + "shop/updatecart",
+						"data" 		: {
+							"selected": $scope.selected,
+							"key": $scope.key,
+							"total": $scope.total
+						}
+					}).then(function(response){
+						$scope.error.savebtnval = "";
+						if(response.data != null){
+							if(response.data.constructor === String)
+							{
+								if(response.data == "success")
+									$window.location.href=BASE_URL+"cart?c="+$scope.selected.cartID+"d=in";
 							}
 						}
 						else

@@ -1,4 +1,4 @@
-<div class="order-panel tab-pane fade in" id="file">
+<div class="order-panel tab-pane fade in" id="file" ng-class="{'active':selectedTab=='file'}">
 
 	<div class="panel-block" ng-show="error.message==''">
 		<div class="block-subdetail">

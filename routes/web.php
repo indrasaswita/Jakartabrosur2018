@@ -306,7 +306,8 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post ('AJAX/cart/edittitle', 'CartAJAX@cartChangeTitle');
 	Route::post ('API/sales/create', 'CartController@createHeader');
 	Route::get('AJAX/cartcheck/{cartID}', 'CartAJAX@cartCheck');
-	Route::post("API/storecartdetail", 'ShopController@storingData');
+	Route::post("AJAX/shop/storecart", 'ShopController@storeCart');
+	Route::post("AJAX/shop/updatecart", 'ShopController@storeCart');
 	Route::post("API/cartdetails/delete", "CartController@setToDeleted");
 	Route::post('API/payment/confirm', 'PaymentController@confirmStore');
 	Route::get("API/addresses/custactive", "AddressAPI@apiGetByActiveCustomer");
