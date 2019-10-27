@@ -14,9 +14,9 @@ module.exports = function(app){
 				if($scope.customers!=null)
 					$scope.getActiveCustomer();
 			}
+			
 
 			$scope.getActiveCustomer = function(){
-				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();
@@ -36,6 +36,17 @@ module.exports = function(app){
 						}
 					}
 				});	
+			}
+
+			$scope.printImg = function(imgName) {
+				var printContents = document.getElementById(imgName);
+				var popupWin = window.open();
+				popupWin.document.open()
+				popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">'
+					+ '<div> HELLOWORLD'
+					+ '</div>'
+					+ '</html>');
+				popupWin.document.close();
 			}
 		}
 	]);

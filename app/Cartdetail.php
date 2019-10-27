@@ -24,7 +24,7 @@ class Cartdetail extends Model
 		return $this->belongsTo('App\Vendor', 'vendorID');
 	}
 	public function paper(){
-		return $this->belongsTo('App\Paper', 'paperID');
+		return $this->belongsTo('App\Paper', 'paperID')->with('papertype');
 	}
 	public function cartdetailfinishing(){
 		return $this->hasMany('App\Cartdetailfinishing', 'cartdetailID')->with('finishing', 'finishingoption');

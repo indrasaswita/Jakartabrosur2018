@@ -3,7 +3,7 @@
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->
 
-		<button class="btn btn-sm btn-purple" ng-click="hapusbro()" hidden>
+		<button class="btn btn-sm btn-purple" ng-click="hapusbro()" ng-if="role=='employee'">
 			MAKE URL
 		</button>
 

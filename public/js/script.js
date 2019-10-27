@@ -13893,6 +13893,8 @@ var app = require("./init");
 require('./constants/variable')(app);
 require('./constants/analytics')(app);
 
+
+
 //require("./route")(app);
 
 
@@ -13930,6 +13932,7 @@ require("./controllers/order.sales.history")(app);
 
 //ADMIN + CUSTOMER ORDER
 require("./controllers/allacc.sales.cartheader")(app);
+require("./controllers/allacc.printforms.smallinvoice")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -13949,6 +13952,7 @@ require("./controllers/admin.master.jobsizes")(app);
 require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
+require("./controllers/admin.master.customer.addusernopass")(app);
 require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);
@@ -13969,7 +13973,7 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":52,"./constants/variable":53,"./controllers/account.login":54,"./controllers/account.notification":55,"./controllers/account.profiles":56,"./controllers/account.resendemail":57,"./controllers/account.signup":58,"./controllers/admin.cart.addbyadmin":59,"./controllers/admin.cart.index":60,"./controllers/admin.changetheworld.index":61,"./controllers/admin.master.customer.index":62,"./controllers/admin.master.customer.pendingcompany":63,"./controllers/admin.master.finishing.index":64,"./controllers/admin.master.jobactivation":65,"./controllers/admin.master.jobeditor":66,"./controllers/admin.master.jobfinishings":67,"./controllers/admin.master.jobpapers":68,"./controllers/admin.master.jobquantities":69,"./controllers/admin.master.jobsizes":70,"./controllers/admin.master.onesignal.index":71,"./controllers/admin.master.paper.changeprice":72,"./controllers/admin.master.paper.newpaper":73,"./controllers/admin.master.paper.paperdetailstore":74,"./controllers/admin.master.pricetext.index":75,"./controllers/admin.master.shoppricing":76,"./controllers/admin.master.vendor.index":77,"./controllers/admin.master.verifcustomer":78,"./controllers/admin.sales.index":79,"./controllers/admin.tracking.index":80,"./controllers/aice.index":81,"./controllers/allacc.sales.cartheader":82,"./controllers/createheader":83,"./controllers/description":84,"./controllers/global.includes.floatingcontact":85,"./controllers/global.nav.header":86,"./controllers/godhands":87,"./controllers/home":88,"./controllers/includes.modals.compaccno":89,"./controllers/includes.nav.subnav":90,"./controllers/main":91,"./controllers/order.cart.index":92,"./controllers/order.cart.modal.addfile":93,"./controllers/order.cart.modal.changefile":94,"./controllers/order.sales.commit":95,"./controllers/order.sales.history":96,"./controllers/order.sales.index":97,"./controllers/order.sales.modal.changefile":98,"./controllers/order.sales.modal.confirm":99,"./controllers/order.sales.modal.cust-selectbank":100,"./controllers/order.sales.modal.showpreview":101,"./controllers/order.shop.calculation.customer":102,"./controllers/order.shop.create.page":103,"./controllers/order.shop.lists.customer":104,"./controllers/roles":105,"./controllers/salespaymentconfirm":106,"./controllers/salespayments":107,"./controllers/trackingcustomer":108,"./customs/sticky-shop-total":109,"./directives/bootstrap-select-addon":110,"./directives/bootstrap-tooltip":111,"./directives/pagination/dirPagination":112,"./init":113,"angular":123,"angular-cookies":115,"angular-resource":117,"angular-route":119,"angular-sanitize":121,"node-gzip":124}],52:[function(require,module,exports){
+},{"./constants/analytics":52,"./constants/variable":53,"./controllers/account.login":54,"./controllers/account.notification":55,"./controllers/account.profiles":56,"./controllers/account.resendemail":57,"./controllers/account.signup":58,"./controllers/admin.cart.addbyadmin":59,"./controllers/admin.cart.index":60,"./controllers/admin.changetheworld.index":61,"./controllers/admin.master.customer.addusernopass":62,"./controllers/admin.master.customer.index":63,"./controllers/admin.master.customer.pendingcompany":64,"./controllers/admin.master.finishing.index":65,"./controllers/admin.master.jobactivation":66,"./controllers/admin.master.jobeditor":67,"./controllers/admin.master.jobfinishings":68,"./controllers/admin.master.jobpapers":69,"./controllers/admin.master.jobquantities":70,"./controllers/admin.master.jobsizes":71,"./controllers/admin.master.onesignal.index":72,"./controllers/admin.master.paper.changeprice":73,"./controllers/admin.master.paper.newpaper":74,"./controllers/admin.master.paper.paperdetailstore":75,"./controllers/admin.master.pricetext.index":76,"./controllers/admin.master.shoppricing":77,"./controllers/admin.master.vendor.index":78,"./controllers/admin.master.verifcustomer":79,"./controllers/admin.sales.index":80,"./controllers/admin.tracking.index":81,"./controllers/aice.index":82,"./controllers/allacc.printforms.smallinvoice":83,"./controllers/allacc.sales.cartheader":84,"./controllers/createheader":85,"./controllers/description":86,"./controllers/global.includes.floatingcontact":87,"./controllers/global.nav.header":88,"./controllers/godhands":89,"./controllers/home":90,"./controllers/includes.modals.compaccno":91,"./controllers/includes.nav.subnav":92,"./controllers/main":93,"./controllers/order.cart.index":94,"./controllers/order.cart.modal.addfile":95,"./controllers/order.cart.modal.changefile":96,"./controllers/order.sales.commit":97,"./controllers/order.sales.history":98,"./controllers/order.sales.index":99,"./controllers/order.sales.modal.changefile":100,"./controllers/order.sales.modal.confirm":101,"./controllers/order.sales.modal.cust-selectbank":102,"./controllers/order.sales.modal.showpreview":103,"./controllers/order.shop.calculation.customer":104,"./controllers/order.shop.create.page":105,"./controllers/order.shop.lists.customer":106,"./controllers/roles":107,"./controllers/salespaymentconfirm":108,"./controllers/salespayments":109,"./controllers/trackingcustomer":110,"./customs/sticky-shop-total":111,"./directives/bootstrap-select-addon":112,"./directives/bootstrap-tooltip":113,"./directives/pagination/dirPagination":114,"./init":115,"angular":125,"angular-cookies":117,"angular-resource":119,"angular-route":121,"angular-sanitize":123,"node-gzip":126}],52:[function(require,module,exports){
 module.exports = function(app){
 	
 }
@@ -13987,13 +13991,35 @@ module.exports = function(app){
 }
 },{}],54:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('LoginController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($scope, $http, API_URL, BASE_URL, $window){
+	app.controller('LoginController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.nextUrl = '';
-			$scope.alertshow = false;
-			$(function() {
-				$("#login-username").focus();
-			});
+
+
+
+
+			$scope.setState0 = function(){
+				$scope.state = 0;
+				$scope.alertshow = false;
+				$scope.alertmessage = "";
+				$scope.loading = false;
+				$scope.error = {
+					"email": "",
+					"password": "",
+					"confirmpassword": ""
+				};
+				$scope.customerData = {
+					'email': "",
+					'password': "",
+					'confirmpassword': ""
+				};
+
+				$(function() {
+					$("#login-email").focus();
+				});
+			}
+			$scope.setState0();
+
 			
 			//$scope.clearAllData.call();
 			$scope.setNews = function(value){
@@ -14001,16 +14027,116 @@ module.exports = function(app){
 				else $scope.customerData.news = 0;
 			}
 
+			$scope.setMessage = function($text, $type, $loading=false){
+					$scope.alertmessage = $text;
+					$scope.alerttype = $type;
+					$scope.alertshow = true;
+					$scope.alertpulse = $loading;
+			}
+
+			$scope.nextButtonClicked = function(){
+				if($scope.validateEmail($scope.customerData.email)){
+					$scope.error.email = "";
+					if($scope.state == 0){
+						$http({
+							method: 'POST',
+							url   : AJAX_URL+'checkmail',
+							data  : {
+								'email': $scope.customerData.email
+							},
+						}).then(function(response){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$scope.state = response.data;
+									if($scope.state == "1"){
+										//kalo ada pass
+										$scope.customerData.password = "";
+										$(function() {
+											$("#login-password").focus();
+										});
+									}else if($scope.state == "2"){
+										$scope.customerData.password = "";
+										$scope.customerData.confirmpassword = "";
+										$(function() {
+											$("#login-password2").focus();
+										});
+									}
+								}
+							}
+						});
+					}
+				}else{
+					$scope.error.email = "Email Anda salah, mohon periksa kembali.";
+				}
+			}
+
+			$scope.backButtonClicked = function(){
+				$scope.setState0();
+			}
+
+
+			$scope.makePasswordClicked = function($link){
+
+				if($scope.customerData.password != $scope.customerData.confirmpassword){
+					$scope.setMessage("Password Konfirmasi berbeda dengan Password", "alert-danger");
+				}
+				console.log("ANJING");
+				console.log($scope.loading == false);
+				console.log($scope.customerData.password == $scope.customerData.confirmpassword);
+				if($scope.loading == false &&	$scope.customerData.password == $scope.customerData.confirmpassword){
+					$scope.loading = true;
+					$scope.setMessage("Loading..", "alert-info", true);
+
+					// LOGIN
+					$http(
+						{
+							method : 'POST',
+							url : AJAX_URL + 'makepassword',
+							data : 
+							{
+								'email' : $scope.customerData.email,
+								'password' : $scope.customerData.password
+							}
+						}
+					).then(function(response) {
+						if(response.data.message != null){
+							$scope.error.password = null;
+							$scope.error.confirmpassword = null;
+							
+							$scope.setMessage(response.data.message, response.data.type);
+						
+							if (response.data.type == "alert-success"){
+								$userid = response.data.userid!=null?response.data.userid:"NULL";
+								$scope.gtag('set', {'user_id': $userid}); 
+								// Set the user ID using signed-in user_id.
+								if($link == null)
+									location.reload();
+								else if($scope.nextUrl != '')
+									$window.location.href=BASE_URL+$scope.nextUrl;
+								else
+									$window.location.href=BASE_URL+$link;
+							} else if (response.data.type=="verification"){
+								$window.location.href = BASE_URL + "verification";	
+							}
+						}
+						$scope.loading = false;
+					}, function(error){
+						console.log(error.message);
+						$scope.loading = false;
+					});
+				} else if($scope.loading == true) {
+					console.log("still on loading");
+				}
+			}
+
 			$scope.loginButtonClicked = function($link){
-				$scope.alertmessage = 'Loading...';
-				$scope.alerttype = "alert-info";
-				$scope.alertshow = true;
+				$scope.setMessage("Loading..", "alert-info", true);
 
 				// LOGIN
 				$http(
 					{
 						method : 'POST',
-						url : API_URL + 'login',
+						url : AJAX_URL + 'login',
 						data : 
 						{
 							'email' : $scope.customerData.email,
@@ -14019,10 +14145,9 @@ module.exports = function(app){
 					}
 				).then(function(response) {
 					if(response.data.message != null){
-						$scope.error = null;
-						$scope.alertmessage = response.data.message;
-						$scope.alerttype = response.data.type;
-						$scope.alertshow = true;
+						$scope.error.email = null;
+
+						$scope.setMessage(response.data.message, response.data.type);
 						if (response.data.type == "alert-success"){
 							$userid = response.data.userid!=null?response.data.userid:"NULL";
 							$scope.gtag('set', {'user_id': $userid}); 
@@ -14565,6 +14690,14 @@ module.exports = function(app){
 				}
 			}
 
+
+			$scope.setMessage = function($text, $type, $loading=false){
+					$scope.alertmessage = $text;
+					$scope.alerttype = $type;
+					$scope.alertshow = true;
+					$scope.alertpulse = $loading;
+			}
+
 			$scope.alertshow = false;
 			$scope.clearAllData.call();
 			$scope.setNews = function(value){
@@ -14670,10 +14803,12 @@ module.exports = function(app){
 			}
 
 			$scope.signupClicked = function($link){
+				$scope.setMessage('Loading..', 
+					"alert-info", true);
+
 				// REGISTER
 
-				if ($scope.validatelocal())
-				{
+				if ($scope.validatelocal()) {
 
 					$http(
 						{
@@ -14686,21 +14821,23 @@ module.exports = function(app){
 							if(response.data != null){
 								if(response.data.code==1)
 								{
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 									$window.location.href=BASE_URL+'login';
 								}
 								else if(response.data.code==0)
 								{
 									//EMAILNY DUPLICATED
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 								}
 							}else{
-								$scope.error.terms = "ERROR IN RESULT..";
+								$scope.setMessage("ERROR IN RESULT..", 'alert-danger', false);
 							}
 						},function(error){
-							$scope.error.terms = "ERROR IN REQUEST: "+error.exception;
+							$scope.setMessage("ERROR IN REQUEST: "+error.exception, 'alert-danger', false);
 						}
 					);
+				} else {
+					$scope.alertshow = false;
 				}
 				
 			}
@@ -14710,18 +14847,6 @@ module.exports = function(app){
 				$scope.nextUrl = $url;
 			}
 
-			$scope.anjing = function(){
-				$http(
-				{
-					method : 'POST',
-					url : API_URL + 'resend',
-					data : $scope.customerData
-				}).then(function(response){
-					if(response.data != null){
-						$window.location.href=BASE_URL+'login';
-					}
-				});
-			}
 		}
 	]);
 }
@@ -15372,6 +15497,144 @@ module.exports = function(app) {
 };
 },{}],62:[function(require,module,exports){
 module.exports = function(app){
+	app.controller('AddUserNoPassController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.clearNewitem = function(){
+				$scope.newitem = {
+					"name": "",
+					"phone1": "",
+					"phone2": "",
+					"phone3": "",
+					"title": "Mr.",
+					"type": "personal",
+					"companyID": "1"
+				};
+			}
+
+			$scope.initData = function($customers, $companies){
+				$scope.customers = JSON.parse($customers);
+				$scope.companies = JSON.parse($companies);
+				$.each($scope.customers, function($index, $item){
+					$item.created_at = $scope.makeDateTime($item.created_at);
+					$item.updated_at = $scope.makeDateTime($item.updated_at);
+				});
+
+				$scope.resetmail();
+			}
+
+			$scope.resetmail = function(){
+					$('input.email').prop('disabled', false);
+					$('.addusernopass').removeClass('found');
+					$('#checkmail').show();
+					$('#resetmail').hide();
+					$('input.email').focus();
+					$scope.emailerror = null;
+					$scope.activemail = "";
+					//$scope.activemail = "indrasaswitaa@gmail.com";
+					$scope.found = null;
+			}
+
+			$scope.getNameFromMail = function(str) {
+				var frags = str.split('.');
+				for (i=0; i<frags.length; i++) {
+					frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+				}
+				return frags.join(' ');
+			}
+
+			$scope.checkemail = function(){
+				$scope.clearNewitem();
+
+				if($scope.activemail.length==0){
+					$scope.emailerror = "Isi email Customer yang mau ditambahin.";
+					$('input.email').focus();
+				}else{
+					$scope.found = null;
+					$.each($scope.customers, function($i, $ii){
+						if($ii.email == $scope.activemail){
+							$scope.found = $ii;
+						}
+					});
+
+					if($scope.found == null){
+						//found (ALWAYS ONLY ONE)
+						//1. set nama orangnya dari email (. jadi spasi, Huruf depan huruf gede)
+
+						$scope.newitem.name = $scope.getNameFromMail($scope.activemail.substring(0, $scope.activemail.indexOf('@')));
+					}
+
+					if($scope.validateEmail($scope.activemail)){
+						$scope.emailerror = "";
+						//EDIT and show dong
+						$('.addusernopass').addClass('found');
+						$('input.email').attr('disabled', 'disabled');
+						$('#checkmail').hide();
+						$('#resetmail').show();
+					}else{
+						$scope.emailerror = "Email yang dimasukkan salah, silahkan masukan email yang benar.";
+						$('input.email').focus();
+					}
+				} 
+			}
+
+			$scope.saveusernopass = function(){
+				$scope.newitem.email = $scope.activemail;
+
+				$http({
+					method: "POST",
+					url: AJAX_URL+"master/customer/saveusernopass",
+					data: $scope.newitem
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data){
+							//success
+							$temp = $scope.activemail;
+							$scope.resetmail();
+							$scope.activemail = $temp;
+							$scope.emailerror = "Success updated";
+						} else {
+							//not success
+							$scope.emailerror = "Not Success";
+						}
+					} else {
+						//not success
+						$scope.emailerror = "Not Success";
+					}
+				});
+			}
+
+			$scope.updateusernopass = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"master/customer/updateusernopass",
+					data: $scope.found
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data){
+							//success
+							$temp = $scope.activemail;
+							$scope.resetmail();
+							$scope.activemail = $temp;
+							$scope.emailerror = "Success updated";
+						} else {
+							//not success
+							$scope.emailerror = "Not Success";
+						}
+					} else {
+						//not success
+						$scope.emailerror = "Not Success";
+					}
+				});
+			}
+
+		}
+	]);
+}
+},{}],63:[function(require,module,exports){
+module.exports = function(app){
 	app.controller('AdmCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
 			$scope.initData = function($datas){
@@ -15425,7 +15688,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompanyPendingController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -15443,7 +15706,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmFinishingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15459,7 +15722,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobactivationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15519,7 +15782,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobeditorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15571,7 +15834,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobfinishingsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15986,7 +16249,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobpapersController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16673,7 +16936,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobquantitiesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17362,7 +17625,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobsizesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17714,7 +17977,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmOnesignalController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17733,7 +17996,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -17953,7 +18216,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmNewPaperController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -18108,7 +18371,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPaperdetailController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -18362,7 +18625,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricetextController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -18404,7 +18667,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmShoppricingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18536,7 +18799,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmVendorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18550,7 +18813,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('VerifCustomerController', 
 		[
@@ -18593,10 +18856,10 @@ module.exports = function(app) {
 		]
 	);
 }
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($timeout, $scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.initHeader = function($headers, $deliveries, $couriers, $activeemployee){
 				$scope.headers = JSON.parse($headers);
 				$scope.deliveries = JSON.parse($deliveries);
@@ -19397,7 +19660,7 @@ module.exports = function(app){
 			$scope.resetCommitPreview = function($cartpreview){
 				$http({
 					method: "POST",
-					url: API_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
+					url: AJAX_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
 				}).then(function(response){
 					if(response.data != null){
 						if(response.data.constructor === String){
@@ -19410,19 +19673,21 @@ module.exports = function(app){
 				});
 			}
 
-			$scope.deletePreview = function($cartpreviewID, $salesdetail){
+			$scope.deletePreview = function($cartpreview, $salesdetail, $index){
 				$http({
 					method: "POST",
-					url: API_URL+"admin/cartpreview/"+$cartpreviewID+"/delete"
+					url: AJAX_URL+"admin/cartpreview/"+$cartpreview.id+"/delete"
 				}).then(function(response){
 					if(response.data != null){
-						if(reponse.data.constructor !== String){
-							$scope.selectedsalesdetail = response.data;
+						if(response.data.constructor === String){
+							if(response.data == true){
+								$salesdetail.cartheader.cartpreview.splice($index, 1);
+							}
 						}else{
-							console.log(response.data);
+							console.log("Failed to delete");
 						}
 					}else{
-						console.log("Error, tidak ada return value..");
+						console.log("Cartpreview data not found in database");
 					}
 				});
 			}
@@ -19432,34 +19697,8 @@ module.exports = function(app){
 				$("#addprooffileModal").modal("show");
 			}
 
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-							}
-							else
-								$scope.session = null;
-						}else{
-							$scope.session = null;
-							$window.location.reload();
-						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
+			$scope.sendwacommit = function($url, $pid, $sid){
+				$window.open("http://wa.me/?text=Silahkan+cek+sebelum+di+print.+Mohon+untuk+ketelitian+dalam+pengecekan+huruf+dalam+text%2C+letak+atau+posisi+gambar%2C+warna%2C+dan+tulisan+yang+tertera+pada+hasil+cetakan.+Kami+tetap+berusaha+untuk+memberikan+yang+terbaik.%0D%0A%0D%0ACek%20di%20"+$url+"sales%2Fall%3Fs%3D"+$sid+"%26a%3Dproof%26aa%3D"+$pid);
 			}
 			
 			$scope.searchingkey = "";
@@ -19521,7 +19760,7 @@ module.exports = function(app){
 				
 				$http({
 					method: 'POST',
-					url: API_URL+'upload/preview/'+cartID,
+					url: AJAX_URL+'upload/preview/'+cartID,
 					data: data,
 					withCredentials: true,
 					headers: {'Content-Type': undefined },
@@ -19553,7 +19792,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -19734,7 +19973,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -19972,7 +20211,169 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AllSmallInvoiceController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.initData = function($data){
+				$scope.sales = JSON.parse($data);
+				if($scope.sales!=null){
+					$scope.sales.created_at = $scope.makeDateTime($scope.sales.created_at);
+
+					$scope.sales.totalpay = 0;
+					$scope.sales.totalsales = 0;
+					$.each($scope.sales.salesdetail, function($i, $ii){
+						$scope.sales.totalsales += ($ii.cartheader.printprice + $ii.cartheader.deliveryprice - $ii.cartheader.discount);
+					});
+					$.each($scope.sales.salespayment, function($i, $ii){
+						if($ii.salespaymentverif != null){
+							$scope.sales.totalpay += ($ii.ammount);
+						}
+					});
+				}
+			}
+
+			$scope.printCard = function(){
+				//1. generate an image of HTML content through html2canvas utility
+				$window.scrollTo(0, $('#card').offset().top-5);
+
+				html2canvas($("#card")[0]).then(function (canvas) {
+					var b64Prefix = "data:image/jpg;base64,";
+					var imgBase64DataUri = canvas.toDataURL("image/jpg");
+					var imgBase64Content = imgBase64DataUri.substring(b64Prefix.length, imgBase64DataUri.length);
+
+
+					var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+						'resizable,screenX=0,screenY=0,width=1000,height=500';
+
+					var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.1">';
+
+					var scss = "<style type='text/css' media='print'>"
+							+"@page "
+							+"{ "
+							+"	size: auto;   /* auto is the initial value */"
+							+"margin: 0mm; "
+							+"	/*this affects the margin in the printer settings */"
+							+"}"
+							+"</style>"
+							+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+					//scss to remove HEADER AND FOOTER
+
+					var prebarcode = '<div class="text-xs-center"><img src="'+BASE_URL+'\\image\\logo-transp\\logo-print.png" width="100%"></div><br>';
+
+
+					prebarcode += 'Tgl. '+$scope.zeroFill($scope.sales.created_at.getDate(), 2)+'/'+$scope.zeroFill($scope.sales.created_at.getMonth(), 2)+'/'+$scope.sales.created_at.getFullYear()+' -- '+$scope.sales.customer.name+', '+$scope.sales.customer.phone1+' -- ';
+
+					if($scope.sales.totalpay > $scope.sales.totalsales){
+						'KELEBIHAN BAYAR: '+(sales.totalpay-sales.totalsales).toString().addThousandSeparator();
+					}else if($scope.sales.totalpay == $scope.sales.totalsales){
+						prebarcode += 'LUNAS';
+					}else{
+						prebarcode += 'TOTAL TAGIHAN: '+($scope.sales.totalsales-$scope.sales.totalpay).toString().addThousandSeparator();	
+					}
+
+					var afterbarcode = "<div class='barcode-label'>";
+					prebarcode += '<br>';
+					if($scope.sales.totalpay >= $scope.sales.totalsales){
+						prebarcode += 'STATUS CETAK & DETAIL';
+						afterbarcode += '114'+$scope.zeroFill($scope.sales.id, 8);
+					}else{
+						prebarcode += 'UNTUK MELAKUKAN PEMBAYARAN';
+						afterbarcode += '112'+$scope.zeroFill($scope.sales.id, 8);
+					}
+					afterbarcode += '</div>';
+
+					afterbarcode += '<hr style="border-top: 2px solid black;">';
+					$totalharga = 0;
+					$.each($scope.sales.salesdetail, function($i, $salesdetail){
+						var subtotal = $salesdetail.cartheader.printprice+$salesdetail.cartheader.deliveryprice-$salesdetail.cartheader.discount;
+
+						afterbarcode += '<div class="">'
+							+ $salesdetail.cartheader.jobsubtype.name
+							+ '<span class="pull-xs-right">'
+							+ 'Deliv: '
+							+ $salesdetail.cartheader.delivery.deliveryname
+							+ '</span>'
+							+ '<br>' 
+							+ $salesdetail.cartheader.jobtitle
+							+ '</div>'
+							+	'<div class="">'
+							+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+							+ ' ' + $salesdetail.cartheader.quantitytypename
+							+ '<span class="pull-xs-right">'
+							+ (subtotal).toString().addThousandSeparator()
+							+ '</span>'
+							+ '</div>';
+
+
+							$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+								afterbarcode += '<div class="">'
+									+ '>> '+$cartdetail.cartname+'<br>'
+									+ ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+									+ ' ' + $cartdetail['imagewidth']
+									+ 'x' + $cartdetail['imagelength'] + 'CM -- '
+									+ $cartdetail.paper.papertype.name + ': '
+									+ $cartdetail.paper.name + ' '
+									+ $cartdetail.paper.color + ' '
+									+ $cartdetail.paper.gramature + 'gsm'
+									+ '</div>';
+
+									$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+										afterbarcode += '<div class="">'
+											+	'- ' + $cartdetailfinishing.finishing.name
+											+ ', '
+											+ $cartdetailfinishing.finishingoption.optionname
+											+ '</div>';
+									});
+							});
+						afterbarcode += '<hr style="border-top: 2px solid black;">';
+						$totalharga += subtotal;
+					});
+
+					afterbarcode += '<div class="text-xs-right">'
+						+ 'Total '
+						+ $totalharga.toString().addThousandSeparator()
+						+ '</div>';
+
+					afterbarcode += '<br><br>';
+					afterbarcode += '<hr style="border-top: 2px solid black;">';
+					afterbarcode += '<div class="text-xs-center">Terima kasih telah ';
+					afterbarcode += 'berbelanja di Jakartabrosur.com</div>';
+
+					var htmlPop = scss
+							+ '<div class="view-small-invoice">'
+							+	prebarcode
+							+ '<img '
+						 + ' type="application/pdf"'
+						 + ' style="margin: 5px 0;"'
+						 + ' width="100%"'
+						 + ' src="data:application/pdf;base64,'
+						 + imgBase64Content
+						 + '">'
+						 + afterbarcode
+						 + '</div>'; 
+
+					var printWindow = window.open ("", "PDF", winparams);
+					printWindow.document.write (scss+htmlPop);
+					printWindow.document.close();
+					//$("#card").hide();
+
+					var intv = setInterval(function(){
+						printWindow.focus();
+						printWindow.print();
+						clearInterval(intv);
+						//printWindow.close();
+					}, 200);
+
+
+				});
+			}
+		}
+	]);
+}
+},{}],84:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AllaccCartheaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19995,7 +20396,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],83:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -20009,7 +20410,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],84:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -20068,7 +20469,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],85:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('FloatingcontactController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -20167,7 +20568,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('NavHeaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -20239,7 +20640,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],87:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
@@ -20753,6 +21154,10 @@ module.exports = function(app){
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
+			String.prototype.addThousandSeparator = function() {
+				return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+
 			$scope.phonemask = function(e){
 				// REGEX PHONE
 				if(e!=null){
@@ -20870,7 +21275,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],88:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -20887,9 +21292,9 @@ module.exports = function(app){
 				if($scope.customers!=null)
 					$scope.getActiveCustomer();
 			}
+			
 
 			$scope.getActiveCustomer = function(){
-				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();
@@ -20910,10 +21315,21 @@ module.exports = function(app){
 					}
 				});	
 			}
+
+			$scope.printImg = function(imgName) {
+				var printContents = document.getElementById(imgName);
+				var popupWin = window.open();
+				popupWin.document.open()
+				popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">'
+					+ '<div> HELLOWORLD'
+					+ '</div>'
+					+ '</html>');
+				popupWin.document.close();
+			}
 		}
 	]);
 };
-},{}],89:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -20924,7 +21340,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -21003,7 +21419,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -21023,7 +21439,7 @@ module.exports = function(app){
 	})
 
 }
-},{}],92:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
@@ -21761,7 +22177,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartAddfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21798,7 +22214,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21873,7 +22289,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -22047,7 +22463,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],96:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -22105,7 +22521,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -22150,33 +22566,78 @@ module.exports = function(app){
 			];
 
 			$scope.loadingsavecustacc = false;
+			$scope.salesloading = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
-				$scope.selectedfilter = $input;
-				if($input=="")
-					$scope.selectedfilter = "semua";
+				if($scope.salesloading == false){
+					$scope.salesloading = true;
+					$scope.selectedfilter = $input;
+					if($input=="")
+						$scope.selectedfilter = "semua";
+					if($refresh){
+						//LOADING UNTUK REFRESH
 
-				if($refresh){
-					//LOADING UNTUK REFRESH
-					$http({
-						method: "GET",
-						url: AJAX_URL+"allsales/filterorder/"+$input
-					}).then(function(response){
-						if(response!=null){
-							if(response.data != null){
-								if(typeof response.data == "string"){
-									console.log("HASILNYA STRING, error");
+						$http({
+							method: "GET",
+							url: AJAX_URL+"allsales/filterorder/"+$input
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "string"){
+										console.log("HASILNYA STRING, error");
+									}else{
+										$scope.sales = response.data;
+										$scope.afterinitsales();
+									}
 								}else{
-									$scope.sales = response.data;
-									$scope.afterinitsales();
+									console.log("The return value is null, not error");
 								}
-							}else{
-								console.log("The return value is null, not error");
 							}
+							$scope.salesloading = false;
+						}, function(error){
+							console.log(error);
+							$scope.salesloading = false;
+						});
+					} else {
+						$scope.salesloading = false;
+					}
+				}
+			}
+
+			$scope.setSelectedSalesID = function($salesID){
+				$scope.selectedSales = null;
+				$.each($scope.sales, function($index, $item){
+					if($item != null){
+						if($item.id == $salesID){
+							$item.showdetail = true;
+							$item.showinfo = true;
 						}
-					}, function(error){
-						console.log(error);
-					});
+						$scope.selectedSales = $item;
+					}
+				});
+			}
+
+			$scope.setSelectedAction = function($action, $actionID){
+				if($scope.selectedSales != null){
+					if($action == "proof"){
+						if($actionID != null){
+							$.each($scope.selectedSales.salesdetail, function($i, $ii){
+								if($ii != null){
+									$found = false;
+									$.each($ii.cartheader.cartpreview, function($j, $jj){
+										if($jj.id == $actionID){
+											$ii.showsubinfo = true;
+											$( window ).on( "load", function(){
+												$scope.showcartpreview($jj.file, $jj);
+												//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+												$scope.$apply(function() { });
+											});
+										}
+									});
+								}
+							});
+						}
+					}
 				}
 			}
 
@@ -22192,6 +22653,7 @@ module.exports = function(app){
 						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
+						$item.showinfo = false;
 						$item.showdetail = false;
 						$item.totalprice = 0;
 						$.each($item.salesdetail, function($index2, $item2){
@@ -22553,7 +23015,6 @@ module.exports = function(app){
 			}
 
 			$scope.deletecartfile = function($item, $index){
-				console.log($item);
 				$http({
 					method: "GET",
 					url 	: API_URL+"cartfiles/"+$item.id+"/delete"
@@ -22576,7 +23037,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22652,7 +23113,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],99:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesPaymentconfirmController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22730,7 +23191,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],100:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesSelectbankController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22791,19 +23252,30 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],101:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesShowpreviewController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
 
-			$scope.test = function(){
-
+			$scope.commitpreview = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+""
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data.constructor === String)
+						{
+							
+						}
+					}
+				});
 			}
 
 		}
 	]);
 };
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
@@ -23056,6 +23528,7 @@ module.exports = function(app){
 				//console.log($tmps);
 
 				console.log($addurl);
+				$scope.copyToClipboard($addurl);
 			}
 
 			$scope.restrictNotLogined = function()
@@ -24753,7 +25226,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],103:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -25995,7 +26468,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -26029,7 +26502,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],105:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -26105,7 +26578,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],106:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -26265,7 +26738,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],107:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -26324,7 +26797,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],108:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -26368,7 +26841,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],109:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -26390,7 +26863,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],110:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -26405,7 +26878,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],111:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -26422,7 +26895,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],112:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -27063,7 +27536,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],113:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -27078,7 +27551,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],114:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -27333,11 +27806,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],115:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":114}],116:[function(require,module,exports){
+},{"./angular-cookies":116}],118:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -28250,11 +28723,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":116}],118:[function(require,module,exports){
+},{"./angular-resource":118}],120:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -29521,11 +29994,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],119:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":118}],120:[function(require,module,exports){
+},{"./angular-route":120}],122:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -30440,11 +30913,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],121:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":120}],122:[function(require,module,exports){
+},{"./angular-sanitize":122}],124:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -66673,11 +67146,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],123:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":122}],124:[function(require,module,exports){
+},{"./angular":124}],126:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');

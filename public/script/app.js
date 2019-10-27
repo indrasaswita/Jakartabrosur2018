@@ -13,6 +13,8 @@ var app = require("./init");
 require('./constants/variable')(app);
 require('./constants/analytics')(app);
 
+
+
 //require("./route")(app);
 
 
@@ -50,6 +52,7 @@ require("./controllers/order.sales.history")(app);
 
 //ADMIN + CUSTOMER ORDER
 require("./controllers/allacc.sales.cartheader")(app);
+require("./controllers/allacc.printforms.smallinvoice")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -69,6 +72,7 @@ require("./controllers/admin.master.jobsizes")(app);
 require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
+require("./controllers/admin.master.customer.addusernopass")(app);
 require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);

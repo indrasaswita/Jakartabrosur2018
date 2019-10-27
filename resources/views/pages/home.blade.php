@@ -5,9 +5,10 @@
 @section('robots', 'index,follow')
 @section('content')
 <div ng-controller="HomePageController">
-
 	@if(!Session::has('role'))
-		@if(Cookie::get('landing') != 'waiting')
+		TAI
+		{{Cookie::get('landing')}}
+		@if(Cookie::get('landing') == 'waiting')
 			<?php //Cookie::queue('landing', '', 1) ?>
 	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
 		<div class="hm-landingpage modal-dialog" role="document">
@@ -19,9 +20,9 @@
 			</div>
 			<div class="logo disable-select">
 				<div class="img">
-					<img src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="50px">
+					<img src="{{URL::asset('image/home/slogan.png')}}" alt="logo" height="100px">
 				</div>
-				<div class="text">
+				<div class="text" hidden>
 					<div class="top">
 						<span class="tx-darkpurple">Jakarta</span><span class="tx-gray">brosur</span>
 					</div>
@@ -591,6 +592,10 @@
 			</div>
 		</a>
 	</div>
+
+		<button class="" ng-click="printImg('')">
+			TEST PRINT
+		</button>
 
 	@endif
 </div>

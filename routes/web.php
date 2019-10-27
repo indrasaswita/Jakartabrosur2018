@@ -27,8 +27,6 @@ Route::get('signup', ['as'=>'pages.account.signup', 'uses'=>"UserController@sign
 //HARUS UDA LOGIN - BOLEH CUSTOMER BOLEH EMPLOYEE
 
 
-/* LOGIN LOGOUT ACCOUNT */
-Route::get  ('logout',  'UserController@logout');
 //BUAT PAS KLIK DI LINK EMAIL
 Route::get('/customer/verify/{token}', 'CustomerController@verifyEmail');
 //BUAT MASUK KE VERIFICATION PAGES
@@ -97,8 +95,7 @@ Route::group(['middleware'=>['verified']], function(){
 	Route::get('profile', "ProfileController@index");
 	Route::get('payment/{id}', 'PaymentController@show');
 	Route::get('cart', 'CartController@index');
-	Route::get('sales/all', 'AllSalesCustomerView@indexempty');
-	Route::get('sales/all/{link}', 'AllSalesCustomerView@index');
+	Route::get('sales/all', 'AllSalesCustomerView@index');
 	Route::get('AJAX/file/{id}/download', 'FileAJAX@downloadByFileID');
 	Route::get('AJAX/file/preview/{id}/download', 'FileAJAX@downloadPreviewByFileID');
 
@@ -116,16 +113,24 @@ Route::group(['middleware'=>['verified']], function(){
 /*** EMPLOYEE WEB ***/
 /*** EMPLOYEE WEB ***/
 Route::group    (['middleware'=>['employee']], function(){
+	Route::get('admin/addusernopass', 'AdmCustomerController@addusernopass');
 	Route::resource ('roles',   "RoleController");
 	Route::get ('admin/master/customer',    "CustomerController@index");
 	Route::get  ('cartdetails/cartfiles/download/{id}', 'CartdetailController@downloadByFileID');
 	Route::get('admin/master/ctw/database', "AdmChangetheworldController@index");
+	Route::post('AJAX/commit/cartpreview/{id}/undo', 'AdmCartpreviewAJAX@undofile');
+	Route::post('AJAX/admin/cartpreview/{id}/delete', 'AdmCartpreviewAJAX@deleteFile');
+
+	Route::get('AJAX/admin/file/{id}/download', 'AdmFileAJAX@downloadByFileID');
+	Route::get('AJAX/admin/previewfile/{id}/download', 'AdmFileAJAX@downloadPreviewByFileID');
 
 	//ADMIN WEB 
 	Route::get('admin/tracking', 'AdmTrackingController@index');
 	Route::resource ('admin/allsales',  'AdmAllSalesController');
 	Route::get("admin/cart", 'AdmCartController@index');
 	Route::get('admin/pricetext', 'AdmPricetextController@index');
+
+	Route::get("admin/payment/invoice/{id}", 'PaymentController@showInvoiceAdmin');
 
 
 	//ADMIN MASTER WEB
@@ -224,9 +229,14 @@ Route::post("AJAX/paper/savenewpaper", "AdmPaperAJAX@addnewpaper");
 Route::post("AJAX/paperdetail/savenewplano", "AdmPaperdetailAJAX@savenewplano");
 Route::post("AJAX/jobsubtypepaper/{id}/changeofdg", "AdmJobsubtypepaperAJAX@changeofdg");
 Route::post("AJAX/jobsubtypesize/{id}/changeofdg", "AdmJobsubtypesizeAJAX@changeofdg");
+Route::post("AJAX/master/customer/saveusernopass", "AdmCustomerAJAX@saveusernopass");
+Route::post("AJAX/master/customer/updateusernopass", "AdmCustomerAJAX@updateusernopass");
 
 /* LOGIN LOGOUT ACCOUNT */
-Route::post ('API/login',   'UserController@login');
+Route::post ('AJAX/login',   'AllUserAJAX@login');
+Route::post ('AJAX/makepassword',   'AllUserAJAX@makepassword');
+Route::post('AJAX/checkmail', 'AllUserAJAX@checkMail');
+Route::get('logout',  'AllUserAJAX@logout');
 
 
 /*END ACCOUNT ROUTE*/
@@ -250,7 +260,7 @@ Route::post("API/calc/planosize", "Calculation@calcPlanoSize_url");
 /*** EMPLOYEE API ***/
 /*** EMPLOYEE API ***/
 Route::group(['middleware'=>"employeeAPI"], function(){
-	Route::post ('API/upload/preview/{cartid}', ['as' => 'upload-post-preview', 'uses' =>'ImageController@previewUploadEmployee']);
+	Route::post ('AJAX/upload/preview/{cartid}', 'ImageController@previewUploadEmployee');
 	Route::post ('API/upload/original/{custid}/{cartid}',   ['as' => 'upload-post', 'uses' =>'ImageController@originalUploadEmployee']);
 
 	//change status tracking
@@ -329,4 +339,3 @@ Route::get('contohemail', 'CustomerController@panggilemail');
 
 //history sales order customer
 Route::get('saleshistory', 'SalesdetailController@historySalesCustomer');
-

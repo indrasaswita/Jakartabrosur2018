@@ -1,6 +1,6 @@
 module.exports = function(app){
-	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($timeout, $scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.initHeader = function($headers, $deliveries, $couriers, $activeemployee){
 				$scope.headers = JSON.parse($headers);
 				$scope.deliveries = JSON.parse($deliveries);
@@ -801,7 +801,7 @@ module.exports = function(app){
 			$scope.resetCommitPreview = function($cartpreview){
 				$http({
 					method: "POST",
-					url: API_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
+					url: AJAX_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
 				}).then(function(response){
 					if(response.data != null){
 						if(response.data.constructor === String){
@@ -814,19 +814,21 @@ module.exports = function(app){
 				});
 			}
 
-			$scope.deletePreview = function($cartpreviewID, $salesdetail){
+			$scope.deletePreview = function($cartpreview, $salesdetail, $index){
 				$http({
 					method: "POST",
-					url: API_URL+"admin/cartpreview/"+$cartpreviewID+"/delete"
+					url: AJAX_URL+"admin/cartpreview/"+$cartpreview.id+"/delete"
 				}).then(function(response){
 					if(response.data != null){
-						if(reponse.data.constructor !== String){
-							$scope.selectedsalesdetail = response.data;
+						if(response.data.constructor === String){
+							if(response.data == true){
+								$salesdetail.cartheader.cartpreview.splice($index, 1);
+							}
 						}else{
-							console.log(response.data);
+							console.log("Failed to delete");
 						}
 					}else{
-						console.log("Error, tidak ada return value..");
+						console.log("Cartpreview data not found in database");
 					}
 				});
 			}
@@ -836,34 +838,8 @@ module.exports = function(app){
 				$("#addprooffileModal").modal("show");
 			}
 
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-							}
-							else
-								$scope.session = null;
-						}else{
-							$scope.session = null;
-							$window.location.reload();
-						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
+			$scope.sendwacommit = function($url, $pid, $sid){
+				$window.open("http://wa.me/?text=Silahkan+cek+sebelum+di+print.+Mohon+untuk+ketelitian+dalam+pengecekan+huruf+dalam+text%2C+letak+atau+posisi+gambar%2C+warna%2C+dan+tulisan+yang+tertera+pada+hasil+cetakan.+Kami+tetap+berusaha+untuk+memberikan+yang+terbaik.%0D%0A%0D%0ACek%20di%20"+$url+"sales%2Fall%3Fs%3D"+$sid+"%26a%3Dproof%26aa%3D"+$pid);
 			}
 			
 			$scope.searchingkey = "";
@@ -925,7 +901,7 @@ module.exports = function(app){
 				
 				$http({
 					method: 'POST',
-					url: API_URL+'upload/preview/'+cartID,
+					url: AJAX_URL+'upload/preview/'+cartID,
 					data: data,
 					withCredentials: true,
 					headers: {'Content-Type': undefined },

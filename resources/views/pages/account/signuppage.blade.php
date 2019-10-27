@@ -7,49 +7,54 @@
 <div ng-controller="SignupController">
 	<form>
 		<div class="login-wrapper margin-top-20">
-			<div class="login-header">
-				Register
+			<div class="login-title">
+				<div class="logo">
+					JakartaBrosur
+				</div>
+				<div class="text">
+					Buat Akun
+				</div>
 			</div>
 			<div class="login-block">
-				<div class="form-group has-danger has-success">
-					<input type="text" id="signup-username" class="login-text-input" ng-class="{'form-control-danger':error.email != null, 'form-control-success':error.email==null&&alertshow}" ng-model="customerData.email" data-toggle="tooltip" data-placement="right" title="email@example.com" placeholder="Email Anda">
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="text" ng-class="{'danger':error.email != null, 'success':error.email==null&&alertshow}" ng-model="customerData.email" placeholder="Email Anda">
+					<div class="error">
 						[[error.email]]
 					</div>
 				</div>
-				<div class="form-group has-danger has-success">
-					<input type="password" id="signup-password" class="login-text-input" ng-class="{'form-control-danger':error.password != null, 'form-control-success':error.password==null&&alertshow}" ng-model="customerData.password" placeholder="Buat Password" />
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="password" ng-class="{'danger':error.password != null, 'success':error.password==null&&alertshow}" ng-model="customerData.password" placeholder="Buat Password" />
+					<div class="error">
 						[[error.password]]
 					</div>
 				</div>
-				<div class="form-group has-danger has-success">
-					<input type="password" id="confirm-password" class="login-text-input" ng-class="{'form-control-danger':error.cpassword != null, 'form-control-success':error.cpassword==null&&alertshow}" ng-model="customerData.cpassword" placeholder="Konfirmasi Password" />
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="password" ng-class="{'danger':error.cpassword != null, 'success':error.cpassword==null&&alertshow}" ng-model="customerData.cpassword" placeholder="Konfirmasi Password" />
+					<div class="error">
 						[[error.cpassword]]
 					</div>
 				</div>
-				<div class="form-group has-danger has-success">
-					<input type="text" class="login-text-input" ng-class="{'form-control-danger':error.name != null, 'form-control-success':error.name==null&&alertshow}" ng-model="customerData.name" placeholder="Nama Lengkap">
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="text" ng-class="{'danger':error.name != null, 'success':error.name==null&&alertshow}" ng-model="customerData.name" placeholder="Nama Lengkap">
+					<div class="error">
 						[[error.name]] 
 					</div>
 				</div>
-				<div class="input-group form-group has-danger has-success">
-					<input type="text" class="login-text-input" ng-class="{'form-control-danger':error.phone1 != null, 'form-control-success':error.phone1==null&&alertshow}" ng-model="customerData.phone1" placeholder="No. Telp / No. WhatsApp">
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="text" ng-class="{'danger':error.phone1 != null, 'success':error.phone1==null&&alertshow}" ng-model="customerData.phone1" placeholder="No. Telp / No. WhatsApp">
+					<div class="error">
 						[[error.phone1]]
 					</div>
 				</div>
-				<div class="input-group form-group has-danger has-success">
-					<input type="text" class="login-text-input" ng-class="{'form-control-danger':error.phone2 != null, 'form-control-success':error.phone3==null&&alertshow}" ng-model="customerData.phone2" placeholder="No. Telp 2">
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="text" ng-class="{'danger':error.phone2 != null, 'success':error.phone3==null&&alertshow}" ng-model="customerData.phone2" placeholder="No. Telp 2">
+					<div class="error">
 						[[error.phone2]]
 					</div>
 				</div>
-				<div class="input-group form-group has-danger has-success">
-					<input type="text" class="login-text-input" ng-class="{'form-control-danger':error.phone3 != null, 'form-control-success':error.phone3==null&&alertshow}" ng-model="customerData.phone3" placeholder="No. Telp 3">
-					<div class="login-text-error">
+				<div class="input-wrapper">
+					<input type="text" ng-class="{'danger':error.phone3 != null, 'success':error.phone3==null&&alertshow}" ng-model="customerData.phone3" placeholder="No. Telp 3">
+					<div class="error">
 						[[error.phone3]]
 					</div>
 				</div>
@@ -86,28 +91,49 @@
 				</div>
 			</div>
 			<div class="login-checklist">
-				<label class="form-group">
-					<div class="custom-control custom-checkbox">
-						<input type='checkbox' class="form-check-input" ng-model="customerData.terms" id="termcond"> 
-						<span for="termcond">Dengan ini Anda menyetujui <a href="#">Syarat & Ketentuan</a> yang berlaku.</span>
+				<div class="check">
+					<label class="custom-checkbox">
+						<input type="checkbox" ng-model="customerData.terms">
+						<span class="checkmark"></span>
+					</label>
+					<div class="label">
+						Dengan ini Anda menyetujui <a href="#">Syarat & Ketentuan</a> yang berlaku.
 					</div>
-				</label>
-				<label class="form-group">
-					<div class="custom-control custom-checkbox">
-						<input type='checkbox' class="form-check-input" ng-change="setNews(customerData.news)" ng-model="customerData.news" id="promo"> 
-						<span>Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="tag tag-danger text-regular">not yet</div></span>
+				</div>
+				<div class="error" ng-if="error.terms!=null">
+					[[error.terms]]
+				</div>
+				<div class="check">
+					<label class="custom-checkbox">
+						<input type="checkbox" ng-model="allchecked" ng-click="setNews(customerData.news)">
+						<span class="checkmark"></span>
+					</label>
+					<div class="label">
+						Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="tag tag-danger text-regular">not yet</div>
 					</div>
-				</label>
+				</div>
 			</div>
-			<div class="login-error" ng-hide="error.terms==null||error.terms==''">
-				[[error.terms]]
+			<div class="login-error" ng-show="alertshow">
+				<span ng-class="{'pulse':alertpulse}">
+					<i class="fad fa-dice-d20 fa-fw"></i>
+				</span>
+				<div class="text">
+					[[alertmessage]]
+				</div>
 			</div>
 			<div class="login-footer">
-				<input type="submit" class="btn login-submit" value="Sign-up" ng-click="signupClicked()" >
-				<!-- <button ng-click="anjing()" class="button btn btn-warning">konfirmasi</button> -->
+				<button class="btn btn-purple" ng-click="signupClicked()">
+					Sign-up
+				</button>
 			</div>
 			<div class="login-redirector">
-				Jika Anda sudah mempunyai account?<br />Silahkan <a href="{{URL::asset('login')}}">log-in</a> disini!
+					Sudah Punya Akun?
+					<div class="redirect">
+					<a href="{{URL::asset('login')}}" class="btn btn-purple">
+						<i class="fal fa-user-plus fa-fw"></i>
+						Log-In sekarang
+					</a>
+				</div>
 			</div>
 		</div>
 	</form>

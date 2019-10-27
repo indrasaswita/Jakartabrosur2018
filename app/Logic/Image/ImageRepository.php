@@ -37,16 +37,16 @@ class ImageRepository
 		if(!$validator->fails())
 		{
 			//IMAGE
-			$file->size = $file->getSize();
+			$file->size = $photo->getSize();
 			$uploadSuccess1 = $this->original( $photo, $allowed_filename );
-			$uploadSuccess2 = $this->icon( $photo, $allowed_filename );
+			//$uploadSuccess2 = $this->icon( $photo, $allowed_filename );
 
-			if( !$uploadSuccess1 || !$uploadSuccess2 ) {
+			if( !$uploadSuccess1 ) {
 
 				return 'Server error while uploading';
 
 			}
-			$file->icon= "images/icon/".$allowed_filename;
+			//$file->icon= "images/icon/".$allowed_filename;
 		}
 		else
 		{

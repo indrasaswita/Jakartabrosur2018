@@ -511,6 +511,10 @@ module.exports = function(app){
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
+			String.prototype.addThousandSeparator = function() {
+				return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+
 			$scope.phonemask = function(e){
 				// REGEX PHONE
 				if(e!=null){

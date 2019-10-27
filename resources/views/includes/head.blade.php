@@ -21,7 +21,6 @@
 
 <script type="text/javascript" src="{{URL::asset('js/jquery.min.js')}}?version=3.4.1"></script>
 
-
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144197477-1"></script>
 

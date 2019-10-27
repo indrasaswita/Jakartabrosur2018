@@ -42,33 +42,78 @@ module.exports = function(app){
 			];
 
 			$scope.loadingsavecustacc = false;
+			$scope.salesloading = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
-				$scope.selectedfilter = $input;
-				if($input=="")
-					$scope.selectedfilter = "semua";
+				if($scope.salesloading == false){
+					$scope.salesloading = true;
+					$scope.selectedfilter = $input;
+					if($input=="")
+						$scope.selectedfilter = "semua";
+					if($refresh){
+						//LOADING UNTUK REFRESH
 
-				if($refresh){
-					//LOADING UNTUK REFRESH
-					$http({
-						method: "GET",
-						url: AJAX_URL+"allsales/filterorder/"+$input
-					}).then(function(response){
-						if(response!=null){
-							if(response.data != null){
-								if(typeof response.data == "string"){
-									console.log("HASILNYA STRING, error");
+						$http({
+							method: "GET",
+							url: AJAX_URL+"allsales/filterorder/"+$input
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "string"){
+										console.log("HASILNYA STRING, error");
+									}else{
+										$scope.sales = response.data;
+										$scope.afterinitsales();
+									}
 								}else{
-									$scope.sales = response.data;
-									$scope.afterinitsales();
+									console.log("The return value is null, not error");
 								}
-							}else{
-								console.log("The return value is null, not error");
 							}
+							$scope.salesloading = false;
+						}, function(error){
+							console.log(error);
+							$scope.salesloading = false;
+						});
+					} else {
+						$scope.salesloading = false;
+					}
+				}
+			}
+
+			$scope.setSelectedSalesID = function($salesID){
+				$scope.selectedSales = null;
+				$.each($scope.sales, function($index, $item){
+					if($item != null){
+						if($item.id == $salesID){
+							$item.showdetail = true;
+							$item.showinfo = true;
 						}
-					}, function(error){
-						console.log(error);
-					});
+						$scope.selectedSales = $item;
+					}
+				});
+			}
+
+			$scope.setSelectedAction = function($action, $actionID){
+				if($scope.selectedSales != null){
+					if($action == "proof"){
+						if($actionID != null){
+							$.each($scope.selectedSales.salesdetail, function($i, $ii){
+								if($ii != null){
+									$found = false;
+									$.each($ii.cartheader.cartpreview, function($j, $jj){
+										if($jj.id == $actionID){
+											$ii.showsubinfo = true;
+											$( window ).on( "load", function(){
+												$scope.showcartpreview($jj.file, $jj);
+												//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+												$scope.$apply(function() { });
+											});
+										}
+									});
+								}
+							});
+						}
+					}
 				}
 			}
 
@@ -84,6 +129,7 @@ module.exports = function(app){
 						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
+						$item.showinfo = false;
 						$item.showdetail = false;
 						$item.totalprice = 0;
 						$.each($item.salesdetail, function($index2, $item2){
@@ -445,7 +491,6 @@ module.exports = function(app){
 			}
 
 			$scope.deletecartfile = function($item, $index){
-				console.log($item);
 				$http({
 					method: "GET",
 					url 	: API_URL+"cartfiles/"+$item.id+"/delete"

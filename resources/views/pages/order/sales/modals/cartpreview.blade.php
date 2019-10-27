@@ -35,7 +35,7 @@
 							<div class="input-group">
 							  <input class="form-control" ng-model="selectedCartpreview.comment" type="text" placeholder="Komen & keterangan cetak disini">
 							  <div class="input-group-btn" ng-if="!selectedCartpreview.commit">
-							    <button class="btn btn-outline-secondary" type="button">Save</button>
+								<button class="btn btn-outline-secondary" type="button">Save</button>
 							  </div>
 							</div>
 							<div class="text">
@@ -54,7 +54,7 @@
 						<div class="commit" ng-if="!selectedCartpreview.commit">
 							Jika gambar diatas sudah OK dan tidak ada perubahan,<br>Anda dapat menekan tombol dibawah ini.
 							<div class="button">
-								<button class="btn btn-sm btn-outline-primary">
+								<button class="btn btn-sm btn-outline-primary" ng-click="commitpreview()">
 									Menurut saya sudah benar.
 								</button>
 							</div>

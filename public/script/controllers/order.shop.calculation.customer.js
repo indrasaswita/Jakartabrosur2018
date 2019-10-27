@@ -250,6 +250,7 @@ module.exports = function(app){
 				//console.log($tmps);
 
 				console.log($addurl);
+				$scope.copyToClipboard($addurl);
 			}
 
 			$scope.restrictNotLogined = function()
