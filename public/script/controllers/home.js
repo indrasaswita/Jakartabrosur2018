@@ -37,17 +37,7 @@ module.exports = function(app){
 					}
 				});	
 			}
-
-			$scope.printImg = function(imgName) {
-				var printContents = document.getElementById(imgName);
-				var popupWin = window.open();
-				popupWin.document.open()
-				popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">'
-					+ '<div> HELLOWORLD'
-					+ '</div>'
-					+ '</html>');
-				popupWin.document.close();
-			}
+			
 		}
 	]);
 };

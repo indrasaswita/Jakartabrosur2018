@@ -13982,7 +13982,7 @@ module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	// $public_path = '/'; 
+	//$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
@@ -21315,17 +21315,7 @@ module.exports = function(app){
 					}
 				});	
 			}
-
-			$scope.printImg = function(imgName) {
-				var printContents = document.getElementById(imgName);
-				var popupWin = window.open();
-				popupWin.document.open()
-				popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">'
-					+ '<div> HELLOWORLD'
-					+ '</div>'
-					+ '</html>');
-				popupWin.document.close();
-			}
+			
 		}
 	]);
 };
@@ -21429,14 +21419,11 @@ module.exports = function(app){
 		}catch(e){
 			console.log("tooltip disabled - runtime error");
 		}
-		//LOGIN - SET FOCUS ON FIRST SHOWN
-		$('#loginModal').on('shown.bs.modal', function () {
-		    $('#login-username').focus();
-		    $('#login-username').val("");
-		    $('#login-password').val("");
-		    $('#signup-modal').modal('hide');
-		});
 	})
+
+	/*$(window).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	});*/
 
 }
 },{}],94:[function(require,module,exports){

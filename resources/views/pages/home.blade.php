@@ -6,9 +6,7 @@
 @section('content')
 <div ng-controller="HomePageController">
 	@if(!Session::has('role'))
-		TAI
-		{{Cookie::get('landing')}}
-		@if(Cookie::get('landing') == 'waiting')
+		@if(Cookie::get('landing') != 'waiting')
 			<?php //Cookie::queue('landing', '', 1) ?>
 	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
 		<div class="hm-landingpage modal-dialog" role="document">
@@ -593,10 +591,7 @@
 		</a>
 	</div>
 
-		<button class="" ng-click="printImg('')">
-			TEST PRINT
-		</button>
-
+	
 	@endif
 </div>
 @stop
