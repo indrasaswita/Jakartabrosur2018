@@ -23,7 +23,7 @@ class AdmSalesdeliveryAPI extends Controller
     	$header->salesID = $salesID;
     	$header->employeeID = $data['employeeID'];
     	$header->receiver = $data['receiver'];
-    	$header->address = $data['deliveryaddress'];
+    	$header->addressID = $data['deliveryaddressID'];
     	$header->deliveryID = $data['deliveryID'];
     	$header->suratno = $data['suratno'];
     	$header->suratimage = $data['suratimage'];

@@ -77,7 +77,7 @@
 							</span>
 						</button>
 						
-						<button class="btn btn-sm btn-outline-purple" ng-click="savechangefile()">
+						<button class="btn btn-sm btn-outline-purple" ng-click="savedetailclicked()">
 							<span ng-if="!savechangeloading">
 								save detail
 							</span>
@@ -104,7 +104,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-sm btn-success" ng-click="saveandclose()">
+					<button class="btn btn-sm btn-success" ng-click="saveandclose()" hidden>
 						<span ng-if="!savechangeloading">
 							Save and Close
 						</span>

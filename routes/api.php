@@ -51,6 +51,7 @@ Route::post('/notifications/customer/{id}/count', 'NotificationAPI@customerall')
 Route::post('/notifications/all/count', 'NotificationAPI@all');
 
 //EMPLOYEE ONLY
+Route::get('/admin/compaccs/{accid}/mandiri/refresh', 'AdmCompanyaccountsAPI@mutasi_mandiri');
 Route::post('/admin/compaccs/{accid}/bca/refresh', 'AdmCompanyaccountsAPI@mutasi_bca');
 Route::get('/admin/compaccs/{accid}/bca/read', 'AdmCompanyaccountsAPI@read_bca');
 

@@ -19406,11 +19406,13 @@ module.exports = function(app){
 				{
 					console.log('tidak boleh 0');
 				}
-				else
+				else if($scope.selectedheader.id==null){
+					console.log("salesID is null");
+				}else
 				{
 					$http({
 						"method" 	: "POST",
-						"url" 		: API_URL+"admin/payment/"+$scope.selectedheader.salesID,
+						"url" 		: AJAX_URL+"admin/payment/"+$scope.selectedheader.id,
 						"data"		: {
 							"ammount" : $scope.selectedammount,
 							"custacc"	: $scope.selectedcustacc.id,
@@ -19627,7 +19629,7 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'bankaccs/customer/' + $customerID
+						url : AJAX_URL + 'bankaccs/customer/' + $customerID
 					}
 				).then(function(response) {
 					if(response.data != null)
@@ -19637,10 +19639,19 @@ module.exports = function(app){
 							if($scope.customerbankaccs.length>0)
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
+				}, function(error){
+					console.log(error.message);
 				});
 			};
 
-			$scope.fillCompanyBankAccs();
+			$scope.fillCompanyBankAccs(function(response){
+				$scope.companybankaccs = response;
+				if($scope.companybankaccs != null){
+					if($scope.companybankaccs.length > 0){
+						$scope.selectedcompacc = $scope.companybankaccs[0];
+					}
+				}
+			});
 
 			$scope.verify = function()
 			{
@@ -19780,8 +19791,8 @@ module.exports = function(app){
 						console.log(response);
 					}
 					$scope.uploadwaiting = false;
-					$scope.allowed();
-				}).error(function(error) {
+					//$scope.allowed();
+				}, function(error) {
 					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
@@ -20645,7 +20656,7 @@ module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.app_version = "2.05.004";
+			$scope.app_version = "2.06.004";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -20917,13 +20928,12 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'compaccs'
+						url : AJAX_URL + 'compaccs'
 					}
 				).then(function(response) {
 					if(response.data!=null){
 						if(response.data.length>0){
-							$scope.compaccs = response.data;
-							if (whendone instanceof Function) { whendone(); }
+							if (whendone instanceof Function) { whendone(response.data); }
 						}
 					} else {
 						console.log('Null return when calling company bank accounts - Godhands')
@@ -21264,11 +21274,13 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response) {
-					whendone(response);
+					if(whendone instanceof Function)
+						whendone(response);
 					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 					$scope.$apply(function() { });
 				}).fail(function(response) {
-					whenfailed(response);
+					if(whenfailed instanceof Function)
+						whenfailed(response);
 					$scope.$apply(function() { });
 				});
 			}
@@ -21315,7 +21327,8 @@ module.exports = function(app){
 					}
 				});	
 			}
-			
+
+
 		}
 	]);
 };
@@ -22026,6 +22039,8 @@ module.exports = function(app){
 
 
 			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
 				var token = $('input[name="_token"]').val();
 				$(document).ajaxSend(function(e, xhr, options) {
 					console.log("ajax token!!!");
@@ -22208,6 +22223,20 @@ module.exports = function(app) {
 
 			$scope.savechangeloading = false;
 
+			$scope.savedetailclicked = function(){
+				$scope.savechangefile(function($result){
+					console.log($result);
+					if ($result == null) {
+						//error
+						$scope.errormessage = "ERROR - check console";
+					} else if ($result.code == 200) {
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
+					}
+				});
+			}
+
 			$scope.savechangefile = function(whendone){
 				if ($scope.savechangeloading == false) {
 					$scope.errormessage = "";
@@ -22219,28 +22248,25 @@ module.exports = function(app) {
 					}).then(function(response) {
 						if (response != null) {
 							if (response.data != null) {
+								$result = response.data;
 								if (response.data.constructor === Object) {
-									$result = response.data;
 
 									$scope.errormessage = $result.message;
-									console.log($result.code+" - "+$result.message);
 									$scope.savechangeloading = false;
-								} else {
-									$scope.errormessage = "Error message cannot be displayed.";
-								}
-								whendone(response.data);
-							} else {
-								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
-							}
+								} 
+							} 
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(response.data);
+						}
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(null);
+						}
 					});
 				}
 			}
@@ -22249,10 +22275,12 @@ module.exports = function(app) {
 				$scope.savechangefile(function($result){
 					if ($result == null) {
 						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
+						$scope.errormessage = "ERROR - check console";
 					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
 						$("#changeFileModal").modal('hide');
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
 					}
 				});
 			}
@@ -22554,6 +22582,9 @@ module.exports = function(app){
 
 			$scope.loadingsavecustacc = false;
 			$scope.salesloading = false;
+			$scope.uploadwaiting = false;
+			$scope.errormessage = "";
+			$scope.ondeleteprocess = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
 				if($scope.salesloading == false){
@@ -22734,7 +22765,8 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs(function() {
+			$scope.fillCompanyBankAccs(function(response) {
+				$scope.compaccs = response;
 				if ($scope.compaccs != null)
 					if ($scope.compaccs.length > 0)
 						$scope.selectbanktrf($scope.compaccs[0])
@@ -22744,78 +22776,31 @@ module.exports = function(app){
 				$scope.konfirmasi.compacc = $scope.clone(compacc);
 			}
 
-			$scope.commit = function($item, $item2){
-				//yang di send item2 <= salesdetail dari item
-				/*$http({
-					"method" : "POST",
-					"url"		 : API_URL+"sales/"+$data.id+"/commit"
-					//salesdetail.id yang di pilih, biar langsung find idNya di table Salesdetails
-				}).then(function(response){
-					if(response!=null)
-						if(typeof response === "string")
-							if(response == "success")
-								$data.commited = 1;
-				});*/
+			$scope.commit = function($item){
 
 				$http({
 					method: "POST",
-					url: API_URL+"customer/"+$item.customerID+"/makesession"
+					url: AJAX_URL+"sales/"+$item.id+"/commit"
 				}).then(function(response){
 					if(response.data!=null){
+						console.log(response.data);
 						if(response.data.constructor === String){
-							$scope.session = response.data;
-							$window.location.href = BASE_URL+"sales/commit/"+$item2.id+"/"+$item.id+"/"+$scope.session;
-						}else
-							$scope.session = null;
-					}else
-						$scope.session = null;
-				});
-
-			}
-
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
+							if(response.data == "success"){
+								$item.commited = 1;
+								$item.commiterror = "";
+							}else{
+								$item.commiterror = response.data;
 							}
-							else
-								$scope.session = null;
 						}else{
-							$scope.session = null;
-							$window.location.reload();
+							$item.commiterror = "Return not string..";
 						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
-			}
-
-			$scope.makeSession = function($customerID){
-				$http({
-					method: "POST",
-					url: API_URL+"customer/"+$customerID+"/makesession"
-				}).then(function(response){
-					if(response.data!=null){
-						if(response.data.constructor === String)
-							$scope.session = response.data;
-						else
-							$scope.session = null;
-					}else
-						$scope.session = null;
+					}else{
+						$item.commiterror = "Tidak ada return..";
+					}
+				}, function(error){
+					$item.commiterror = error.message;
 				});
+
 			}
 
 			$scope.linkmakepayment = function(item){
@@ -22877,7 +22862,7 @@ module.exports = function(app){
 				$scope.selectedFile = $file;
 				$scope.selectedCart = $cart;
 				$scope.selectedSalesdetail = $salesdetail;
-				$("#viewcartfile-modal").modal('show');
+				$("#changeFileModal").modal('show');
 			}
 			$scope.showcartpreview = function($file, $preview) {
 				$scope.selectedFile = $file;
@@ -23011,6 +22996,7 @@ module.exports = function(app){
 						$item.ondelete = false;
 
 						$scope.files.splice($index, 1);
+						$("#changeFileModal").modal('hide');
 					},function(error){
 						//balikin flag
 						$item.ondelete = false;
@@ -23018,9 +23004,162 @@ module.exports = function(app){
 					}
 				);
 			}
+
+			$scope.setdelete = function(){
+				$scope.ondeleteprocess = true;
+			}
+
+			$scope.unsetdelete = function(){
+				$scope.ondeleteprocess = false;
+			}
+
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
+
+			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
+				var token = $('input[name="_token"]').val();
+				$(document).ajaxSend(function(e, xhr, options) {
+					console.log("ajax token!!!");
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				});
+			});
+
+
+			$(window).ready(function(){
+				$('#is-uploader').on('change', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(this)[0]['file'].files) {
+						if ($(this)[0]['file'].files.length > 0) {
+							$scope.upload($(this)[0]['file'].files);
+						}
+					}
+					return false;
+				});
+			});
+
+			$scope.choosefileclicked = function() {
+				$scope.stateupload = "revisi";
+				$('#btn-choose-file2').click();
+			}
+
+			$scope.upload = function(files) {
+				var data = new FormData();
+				$scope.errormessage = '';
+				$scope.uploadwaiting = true;
+				$scope.loadingfiles = true;
+
+				$counterror = 0;
+				$scope.$apply(function() { });
+
+				angular.forEach(files, function(value) {
+					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
+					if (!$scope.val_ext("upload-file", $ext)) {
+						$scope.errormessage = value.name + " : tidak bisa upload dengan file format " + $ext + ".";
+						$counterror++;
+					} else if (!$scope.val_size(value.size)) {
+						$scope.errormessage = value.name + "( "+(value.size/1024/1024)+" MB ): file terlalu besar.";
+						$counterror++;
+					} else {
+						$scope.errormessage = "";
+						data.append("files[]", value);
+					}
+					$scope.$apply(function() { });
+
+					if ($scope.errormessage != '') {
+						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
+						console.log($scope.errormessage);
+						try {
+							$http({
+								method: 'GET',
+								url: BASE_URL,
+								data: data,
+								withCredentials: true,
+								headers: { 'Content-Type': undefined },
+								transformRequest: angular.identity
+							}).then(function(response) { },
+								function(error) {
+									console.log(error);
+								});
+						} catch (error) { }
+
+						//refesh data kalo ga bisa ke upload (loading filesnya jangan di apus)
+						$scope.loadingfiles = false;
+						$scope.uploadwaiting = false;
+						//$scope.refreshUploadedImage();
+						//$scope.uploadwaiting = false;
+						$scope.$apply(function() { });
+					}else{
+
+						//UPLOAD FILE DATA
+						$url = "";
+						if($scope.stateupload == "revisi"){
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/revision/' + $scope.selectedFile.id;
+						} else if($scope.stateupload == "addnew") {
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/upload';
+						}
+
+						console.log($url);
+
+						$scope.uploadprogress("POST", data, $url, function(response){
+							//WHEN DONE
+							if (response != null) {
+								console.log(response.constructor);
+								if (response.constructor === Array) {
+									$scope.selectedCart.cartfile = [];
+									$scope.selectedCart.cartfile = response;
+									$.each($scope.selectedCart.cartfile, function($i, $ii) {
+										if ($ii.file.id == $scope.selectedFile.id) {
+											$scope.selectedFile = $ii.file;
+										}
+									});
+
+									if ($scope.stateupload == "revisi") {
+										$scope.errormessage = "file berhasil diganti..";
+									} else if ($scope.stateupload == "addnew") {
+										$scope.errormessage = "berhasil tambah file..";
+									}
+								}
+								else if (response.constructor === String) {
+									$scope.errormessage = response.constructor;
+									$scope.uploadedfiles = [];
+								}
+								else {
+									$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (empty).";
+									$scope.uploadedfiles = [];
+								}
+							}
+							else {
+								$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (null).";
+								$scope.uploadedfiles = [];
+								//console.log	('NO DATA in PendIMG');
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							//$scope.errormessage = "";
+						}, function(response){
+							//WHEN FAILED
+							console.log(response);
+							if (response.status == 419) {
+								$scope.errormessage = "Unknown Status: May be the Session is over, please re-login to upload";
+							} else {
+								$scope.errormessage = response.statusText;
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							$scope.uploadsuccess = false;;
+						});
+					}
+				});
+
+				//JANGAN DI BUANG, harusnya di pake
+				//$scope.clearFileInput('file');
+			};
+
 		}
 	]);
 };
@@ -23051,14 +23190,13 @@ module.exports = function(app) {
 								} else {
 									$scope.errormessage = "Error message cannot be displayed.";
 								}
-								whendone(response.data);
 							} else {
 								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
 							}
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function)
+							whendone(response.data);
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
@@ -23066,18 +23204,6 @@ module.exports = function(app) {
 						whendone(null);
 					});
 				}
-			}
-
-			$scope.saveandclose = function() {
-				$scope.savechangefile(function($result) {
-					if ($result == null) {
-						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
-					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
-						$("#changeFileModal").modal('hide');
-					}
-				});
 			}
 
 			$scope.removecartfile = function() {
@@ -23331,6 +23457,27 @@ module.exports = function(app){
 			$scope.total = [];
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
+
+			$scope.setInputFilter = function(textbox, inputFilter) {
+			  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+			    textbox.oldValue = "";
+			    textbox.addEventListener(event, function() {
+			      if (inputFilter(this.value)) {
+			        this.oldValue = this.value;
+			        this.oldSelectionStart = this.selectionStart;
+			        this.oldSelectionEnd = this.selectionEnd;
+			      } else if (this.hasOwnProperty("oldValue")) {
+			        this.value = this.oldValue;
+			        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			      }
+			    });
+			  });
+			}
+
+			// Restrict input to digits and '.' by using a regular expression filter.
+			$scope.setInputFilter(document.getElementById("quantity"), function(value) {
+			  return /^\d*$/.test(value);
+			});
 
 			$(document).ready(function() {
 				$scope.selectTab("calculation");

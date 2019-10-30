@@ -597,6 +597,8 @@ module.exports = function(app){
 
 
 			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
 				var token = $('input[name="_token"]').val();
 				$(document).ajaxSend(function(e, xhr, options) {
 					console.log("ajax token!!!");

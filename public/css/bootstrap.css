@@ -201,6 +201,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+body {
+  padding: 0 !important;
+}
+
 .text-right {
   text-align: right !important;
 }
@@ -9905,21 +9909,19 @@ div.asset-upload {
   top: 0;
 }
 .hm-landingpage-wrapper .hm-landingpage {
-  background-color: #f8f8f8;
+  background-color: #ff9;
   border: 1px solid #aaa;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
   font-family: Google;
+  border-radius: 40px;
 }
 .hm-landingpage-wrapper .hm-landingpage > .logo {
   display: flex;
-  padding: 20px 0;
   justify-content: center;
   align-items: center;
 }
 .hm-landingpage-wrapper .hm-landingpage > .logo .img {
-  margin-right: 40px;
-  margin-top: -60px;
-  margin-bottom: -18px;
+  margin-top: -35px;
 }
 .hm-landingpage-wrapper .hm-landingpage > .logo .text .top {
   font-size: 30px;
@@ -9936,38 +9938,32 @@ div.asset-upload {
 }
 .hm-landingpage-wrapper .hm-landingpage .products {
   display: flex;
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
-  background: #e1e1e1;
-  background: -webkit-linear-gradient(transparent, #e1e1e1);
-  background: -o-linear-gradient(transparent, #e1e1e1);
-  background: -moz-linear-gradient(transparent, #e1e1e1);
-  background: linear-gradient(transparent, #e1e1e1);
+  font-weight: 600;
+  background: #fc6;
+  background: -webkit-linear-gradient(transparent, #fc6);
+  background: -o-linear-gradient(transparent, #fc6);
+  background: -moz-linear-gradient(transparent, #fc6);
+  background: linear-gradient(transparent, #fc6);
   color: #206;
 }
 .hm-landingpage-wrapper .hm-landingpage .products .item {
-  padding: 20px 0 10px 0;
+  padding: 3px 0 10px 0;
   text-align: center;
   width: 100%;
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
 }
-.hm-landingpage-wrapper .hm-landingpage .products .item.left {
-  border-right: 2px solid white;
-}
-.hm-landingpage-wrapper .hm-landingpage .products .item.right {
-  border-left: 2px solid white;
-}
-.hm-landingpage-wrapper .hm-landingpage .products .item:hover {
-  border-color: #70a;
+.hm-landingpage-wrapper .hm-landingpage .products .item .btn, .hm-landingpage-wrapper .hm-landingpage .products .item .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .hm-landingpage-wrapper .hm-landingpage .products .item .btn.flyer-qty-btn,
+.hm-landingpage-wrapper .hm-landingpage .products .item .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
+.panel .panel-item .panel-item-block .input-group .hm-landingpage-wrapper .hm-landingpage .products .item .btn.flyer-qty-btn {
+  font-weight: inherit;
 }
 .hm-landingpage-wrapper .hm-landingpage .contactus {
-  background: #c4c4c4;
-  background: -webkit-linear-gradient(#e1e1e1, #c4c4c4);
-  background: -o-linear-gradient(#e1e1e1, #c4c4c4);
-  background: -moz-linear-gradient(#e1e1e1, #c4c4c4);
-  background: linear-gradient(#e1e1e1, #c4c4c4);
+  background: #fc6;
+  background: -webkit-linear-gradient(#fc6, #fa0);
+  background: -o-linear-gradient(#fc6, #fa0);
+  background: -moz-linear-gradient(#fc6, #fa0);
+  background: linear-gradient(#fc6, #fa0);
   padding: 5px 20px;
+  border-radius: 0 0 39px 39px;
 }
 .hm-landingpage-wrapper .hm-landingpage .contactus a.btn, .hm-landingpage-wrapper .hm-landingpage .contactus .panel .panel-item .panel-item-block .btn-group a.btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .hm-landingpage-wrapper .hm-landingpage .contactus a.btn.flyer-qty-btn,
 .hm-landingpage-wrapper .hm-landingpage .contactus .panel .panel-item .panel-item-block .input-group a.btn.flyer-qty-btn,
@@ -10009,18 +10005,34 @@ div.asset-upload {
   padding-right: 5px;
 }
 .hm-landingpage-wrapper .hm-landingpage .location .text {
-  font-size: 12px;
+  font-weight: 800;
+  font-size: 14px;
 }
 .hm-landingpage-wrapper .hm-landingpage .btn-close {
   position: absolute;
   width: 100%;
-  text-align: right;
-  margin-top: -15px;
+  margin-top: 2px;
+  display: flex;
+  justify-content: flex-end;
 }
 .hm-landingpage-wrapper .hm-landingpage .btn-close .btn, .hm-landingpage-wrapper .hm-landingpage .btn-close .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn, .panel .panel-item .panel-item-block .btn-group .hm-landingpage-wrapper .hm-landingpage .btn-close .btn.flyer-qty-btn,
 .hm-landingpage-wrapper .hm-landingpage .btn-close .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn,
 .panel .panel-item .panel-item-block .input-group .hm-landingpage-wrapper .hm-landingpage .btn-close .btn.flyer-qty-btn {
-  margin-right: -5px;
+  margin-right: -7px;
+  background-color: #d20;
+  color: white;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+}
+.hm-landingpage-wrapper .hm-landingpage .btn-close .btn svg, .hm-landingpage-wrapper .hm-landingpage .btn-close .panel .panel-item .panel-item-block .btn-group .btn.flyer-qty-btn svg, .panel .panel-item .panel-item-block .btn-group .hm-landingpage-wrapper .hm-landingpage .btn-close .btn.flyer-qty-btn svg,
+.hm-landingpage-wrapper .hm-landingpage .btn-close .panel .panel-item .panel-item-block .input-group .btn.flyer-qty-btn svg,
+.panel .panel-item .panel-item-block .input-group .hm-landingpage-wrapper .hm-landingpage .btn-close .btn.flyer-qty-btn svg {
+  font-size: 150%;
+  margin-left: 1px;
 }
 
 @media screen and (max-width: 544px) {

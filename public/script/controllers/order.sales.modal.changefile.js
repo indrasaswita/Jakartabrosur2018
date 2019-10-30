@@ -24,14 +24,13 @@ module.exports = function(app) {
 								} else {
 									$scope.errormessage = "Error message cannot be displayed.";
 								}
-								whendone(response.data);
 							} else {
 								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
 							}
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function)
+							whendone(response.data);
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
@@ -39,18 +38,6 @@ module.exports = function(app) {
 						whendone(null);
 					});
 				}
-			}
-
-			$scope.saveandclose = function() {
-				$scope.savechangefile(function($result) {
-					if ($result == null) {
-						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
-					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
-						$("#changeFileModal").modal('hide');
-					}
-				});
 			}
 
 			$scope.removecartfile = function() {

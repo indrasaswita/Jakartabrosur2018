@@ -7,13 +7,12 @@
 <div ng-controller="HomePageController">
 	@if(!Session::has('role'))
 		@if(Cookie::get('landing') != 'waiting')
-			<?php //Cookie::queue('landing', '', 1) ?>
+			<?php //Cookie::queue('landing', '', 0.001) ?>
 	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
 		<div class="hm-landingpage modal-dialog" role="document">
 			<div class="btn-close">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
-					<i class="fal fa-times tx-red"></i>
-					Close
+					<i class="fas fa-times"></i>
 				</button>
 			</div>
 			<div class="logo disable-select">

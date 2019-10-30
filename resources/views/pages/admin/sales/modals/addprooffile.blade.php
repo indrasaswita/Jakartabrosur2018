@@ -11,17 +11,11 @@
 				</div>
 				<div class="modal-body">
 					<table class="table table-sm table-custom-allsales">
-						<thead>
-							<tr>
-								<th class="width-min text-xs-center">Preview</th>
-								<th>File</th>
-							</tr>
-						</thead>
 						<tbody ng-repeat="item3 in selectedsalesdetail.cartheader.cartpreview" class="text-v-center">
 							<tr>
-								<td rowspan="3">
+								<td class="width-min" rowspan="3">
 									<div class="break-word">
-										<img ng-src="{{URL::asset('[[item3.file.icon]]')}}" alt="No Preview" height="70px" width="70px" class="img-rounded margin-5">
+										<img ng-src="{{URL::asset('')}}image/ext/[[item3.file.path.substring(item3.file.path.lastIndexOf('.')+1)]].png" alt="No Preview" height="70px" width="70px" class="img-rounded margin-5">
 										<br>
 										<!-- <a class="a-purple" href="" ng-click="uploadpreviewClick(item3.file.id)">
 											<span class="fas fa-cloud-upload"></span> Upload

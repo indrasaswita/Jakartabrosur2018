@@ -290,7 +290,7 @@
 														</td>
 														<td class="text-xs-left" colspan="3">
 															<i class="tx-lightgray fas fa-location-arrow"></i> 
-															<span ng-hide="item2.cartheader.deliveryaddress.length==0">
+															<span ng-if="item2.cartheader.deliveryaddressID!=null">
 
 																[[item2.cartheader.deliveryaddress.name]], [[item2.cartheader.deliveryaddress.address]], [[item2.cartheader.deliveryaddress.city.name]] 
 
@@ -299,7 +299,7 @@
 																</span>
 																
 															</span>
-															<span ng-show="item2.cartheader.deliveryaddress.length==0">
+															<span ng-if="item2.cartheader.deliveryaddressID==null">
 																Tidak tercantum alamat!
 															</span>
 														</td>

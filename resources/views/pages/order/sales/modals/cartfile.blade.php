@@ -1,6 +1,6 @@
 
 <div class="sales-modal-cartfile" ng-controller="SalesChangefileController">
-	<div class="modal fade" id="viewcartfile-modal" tabindex="-1" role="dialog">
+	<div class="modal fade" id="changeFileModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -66,7 +66,7 @@
 					  <div class="progress-bar progress-bar-striped bg-purple progress-bar-animated" role="progressbar" style="width: 100%"></div>
 					</div>
 
-					<div class="action-btn">
+					<div class="action-btn" ng-if="!ondeleteprocess">
 						<button class="btn btn-sm btn-outline-purple" ng-click="choosefileclicked()" ng-if="!selectedSalesdetail.commited">
 							<span ng-if="!savechangeloading">
 								upload revisi
@@ -96,9 +96,32 @@
 							</span>
 						</a>
 
+						<button class="btn btn-sm btn-danger" ng-click="setdelete()" ng-if="!selectedSalesdetail.commited">
+							<span ng-if="!savechangeloading">
+								delete file
+							</span>
+							<span ng-if="savechangeloading">
+								<i class="fas fa-spinner fa-pulse fa-fw"></i>
+								Loading...
+							</span>
+						</button>
+					</div>
+					<div ng-if="ondeleteprocess" class="text-xs-center line-12">
+						Yakin mau delete?<br>
+						Tidak bisa di UNDO..<br>
+						<small>(setelah delete, file bisa di pilih lagi untuk pemesanan lainnya.)</small><br><br>
 						<button class="btn btn-sm btn-danger" ng-click="removecartfile()" ng-if="!selectedSalesdetail.commited">
 							<span ng-if="!savechangeloading">
 								delete file
+							</span>
+							<span ng-if="savechangeloading">
+								<i class="fas fa-spinner fa-pulse fa-fw"></i>
+								Loading...
+							</span>
+						</button>
+						<button class="btn btn-sm btn-secondary" ng-click="unsetdelete()" ng-if="!selectedSalesdetail.commited">
+							<span ng-if="!savechangeloading">
+								cancel
 							</span>
 							<span ng-if="savechangeloading">
 								<i class="fas fa-spinner fa-pulse fa-fw"></i>

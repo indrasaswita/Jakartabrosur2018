@@ -44,9 +44,9 @@
 						</tr>
 						<tr class="content-detail detail-item">
 							<td class="" colspan="10">
-								<div class="detail">
-									<b>[[detail.cartheader.delivery.deliveryname]]</b><br>[[detail.cartheader.deliveryaddress]]
-									<div class="tx-red" ng-show="detail.cartheader.customernote.length > 5">
+								<div class="detail line-11">
+									<b>[[detail.cartheader.delivery.deliveryname]]</b><br>Permintaan pengiriman ke [[detail.cartheader.deliveryaddress.address]], [[detail.cartheader.deliveryaddress.city.name]]
+									<div class="tx-red" ng-show="detail.cartheader.customernote.length > 3">
 										[[detail.cartheader.customernote]]
 									</div>
 								</div>
@@ -64,8 +64,7 @@
 					<b>lengkapi pengiriman, dibawah</b>
 					<i class="fa fa-hand-o-down"></i>
 				</div>
-				[[newdelivery.deliverydetail.length]]
-				<table class="table table-sm table-custom-allsales">
+				<table class="table table-sm table-custom-allsales" ng-show="newdelivery.deliverydetail.length>0">
 					<thead class="text-center">
 						<tr>
 							<th class="width-min">#</th>
@@ -122,7 +121,7 @@
 					</tbody>
 				</table>
 
-				<table class="table table-sm table-custom-allsales">
+				<table class="table table-sm table-custom-allsales" ng-show="newdelivery.deliverydetail.length>0">
 					<tbody>
 						<tr>
 							<td>
@@ -140,12 +139,12 @@
 								<select class="form-control form-control-sm" ng-model="newdelivery.employeeID" ng-options="item.id as item.name for item in couriers"></select>
 							</td>
 						</tr>
-						<tr class="" ng-hide="newdelivery.deliveryID==1">
+						<tr class="">
 							<td>
 								Alamat
 							</td>
 							<td>
-								<input type="text" class="form-control-sm form-control" ng-model="newdelivery.deliveryaddress" placeholder="Alamat Kirim">
+								<select class="form-control-sm form-control" ng-model="newdelivery.deliveryaddressID" ng-options="item.addressID as item.address.address+', '+item.address.city.name+' ['+item.address.name+']' for item in headers[selectedheaderindex].customer.customeraddress">
 							</td>
 						</tr>
 						<tr class="">

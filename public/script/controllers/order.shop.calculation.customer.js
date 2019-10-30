@@ -67,6 +67,27 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
+			$scope.setInputFilter = function(textbox, inputFilter) {
+			  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+			    textbox.oldValue = "";
+			    textbox.addEventListener(event, function() {
+			      if (inputFilter(this.value)) {
+			        this.oldValue = this.value;
+			        this.oldSelectionStart = this.selectionStart;
+			        this.oldSelectionEnd = this.selectionEnd;
+			      } else if (this.hasOwnProperty("oldValue")) {
+			        this.value = this.oldValue;
+			        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			      }
+			    });
+			  });
+			}
+
+			// Restrict input to digits and '.' by using a regular expression filter.
+			$scope.setInputFilter(document.getElementById("quantity"), function(value) {
+			  return /^\d*$/.test(value);
+			});
+
 			$(document).ready(function() {
 				$scope.selectTab("calculation");
 				var url = document.location.toString();

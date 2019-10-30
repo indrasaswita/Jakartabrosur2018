@@ -547,11 +547,13 @@ module.exports = function(app){
 				{
 					console.log('tidak boleh 0');
 				}
-				else
+				else if($scope.selectedheader.id==null){
+					console.log("salesID is null");
+				}else
 				{
 					$http({
 						"method" 	: "POST",
-						"url" 		: API_URL+"admin/payment/"+$scope.selectedheader.salesID,
+						"url" 		: AJAX_URL+"admin/payment/"+$scope.selectedheader.id,
 						"data"		: {
 							"ammount" : $scope.selectedammount,
 							"custacc"	: $scope.selectedcustacc.id,
@@ -768,7 +770,7 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'bankaccs/customer/' + $customerID
+						url : AJAX_URL + 'bankaccs/customer/' + $customerID
 					}
 				).then(function(response) {
 					if(response.data != null)
@@ -778,10 +780,19 @@ module.exports = function(app){
 							if($scope.customerbankaccs.length>0)
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
+				}, function(error){
+					console.log(error.message);
 				});
 			};
 
-			$scope.fillCompanyBankAccs();
+			$scope.fillCompanyBankAccs(function(response){
+				$scope.companybankaccs = response;
+				if($scope.companybankaccs != null){
+					if($scope.companybankaccs.length > 0){
+						$scope.selectedcompacc = $scope.companybankaccs[0];
+					}
+				}
+			});
 
 			$scope.verify = function()
 			{
@@ -921,8 +932,8 @@ module.exports = function(app){
 						console.log(response);
 					}
 					$scope.uploadwaiting = false;
-					$scope.allowed();
-				}).error(function(error) {
+					//$scope.allowed();
+				}, function(error) {
 					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});

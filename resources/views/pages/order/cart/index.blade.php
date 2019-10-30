@@ -27,10 +27,11 @@
 @endif
 
 @if(app('request')->input('c') != null)
-<div ng-init="initSelectedID('{{app('request')->input('c')}}')"></div>
+	<div ng-init="initSelectedID('{{app('request')->input('c')}}')"></div>
 @endif
+
 @if(app('request')->input('d') != null)
-<div ng-init="initSelectedDetail('{{app('request')->input('d')}}')"></div>
+	<div ng-init="initSelectedDetail('{{app('request')->input('d')}}')"></div>
 @endif
 	
 @include('includes.nav.subnav')

@@ -58,7 +58,7 @@
 									<span class="fas fa-minus"></span>
 								</button>
 							</span>
-							<input type="text" class="form-control text-xs-center" value="[[selected.quantity|number:0]] [[datas.satuan]]" disabled>
+							<input type="text" id="quantity" class="form-control text-xs-center" ng-model="selected.quantity">
 							<span class="input-group-btn">
 								<button class="btn btn-secondary" ng-click="increment(datas.stepqty)">
 									<span class="fas fa-plus"></span>

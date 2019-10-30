@@ -14,15 +14,15 @@
 					<thead class="text-center">
 						<tr>
 							<th class="">Judul</th>
-							<th class="">Qty</th>
-							<th class="">Koli</th>
+							<th>Qty</th>
+							<th class="hidden-sm-down">Koli</th>
 							<th class="width-min"></th>
 						</tr>
 					</thead>
 					<tbody ng-repeat="detail in selecteddelivery.salesdeliverydetail">
 						<tr class="content-header text-center">
 							<td>[[detail.salesdetail.cartheader.jobtitle]]</td>
-							<td class="hidden-sm-down">[[detail.quantity|number:0]] [[detail.salesdetail.cartheader.quantitytypename]]</td>
+							<td>[[detail.salesdetail.cartheader.quantity|number:0]] [[detail.salesdetail.cartheader.quantitytypename]]</td>
 							<td class="hidden-sm-down">[[detail.totalpackage|number:0]] koli</td>
 							<td>
 								<button class="btn btn-outline-purple btn-sm" ng-click="detail.deliveryshow=reversestatus(detail.deliveryshow)">

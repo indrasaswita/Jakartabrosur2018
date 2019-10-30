@@ -1,5 +1,5 @@
 @extends('layouts.container') @section('title', 'Proses & Pembayaran') @section('robots', 'noindex,nofollow') @section('content')
-<!-- <form> -->
+
 <div ng-controller="AllSalesController" class="sales-employee-wrapper">
 
 	@if(isset($allsales))
@@ -40,6 +40,14 @@
 				<!--  ng-bind-html="allsalespagetitle"> -->
 				<i class="far fa-bags-shopping fa-fw"></i> Transaction Overview
 			</div>
+
+			<form action="/" method="post" id="is-uploader" enctype="multipart/form-data" hidden>
+				@method('patch')
+				@csrf
+
+				<input name="file" id="btn-choose-file2" type="file"  ng-disabled="uploadwaiting" ng-if="!uploadwaiting" >
+			</form>
+
 			<div class="margin-0">
 				<div class="btn-filter-scroll-x">
 					<a href="" ng-click="setselectedfilter(item.link, true)" ng-class="{'active':item.link==selectedfilter}" class="btn ease" ng-repeat="item in filters">
@@ -236,7 +244,7 @@
 														DATA GAMBAR & FILE
 														<i class="fab fa-adobe fa-fw"></i>
 													</div>
-													<div class="detail-card-text">
+													<div class="detail-card-text" ng-if="salesdetail.cartheader.cartfile.length>0">
 														<div class="detail ease" ng-repeat="cfile in salesdetail.cartheader.cartfile" ng-click="showselectedfile(cfile.file, salesdetail.cartheader, salesdetail)">
 															<div class="icon">
 																<i class="fal fa-copy fa-fw fa-2x"></i>
@@ -267,6 +275,15 @@
 																</div>
 															</div>
 														</div>
+													</div>
+													<div ng-if="salesdetail.cartheader.cartfile.length==0" class="line-12 text-xs-center">
+														<br>
+
+														<i class="fas fa-eye-slash fa-fw tx-warning fa-3x"></i><br><br>
+														TIDAK ADA DATA YANG DIUPLOAD<br>
+														<small>
+															untuk kirim file, dapat menghubungi Call Center kami.
+														</small>
 													</div>
 												</div>
 											</div>
@@ -363,17 +380,24 @@
 																</span>
 															</div>
 														</div>
-														<div class="detail text-xs-center" ng-if="item.totalprice<=item.totalpay">
-															<button class="btn btn-sm btn-outline-purple">
+														<div class="detail text-xs-center" ng-if="item.totalprice<=item.totalpay&&salesdetail.commited==0">
+															<button class="btn btn-sm btn-outline-purple" ng-click="commit(salesdetail)">
 																Ya setuju, kerjakan dan proses cetak.
 															</button>
+
+															<div ng-if="salesdetail.commiterror!=null">
+																<div class="line-12" ng-if="salesdetail.commiterror.length>0">
+																	<br><br>
+																	[[salesdetail.commiterror]]
+																</div>
+															</div>
 														</div>
 														<div class="detail text-xs-center" ng-if="item.totalprice>item.totalpay">
 															<button class="btn btn-sm btn-outline-purple" ng-click="linkmakepayment(item)">
 																Buat Pembayaran
 															</button>
 														</div>
-														<div class="alert alert-sm" ng-if="item.totalprice<=item.totalpay">
+														<div class="alert alert-sm margin-top-10" ng-if="item.totalprice<=item.totalpay">
 															Setelah setuju (commit) dengan hasil dummy (preview),
 															<ol>
 																<li>Proses dijalankan.</li>
@@ -819,6 +843,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div ng-if="selectedfilter == -1">
 			FILTER WASNT SET YET
 		</div>
@@ -840,5 +865,5 @@
 		</div>
 		@endif
 </div>
-<!-- </form> -->
+
 @stop
