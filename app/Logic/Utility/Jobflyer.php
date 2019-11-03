@@ -106,6 +106,10 @@ class Jobflyer extends Job
 			"finishingprice"=>0,
 		);
 
+		if($sdp==1 && $printtype == 'DG'){
+			$data['total']['disc'] = $totalprice * 10/100;
+		}
+
 		$this->data = $data;
 
 		return null;
