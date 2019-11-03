@@ -75,7 +75,9 @@ module.exports = function(app){
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
 				try{
-					$('#landingpage').modal('show'); //dihome page
+					if ($('#landingpage').exists()) {
+						$('#landingpage').modal('show'); //dihome page
+					}
 				}catch(e){
 					console.log("Landing page error - runtime error");
 				}

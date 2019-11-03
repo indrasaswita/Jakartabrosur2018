@@ -3,10 +3,6 @@
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->
 
-		<button class="btn btn-sm btn-purple" ng-click="hapusbro()" ng-if="role=='employee'">
-			MAKE URL
-		</button>
-
 		<div class="block-list">
 			<div class="input">
 				<div class="main">
@@ -58,7 +54,10 @@
 									<span class="fas fa-minus"></span>
 								</button>
 							</span>
-							<input type="text" id="quantity" class="form-control text-xs-center" ng-model="selected.quantity">
+							<input type="number" id="quantity" class="form-control text-xs-center" ng-model="selected.quantity" ng-change="selected.quantity=num_validation(selected.quantity, 0, datas.maxqty, 1);getPrice();">
+							<span class="input-group-addon">
+								[[datas.satuan]]
+							</span>
 							<span class="input-group-btn">
 								<button class="btn btn-secondary" ng-click="increment(datas.stepqty)">
 									<span class="fas fa-plus"></span>
@@ -96,11 +95,11 @@
 					</div>
 					<div class="input-block" ng-class="{'border-red':selected.size.width==null||selected.size.width==0||selected.size.length==null||selected.size.length==0}" ng-show="customsize">
 						<div class="input-group">
-					<input type="number" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 1, 10000, 0.01)" ng-blur="getPrice()">
+							<input type="number" id="customwidth" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 0, 10000, 0.01)" ng-blur="selected.size.width=checkIfMin(selected.size.width, 3)">
 							<span class="input-group-addon">
 								<span class="fas fa-times"></span>
 							</span>
-							<input type="number" class="form-control" ng-model="selected.size.length"  ng-change="selected.size.length=num_validation(selected.size.length, 1, 10000, 0.01)" ng-blur="getPrice()">
+							<input type="number" id="customlength" class="form-control" ng-model="selected.size.length"  ng-change="selected.size.length=num_validation(selected.size.length, 0, 10000, 0.01)" ng-blur="selected.size.length=checkIfMin(selected.size.length, 3)">
 							<div class="input-group-btn" ng-show="standardsize">
 								<button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="fas fa-chevron-down"></span>

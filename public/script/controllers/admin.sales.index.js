@@ -941,6 +941,161 @@ module.exports = function(app){
 				//buat apus file abis d input
 				//$scope.clearFileInput('file');
 			}
+
+
+			$scope.printworkorder = function(item){
+				console.log(item);
+				var linewidth = 1;
+
+				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+					'resizable,screenX=450,screenY=0,width=270,height=500';
+
+				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
+
+				var scss = "<style type='text/css' media='print'>"
+						+"@page "
+						+"{ "
+						+"	size: auto; "
+						+" margin: 0mm; "
+						+"}"
+						+"</style>"
+						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
+						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
+						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+				//scss to remove HEADER AND FOOTER
+
+				var prebarcode = app.logoforprint;
+
+
+				prebarcode += 'Nomor Job. ' + $scope.zeroFill(item.id, 4) + ' -- ' 
+					+ $scope.zeroFill(item.created_at.getDate(), 2)+'/'+$scope.zeroFill(item.created_at.getMonth(), 2)+'/'+item.created_at.getFullYear()+'<br>'
+					+ item.customer.name + ' '
+					+ item.customer.phone1 + '<br><br>';
+				prebarcode += item.paymentdetail;
+
+				var afterbarcode = "<div class='barcode-label'>";
+
+				var barcode = "";
+				barcode = '110'+$scope.zeroFill(item.id, 8);
+				
+				afterbarcode += '</div>';
+				prebarcode += '<br>';
+
+
+				afterbarcode += '<hr class="solid">';
+				$.each(item.salesdetail, function($i, $salesdetail){
+					afterbarcode += '<div class="title">'
+						+ $salesdetail.cartheader.jobsubtype.name
+						+ ' <b>' + $salesdetail.cartheader.jobtitle
+						+ '</b></div>'
+						+	'<div class="">'
+						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+						+ ' ' + $salesdetail.cartheader.quantitytypename;
+
+					afterbarcode += '<span class="pull-xs-right">'
+						+ $salesdetail.cartheader.cartfile.length
+						+ ' files.'
+						+ '</span>';
+
+					afterbarcode += '</div>';
+					if($salesdetail.cartheader.cartfile.length>1){
+						$.each($salesdetail.cartheader.cartdetail, function($j, $cartfile){
+							afterbarcode += '<div>'
+								+ 'Nama file: '
+								+ $cartfile.file.filename 
+								+ '</div>';
+						});
+					}
+
+
+					$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+						afterbarcode += '<div class="detail">';
+
+						if($salesdetail.cartheader.cartdetail.length>1)
+							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
+
+						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+						 + ' ' + $cartdetail.printer.machinename + '<br>'
+							+ $cartdetail.totaldruct + ' druct'
+							+ ' +ins. '
+							+ $cartdetail.inschiet + '<br>'
+							+ 'AREA JADI&nbsp; : ' + $cartdetail['imagewidth']
+							+ ' x ' + $cartdetail['imagelength'] + ' CM <br>'
+							+ '> Susunan ' + $cartdetail.totalinprintx + ' x ' + $cartdetail.totalinprinty + ' + ' + $cartdetail.totalinprintrest + ' = '+$cartdetail.totalinprint+'<br>'
+							+ 'Uk. Kertas : ' + $cartdetail['printwidth']
+							+ ' x ' + $cartdetail['printlength'] + ' CM <br>'
+							+ 'Uk. PLANO&nbsp; : ' + $cartdetail['plano']['width']
+							+ ' x ' + $cartdetail['plano']['length'] + ' CM'
+							+ '<hr class="dashed">'
+							+ $cartdetail.paper.papertype.name + ': '
+							+ $cartdetail.paper.name + ' '
+							+ $cartdetail.paper.color + ' '
+							+ $cartdetail.paper.gramature + 'gsm <br>'
+							+ $cartdetail.vendor.name + ' '
+							+ $cartdetail.vendor.phone1 + '<br>'
+							+ 'Beli ' + $cartdetail.totalplano.toString().addThousandSeparator() + ' plano belah '+$cartdetail.totalinplano+'<br>'
+							+ '> Pembagian ' + $cartdetail.totalinplanox + ' x ' + $cartdetail.totalinplanoy + ' + ' + $cartdetail.totalinplanorest + ' = '+$cartdetail.totalinplano+'<br>'
+							+ 'Kira-kira Rp ' + $cartdetail.totalpaperprice.toString().addThousandSeparator()
+							+ '<hr class="dashed">';
+
+						if($cartdetail.employeenote.length > 1){
+							afterbarcode += 'Catatan kerja, '
+							+ $cartdetail.employeenote + '.'
+						}
+
+
+						$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+							afterbarcode += '<div class="">'
+								+	'- ' + $cartdetailfinishing.finishing.name
+								+ ', '
+								+ $cartdetailfinishing.finishingoption.optionname
+								+ '</div>';
+						});
+
+						afterbarcode += '</div>';
+					});
+					afterbarcode += '<hr class="solid">';
+				});
+
+				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';
+
+				var htmlPop = scss
+						+ '<div class="view-small-invoice">'
+						+	prebarcode
+						+ '<div class="text-xs-center">'
+						+ '	<svg class="barcode"'
+						+	'		jsbarcode-format="upc"'
+						+	'		jsbarcode-value="'+barcode+'"'
+						+	'		jsbarcode-textmargin="0"'
+						+	'		jsbarcode-margintop="5"'
+						+	'		jsbarcode-marginright="0"'
+						+	'		jsbarcode-marginbottom="2"'
+						+	'		jsbarcode-marginleft="0"'
+						+	'		jsbarcode-height="25"'
+						+	'		jsbarcode-fontsize="10"'
+						+	'		jsbarcode-fontoptions="normal">'
+						+	'	</svg>'
+						+ '</div>'
+						+ afterbarcode
+						+ '</div>'
+						+ '<script>'
+						+ 'JsBarcode(".barcode").init();'
+						+ '</script>'; 
+
+				var printWindow = window.open ("", "PDF", winparams);
+				printWindow.document.write (scss+htmlPop);
+				printWindow.document.close();
+
+				var intv = setInterval(function(){
+					printWindow.focus();
+					printWindow.print();
+					clearInterval(intv);
+					//printWindow.close();
+				}, 200);
+			}
+
+
 		}
 	]);
 };

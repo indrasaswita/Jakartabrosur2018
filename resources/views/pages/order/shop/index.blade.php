@@ -5,11 +5,16 @@
 @section('content')
 
 <div>
-	
-	<!-- <div class="order-panel-header">
-		<div class="panel-title">{{$datas['name']}}</div>
-		<div class="panel-subtitle">SEGERA HITUNG KEBUTUHAN ANDA DISINI</div>
-	</div> -->
+	<button class="btn btn-sm btn-purple" ng-click="getCurrentURL()" ng-if="role=='employee'">
+		MAKE URL
+	</button>
+	<button class="btn btn-sm btn-purple" ng-click="sendUrl()" ng-if="role=='employee'">
+		<i class="fab fa-whatsapp fa-fw"></i>
+		Send URL
+	</button>
+</div>
+
+<div>
 	
 	<div class="order-panel-tabs">
 		<ul class="nav nav-tabs">

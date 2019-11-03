@@ -83,7 +83,10 @@
 								<div class="txt">
 									DETAIL BARANG dan FILE
 								</div>
-								<a href="{{URL::asset('sales/workorder/pdf')}}/[[item.salesID]]" class="a-purple float-right text-regular txt" target="_blank" data-toggle="tooltip" data-title="print WO" data-placement="left">
+								<a href="{{URL::asset('sales/workorder/pdf')}}/[[item.id]]" class="a-purple float-right txt" target="_blank">
+									<i class="fas fa-print"></i> Go to WO!
+								</a>
+								<a href="" class="a-purple float-right txt" ng-click="printworkorder(item)">
 									<i class="fas fa-print"></i> Print WO!
 								</a>
 							</div>

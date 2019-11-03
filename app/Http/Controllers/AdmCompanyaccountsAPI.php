@@ -23,10 +23,10 @@ class AdmCompanyaccountsAPI extends Controller
 		return $datas;
 	}
 
-	public function mutasi_mandiri (Request $request, $accid){
-		$ipaddress = $request->all();
+	public function mutasi_mandiri (Request $request){
+		$datas = $request->all();
 
-		$mandiri = new MandiriOnline($ipaddress);
+		$mandiri = new MandiriOnline($datas);
 		$mandiri->random_number();
 		$res = $mandiri->login();
 

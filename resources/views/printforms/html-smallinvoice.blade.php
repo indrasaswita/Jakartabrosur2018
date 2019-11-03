@@ -1,5 +1,5 @@
 @extends('layouts.directprint')
-
+@section('title', 'Admin Print Invoice')
 @section('content')
 
 <div ng-controller="AllSmallInvoiceController" class="view-small-invoice">
@@ -15,28 +15,23 @@
 	@endif
 
 	<div class="view-wrapper">
+
 		<div class="invoice-small">
 			<div class="title">
-				SMALL INVOICE
+				NOTA 54
 			</div>
 
-			<div id="invoice" class="invoice">
-				<div>
-					<?php
-						$forpayment = sprintf("112%08d", $sales["id"]);
-						$viewpayment = sprintf("114%08d", $sales["id"]);
-					?>
-
-
-					<div id="card">
-						<img src='data:image/png;base64, {{DNS1D::getBarcodePNG($viewpayment, "EAN13")}}' alt='barcode' width="100%" ng-if="sales.totalpay>=sales.totalsales" />
-						<img src='data:image/png;base64, {{DNS1D::getBarcodePNG($forpayment, "EAN13")}}' alt='barcode' width="100%" ng-if="sales.totalpay<sales.totalsales" />
-					</div>
-				</div>
+			<button class="btn btn-sm btn-outline-purple" ng-click='printCard54()'>
+				Cetak Nota 54
+			</button>
+		</div>
+		<div class="invoice-small">
+			<div class="title">
+				INVOICE 80
 			</div>
 
-			<button class="btn btn-sm btn-outline-purple" ng-click='printCard()'>
-				Cetak Nota Kecil
+			<button class="btn btn-sm btn-outline-purple" ng-click='printCard80()'>
+				Cetak Nota 80
 			</button>
 		</div>
 		<div class="invoice-large">

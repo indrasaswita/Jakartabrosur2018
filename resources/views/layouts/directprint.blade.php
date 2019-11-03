@@ -8,7 +8,6 @@
   <meta name="keywords" content="@yield('keywords')">
   <meta name="robots" content="" nt="@yield('robots')">
   @include('includes.head')
-  <script type="text/javascript" src="{{URL::asset('script\node_modules\html2canvas\dist\html2canvas.js')}}"></script>
 </head>
 <body ng-app="jakartabrosur" class="bg-faded">
 @include('layouts.preloader-wrapper')

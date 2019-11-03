@@ -160,6 +160,7 @@ Route::group    (['middleware'=>['employee']], function(){
 
 
 	Route::get('notification', 'NotificationController@index'); // di customer juga ada
+	Route::get("admin/companybankacc/mutasi", "AdmCompanyaccountsController@index");
 });
 
 
@@ -329,7 +330,7 @@ Route::group(['middleware'=>"customerAPI"], function(){
 
 
 //SEMUA BISA AMBIL
-Route::get('AJAX/compaccs',  "CompanyBankAccAJAX@getAll");
+Route::get('AJAX/compaccs',  "CompanybankaccAJAX@getAll");
 
 
 Route::get('API/banks', ["as"=>"api.bank", "uses"=>"BankAPI@getAll"]);

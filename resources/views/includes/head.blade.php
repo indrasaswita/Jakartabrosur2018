@@ -24,9 +24,9 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144197477-1"></script>
 
-<script type="text/javascript" src="{{URL::asset('js/tether-1.3.3.min.js')}}"></script>
+<script async type="text/javascript" src="{{URL::asset('js/tether-1.3.3.min.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/script.js')}}?version=2.6.4"></script> <!-- NPM -->
-<script type="text/javascript" src="{{URL::asset('js/fontawesome-all.min.js')}}?version=5.10.1"></script>
+<script async type="text/javascript" src="{{URL::asset('js/fontawesome-all.min.js')}}?version=5.10.1"></script>
 <script async type="text/javascript" src="{{URL::asset('js/handlebars-v4.0.11.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/typeahead.bundle.min.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>

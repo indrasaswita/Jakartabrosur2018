@@ -59,7 +59,7 @@ class AdmSalesdeliveryAPI extends Controller
         $header = Salesdelivery::findOrFail($data['id']);
         $header->employeeID = $data['employeeID'];
         $header->receiver = $data['receiver'];
-        $header->address = $data['address'];
+        $header->addressID = $data['addressID'];
         $header->deliveryID = $data['deliveryID'];
         $header->suratno = $data['suratno'];
         $header->suratimage = $data['suratimage'];
