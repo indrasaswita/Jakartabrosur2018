@@ -13893,6 +13893,11 @@ var app = require("./init");
 require('./constants/variable')(app);
 require('./constants/analytics')(app);
 
+require('./constants/mandiri_loginmerged2')(app);
+require('./constants/logo-for-print')(app);
+
+
+
 //require("./route")(app);
 
 
@@ -13930,6 +13935,7 @@ require("./controllers/order.sales.history")(app);
 
 //ADMIN + CUSTOMER ORDER
 require("./controllers/allacc.sales.cartheader")(app);
+require("./controllers/allacc.printforms.smallinvoice")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -13937,6 +13943,7 @@ require("./controllers/admin.cart.index")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
+require('./controllers/admin.master.compaccs.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
 require("./controllers/admin.master.paper.paperdetailstore")(app);
@@ -13949,6 +13956,7 @@ require("./controllers/admin.master.jobsizes")(app);
 require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
+require("./controllers/admin.master.customer.addusernopass")(app);
 require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);
@@ -13969,31 +13977,1176 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":52,"./constants/variable":53,"./controllers/account.login":54,"./controllers/account.notification":55,"./controllers/account.profiles":56,"./controllers/account.resendemail":57,"./controllers/account.signup":58,"./controllers/admin.cart.addbyadmin":59,"./controllers/admin.cart.index":60,"./controllers/admin.changetheworld.index":61,"./controllers/admin.master.customer.index":62,"./controllers/admin.master.customer.pendingcompany":63,"./controllers/admin.master.finishing.index":64,"./controllers/admin.master.jobactivation":65,"./controllers/admin.master.jobeditor":66,"./controllers/admin.master.jobfinishings":67,"./controllers/admin.master.jobpapers":68,"./controllers/admin.master.jobquantities":69,"./controllers/admin.master.jobsizes":70,"./controllers/admin.master.onesignal.index":71,"./controllers/admin.master.paper.changeprice":72,"./controllers/admin.master.paper.newpaper":73,"./controllers/admin.master.paper.paperdetailstore":74,"./controllers/admin.master.pricetext.index":75,"./controllers/admin.master.shoppricing":76,"./controllers/admin.master.vendor.index":77,"./controllers/admin.master.verifcustomer":78,"./controllers/admin.sales.index":79,"./controllers/admin.tracking.index":80,"./controllers/aice.index":81,"./controllers/allacc.sales.cartheader":82,"./controllers/createheader":83,"./controllers/description":84,"./controllers/global.includes.floatingcontact":85,"./controllers/global.nav.header":86,"./controllers/godhands":87,"./controllers/home":88,"./controllers/includes.modals.compaccno":89,"./controllers/includes.nav.subnav":90,"./controllers/main":91,"./controllers/order.cart.index":92,"./controllers/order.cart.modal.addfile":93,"./controllers/order.cart.modal.changefile":94,"./controllers/order.sales.commit":95,"./controllers/order.sales.history":96,"./controllers/order.sales.index":97,"./controllers/order.sales.modal.changefile":98,"./controllers/order.sales.modal.confirm":99,"./controllers/order.sales.modal.cust-selectbank":100,"./controllers/order.sales.modal.showpreview":101,"./controllers/order.shop.calculation.customer":102,"./controllers/order.shop.create.page":103,"./controllers/order.shop.lists.customer":104,"./controllers/roles":105,"./controllers/salespaymentconfirm":106,"./controllers/salespayments":107,"./controllers/trackingcustomer":108,"./customs/sticky-shop-total":109,"./directives/bootstrap-select-addon":110,"./directives/bootstrap-tooltip":111,"./directives/pagination/dirPagination":112,"./init":113,"angular":123,"angular-cookies":115,"angular-resource":117,"angular-route":119,"angular-sanitize":121,"node-gzip":124}],52:[function(require,module,exports){
+},{"./constants/analytics":52,"./constants/logo-for-print":53,"./constants/mandiri_loginmerged2":54,"./constants/variable":55,"./controllers/account.login":56,"./controllers/account.notification":57,"./controllers/account.profiles":58,"./controllers/account.resendemail":59,"./controllers/account.signup":60,"./controllers/admin.cart.addbyadmin":61,"./controllers/admin.cart.index":62,"./controllers/admin.changetheworld.index":63,"./controllers/admin.master.compaccs.index":64,"./controllers/admin.master.customer.addusernopass":65,"./controllers/admin.master.customer.index":66,"./controllers/admin.master.customer.pendingcompany":67,"./controllers/admin.master.finishing.index":68,"./controllers/admin.master.jobactivation":69,"./controllers/admin.master.jobeditor":70,"./controllers/admin.master.jobfinishings":71,"./controllers/admin.master.jobpapers":72,"./controllers/admin.master.jobquantities":73,"./controllers/admin.master.jobsizes":74,"./controllers/admin.master.onesignal.index":75,"./controllers/admin.master.paper.changeprice":76,"./controllers/admin.master.paper.newpaper":77,"./controllers/admin.master.paper.paperdetailstore":78,"./controllers/admin.master.pricetext.index":79,"./controllers/admin.master.shoppricing":80,"./controllers/admin.master.vendor.index":81,"./controllers/admin.master.verifcustomer":82,"./controllers/admin.sales.index":83,"./controllers/admin.tracking.index":84,"./controllers/aice.index":85,"./controllers/allacc.printforms.smallinvoice":86,"./controllers/allacc.sales.cartheader":87,"./controllers/createheader":88,"./controllers/description":89,"./controllers/global.includes.floatingcontact":90,"./controllers/global.nav.header":91,"./controllers/godhands":92,"./controllers/home":93,"./controllers/includes.modals.compaccno":94,"./controllers/includes.nav.subnav":95,"./controllers/main":96,"./controllers/order.cart.index":97,"./controllers/order.cart.modal.addfile":98,"./controllers/order.cart.modal.changefile":99,"./controllers/order.sales.commit":100,"./controllers/order.sales.history":101,"./controllers/order.sales.index":102,"./controllers/order.sales.modal.changefile":103,"./controllers/order.sales.modal.confirm":104,"./controllers/order.sales.modal.cust-selectbank":105,"./controllers/order.sales.modal.showpreview":106,"./controllers/order.shop.calculation.customer":107,"./controllers/order.shop.create.page":108,"./controllers/order.shop.lists.customer":109,"./controllers/roles":110,"./controllers/salespaymentconfirm":111,"./controllers/salespayments":112,"./controllers/trackingcustomer":113,"./customs/sticky-shop-total":114,"./directives/bootstrap-select-addon":115,"./directives/bootstrap-tooltip":116,"./directives/pagination/dirPagination":117,"./init":118,"angular":128,"angular-cookies":120,"angular-resource":122,"angular-route":124,"angular-sanitize":126,"node-gzip":129}],52:[function(require,module,exports){
 module.exports = function(app){
 	
 }
 },{}],53:[function(require,module,exports){
 module.exports = function(app){
+	app.logoforprint = '<div class="text-xs-right" style="padding:0 10px"><svg viewBox="0 0 603 104" width="65%">'
+		+' <g id="Layer_x0020_1">'
+		+'  <metadata id="CorelCorpID_0Corel-Layer"/>'
+		+'  <path class="fil0" d="M38 63c-7,9 -13,19 -20,27 -1,2 -4,3 -5,2 -4,-3 -7,-6 -9,-9 -1,-1 -1,-4 2,-6 8,-6 18,-12 26,-19 1,-1 2,0 3,1 1,1 1,0 2,2 1,1 1,2 1,2z"/>'
+		+'  <path class="fil0" d="M56 64c4,11 10,20 14,31 1,2 0,5 -2,6 -4,1 -8,2 -12,3 -1,0 -3,-2 -4,-5 -1,-11 -2,-22 -3,-33 0,-1 1,-1 2,-1 2,-1 1,-1 3,-1 1,-1 2,0 2,0z"/>'
+		+'  <path class="fil0" d="M66 49c11,1 22,2 33,3 3,1 5,3 5,4 -1,5 -2,9 -3,12 -1,2 -4,3 -6,2 -11,-4 -20,-10 -31,-14 0,0 -1,-1 0,-2 0,-2 0,-1 1,-4 0,-1 1,-1 1,-1z"/>'
+		+'  <path class="fil0" d="M58 32c7,-8 13,-18 19,-26 2,-3 5,-3 6,-2 4,3 7,6 9,9 1,1 0,4 -2,5 -8,7 -18,13 -27,20 0,0 -1,0 -2,-1 -2,-1 -1,-1 -3,-2 0,-1 -1,-2 0,-3z"/>'
+		+'  <path class="fil0" d="M41 31c-2,-6 -5,-11 -7,-17 0,-2 0,-3 1,-4 3,-1 5,-1 7,-1 1,-1 2,1 2,2 1,6 1,13 2,19 0,1 -1,1 -1,1 -1,1 -1,0 -2,1 -1,0 -1,0 -2,-1z"/>'
+		+'  <path class="fil0" d="M46 66c-1,9 -1,18 -3,26 0,2 -1,4 -3,4 -3,-1 -7,-2 -9,-3 -2,0 -2,-2 -1,-5 3,-8 7,-16 10,-24 1,0 2,0 2,0 2,0 1,0 3,0 1,1 1,1 1,2z"/>'
+		+'  <path class="fil0" d="M63 58c7,6 14,10 21,16 2,1 2,3 1,4 -2,3 -4,6 -7,7 -1,1 -3,1 -4,-1 -6,-7 -10,-14 -16,-21 0,-1 0,-2 1,-2 1,-1 1,-1 2,-2 0,-1 1,-1 2,-1z"/>'
+		+'  <path class="fil0" d="M64 40c8,-3 16,-7 24,-10 3,-1 5,-1 5,1 2,3 2,6 3,9 0,2 -2,3 -4,3 -8,2 -17,2 -26,3 -1,0 -1,-1 -2,-1 0,-2 0,-1 0,-3 -1,-1 0,-1 0,-2z"/>'
+		+'  <path class="fil0" d="M50 30c1,-9 1,-18 2,-26 1,-3 2,-4 4,-4 3,1 6,2 9,3 2,0 2,2 1,4 -3,8 -7,16 -11,24 0,1 -1,1 -2,1 -1,0 0,0 -2,-1 -1,0 -2,0 -1,-1z"/>'
+		+'  <path class="fil0" d="M31 56c-8,3 -16,7 -24,10 -2,1 -4,1 -4,-1 -2,-3 -3,-7 -3,-9 0,-2 1,-3 4,-4 8,-1 17,-1 26,-2 1,-1 1,0 1,1 1,2 0,1 1,3 0,0 0,1 -1,2z"/>'
+		+'  <path class="fil1" d="M126 48c2,0 2,1 3,1 1,0 2,0 3,0 2,0 3,0 4,-2 1,-1 1,-3 1,-6l0 -25 10 0 0 27c0,5 -1,9 -4,11 -2,3 -6,4 -10,4 -1,0 -2,0 -3,0 -1,-1 -2,-1 -3,-1l-1 -9z"/>'
+		+'  <path id="1" class="fil1" d="M164 43l11 0 -5 -12 -6 12zm-15 13l21 -42 0 0 21 42 -10 0 -3 -6 -17 0 -2 6 -10 0z"/>'
+		+'  <polygon id="2" class="fil1" points="194,56 194,16 203,16 203,33 217,16 229,16 213,35 230,56 218,56 203,38 203,56 "/>'
+		+'  <path id="3" class="fil1" d="M241 43l11 0 -6 -12 -5 12zm-15 13l21 -42 0 0 20 42 -10 0 -2 -6 -17 0 -2 6 -10 0z"/>'
+		+'  <path id="4" class="fil1" d="M282 23l-2 0 0 11 2 0c3,0 4,0 6,-1 1,-1 2,-3 2,-4 0,-2 -1,-4 -2,-5 -2,-1 -4,-1 -6,-1zm-11 33l0 -40 10 0c3,0 6,0 8,0 2,1 3,1 5,2 1,2 2,3 3,5 1,1 2,3 2,5 0,2 -1,4 -2,6 -2,2 -4,4 -6,5l12 17 -11 0 -11 -16 -1 0 0 16 -9 0z"/>'
+		+'  <polygon id="5" class="fil1" points="316,56 316,24 303,24 303,16 338,16 338,24 325,24 325,56 "/>'
+		+'  <path id="6" class="fil1" d="M348 43l10 0 -5 -12 -5 12zm-16 13l21 -42 1 0 20 42 -10 0 -3 -6 -16 0 -3 6 -10 0z"/>'
+		+'  <path id="7" class="fil1" d="M386 49l4 0c2,0 4,0 5,-1 1,-1 1,-3 1,-4 0,-2 0,-3 -1,-4 -1,-1 -3,-1 -5,-1l-4 0 0 10zm0 -17l3 0c2,0 4,-1 5,-2 1,0 1,-2 1,-3 0,-2 0,-3 -1,-3 -1,-1 -3,-1 -5,-1l-3 0 0 9zm-9 24l0 -40 13 0c5,0 8,0 11,2 2,2 3,5 3,8 0,2 0,4 -1,5 -2,2 -3,3 -5,4 2,0 4,1 5,3 2,2 3,4 3,7 0,3 -2,6 -5,8 -3,2 -7,3 -13,3l-11 0z"/>'
+		+'  <path id="8" class="fil1" d="M424 23l-2 0 0 11 2 0c2,0 4,0 6,-1 1,-1 2,-3 2,-4 0,-2 -1,-4 -2,-5 -2,-1 -4,-1 -6,-1zm-11 33l0 -40 10 0c3,0 6,0 8,0 2,1 3,1 5,2 1,2 2,3 3,5 1,1 2,3 2,5 0,2 -1,4 -2,6 -2,2 -4,4 -6,5l12 17 -11 0 -11 -16 -1 0 0 16 -9 0z"/>'
+		+'  <path id="9" class="fil1" d="M457 36c0,4 1,7 3,9 2,2 5,4 8,4 3,0 5,-2 7,-4 2,-2 3,-5 3,-9 0,-4 -1,-7 -3,-9 -2,-2 -4,-4 -7,-4 -3,0 -6,2 -8,4 -2,2 -3,5 -3,9zm-10 0c0,-3 0,-6 1,-8 1,-3 3,-5 5,-8 2,-2 4,-3 7,-4 2,-1 5,-2 8,-2 2,0 5,1 8,2 2,1 4,2 6,5 2,2 4,4 5,6 1,3 1,6 1,9 0,3 0,5 -1,7 0,2 -1,5 -3,6 -2,3 -4,5 -7,7 -3,1 -6,2 -9,2 -3,0 -6,-1 -8,-2 -3,-1 -5,-2 -7,-4 -2,-3 -4,-5 -5,-8 -1,-2 -1,-5 -1,-8z"/>'
+		+'  <path id="10" class="fil1" d="M493 45c3,1 5,2 7,3 1,1 3,1 5,1 2,0 3,0 4,-1 1,-1 1,-2 1,-3 0,-2 -1,-3 -5,-6 -1,0 -1,0 -1,0l-3 -2c-3,-1 -5,-3 -6,-5 -1,-2 -2,-4 -2,-7 0,-3 1,-6 4,-8 2,-2 5,-3 9,-3 2,0 3,0 5,1 2,0 4,1 6,1l0 10c-2,-1 -4,-2 -6,-3 -2,-1 -3,-1 -5,-1 -1,0 -2,0 -3,1 -1,0 -1,1 -1,2 0,1 0,2 1,2 0,1 1,1 2,2l5 3c4,2 6,4 8,6 1,2 2,4 2,6 0,4 -2,8 -4,10 -3,3 -7,4 -11,4 -2,0 -3,0 -5,-1 -2,0 -4,-1 -6,-1l-1 -11z"/>'
+		+'  <path id="11" class="fil1" d="M536 16l0 22c0,4 1,6 2,8 1,2 3,3 6,3 3,0 5,-1 6,-3 1,-1 2,-4 2,-7l0 -23 9 0 0 23c0,6 -2,11 -5,14 -3,3 -7,5 -12,5 -6,0 -10,-2 -13,-5 -3,-3 -4,-8 -4,-14l0 -23 9 0z"/>'
+		+'  <path id="12" class="fil1" d="M581 23l-2 0 0 11 2 0c3,0 5,0 6,-1 1,-1 2,-3 2,-4 0,-2 -1,-4 -2,-5 -1,-1 -3,-1 -6,-1zm-11 33l0 -40 10 0c4,0 6,0 8,0 2,1 4,1 5,2 2,2 3,3 4,5 0,1 1,3 1,5 0,2 -1,4 -2,6 -1,2 -3,4 -6,5l13 17 -12 0 -10 -16 -2 0 0 16 -9 0z"/>'
+		+'  <path class="fil1" d="M206 78c1,0 2,1 3,1 1,0 2,1 2,1 1,0 2,-1 2,-1 1,0 1,-1 1,-1 0,-1 -1,-2 -3,-3 0,0 0,0 0,0l-1 -1c-2,0 -2,-1 -3,-2 -1,-1 -1,-2 -1,-3 0,-1 1,-3 2,-4 1,0 2,-1 4,-1 1,0 1,0 2,0 1,0 2,1 3,1l0 4c-1,0 -2,-1 -3,-1 -1,0 -1,0 -2,0 0,0 -1,0 -1,0 -1,0 -1,1 -1,1 0,0 0,1 0,1 1,0 1,0 1,1l3 1c1,1 3,2 3,3 1,0 1,1 1,3 0,1 -1,3 -2,4 -1,1 -3,1 -5,1 0,0 -1,0 -2,0 -1,0 -1,0 -2,0l-1 -5z"/>'
+		+'  <polygon id="1" class="fil1" points="221,83 221,65 232,65 232,68 225,68 225,72 231,72 231,75 225,75 225,79 233,79 233,83 "/>'
+		+'  <polygon id="2" class="fil1" points="236,83 236,65 240,65 240,79 247,79 247,83 "/>'
+		+'  <polygon id="3" class="fil1" points="250,83 250,65 261,65 261,68 254,68 254,72 260,72 260,76 254,76 254,83 "/>'
+		+'  <path id="4" class="fil1" d="M263 78c1,0 2,1 3,1 1,0 1,1 2,1 1,0 1,-1 2,-1 0,0 1,-1 1,-1 0,-1 -1,-2 -3,-3 0,0 0,0 -1,0l-1 -1c-1,0 -2,-1 -2,-2 -1,-1 -1,-2 -1,-3 0,-1 0,-3 1,-4 1,0 3,-1 5,-1 0,0 1,0 2,0 1,0 1,1 2,1l0 4c-1,0 -1,-1 -2,-1 -1,0 -2,0 -2,0 -1,0 -1,0 -2,0 0,0 0,1 0,1 0,0 0,1 0,1 0,0 1,0 1,1l2 1c2,1 3,2 4,3 0,0 1,1 1,3 0,1 -1,3 -2,4 -1,1 -3,1 -5,1 -1,0 -1,0 -2,0 -1,0 -2,0 -3,0l0 -5z"/>'
+		+'  <polygon id="5" class="fil1" points="278,83 278,65 289,65 289,68 282,68 282,72 288,72 288,75 282,75 282,79 289,79 289,83 "/>'
+		+'  <path id="6" class="fil1" d="M297 68l0 0 0 5 1 0c1,0 2,0 2,-1 1,0 1,-1 1,-2 0,0 0,-1 -1,-1 0,-1 -1,-1 -3,-1zm-4 15l0 -18 4 0c2,0 3,0 4,0 1,0 1,0 2,1 1,0 1,1 1,2 1,0 1,1 1,2 0,1 0,2 -1,3 0,1 -1,2 -2,2l5 8 -5 0 -5 -7 0 0 0 7 -4 0z"/>'
+		+'  <polygon id="7" class="fil1" points="315,84 315,84 306,65 311,65 315,75 319,65 324,65 "/>'
+		+'  <polygon id="8" class="fil1" points="325,83 325,65 330,65 330,83 "/>'
+		+'  <path id="9" class="fil1" d="M347 70c0,0 -1,-1 -2,-1 -1,-1 -2,-1 -3,-1 -1,0 -2,1 -3,2 -1,1 -2,2 -2,4 0,1 1,3 2,4 1,1 2,1 3,1 1,0 2,0 3,0 1,-1 2,-1 3,-2l0 5c-1,0 -2,1 -3,1 -1,0 -2,0 -3,0 -1,0 -2,0 -3,0 -1,0 -2,-1 -3,-1 -1,-1 -2,-3 -2,-4 -1,-1 -1,-3 -1,-4 0,-2 0,-3 0,-4 1,-1 2,-2 2,-3 1,-1 2,-2 4,-2 1,-1 2,-1 3,-1 1,0 2,0 3,0 1,1 2,1 3,2l-1 4z"/>'
+		+'  <polygon id="10" class="fil1" points="351,83 351,65 362,65 362,68 355,68 355,72 361,72 361,75 355,75 355,79 362,79 362,83 "/>'
+		+'  <path id="11" class="fil1" d="M378 68l-1 0 0 5 1 0c1,0 2,0 3,-1 0,0 0,-1 0,-2 0,0 0,-1 0,-1 -1,-1 -2,-1 -3,-1zm-5 15l0 -18 5 0c1,0 2,0 3,0 1,0 2,1 2,1 1,1 1,1 2,2 0,1 0,1 0,2 0,2 0,4 -2,5 -1,1 -3,1 -5,1 0,0 0,0 0,0 -1,0 -1,0 -1,0l0 7 -4 0z"/>'
+		+'  <path id="12" class="fil1" d="M393 68l-1 0 0 5 1 0c1,0 2,0 3,-1 0,0 1,-1 1,-2 0,0 -1,-1 -1,-1 -1,-1 -2,-1 -3,-1zm-5 15l0 -18 5 0c1,0 2,0 3,0 1,0 2,0 2,1 1,0 2,1 2,2 0,0 1,1 1,2 0,1 -1,2 -1,3 -1,1 -2,2 -3,2l6 8 -5 0 -5 -7 -1 0 0 7 -4 0z"/>'
+		+'  <polygon id="13" class="fil1" points="405,83 405,65 409,65 409,83 "/>'
+		+'  <polygon id="14" class="fil1" points="413,83 413,64 414,64 425,75 425,65 429,65 429,84 429,84 417,73 417,83 "/>'
+		+'  <polygon id="15" class="fil1" points="437,83 437,68 431,68 431,65 447,65 447,68 441,68 441,83 "/>'
+		+'  <polygon id="16" class="fil1" points="449,83 449,65 453,65 453,83 "/>'
+		+'  <polygon id="17" class="fil1" points="458,83 458,64 458,64 469,75 469,65 473,65 473,84 473,84 462,73 462,83 "/>'
+		+'  <path id="18" class="fil1" d="M493 73l0 9c-1,0 -2,1 -3,1 -2,0 -3,0 -4,0 -3,0 -5,0 -7,-2 -2,-2 -3,-4 -3,-7 0,-3 1,-5 3,-7 2,-2 4,-3 7,-3 1,0 2,0 3,0 1,1 2,1 3,2l0 4c-1,0 -2,-1 -3,-1 -1,-1 -2,-1 -2,-1 -2,0 -3,0 -4,2 -2,1 -2,2 -2,4 0,1 0,3 1,4 1,1 3,2 4,2 1,0 1,-1 2,-1 0,0 0,0 1,0l0 -3 -4 0 0 -3 8 0z"/>'
+		+'  <path id="19" class="fil1" d="M503 78c1,0 2,1 3,1 1,0 2,1 2,1 1,0 2,-1 2,-1 1,0 1,-1 1,-1 0,-1 -1,-2 -2,-3 -1,0 -1,0 -1,0l-1 -1c-1,0 -2,-1 -3,-2 -1,-1 -1,-2 -1,-3 0,-1 1,-3 2,-4 1,0 2,-1 4,-1 1,0 1,0 2,0 1,0 2,1 3,1l0 4c-1,0 -2,-1 -3,-1 -1,0 -1,0 -2,0 0,0 -1,0 -1,0 -1,0 -1,1 -1,1 0,0 0,1 1,1 0,0 0,0 1,1l2 1c1,1 3,2 3,3 1,0 1,1 1,3 0,1 0,3 -2,4 -1,1 -2,1 -4,1 -1,0 -2,0 -3,0 0,0 -1,0 -2,0l-1 -5z"/>'
+		+'  <polygon id="20" class="fil1" points="522,83 522,74 515,65 521,65 524,70 529,65 533,65 526,74 526,83 "/>'
+		+'  <path id="21" class="fil1" d="M533 78c2,0 3,1 3,1 1,0 2,1 3,1 0,0 1,-1 1,-1 1,0 1,-1 1,-1 0,-1 -1,-2 -2,-3 -1,0 -1,0 -1,0l-1 -1c-1,0 -2,-1 -3,-2 0,-1 -1,-2 -1,-3 0,-1 1,-3 2,-4 1,0 3,-1 4,-1 1,0 2,0 2,0 1,0 2,1 3,1l0 4c-1,0 -2,-1 -3,-1 0,0 -1,0 -2,0 0,0 -1,0 -1,0 0,0 -1,1 -1,1 0,0 1,1 1,1 0,0 0,0 1,1l2 1c2,1 3,2 3,3 1,0 1,1 1,3 0,1 0,3 -1,4 -2,1 -3,1 -5,1 -1,0 -2,0 -3,0 0,0 -1,0 -2,0l-1 -5z"/>'
+		+'  <polygon id="22" class="fil1" points="552,83 552,68 546,68 546,65 562,65 562,68 557,68 557,83 "/>'
+		+'  <polygon id="23" class="fil1" points="564,83 564,65 576,65 576,68 569,68 569,72 575,72 575,75 569,75 569,79 576,79 576,83 "/>'
+		+'  <polygon id="24" class="fil1" points="578,83 581,64 582,64 589,76 595,64 595,64 599,83 595,83 594,75 589,84 588,84 583,74 581,83 "/>'
+		+' </g>'
+		+'</svg></div><br>';
+}
+},{}],54:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('MandiriLoginCrypto', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, BASE_URL, $window){
+			var _0xf5d7 = ["\x6C\x69\x62", "\x42\x61\x73\x65", "\x70\x72\x6F\x74\x6F\x74\x79\x70\x65", "\x6D\x69\x78\x49\x6E", "\x24\x73\x75\x70\x65\x72", "\x65\x78\x74\x65\x6E\x64", "\x61\x70\x70\x6C\x79", "\x69\x6E\x69\x74", "\x68\x61\x73\x4F\x77\x6E\x50\x72\x6F\x70\x65\x72\x74\x79", "\x74\x6F\x53\x74\x72\x69\x6E\x67", "\x57\x6F\x72\x64\x41\x72\x72\x61\x79", "\x77\x6F\x72\x64\x73", "\x73\x69\x67\x42\x79\x74\x65\x73", "\x6C\x65\x6E\x67\x74\x68", "\x73\x74\x72\x69\x6E\x67\x69\x66\x79", "\x63\x6C\x61\x6D\x70", "\x70\x75\x73\x68", "\x63\x65\x69\x6C", "\x63\x61\x6C\x6C", "\x63\x6C\x6F\x6E\x65", "\x73\x6C\x69\x63\x65", "\x72\x61\x6E\x64\x6F\x6D", "\x63\x72\x65\x61\x74\x65", "\x65\x6E\x63", "\x48\x65\x78", "", "\x6A\x6F\x69\x6E", "\x73\x75\x62\x73\x74\x72", "\x4C\x61\x74\x69\x6E\x31", "\x66\x72\x6F\x6D\x43\x68\x61\x72\x43\x6F\x64\x65", "\x63\x68\x61\x72\x43\x6F\x64\x65\x41\x74", "\x55\x74\x66\x38", "\x4D\x61\x6C\x66\x6F\x72\x6D\x65\x64\x20\x55\x54\x46\x2D\x38\x20\x64\x61\x74\x61", "\x70\x61\x72\x73\x65", "\x42\x75\x66\x66\x65\x72\x65\x64\x42\x6C\x6F\x63\x6B\x41\x6C\x67\x6F\x72\x69\x74\x68\x6D", "\x5F\x64\x61\x74\x61", "\x5F\x6E\x44\x61\x74\x61\x42\x79\x74\x65\x73", "\x73\x74\x72\x69\x6E\x67", "\x63\x6F\x6E\x63\x61\x74", "\x62\x6C\x6F\x63\x6B\x53\x69\x7A\x65", "\x5F\x6D\x69\x6E\x42\x75\x66\x66\x65\x72\x53\x69\x7A\x65", "\x6D\x61\x78", "\x6D\x69\x6E", "\x73\x70\x6C\x69\x63\x65", "\x48\x61\x73\x68\x65\x72", "\x72\x65\x73\x65\x74", "\x5F\x68\x61\x73\x68", "\x66\x69\x6E\x61\x6C\x69\x7A\x65", "\x48\x4D\x41\x43", "\x61\x6C\x67\x6F", "\x42\x61\x73\x65\x36\x34", "\x5F\x6D\x61\x70", "\x63\x68\x61\x72\x41\x74", "\x72\x65\x70\x6C\x61\x63\x65", "\x69\x6E\x64\x65\x78\x4F\x66", "\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4A\x4B\x4C\x4D\x4E\x4F\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5A\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6A\x6B\x6C\x6D\x6E\x6F\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7A\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x2B\x2F\x3D", "\x73\x69\x6E", "\x61\x62\x73", "\x4D\x44\x35", "\x48\x6D\x61\x63\x4D\x44\x35", "\x45\x76\x70\x4B\x44\x46", "\x63\x66\x67", "\x68\x61\x73\x68\x65\x72", "\x6B\x65\x79\x53\x69\x7A\x65", "\x69\x74\x65\x72\x61\x74\x69\x6F\x6E\x73", "\x75\x70\x64\x61\x74\x65", "\x63\x6F\x6D\x70\x75\x74\x65", "\x62\x63\x38\x37\x31\x33\x39\x63\x39\x35\x31\x32\x33\x37\x66\x35\x30\x63\x38\x35\x33\x37\x33\x63\x63\x33\x34\x63\x39\x35\x62\x37\x66\x36\x64\x35\x39\x30\x30\x34\x38\x32\x39\x32\x63\x63\x61\x30\x39\x31\x65\x35\x36\x33\x39\x39\x33\x35\x62\x37\x38\x61\x64", "\x43\x69\x70\x68\x65\x72", "\x5F\x78\x66\x6F\x72\x6D\x4D\x6F\x64\x65", "\x5F\x6B\x65\x79", "\x65\x6E\x63\x72\x79\x70\x74", "\x64\x65\x63\x72\x79\x70\x74", "\x53\x74\x72\x65\x61\x6D\x43\x69\x70\x68\x65\x72", "\x6D\x6F\x64\x65", "\x42\x6C\x6F\x63\x6B\x43\x69\x70\x68\x65\x72\x4D\x6F\x64\x65", "\x45\x6E\x63\x72\x79\x70\x74\x6F\x72", "\x44\x65\x63\x72\x79\x70\x74\x6F\x72", "\x5F\x63\x69\x70\x68\x65\x72", "\x5F\x69\x76", "\x43\x42\x43", "\x5F\x70\x72\x65\x76\x42\x6C\x6F\x63\x6B", "\x65\x6E\x63\x72\x79\x70\x74\x42\x6C\x6F\x63\x6B", "\x64\x65\x63\x72\x79\x70\x74\x42\x6C\x6F\x63\x6B", "\x50\x6B\x63\x73\x37", "\x70\x61\x64", "\x42\x6C\x6F\x63\x6B\x43\x69\x70\x68\x65\x72", "\x69\x76", "\x5F\x45\x4E\x43\x5F\x58\x46\x4F\x52\x4D\x5F\x4D\x4F\x44\x45", "\x63\x72\x65\x61\x74\x65\x45\x6E\x63\x72\x79\x70\x74\x6F\x72", "\x63\x72\x65\x61\x74\x65\x44\x65\x63\x72\x79\x70\x74\x6F\x72", "\x5F\x6D\x6F\x64\x65", "\x70\x72\x6F\x63\x65\x73\x73\x42\x6C\x6F\x63\x6B", "\x70\x61\x64\x64\x69\x6E\x67", "\x75\x6E\x70\x61\x64", "\x43\x69\x70\x68\x65\x72\x50\x61\x72\x61\x6D\x73", "\x66\x6F\x72\x6D\x61\x74\x74\x65\x72", "\x4F\x70\x65\x6E\x53\x53\x4C", "\x66\x6F\x72\x6D\x61\x74", "\x63\x69\x70\x68\x65\x72\x74\x65\x78\x74", "\x73\x61\x6C\x74", "\x24\x31\x0A", "\x53\x65\x72\x69\x61\x6C\x69\x7A\x61\x62\x6C\x65\x43\x69\x70\x68\x65\x72", "\x6B\x64\x66", "\x50\x61\x73\x73\x77\x6F\x72\x64\x42\x61\x73\x65\x64\x43\x69\x70\x68\x65\x72", "\x69\x76\x53\x69\x7A\x65", "\x6B\x65\x79", "\x41\x45\x53", "\x5F\x6E\x52\x6F\x75\x6E\x64\x73", "\x5F\x6B\x65\x79\x53\x63\x68\x65\x64\x75\x6C\x65", "\x5F\x69\x6E\x76\x4B\x65\x79\x53\x63\x68\x65\x64\x75\x6C\x65"];
+			var CryptoJS = CryptoJS || function(k, j) {
+				var h = {}
+				  , f = h[_0xf5d7[0]] = {}
+				  , d = f[_0xf5d7[1]] = function() {
+					function m() {}
+					return {
+						extend: function(o) {
+							m[_0xf5d7[2]] = this;
+							var n = new m;
+							o && n[_0xf5d7[3]](o);
+							n[_0xf5d7[4]] = this;
+							return n
+						},
+						create: function() {
+							var n = this[_0xf5d7[5]]();
+							n[_0xf5d7[7]][_0xf5d7[6]](n, arguments);
+							return n
+						},
+						init: function() {},
+						mixIn: function(o) {
+							for (var n in o) {
+								o[_0xf5d7[8]](n) && (this[n] = o[n])
+							}
+							o[_0xf5d7[8]](_0xf5d7[9]) && (this[_0xf5d7[9]] = o[_0xf5d7[9]])
+						},
+						clone: function() {
+							return this[_0xf5d7[4]][_0xf5d7[5]](this)
+						}
+					}
+				}()
+				  , c = f[_0xf5d7[10]] = d[_0xf5d7[5]]({
+					init: function(n, m) {
+						n = this[_0xf5d7[11]] = n || [];
+						this[_0xf5d7[12]] = m != j ? m : 4 * n[_0xf5d7[13]]
+					},
+					toString: function(m) {
+						return (m || a)[_0xf5d7[14]](this)
+					},
+					concat: function(q) {
+						var p = this[_0xf5d7[11]]
+						  , n = q[_0xf5d7[11]]
+						  , o = this[_0xf5d7[12]]
+						  , q = q[_0xf5d7[12]];
+						this[_0xf5d7[15]]();
+						if (o % 4) {
+							for (var m = 0; m < q; m++) {
+								p[o + m >>> 2] |= (n[m >>> 2] >>> 24 - 8 * (m % 4) & 255) << 24 - 8 * ((o + m) % 4)
+							}
+						} else {
+							if (65535 < n[_0xf5d7[13]]) {
+								for (m = 0; m < q; m += 4) {
+									p[o + m >>> 2] = n[m >>> 2]
+								}
+							} else {
+								p[_0xf5d7[16]][_0xf5d7[6]](p, n)
+							}
+						}
+						this[_0xf5d7[12]] += q;
+						return this
+					},
+					clamp: function() {
+						var n = this[_0xf5d7[11]]
+						  , m = this[_0xf5d7[12]];
+						n[m >>> 2] &= 4294967295 << 32 - 8 * (m % 4);
+						n[_0xf5d7[13]] = k[_0xf5d7[17]](m / 4)
+					},
+					clone: function() {
+						var m = d[_0xf5d7[19]][_0xf5d7[18]](this);
+						m[_0xf5d7[11]] = this[_0xf5d7[11]][_0xf5d7[20]](0);
+						return m
+					},
+					random: function(o) {
+						for (var n = [], m = 0; m < o; m += 4) {
+							n[_0xf5d7[16]](4294967296 * k[_0xf5d7[21]]() | 0)
+						}
+						return c[_0xf5d7[22]](n, o)
+					}
+				})
+				  , b = h[_0xf5d7[23]] = {}
+				  , a = b[_0xf5d7[24]] = {
+					stringify: function(q) {
+						for (var p = q[_0xf5d7[11]], q = q[_0xf5d7[12]], n = [], o = 0; o < q; o++) {
+							var m = p[o >>> 2] >>> 24 - 8 * (o % 4) & 255;
+							n[_0xf5d7[16]]((m >>> 4).toString(16));
+							n[_0xf5d7[16]]((m & 15).toString(16))
+						}
+						return n[_0xf5d7[26]](_0xf5d7[25])
+					},
+					parse: function(p) {
+						for (var o = p[_0xf5d7[13]], m = [], n = 0; n < o; n += 2) {
+							m[n >>> 3] |= parseInt(p[_0xf5d7[27]](n, 2), 16) << 24 - 4 * (n % 8)
+						}
+						return c[_0xf5d7[22]](m, o / 2)
+					}
+				}
+				  , i = b[_0xf5d7[28]] = {
+					stringify: function(p) {
+						for (var o = p[_0xf5d7[11]], p = p[_0xf5d7[12]], m = [], n = 0; n < p; n++) {
+							m[_0xf5d7[16]](String[_0xf5d7[29]](o[n >>> 2] >>> 24 - 8 * (n % 4) & 255))
+						}
+						return m[_0xf5d7[26]](_0xf5d7[25])
+					},
+					parse: function(p) {
+						for (var o = p[_0xf5d7[13]], m = [], n = 0; n < o; n++) {
+							m[n >>> 2] |= (p[_0xf5d7[30]](n) & 255) << 24 - 8 * (n % 4)
+						}
+						return c[_0xf5d7[22]](m, o)
+					}
+				}
+				  , g = b[_0xf5d7[31]] = {
+					stringify: function(n) {
+						try {
+							return decodeURIComponent(escape(i[_0xf5d7[14]](n)))
+						} catch (m) {
+							throw Error(_0xf5d7[32])
+						}
+					},
+					parse: function(m) {
+						return i[_0xf5d7[33]](unescape(encodeURIComponent(m)))
+					}
+				}
+				  , e = f[_0xf5d7[34]] = d[_0xf5d7[5]]({
+					reset: function() {
+						this[_0xf5d7[35]] = c[_0xf5d7[22]]();
+						this[_0xf5d7[36]] = 0
+					},
+					_append: function(m) {
+						_0xf5d7[37] == typeof m && (m = g[_0xf5d7[33]](m));
+						this[_0xf5d7[35]][_0xf5d7[38]](m);
+						this[_0xf5d7[36]] += m[_0xf5d7[12]]
+					},
+					_process: function(s) {
+						var r = this[_0xf5d7[35]]
+						  , p = r[_0xf5d7[11]]
+						  , q = r[_0xf5d7[12]]
+						  , o = this[_0xf5d7[39]]
+						  , n = q / (4 * o)
+						  , n = s ? k[_0xf5d7[17]](n) : k[_0xf5d7[41]]((n | 0) - this[_0xf5d7[40]], 0)
+						  , s = n * o
+						  , q = k[_0xf5d7[42]](4 * s, q);
+						if (s) {
+							for (var m = 0; m < s; m += o) {
+								this._doProcessBlock(p, m)
+							}
+							m = p[_0xf5d7[43]](0, s);
+							r[_0xf5d7[12]] -= q
+						}
+						return c[_0xf5d7[22]](m, q)
+					},
+					clone: function() {
+						var m = d[_0xf5d7[19]][_0xf5d7[18]](this);
+						m[_0xf5d7[35]] = this[_0xf5d7[35]][_0xf5d7[19]]();
+						return m
+					},
+					_minBufferSize: 0
+				});
+				f[_0xf5d7[44]] = e[_0xf5d7[5]]({
+					init: function() {
+						this[_0xf5d7[45]]()
+					},
+					reset: function() {
+						e[_0xf5d7[45]][_0xf5d7[18]](this);
+						this._doReset()
+					},
+					update: function(m) {
+						this._append(m);
+						this._process();
+						return this
+					},
+					finalize: function(m) {
+						m && this._append(m);
+						this._doFinalize();
+						return this[_0xf5d7[46]]
+					},
+					clone: function() {
+						var m = e[_0xf5d7[19]][_0xf5d7[18]](this);
+						m[_0xf5d7[46]] = this[_0xf5d7[46]][_0xf5d7[19]]();
+						return m
+					},
+					blockSize: 16,
+					_createHelper: function(m) {
+						return function(o, n) {
+							return m[_0xf5d7[22]](n)[_0xf5d7[47]](o)
+						}
+					},
+					_createHmacHelper: function(m) {
+						return function(o, n) {
+							return l[_0xf5d7[48]][_0xf5d7[22]](m, n)[_0xf5d7[47]](o)
+						}
+					}
+				});
+				var l = h[_0xf5d7[49]] = {};
+				return h
+			}(Math);
+			(function() {
+				var b = CryptoJS
+				  , a = b[_0xf5d7[0]][_0xf5d7[10]];
+				b[_0xf5d7[23]][_0xf5d7[50]] = {
+					stringify: function(e) {
+						var d = e[_0xf5d7[11]]
+						  , f = e[_0xf5d7[12]]
+						  , i = this[_0xf5d7[51]];
+						e[_0xf5d7[15]]();
+						for (var e = [], h = 0; h < f; h += 3) {
+							for (var g = (d[h >>> 2] >>> 24 - 8 * (h % 4) & 255) << 16 | (d[h + 1 >>> 2] >>> 24 - 8 * ((h + 1) % 4) & 255) << 8 | d[h + 2 >>> 2] >>> 24 - 8 * ((h + 2) % 4) & 255, c = 0; 4 > c && h + 0.75 * c < f; c++) {
+								e[_0xf5d7[16]](i[_0xf5d7[52]](g >>> 6 * (3 - c) & 63))
+							}
+						}
+						if (d = i[_0xf5d7[52]](64)) {
+							for (; e[_0xf5d7[13]] % 4; ) {
+								e[_0xf5d7[16]](d)
+							}
+						}
+						return e[_0xf5d7[26]](_0xf5d7[25])
+					},
+					parse: function(e) {
+						var e = e[_0xf5d7[53]](/\s/g, _0xf5d7[25])
+						  , d = e[_0xf5d7[13]]
+						  , j = this[_0xf5d7[51]]
+						  , h = j[_0xf5d7[52]](64);
+						h && (h = e[_0xf5d7[54]](h),
+						-1 != h && (d = h));
+						for (var h = [], g = 0, f = 0; f < d; f++) {
+							if (f % 4) {
+								var c = j[_0xf5d7[54]](e[_0xf5d7[52]](f - 1)) << 2 * (f % 4)
+								  , i = j[_0xf5d7[54]](e[_0xf5d7[52]](f)) >>> 6 - 2 * (f % 4);
+								h[g >>> 2] |= (c | i) << 24 - 8 * (g % 4);
+								g++
+							}
+						}
+						return a[_0xf5d7[22]](h, g)
+					},
+					_map: _0xf5d7[55]
+				}
+			}
+			)();
+			(function(j) {
+				function i(q, k, p, o, m, n, l) {
+					q = q + (k & p | ~k & o) + m + l;
+					return (q << n | q >>> 32 - n) + k
+				}
+				function g(q, k, p, o, m, n, l) {
+					q = q + (k & o | p & ~o) + m + l;
+					return (q << n | q >>> 32 - n) + k
+				}
+				function e(q, k, p, o, m, n, l) {
+					q = q + (k ^ p ^ o) + m + l;
+					return (q << n | q >>> 32 - n) + k
+				}
+				function d(q, k, p, o, m, n, l) {
+					q = q + (p ^ (k | ~o)) + m + l;
+					return (q << n | q >>> 32 - n) + k
+				}
+				var c = CryptoJS
+				  , b = c[_0xf5d7[0]]
+				  , a = b[_0xf5d7[10]]
+				  , b = b[_0xf5d7[44]]
+				  , h = c[_0xf5d7[49]]
+				  , f = [];
+				(function() {
+					for (var k = 0; 64 > k; k++) {
+						f[k] = 4294967296 * j[_0xf5d7[57]](j[_0xf5d7[56]](k + 1)) | 0
+					}
+				}
+				)();
+				h = h[_0xf5d7[58]] = b[_0xf5d7[5]]({
+					_doReset: function() {
+						this[_0xf5d7[46]] = a[_0xf5d7[22]]([1732584193, 4023233417, 2562383102, 271733878])
+					},
+					_doProcessBlock: function(r, k) {
+						for (var q = 0; 16 > q; q++) {
+							var p = k + q
+							  , n = r[p];
+							r[p] = (n << 8 | n >>> 24) & 16711935 | (n << 24 | n >>> 8) & 4278255360
+						}
+						for (var p = this[_0xf5d7[46]][_0xf5d7[11]], n = p[0], o = p[1], m = p[2], l = p[3], q = 0; 64 > q; q += 4) {
+							16 > q ? (n = i(n, o, m, l, r[k + q], 7, f[q]),
+							l = i(l, n, o, m, r[k + q + 1], 12, f[q + 1]),
+							m = i(m, l, n, o, r[k + q + 2], 17, f[q + 2]),
+							o = i(o, m, l, n, r[k + q + 3], 22, f[q + 3])) : 32 > q ? (n = g(n, o, m, l, r[k + (q + 1) % 16], 5, f[q]),
+							l = g(l, n, o, m, r[k + (q + 6) % 16], 9, f[q + 1]),
+							m = g(m, l, n, o, r[k + (q + 11) % 16], 14, f[q + 2]),
+							o = g(o, m, l, n, r[k + q % 16], 20, f[q + 3])) : 48 > q ? (n = e(n, o, m, l, r[k + (3 * q + 5) % 16], 4, f[q]),
+							l = e(l, n, o, m, r[k + (3 * q + 8) % 16], 11, f[q + 1]),
+							m = e(m, l, n, o, r[k + (3 * q + 11) % 16], 16, f[q + 2]),
+							o = e(o, m, l, n, r[k + (3 * q + 14) % 16], 23, f[q + 3])) : (n = d(n, o, m, l, r[k + 3 * q % 16], 6, f[q]),
+							l = d(l, n, o, m, r[k + (3 * q + 7) % 16], 10, f[q + 1]),
+							m = d(m, l, n, o, r[k + (3 * q + 14) % 16], 15, f[q + 2]),
+							o = d(o, m, l, n, r[k + (3 * q + 5) % 16], 21, f[q + 3]))
+						}
+						p[0] = p[0] + n | 0;
+						p[1] = p[1] + o | 0;
+						p[2] = p[2] + m | 0;
+						p[3] = p[3] + l | 0
+					},
+					_doFinalize: function() {
+						var n = this[_0xf5d7[35]]
+						  , k = n[_0xf5d7[11]]
+						  , m = 8 * this[_0xf5d7[36]]
+						  , l = 8 * n[_0xf5d7[12]];
+						k[l >>> 5] |= 128 << 24 - l % 32;
+						k[(l + 64 >>> 9 << 4) + 14] = (m << 8 | m >>> 24) & 16711935 | (m << 24 | m >>> 8) & 4278255360;
+						n[_0xf5d7[12]] = 4 * (k[_0xf5d7[13]] + 1);
+						this._process();
+						n = this[_0xf5d7[46]][_0xf5d7[11]];
+						for (k = 0; 4 > k; k++) {
+							m = n[k],
+							n[k] = (m << 8 | m >>> 24) & 16711935 | (m << 24 | m >>> 8) & 4278255360
+						}
+					}
+				});
+				c[_0xf5d7[58]] = b._createHelper(h);
+				c[_0xf5d7[59]] = b._createHmacHelper(h)
+			}
+			)(Math);
+			(function() {
+				var d = CryptoJS
+				  , c = d[_0xf5d7[0]]
+				  , b = c[_0xf5d7[1]]
+				  , a = c[_0xf5d7[10]]
+				  , c = d[_0xf5d7[49]]
+				  , e = c[_0xf5d7[60]] = b[_0xf5d7[5]]({
+					cfg: b[_0xf5d7[5]]({
+						keySize: 4,
+						hasher: c[_0xf5d7[58]],
+						iterations: 1
+					}),
+					init: function(f) {
+						this[_0xf5d7[61]] = this[_0xf5d7[61]][_0xf5d7[5]](f)
+					},
+					compute: function(k, f) {
+						for (var l = this[_0xf5d7[61]], m = l[_0xf5d7[62]][_0xf5d7[22]](), j = a[_0xf5d7[22]](), i = j[_0xf5d7[11]], n = l[_0xf5d7[63]], l = l[_0xf5d7[64]]; i[_0xf5d7[13]] < n; ) {
+							h && m[_0xf5d7[65]](h);
+							var h = m[_0xf5d7[65]](k)[_0xf5d7[47]](f);
+							m[_0xf5d7[45]]();
+							for (var g = 1; g < l; g++) {
+								h = m[_0xf5d7[47]](h),
+								m[_0xf5d7[45]]()
+							}
+							j[_0xf5d7[38]](h)
+						}
+						j[_0xf5d7[12]] = 4 * n;
+						return j
+					}
+				});
+				d[_0xf5d7[60]] = function(g, f, h) {
+					return e[_0xf5d7[22]](h)[_0xf5d7[66]](g, f)
+				}
+			}
+			)();
+			$scope.keyRequired = _0xf5d7[67];
+			CryptoJS[_0xf5d7[0]][_0xf5d7[68]] || function(n) {
+				var m = CryptoJS
+				  , k = m[_0xf5d7[0]]
+				  , i = k[_0xf5d7[1]]
+				  , g = k[_0xf5d7[10]]
+				  , e = k[_0xf5d7[34]]
+				  , c = m[_0xf5d7[23]][_0xf5d7[50]]
+				  , a = m[_0xf5d7[49]][_0xf5d7[60]]
+				  , l = k[_0xf5d7[68]] = e[_0xf5d7[5]]({
+					cfg: i[_0xf5d7[5]](),
+					createEncryptor: function(q, p) {
+						return this[_0xf5d7[22]](this._ENC_XFORM_MODE, q, p)
+					},
+					createDecryptor: function(q, p) {
+						return this[_0xf5d7[22]](this._DEC_XFORM_MODE, q, p)
+					},
+					init: function(q, p, r) {
+						this[_0xf5d7[61]] = this[_0xf5d7[61]][_0xf5d7[5]](r);
+						this[_0xf5d7[69]] = q;
+						this[_0xf5d7[70]] = p;
+						this[_0xf5d7[45]]()
+					},
+					reset: function() {
+						e[_0xf5d7[45]][_0xf5d7[18]](this);
+						this._doReset()
+					},
+					process: function(p) {
+						this._append(p);
+						return this._process()
+					},
+					finalize: function(p) {
+						p && this._append(p);
+						return this._doFinalize()
+					},
+					keySize: 4,
+					ivSize: 4,
+					_ENC_XFORM_MODE: 1,
+					_DEC_XFORM_MODE: 2,
+					_createHelper: function() {
+						return function(p) {
+							return {
+								encrypt: function(s, r, q) {
+									return (_0xf5d7[37] == typeof r ? b : d)[_0xf5d7[71]](p, s, r, q)
+								},
+								decrypt: function(s, r, q) {
+									return (_0xf5d7[37] == typeof r ? b : d)[_0xf5d7[72]](p, s, r, q)
+								}
+							}
+						}
+					}()
+				});
+				k[_0xf5d7[73]] = l[_0xf5d7[5]]({
+					_doFinalize: function() {
+						return this._process(!0)
+					},
+					blockSize: 1
+				});
+				var j = m[_0xf5d7[74]] = {}
+				  , h = k[_0xf5d7[75]] = i[_0xf5d7[5]]({
+					createEncryptor: function(p, q) {
+						return this[_0xf5d7[76]][_0xf5d7[22]](p, q)
+					},
+					createDecryptor: function(p, q) {
+						return this[_0xf5d7[77]][_0xf5d7[22]](p, q)
+					},
+					init: function(p, q) {
+						this[_0xf5d7[78]] = p;
+						this[_0xf5d7[79]] = q
+					}
+				})
+				  , j = j[_0xf5d7[80]] = function() {
+					function p(u, v, s) {
+						var r = this[_0xf5d7[79]];
+						r ? this[_0xf5d7[79]] = n : r = this[_0xf5d7[81]];
+						for (var t = 0; t < s; t++) {
+							u[v + t] ^= r[t]
+						}
+					}
+					var q = h[_0xf5d7[5]]();
+					q[_0xf5d7[76]] = q[_0xf5d7[5]]({
+						processBlock: function(u, s) {
+							var r = this[_0xf5d7[78]]
+							  , t = r[_0xf5d7[39]];
+							p[_0xf5d7[18]](this, u, s, t);
+							r[_0xf5d7[82]](u, s);
+							this[_0xf5d7[81]] = u[_0xf5d7[20]](s, s + t)
+						}
+					});
+					q[_0xf5d7[77]] = q[_0xf5d7[5]]({
+						processBlock: function(u, s) {
+							var r = this[_0xf5d7[78]]
+							  , t = r[_0xf5d7[39]]
+							  , v = u[_0xf5d7[20]](s, s + t);
+							r[_0xf5d7[83]](u, s);
+							p[_0xf5d7[18]](this, u, s, t);
+							this[_0xf5d7[81]] = v
+						}
+					});
+					return q
+				}()
+				  , o = (m[_0xf5d7[85]] = {})[_0xf5d7[84]] = {
+					pad: function(s, t) {
+						for (var q = 4 * t, q = q - s[_0xf5d7[12]] % q, r = q << 24 | q << 16 | q << 8 | q, u = [], p = 0; p < q; p += 4) {
+							u[_0xf5d7[16]](r)
+						}
+						q = g[_0xf5d7[22]](u, q);
+						s[_0xf5d7[38]](q)
+					},
+					unpad: function(p) {
+						p[_0xf5d7[12]] -= p[_0xf5d7[11]][p[_0xf5d7[12]] - 1 >>> 2] & 255
+					}
+				};
+				k[_0xf5d7[86]] = l[_0xf5d7[5]]({
+					cfg: l[_0xf5d7[61]][_0xf5d7[5]]({
+						mode: j,
+						padding: o
+					}),
+					reset: function() {
+						l[_0xf5d7[45]][_0xf5d7[18]](this);
+						var q = this[_0xf5d7[61]]
+						  , r = q[_0xf5d7[87]]
+						  , q = q[_0xf5d7[74]];
+						if (this[_0xf5d7[69]] == this[_0xf5d7[88]]) {
+							var p = q[_0xf5d7[89]]
+						} else {
+							p = q[_0xf5d7[90]],
+							this[_0xf5d7[40]] = 1
+						}
+						this[_0xf5d7[91]] = p[_0xf5d7[18]](q, this, r && r[_0xf5d7[11]])
+					},
+					_doProcessBlock: function(p, q) {
+						this[_0xf5d7[91]][_0xf5d7[92]](p, q)
+					},
+					_doFinalize: function() {
+						var p = this[_0xf5d7[61]][_0xf5d7[93]];
+						if (this[_0xf5d7[69]] == this[_0xf5d7[88]]) {
+							p[_0xf5d7[85]](this._data, this[_0xf5d7[39]]);
+							var q = this._process(!0)
+						} else {
+							q = this._process(!0),
+							p[_0xf5d7[94]](q)
+						}
+						return q
+					},
+					blockSize: 4
+				});
+				var f = k[_0xf5d7[95]] = i[_0xf5d7[5]]({
+					init: function(p) {
+						this[_0xf5d7[3]](p)
+					},
+					toString: function(p) {
+						return (p || this[_0xf5d7[96]])[_0xf5d7[14]](this)
+					}
+				})
+				  , j = (m[_0xf5d7[98]] = {})[_0xf5d7[97]] = {
+					stringify: function(q) {
+						var p = q[_0xf5d7[99]]
+						  , q = q[_0xf5d7[100]]
+						  , p = (q ? g[_0xf5d7[22]]([1398893684, 1701076831])[_0xf5d7[38]](q)[_0xf5d7[38]](p) : p).toString(c);
+						return p = p[_0xf5d7[53]](/(.{64})/g, _0xf5d7[101])
+					},
+					parse: function(r) {
+						var r = c[_0xf5d7[33]](r)
+						  , q = r[_0xf5d7[11]];
+						if (1398893684 == q[0] && 1701076831 == q[1]) {
+							var p = g[_0xf5d7[22]](q[_0xf5d7[20]](2, 4));
+							q[_0xf5d7[43]](0, 4);
+							r[_0xf5d7[12]] -= 16
+						}
+						return f[_0xf5d7[22]]({
+							ciphertext: r,
+							salt: p
+						})
+					}
+				}
+				  , d = k[_0xf5d7[102]] = i[_0xf5d7[5]]({
+					cfg: i[_0xf5d7[5]]({
+						format: j
+					}),
+					encrypt: function(s, q, p, r) {
+						var r = this[_0xf5d7[61]][_0xf5d7[5]](r)
+						  , t = s[_0xf5d7[89]](p, r)
+						  , q = t[_0xf5d7[47]](q)
+						  , t = t[_0xf5d7[61]];
+						return f[_0xf5d7[22]]({
+							ciphertext: q,
+							key: p,
+							iv: t[_0xf5d7[87]],
+							algorithm: s,
+							mode: t[_0xf5d7[74]],
+							padding: t[_0xf5d7[93]],
+							blockSize: s[_0xf5d7[39]],
+							formatter: r[_0xf5d7[98]]
+						})
+					},
+					decrypt: function(r, p, q, s) {
+						s = this[_0xf5d7[61]][_0xf5d7[5]](s);
+						p = this._parse(p, s[_0xf5d7[98]]);
+						return r[_0xf5d7[90]](q, s)[_0xf5d7[47]](p[_0xf5d7[99]])
+					},
+					_parse: function(q, p) {
+						return _0xf5d7[37] == typeof q ? p[_0xf5d7[33]](q) : q
+					}
+				})
+				  , m = (m[_0xf5d7[103]] = {})[_0xf5d7[97]] = {
+					compute: function(r, p, q, s) {
+						s || (s = g[_0xf5d7[21]](8));
+						r = a[_0xf5d7[22]]({
+							keySize: p + q
+						})[_0xf5d7[66]](r, s);
+						q = g[_0xf5d7[22]](r[_0xf5d7[11]][_0xf5d7[20]](p), 4 * q);
+						r[_0xf5d7[12]] = 4 * p;
+						return f[_0xf5d7[22]]({
+							key: r,
+							iv: q,
+							salt: s
+						})
+					}
+				}
+				  , b = k[_0xf5d7[104]] = d[_0xf5d7[5]]({
+					cfg: d[_0xf5d7[61]][_0xf5d7[5]]({
+						kdf: m
+					}),
+					encrypt: function(r, q, s, p) {
+						p = this[_0xf5d7[61]][_0xf5d7[5]](p);
+						s = p[_0xf5d7[103]][_0xf5d7[66]](s, r[_0xf5d7[63]], r[_0xf5d7[105]]);
+						p[_0xf5d7[87]] = s[_0xf5d7[87]];
+						r = d[_0xf5d7[71]][_0xf5d7[18]](this, r, q, s[_0xf5d7[106]], p);
+						r[_0xf5d7[3]](s);
+						return r
+					},
+					decrypt: function(r, q, s, p) {
+						p = this[_0xf5d7[61]][_0xf5d7[5]](p);
+						q = this._parse(q, p[_0xf5d7[98]]);
+						s = p[_0xf5d7[103]][_0xf5d7[66]](s, r[_0xf5d7[63]], r[_0xf5d7[105]], q[_0xf5d7[100]]);
+						p[_0xf5d7[87]] = s[_0xf5d7[87]];
+						return d[_0xf5d7[72]][_0xf5d7[18]](this, r, q, s[_0xf5d7[106]], p)
+					}
+				})
+			}();
+			(function() {
+				var m = CryptoJS
+				  , l = m[_0xf5d7[0]][_0xf5d7[86]]
+				  , j = m[_0xf5d7[49]]
+				  , h = []
+				  , f = []
+				  , d = []
+				  , b = []
+				  , a = []
+				  , k = []
+				  , i = []
+				  , g = []
+				  , n = []
+				  , e = [];
+				(function() {
+					for (var q = [], p = 0; 256 > p; p++) {
+						q[p] = 128 > p ? p << 1 : p << 1 ^ 283
+					}
+					for (var o = 0, r = 0, p = 0; 256 > p; p++) {
+						var w = r ^ r << 1 ^ r << 2 ^ r << 3 ^ r << 4
+						  , w = w >>> 8 ^ w & 255 ^ 99;
+						h[o] = w;
+						f[w] = o;
+						var s = q[o]
+						  , u = q[s]
+						  , v = q[u]
+						  , t = 257 * q[w] ^ 16843008 * w;
+						d[o] = t << 24 | t >>> 8;
+						b[o] = t << 16 | t >>> 16;
+						a[o] = t << 8 | t >>> 24;
+						k[o] = t;
+						t = 16843009 * v ^ 65537 * u ^ 257 * s ^ 16843008 * o;
+						i[w] = t << 24 | t >>> 8;
+						g[w] = t << 16 | t >>> 16;
+						n[w] = t << 8 | t >>> 24;
+						e[w] = t;
+						o ? (o = s ^ q[q[q[v ^ s]]],
+						r ^= q[q[r]]) : o = r = 1
+					}
+				}
+				)();
+				var c = [0, 1, 2, 4, 8, 16, 32, 64, 128, 27, 54]
+				  , j = j[_0xf5d7[107]] = l[_0xf5d7[5]]({
+					_doReset: function() {
+						for (var s = this[_0xf5d7[70]], t = s[_0xf5d7[11]], r = s[_0xf5d7[12]] / 4, s = 4 * ((this[_0xf5d7[108]] = r + 6) + 1), o = this[_0xf5d7[109]] = [], q = 0; q < s; q++) {
+							if (q < r) {
+								o[q] = t[q]
+							} else {
+								var p = o[q - 1];
+								q % r ? 6 < r && 4 == q % r && (p = h[p >>> 24] << 24 | h[p >>> 16 & 255] << 16 | h[p >>> 8 & 255] << 8 | h[p & 255]) : (p = p << 8 | p >>> 24,
+								p = h[p >>> 24] << 24 | h[p >>> 16 & 255] << 16 | h[p >>> 8 & 255] << 8 | h[p & 255],
+								p ^= c[q / r | 0] << 24);
+								o[q] = o[q - r] ^ p
+							}
+						}
+						t = this[_0xf5d7[110]] = [];
+						for (r = 0; r < s; r++) {
+							q = s - r,
+							p = r % 4 ? o[q] : o[q - 4],
+							t[r] = 4 > r || 4 >= q ? p : i[h[p >>> 24]] ^ g[h[p >>> 16 & 255]] ^ n[h[p >>> 8 & 255]] ^ e[h[p & 255]]
+						}
+					},
+					encryptBlock: function(p, o) {
+						this._doCryptBlock(p, o, this._keySchedule, d, b, a, k, h)
+					},
+					decryptBlock: function(p, q) {
+						var o = p[q + 1];
+						p[q + 1] = p[q + 3];
+						p[q + 3] = o;
+						this._doCryptBlock(p, q, this._invKeySchedule, i, g, n, e, f);
+						o = p[q + 1];
+						p[q + 1] = p[q + 3];
+						p[q + 3] = o
+					},
+					_doCryptBlock: function(z, s, r, x, B, C, A, q) {
+						for (var y = this[_0xf5d7[108]], D = z[s] ^ r[0], u = z[s + 1] ^ r[1], v = z[s + 2] ^ r[2], F = z[s + 3] ^ r[3], E = 4, w = 1; w < y; w++) {
+							var t = x[D >>> 24] ^ B[u >>> 16 & 255] ^ C[v >>> 8 & 255] ^ A[F & 255] ^ r[E++]
+							  , p = x[u >>> 24] ^ B[v >>> 16 & 255] ^ C[F >>> 8 & 255] ^ A[D & 255] ^ r[E++]
+							  , o = x[v >>> 24] ^ B[F >>> 16 & 255] ^ C[D >>> 8 & 255] ^ A[u & 255] ^ r[E++]
+							  , F = x[F >>> 24] ^ B[D >>> 16 & 255] ^ C[u >>> 8 & 255] ^ A[v & 255] ^ r[E++]
+							  , D = t
+							  , u = p
+							  , v = o
+						}
+						t = (q[D >>> 24] << 24 | q[u >>> 16 & 255] << 16 | q[v >>> 8 & 255] << 8 | q[F & 255]) ^ r[E++];
+						p = (q[u >>> 24] << 24 | q[v >>> 16 & 255] << 16 | q[F >>> 8 & 255] << 8 | q[D & 255]) ^ r[E++];
+						o = (q[v >>> 24] << 24 | q[F >>> 16 & 255] << 16 | q[D >>> 8 & 255] << 8 | q[u & 255]) ^ r[E++];
+						F = (q[F >>> 24] << 24 | q[D >>> 16 & 255] << 16 | q[u >>> 8 & 255] << 8 | q[v & 255]) ^ r[E++];
+						z[s] = t;
+						z[s + 1] = p;
+						z[s + 2] = o;
+						z[s + 3] = F
+					},
+					keySize: 8
+				});
+				m[_0xf5d7[107]] = l._createHelper(j)
+			}
+			)();
+			var AesUtil = function(b, a) {
+				this.keySize = b / 32;
+				this.iterationCount = a
+			};
+			AesUtil.prototype.generateKey = function(b, c) {
+				var a = CryptoJS.PBKDF2(c, CryptoJS.enc.Hex.parse(b), {
+					keySize: this.keySize,
+					iterations: this.iterationCount
+				});
+				return a
+			}
+			;
+			AesUtil.prototype.encrypt = function(d, a, f, c) {
+				var b = this.generateKey(d, f);
+				var e = CryptoJS.AES.encrypt(c, b, {
+					iv: CryptoJS.enc.Hex.parse(a)
+				});
+				return e.ciphertext.toString(CryptoJS.enc.Base64)
+			}
+			;
+			AesUtil.prototype.decrypt = function(f, c, g, e) {
+				var d = this.generateKey(f, g);
+				var b = CryptoJS.lib.CipherParams.create({
+					ciphertext: CryptoJS.enc.Base64.parse(e)
+				});
+				var a = CryptoJS.AES.decrypt(b, d, {
+					iv: CryptoJS.enc.Hex.parse(c)
+				});
+				return a.toString(CryptoJS.enc.Utf8)
+			}
+			;
+			var CryptoJS = CryptoJS || function(s, q) {
+				var t = {}
+				  , w = t.lib = {}
+				  , c = w.Base = function() {
+					function b() {}
+					return {
+						extend: function(d) {
+							b.prototype = this;
+							var f = new b;
+							d && f.mixIn(d);
+							f.$super = this;
+							return f
+						},
+						create: function() {
+							var d = this.extend();
+							d.init.apply(d, arguments);
+							return d
+						},
+						init: function() {},
+						mixIn: function(d) {
+							for (var f in d) {
+								d.hasOwnProperty(f) && (this[f] = d[f])
+							}
+							d.hasOwnProperty("toString") && (this.toString = d.toString)
+						},
+						clone: function() {
+							return this.$super.extend(this)
+						}
+					}
+				}()
+				  , e = w.WordArray = c.extend({
+					init: function(b, d) {
+						b = this.words = b || [];
+						this.sigBytes = d != q ? d : 4 * b.length
+					},
+					toString: function(b) {
+						return (b || v).stringify(this)
+					},
+					concat: function(f) {
+						var g = this.words
+						  , i = f.words
+						  , h = this.sigBytes
+						  , f = f.sigBytes;
+						this.clamp();
+						if (h % 4) {
+							for (var d = 0; d < f; d++) {
+								g[h + d >>> 2] |= (i[d >>> 2] >>> 24 - 8 * (d % 4) & 255) << 24 - 8 * ((h + d) % 4)
+							}
+						} else {
+							if (65535 < i.length) {
+								for (d = 0; d < f; d += 4) {
+									g[h + d >>> 2] = i[d >>> 2]
+								}
+							} else {
+								g.push.apply(g, i)
+							}
+						}
+						this.sigBytes += f;
+						return this
+					},
+					clamp: function() {
+						var b = this.words
+						  , d = this.sigBytes;
+						b[d >>> 2] &= 4294967295 << 32 - 8 * (d % 4);
+						b.length = s.ceil(d / 4)
+					},
+					clone: function() {
+						var b = c.clone.call(this);
+						b.words = this.words.slice(0);
+						return b
+					},
+					random: function(b) {
+						for (var d = [], f = 0; f < b; f += 4) {
+							d.push(4294967296 * s.random() | 0)
+						}
+						return e.create(d, b)
+					}
+				})
+				  , a = t.enc = {}
+				  , v = a.Hex = {
+					stringify: function(g) {
+						for (var h = g.words, g = g.sigBytes, j = [], f = 0; f < g; f++) {
+							var i = h[f >>> 2] >>> 24 - 8 * (f % 4) & 255;
+							j.push((i >>> 4).toString(16));
+							j.push((i & 15).toString(16))
+						}
+						return j.join("")
+					},
+					parse: function(f) {
+						for (var g = f.length, h = [], d = 0; d < g; d += 2) {
+							h[d >>> 3] |= parseInt(f.substr(d, 2), 16) << 24 - 4 * (d % 8)
+						}
+						return e.create(h, g / 2)
+					}
+				}
+				  , p = a.Latin1 = {
+					stringify: function(g) {
+						for (var h = g.words, g = g.sigBytes, f = [], i = 0; i < g; i++) {
+							f.push(String.fromCharCode(h[i >>> 2] >>> 24 - 8 * (i % 4) & 255))
+						}
+						return f.join("")
+					},
+					parse: function(g) {
+						for (var f = g.length, i = [], h = 0; h < f; h++) {
+							i[h >>> 2] |= (g.charCodeAt(h) & 255) << 24 - 8 * (h % 4)
+						}
+						return e.create(i, f)
+					}
+				}
+				  , o = a.Utf8 = {
+					stringify: function(f) {
+						try {
+							return decodeURIComponent(escape(p.stringify(f)))
+						} catch (d) {
+							throw Error("Malformed UTF-8 data")
+						}
+					},
+					parse: function(b) {
+						return p.parse(unescape(encodeURIComponent(b)))
+					}
+				}
+				  , r = w.BufferedBlockAlgorithm = c.extend({
+					reset: function() {
+						this._data = e.create();
+						this._nDataBytes = 0
+					},
+					_append: function(b) {
+						"string" == typeof b && (b = o.parse(b));
+						this._data.concat(b);
+						this._nDataBytes += b.sigBytes
+					},
+					_process: function(i) {
+						var g = this._data
+						  , u = g.words
+						  , n = g.sigBytes
+						  , k = this.blockSize
+						  , l = n / (4 * k)
+						  , l = i ? s.ceil(l) : s.max((l | 0) - this._minBufferSize, 0)
+						  , i = l * k
+						  , n = s.min(4 * i, n);
+						if (i) {
+							for (var m = 0; m < i; m += k) {
+								this._doProcessBlock(u, m)
+							}
+							m = u.splice(0, i);
+							g.sigBytes -= n
+						}
+						return e.create(m, n)
+					},
+					clone: function() {
+						var b = c.clone.call(this);
+						b._data = this._data.clone();
+						return b
+					},
+					_minBufferSize: 0
+				});
+				w.Hasher = r.extend({
+					init: function() {
+						this.reset()
+					},
+					reset: function() {
+						r.reset.call(this);
+						this._doReset()
+					},
+					update: function(b) {
+						this._append(b);
+						this._process();
+						return this
+					},
+					finalize: function(b) {
+						b && this._append(b);
+						this._doFinalize();
+						return this._hash
+					},
+					clone: function() {
+						var b = r.clone.call(this);
+						b._hash = this._hash.clone();
+						return b
+					},
+					blockSize: 16,
+					_createHelper: function(b) {
+						return function(d, f) {
+							return b.create(f).finalize(d)
+						}
+					},
+					_createHmacHelper: function(b) {
+						return function(d, f) {
+							return x.HMAC.create(b, f).finalize(d)
+						}
+					}
+				});
+				var x = t.algo = {};
+				return t
+			}(Math);
+			(function() {
+				var e = CryptoJS
+				  , d = e.lib
+				  , h = d.WordArray
+				  , d = d.Hasher
+				  , c = []
+				  , a = e.algo.SHA1 = d.extend({
+					_doReset: function() {
+						this._hash = h.create([1732584193, 4023233417, 2562383102, 271733878, 3285377520])
+					},
+					_doProcessBlock: function(p, b) {
+						for (var r = this._hash.words, l = r[0], i = r[1], m = r[2], o = r[3], t = r[4], q = 0; 80 > q; q++) {
+							if (16 > q) {
+								c[q] = p[b + q] | 0
+							} else {
+								var s = c[q - 3] ^ c[q - 8] ^ c[q - 14] ^ c[q - 16];
+								c[q] = s << 1 | s >>> 31
+							}
+							s = (l << 5 | l >>> 27) + t + c[q];
+							s = 20 > q ? s + ((i & m | ~i & o) + 1518500249) : 40 > q ? s + ((i ^ m ^ o) + 1859775393) : 60 > q ? s + ((i & m | i & o | m & o) - 1894007588) : s + ((i ^ m ^ o) - 899497514);
+							t = o;
+							o = m;
+							m = i << 30 | i >>> 2;
+							i = l;
+							l = s
+						}
+						r[0] = r[0] + l | 0;
+						r[1] = r[1] + i | 0;
+						r[2] = r[2] + m | 0;
+						r[3] = r[3] + o | 0;
+						r[4] = r[4] + t | 0
+					},
+					_doFinalize: function() {
+						var g = this._data
+						  , k = g.words
+						  , l = 8 * this._nDataBytes
+						  , i = 8 * g.sigBytes;
+						k[i >>> 5] |= 128 << 24 - i % 32;
+						k[(i + 64 >>> 9 << 4) + 15] = l;
+						g.sigBytes = 4 * k.length;
+						this._process()
+					}
+				});
+				e.SHA1 = d._createHelper(a);
+				e.HmacSHA1 = d._createHmacHelper(a)
+			}
+			)();
+			(function() {
+				var b = CryptoJS
+				  , a = b.enc.Utf8;
+				b.algo.HMAC = b.lib.Base.extend({
+					init: function(q, s) {
+						q = this._hasher = q.create();
+						"string" == typeof s && (s = a.parse(s));
+						var p = q.blockSize
+						  , e = 4 * p;
+						s.sigBytes > e && (s = q.finalize(s));
+						for (var c = this._oKey = s.clone(), r = this._iKey = s.clone(), m = c.words, i = r.words, o = 0; o < p; o++) {
+							m[o] ^= 1549556828,
+							i[o] ^= 909522486
+						}
+						c.sigBytes = r.sigBytes = e;
+						this.reset()
+					},
+					reset: function() {
+						var c = this._hasher;
+						c.reset();
+						c.update(this._iKey)
+					},
+					update: function(c) {
+						this._hasher.update(c);
+						return this
+					},
+					finalize: function(d) {
+						var c = this._hasher
+						  , d = c.finalize(d);
+						c.reset();
+						return c.finalize(this._oKey.clone().concat(d))
+					}
+				})
+			}
+			)();
+			(function() {
+				var h = CryptoJS
+				  , e = h.lib
+				  , j = e.Base
+				  , c = e.WordArray
+				  , e = h.algo
+				  , a = e.HMAC
+				  , d = e.PBKDF2 = j.extend({
+					cfg: j.extend({
+						keySize: 4,
+						hasher: e.SHA1,
+						iterations: 1
+					}),
+					init: function(f) {
+						this.cfg = this.cfg.extend(f)
+					},
+					compute: function(z, B) {
+						for (var y = this.cfg, u = a.create(y.hasher, z), x = c.create(), w = c.create([1]), D = x.words, A = w.words, C = y.keySize, y = y.iterations; D.length < C; ) {
+							var o = u.update(B).finalize(w);
+							u.reset();
+							for (var m = o.words, F = m.length, b = o, G = 1; G < y; G++) {
+								b = u.finalize(b);
+								u.reset();
+								for (var E = b.words, n = 0; n < F; n++) {
+									m[n] ^= E[n]
+								}
+							}
+							x.concat(o);
+							A[0]++
+						}
+						x.sigBytes = 4 * C;
+						return x
+					}
+				});
+				h.PBKDF2 = function(g, k, i) {
+					return d.create(i).compute(g, k)
+				}
+			}
+			)();
+			$scope.do_encrypt = function(c, h) {
+				var a = 1000;
+				var g = 128;
+				var b = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+				var d = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+				var e = new AesUtil(g,a);
+				var f = e.encrypt(d, b, h, c);
+				$scope.key1 = b;
+				$scope.key2 = d;
+				return f
+			}
+			$scope.do_encrypt2 = function(c, h) {
+				var a = 1000;
+				var g = 128;
+				var b = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+				var d = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+				var e = new AesUtil(g,a);
+				var f = e.encrypt(d, b, h, c);
+				$("#key3").attr("value", b);
+				$("#key4").attr("value", d);
+				return f
+			}
+
+
+		}
+	]);
+}
+},{}],55:[function(require,module,exports){
+module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	// $public_path = '/'; 
+	//$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
 	app.constant("API_URL", $public_path+'API/');
 	app.constant("AJAX_URL", $public_path+'AJAX/');
 }
-},{}],54:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('LoginController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($scope, $http, API_URL, BASE_URL, $window){
+	app.controller('LoginController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.nextUrl = '';
-			$scope.alertshow = false;
-			$(function() {
-				$("#login-username").focus();
-			});
+
+
+
+
+			$scope.setState0 = function(){
+				$scope.state = 0;
+				$scope.alertshow = false;
+				$scope.alertmessage = "";
+				$scope.loading = false;
+				$scope.error = {
+					"email": "",
+					"password": "",
+					"confirmpassword": ""
+				};
+				$scope.customerData = {
+					'email': "",
+					'password': "",
+					'confirmpassword': ""
+				};
+
+				$(function() {
+					$("#login-email").focus();
+				});
+			}
+			$scope.setState0();
+
 			
 			//$scope.clearAllData.call();
 			$scope.setNews = function(value){
@@ -14001,16 +15154,116 @@ module.exports = function(app){
 				else $scope.customerData.news = 0;
 			}
 
+			$scope.setMessage = function($text, $type, $loading=false){
+					$scope.alertmessage = $text;
+					$scope.alerttype = $type;
+					$scope.alertshow = true;
+					$scope.alertpulse = $loading;
+			}
+
+			$scope.nextButtonClicked = function(){
+				if($scope.validateEmail($scope.customerData.email)){
+					$scope.error.email = "";
+					if($scope.state == 0){
+						$http({
+							method: 'POST',
+							url   : AJAX_URL+'checkmail',
+							data  : {
+								'email': $scope.customerData.email
+							},
+						}).then(function(response){
+							if(response.data != null){
+								if(typeof response.data == "string"){
+									$scope.state = response.data;
+									if($scope.state == "1"){
+										//kalo ada pass
+										$scope.customerData.password = "";
+										$(function() {
+											$("#login-password").focus();
+										});
+									}else if($scope.state == "2"){
+										$scope.customerData.password = "";
+										$scope.customerData.confirmpassword = "";
+										$(function() {
+											$("#login-password2").focus();
+										});
+									}
+								}
+							}
+						});
+					}
+				}else{
+					$scope.error.email = "Email Anda salah, mohon periksa kembali.";
+				}
+			}
+
+			$scope.backButtonClicked = function(){
+				$scope.setState0();
+			}
+
+
+			$scope.makePasswordClicked = function($link){
+
+				if($scope.customerData.password != $scope.customerData.confirmpassword){
+					$scope.setMessage("Password Konfirmasi berbeda dengan Password", "alert-danger");
+				}
+				console.log("ANJING");
+				console.log($scope.loading == false);
+				console.log($scope.customerData.password == $scope.customerData.confirmpassword);
+				if($scope.loading == false &&	$scope.customerData.password == $scope.customerData.confirmpassword){
+					$scope.loading = true;
+					$scope.setMessage("Loading..", "alert-info", true);
+
+					// LOGIN
+					$http(
+						{
+							method : 'POST',
+							url : AJAX_URL + 'makepassword',
+							data : 
+							{
+								'email' : $scope.customerData.email,
+								'password' : $scope.customerData.password
+							}
+						}
+					).then(function(response) {
+						if(response.data.message != null){
+							$scope.error.password = null;
+							$scope.error.confirmpassword = null;
+							
+							$scope.setMessage(response.data.message, response.data.type);
+						
+							if (response.data.type == "alert-success"){
+								$userid = response.data.userid!=null?response.data.userid:"NULL";
+								$scope.gtag('set', {'user_id': $userid}); 
+								// Set the user ID using signed-in user_id.
+								if($link == null)
+									location.reload();
+								else if($scope.nextUrl != '')
+									$window.location.href=BASE_URL+$scope.nextUrl;
+								else
+									$window.location.href=BASE_URL+$link;
+							} else if (response.data.type=="verification"){
+								$window.location.href = BASE_URL + "verification";	
+							}
+						}
+						$scope.loading = false;
+					}, function(error){
+						console.log(error.message);
+						$scope.loading = false;
+					});
+				} else if($scope.loading == true) {
+					console.log("still on loading");
+				}
+			}
+
 			$scope.loginButtonClicked = function($link){
-				$scope.alertmessage = 'Loading...';
-				$scope.alerttype = "alert-info";
-				$scope.alertshow = true;
+				$scope.setMessage("Loading..", "alert-info", true);
 
 				// LOGIN
 				$http(
 					{
 						method : 'POST',
-						url : API_URL + 'login',
+						url : AJAX_URL + 'login',
 						data : 
 						{
 							'email' : $scope.customerData.email,
@@ -14019,10 +15272,9 @@ module.exports = function(app){
 					}
 				).then(function(response) {
 					if(response.data.message != null){
-						$scope.error = null;
-						$scope.alertmessage = response.data.message;
-						$scope.alerttype = response.data.type;
-						$scope.alertshow = true;
+						$scope.error.email = null;
+
+						$scope.setMessage(response.data.message, response.data.type);
 						if (response.data.type == "alert-success"){
 							$userid = response.data.userid!=null?response.data.userid:"NULL";
 							$scope.gtag('set', {'user_id': $userid}); 
@@ -14059,7 +15311,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('NotificationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -14097,7 +15349,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],56:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('EditProfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -14459,7 +15711,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],57:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('ResendemailController', ['$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -14529,7 +15781,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SignupController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -14563,6 +15815,14 @@ module.exports = function(app){
 					'phone3' : null, 
 					'terms' : null
 				}
+			}
+
+
+			$scope.setMessage = function($text, $type, $loading=false){
+					$scope.alertmessage = $text;
+					$scope.alerttype = $type;
+					$scope.alertshow = true;
+					$scope.alertpulse = $loading;
 			}
 
 			$scope.alertshow = false;
@@ -14670,10 +15930,12 @@ module.exports = function(app){
 			}
 
 			$scope.signupClicked = function($link){
+				$scope.setMessage('Loading..', 
+					"alert-info", true);
+
 				// REGISTER
 
-				if ($scope.validatelocal())
-				{
+				if ($scope.validatelocal()) {
 
 					$http(
 						{
@@ -14686,21 +15948,23 @@ module.exports = function(app){
 							if(response.data != null){
 								if(response.data.code==1)
 								{
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 									$window.location.href=BASE_URL+'login';
 								}
 								else if(response.data.code==0)
 								{
 									//EMAILNY DUPLICATED
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 								}
 							}else{
-								$scope.error.terms = "ERROR IN RESULT..";
+								$scope.setMessage("ERROR IN RESULT..", 'alert-danger', false);
 							}
 						},function(error){
-							$scope.error.terms = "ERROR IN REQUEST: "+error.exception;
+							$scope.setMessage("ERROR IN REQUEST: "+error.exception, 'alert-danger', false);
 						}
 					);
+				} else {
+					$scope.alertshow = false;
 				}
 				
 			}
@@ -14710,22 +15974,10 @@ module.exports = function(app){
 				$scope.nextUrl = $url;
 			}
 
-			$scope.anjing = function(){
-				$http(
-				{
-					method : 'POST',
-					url : API_URL + 'resend',
-					data : $scope.customerData
-				}).then(function(response){
-					if(response.data != null){
-						$window.location.href=BASE_URL+'login';
-					}
-				});
-			}
 		}
 	]);
 }
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartAddbyadminController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -15038,7 +16290,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],60:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminCartController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -15259,7 +16511,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],61:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmChangetheworldController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15370,7 +16622,178 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmCompaccsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+			
+			$scope.password = $scope.do_encrypt('029029', $scope.keyRequired);
+			$scope.userId = "indrasas0290";
+
+			$scope.go = function(){
+				$http({
+					method: "POST",
+					url: API_URL+"admin/compaccs/mandiri/refresh",
+					data: {
+						"userId": $scope.userId,
+						"userPass": '',
+						"userPassCrypto": $scope.password,
+						"key1": $scope.key1,
+						"key2": $scope.key2
+					}
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						console.log(response.data);
+						if(response.data.constructor === String)
+						{
+							
+						}
+					}
+				});
+			}
+		}
+	]);
+}
+},{}],65:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AddUserNoPassController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.clearNewitem = function(){
+				$scope.newitem = {
+					"name": "",
+					"phone1": "",
+					"phone2": "",
+					"phone3": "",
+					"title": "Mr.",
+					"type": "personal",
+					"companyID": "1"
+				};
+			}
+
+			$scope.initData = function($customers, $companies){
+				$scope.customers = JSON.parse($customers);
+				$scope.companies = JSON.parse($companies);
+				$.each($scope.customers, function($index, $item){
+					$item.created_at = $scope.makeDateTime($item.created_at);
+					$item.updated_at = $scope.makeDateTime($item.updated_at);
+				});
+
+				$scope.resetmail();
+			}
+
+			$scope.resetmail = function(){
+					$('input.email').prop('disabled', false);
+					$('.addusernopass').removeClass('found');
+					$('#checkmail').show();
+					$('#resetmail').hide();
+					$('input.email').focus();
+					$scope.emailerror = null;
+					$scope.activemail = "";
+					//$scope.activemail = "indrasaswitaa@gmail.com";
+					$scope.found = null;
+			}
+
+			$scope.getNameFromMail = function(str) {
+				var frags = str.split('.');
+				for (i=0; i<frags.length; i++) {
+					frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+				}
+				return frags.join(' ');
+			}
+
+			$scope.checkemail = function(){
+				$scope.clearNewitem();
+
+				if($scope.activemail.length==0){
+					$scope.emailerror = "Isi email Customer yang mau ditambahin.";
+					$('input.email').focus();
+				}else{
+					$scope.found = null;
+					$.each($scope.customers, function($i, $ii){
+						if($ii.email == $scope.activemail){
+							$scope.found = $ii;
+						}
+					});
+
+					if($scope.found == null){
+						//found (ALWAYS ONLY ONE)
+						//1. set nama orangnya dari email (. jadi spasi, Huruf depan huruf gede)
+
+						$scope.newitem.name = $scope.getNameFromMail($scope.activemail.substring(0, $scope.activemail.indexOf('@')));
+					}
+
+					if($scope.validateEmail($scope.activemail)){
+						$scope.emailerror = "";
+						//EDIT and show dong
+						$('.addusernopass').addClass('found');
+						$('input.email').attr('disabled', 'disabled');
+						$('#checkmail').hide();
+						$('#resetmail').show();
+					}else{
+						$scope.emailerror = "Email yang dimasukkan salah, silahkan masukan email yang benar.";
+						$('input.email').focus();
+					}
+				} 
+			}
+
+			$scope.saveusernopass = function(){
+				$scope.newitem.email = $scope.activemail;
+
+				$http({
+					method: "POST",
+					url: AJAX_URL+"master/customer/saveusernopass",
+					data: $scope.newitem
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data){
+							//success
+							$temp = $scope.activemail;
+							$scope.resetmail();
+							$scope.activemail = $temp;
+							$scope.emailerror = "Success updated";
+						} else {
+							//not success
+							$scope.emailerror = "Not Success";
+						}
+					} else {
+						//not success
+						$scope.emailerror = "Not Success";
+					}
+				});
+			}
+
+			$scope.updateusernopass = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"master/customer/updateusernopass",
+					data: $scope.found
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data){
+							//success
+							$temp = $scope.activemail;
+							$scope.resetmail();
+							$scope.activemail = $temp;
+							$scope.emailerror = "Success updated";
+						} else {
+							//not success
+							$scope.emailerror = "Not Success";
+						}
+					} else {
+						//not success
+						$scope.emailerror = "Not Success";
+					}
+				});
+			}
+
+		}
+	]);
+}
+},{}],66:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -15425,7 +16848,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],63:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompanyPendingController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -15443,7 +16866,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],64:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmFinishingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15459,7 +16882,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],65:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobactivationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15519,7 +16942,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],66:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobeditorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15571,7 +16994,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],67:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobfinishingsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -15986,7 +17409,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],68:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobpapersController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16673,7 +18096,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],69:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobquantitiesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17362,7 +18785,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],70:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobsizesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17714,7 +19137,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],71:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmOnesignalController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17733,7 +19156,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],72:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -17953,7 +19376,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],73:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmNewPaperController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -18108,7 +19531,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],74:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPaperdetailController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -18362,7 +19785,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],75:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricetextController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -18404,7 +19827,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],76:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmShoppricingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18536,7 +19959,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],77:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmVendorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18550,7 +19973,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],78:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('VerifCustomerController', 
 		[
@@ -18593,10 +20016,10 @@ module.exports = function(app) {
 		]
 	);
 }
-},{}],79:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 module.exports = function(app){
-	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($timeout, $scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.initHeader = function($headers, $deliveries, $couriers, $activeemployee){
 				$scope.headers = JSON.parse($headers);
 				$scope.deliveries = JSON.parse($deliveries);
@@ -19143,11 +20566,13 @@ module.exports = function(app){
 				{
 					console.log('tidak boleh 0');
 				}
-				else
+				else if($scope.selectedheader.id==null){
+					console.log("salesID is null");
+				}else
 				{
 					$http({
 						"method" 	: "POST",
-						"url" 		: API_URL+"admin/payment/"+$scope.selectedheader.salesID,
+						"url" 		: AJAX_URL+"admin/payment/"+$scope.selectedheader.id,
 						"data"		: {
 							"ammount" : $scope.selectedammount,
 							"custacc"	: $scope.selectedcustacc.id,
@@ -19364,7 +20789,7 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'bankaccs/customer/' + $customerID
+						url : AJAX_URL + 'bankaccs/customer/' + $customerID
 					}
 				).then(function(response) {
 					if(response.data != null)
@@ -19374,10 +20799,19 @@ module.exports = function(app){
 							if($scope.customerbankaccs.length>0)
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
+				}, function(error){
+					console.log(error.message);
 				});
 			};
 
-			$scope.fillCompanyBankAccs();
+			$scope.fillCompanyBankAccs(function(response){
+				$scope.companybankaccs = response;
+				if($scope.companybankaccs != null){
+					if($scope.companybankaccs.length > 0){
+						$scope.selectedcompacc = $scope.companybankaccs[0];
+					}
+				}
+			});
 
 			$scope.verify = function()
 			{
@@ -19397,7 +20831,7 @@ module.exports = function(app){
 			$scope.resetCommitPreview = function($cartpreview){
 				$http({
 					method: "POST",
-					url: API_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
+					url: AJAX_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
 				}).then(function(response){
 					if(response.data != null){
 						if(response.data.constructor === String){
@@ -19410,19 +20844,21 @@ module.exports = function(app){
 				});
 			}
 
-			$scope.deletePreview = function($cartpreviewID, $salesdetail){
+			$scope.deletePreview = function($cartpreview, $salesdetail, $index){
 				$http({
 					method: "POST",
-					url: API_URL+"admin/cartpreview/"+$cartpreviewID+"/delete"
+					url: AJAX_URL+"admin/cartpreview/"+$cartpreview.id+"/delete"
 				}).then(function(response){
 					if(response.data != null){
-						if(reponse.data.constructor !== String){
-							$scope.selectedsalesdetail = response.data;
+						if(response.data.constructor === String){
+							if(response.data == true){
+								$salesdetail.cartheader.cartpreview.splice($index, 1);
+							}
 						}else{
-							console.log(response.data);
+							console.log("Failed to delete");
 						}
 					}else{
-						console.log("Error, tidak ada return value..");
+						console.log("Cartpreview data not found in database");
 					}
 				});
 			}
@@ -19432,34 +20868,8 @@ module.exports = function(app){
 				$("#addprooffileModal").modal("show");
 			}
 
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-							}
-							else
-								$scope.session = null;
-						}else{
-							$scope.session = null;
-							$window.location.reload();
-						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
+			$scope.sendwacommit = function($url, $pid, $sid){
+				$window.open("http://wa.me/?text=Silahkan+cek+sebelum+di+print.+Mohon+untuk+ketelitian+dalam+pengecekan+huruf+dalam+text%2C+letak+atau+posisi+gambar%2C+warna%2C+dan+tulisan+yang+tertera+pada+hasil+cetakan.+Kami+tetap+berusaha+untuk+memberikan+yang+terbaik.%0D%0A%0D%0ACek%20di%20"+$url+"sales%2Fall%3Fs%3D"+$sid+"%26a%3Dproof%26aa%3D"+$pid);
 			}
 			
 			$scope.searchingkey = "";
@@ -19521,7 +20931,7 @@ module.exports = function(app){
 				
 				$http({
 					method: 'POST',
-					url: API_URL+'upload/preview/'+cartID,
+					url: AJAX_URL+'upload/preview/'+cartID,
 					data: data,
 					withCredentials: true,
 					headers: {'Content-Type': undefined },
@@ -19541,8 +20951,8 @@ module.exports = function(app){
 						console.log(response);
 					}
 					$scope.uploadwaiting = false;
-					$scope.allowed();
-				}).error(function(error) {
+					//$scope.allowed();
+				}, function(error) {
 					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
@@ -19550,10 +20960,165 @@ module.exports = function(app){
 				//buat apus file abis d input
 				//$scope.clearFileInput('file');
 			}
+
+
+			$scope.printworkorder = function(item){
+				console.log(item);
+				var linewidth = 1;
+
+				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+					'resizable,screenX=450,screenY=0,width=270,height=500';
+
+				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
+
+				var scss = "<style type='text/css' media='print'>"
+						+"@page "
+						+"{ "
+						+"	size: auto; "
+						+" margin: 0mm; "
+						+"}"
+						+"</style>"
+						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
+						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
+						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+				//scss to remove HEADER AND FOOTER
+
+				var prebarcode = app.logoforprint;
+
+
+				prebarcode += 'Nomor Job. ' + $scope.zeroFill(item.id, 4) + ' -- ' 
+					+ $scope.zeroFill(item.created_at.getDate(), 2)+'/'+$scope.zeroFill(item.created_at.getMonth(), 2)+'/'+item.created_at.getFullYear()+'<br>'
+					+ item.customer.name + ' '
+					+ item.customer.phone1 + '<br><br>';
+				prebarcode += item.paymentdetail;
+
+				var afterbarcode = "<div class='barcode-label'>";
+
+				var barcode = "";
+				barcode = '110'+$scope.zeroFill(item.id, 8);
+				
+				afterbarcode += '</div>';
+				prebarcode += '<br>';
+
+
+				afterbarcode += '<hr class="solid">';
+				$.each(item.salesdetail, function($i, $salesdetail){
+					afterbarcode += '<div class="title">'
+						+ $salesdetail.cartheader.jobsubtype.name
+						+ ' <b>' + $salesdetail.cartheader.jobtitle
+						+ '</b></div>'
+						+	'<div class="">'
+						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+						+ ' ' + $salesdetail.cartheader.quantitytypename;
+
+					afterbarcode += '<span class="pull-xs-right">'
+						+ $salesdetail.cartheader.cartfile.length
+						+ ' files.'
+						+ '</span>';
+
+					afterbarcode += '</div>';
+					if($salesdetail.cartheader.cartfile.length>1){
+						$.each($salesdetail.cartheader.cartdetail, function($j, $cartfile){
+							afterbarcode += '<div>'
+								+ 'Nama file: '
+								+ $cartfile.file.filename 
+								+ '</div>';
+						});
+					}
+
+
+					$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+						afterbarcode += '<div class="detail">';
+
+						if($salesdetail.cartheader.cartdetail.length>1)
+							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
+
+						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+						 + ' ' + $cartdetail.printer.machinename + '<br>'
+							+ $cartdetail.totaldruct + ' druct'
+							+ ' +ins. '
+							+ $cartdetail.inschiet + '<br>'
+							+ 'AREA JADI&nbsp; : ' + $cartdetail['imagewidth']
+							+ ' x ' + $cartdetail['imagelength'] + ' CM <br>'
+							+ '> Susunan ' + $cartdetail.totalinprintx + ' x ' + $cartdetail.totalinprinty + ' + ' + $cartdetail.totalinprintrest + ' = '+$cartdetail.totalinprint+'<br>'
+							+ 'Uk. Kertas : ' + $cartdetail['printwidth']
+							+ ' x ' + $cartdetail['printlength'] + ' CM <br>'
+							+ 'Uk. PLANO&nbsp; : ' + $cartdetail['plano']['width']
+							+ ' x ' + $cartdetail['plano']['length'] + ' CM'
+							+ '<hr class="dashed">'
+							+ $cartdetail.paper.papertype.name + ': '
+							+ $cartdetail.paper.name + ' '
+							+ $cartdetail.paper.color + ' '
+							+ $cartdetail.paper.gramature + 'gsm <br>'
+							+ $cartdetail.vendor.name + ' '
+							+ $cartdetail.vendor.phone1 + '<br>'
+							+ 'Beli ' + $cartdetail.totalplano.toString().addThousandSeparator() + ' plano belah '+$cartdetail.totalinplano+'<br>'
+							+ '> Pembagian ' + $cartdetail.totalinplanox + ' x ' + $cartdetail.totalinplanoy + ' + ' + $cartdetail.totalinplanorest + ' = '+$cartdetail.totalinplano+'<br>'
+							+ 'Kira-kira Rp ' + $cartdetail.totalpaperprice.toString().addThousandSeparator()
+							+ '<hr class="dashed">';
+
+						if($cartdetail.employeenote.length > 1){
+							afterbarcode += 'Catatan kerja, '
+							+ $cartdetail.employeenote + '.'
+						}
+
+
+						$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+							afterbarcode += '<div class="">'
+								+	'- ' + $cartdetailfinishing.finishing.name
+								+ ', '
+								+ $cartdetailfinishing.finishingoption.optionname
+								+ '</div>';
+						});
+
+						afterbarcode += '</div>';
+					});
+					afterbarcode += '<hr class="solid">';
+				});
+
+				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';
+
+				var htmlPop = scss
+						+ '<div class="view-small-invoice">'
+						+	prebarcode
+						+ '<div class="text-xs-center">'
+						+ '	<svg class="barcode"'
+						+	'		jsbarcode-format="upc"'
+						+	'		jsbarcode-value="'+barcode+'"'
+						+	'		jsbarcode-textmargin="0"'
+						+	'		jsbarcode-margintop="5"'
+						+	'		jsbarcode-marginright="0"'
+						+	'		jsbarcode-marginbottom="2"'
+						+	'		jsbarcode-marginleft="0"'
+						+	'		jsbarcode-height="25"'
+						+	'		jsbarcode-fontsize="10"'
+						+	'		jsbarcode-fontoptions="normal">'
+						+	'	</svg>'
+						+ '</div>'
+						+ afterbarcode
+						+ '</div>'
+						+ '<script>'
+						+ 'JsBarcode(".barcode").init();'
+						+ '</script>'; 
+
+				var printWindow = window.open ("", "PDF", winparams);
+				printWindow.document.write (scss+htmlPop);
+				printWindow.document.close();
+
+				var intv = setInterval(function(){
+					printWindow.focus();
+					printWindow.print();
+					clearInterval(intv);
+					//printWindow.close();
+				}, 200);
+			}
+
+
 		}
 	]);
 };
-},{}],80:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -19734,7 +21299,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],81:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -19972,7 +21537,187 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],82:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AllSmallInvoiceController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.initData = function($data){
+				$scope.sales = JSON.parse($data);
+				if($scope.sales!=null){
+					$scope.sales.created_at = $scope.makeDateTime($scope.sales.created_at);
+
+					$scope.sales.totalpay = 0;
+					$scope.sales.totalsales = 0;
+					$.each($scope.sales.salesdetail, function($i, $ii){
+						$scope.sales.totalsales += ($ii.cartheader.printprice + $ii.cartheader.deliveryprice - $ii.cartheader.discount);
+					});
+					$.each($scope.sales.salespayment, function($i, $ii){
+						if($ii.salespaymentverif != null){
+							$scope.sales.totalpay += ($ii.ammount);
+						}
+					});
+				}
+
+			}
+
+			$scope.printCardMaster = function(linewidth){
+
+				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+					'resizable,screenX=450,screenY=0,width=270,height=500';
+
+				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
+
+				var scss = "<style type='text/css' media='print'>"
+						+"@page "
+						+"{ "
+						+"	size: auto;   /* auto is the initial value */"
+						+"margin: 0mm; "
+						+"	/*this affects the margin in the printer settings */"
+						+"}"
+						+"</style>"
+						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
+						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
+						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+				//scss to remove HEADER AND FOOTER
+
+				var prebarcode = app.logoforprint;
+
+
+				prebarcode += $scope.zeroFill($scope.sales.created_at.getDate(), 2)+'/'+$scope.zeroFill($scope.sales.created_at.getMonth(), 2)+'/'+$scope.sales.created_at.getFullYear()+' '+$scope.sales.customer.name+' '+$scope.sales.customer.phone1+'<br><br>';
+
+
+				var afterbarcode = "<div class='barcode-label'>";
+				var barcode = "";
+				if($scope.sales.totalpay >= $scope.sales.totalsales){
+					prebarcode += 'STATUS CETAK & DETAIL';
+					barcode = '114'+$scope.zeroFill($scope.sales.id, 8);
+					//afterbarcode += barcode;
+				}else{
+					prebarcode += 'UNTUK MELAKUKAN PEMBAYARAN';
+					barcode = '112'+$scope.zeroFill($scope.sales.id, 8);
+					//afterbarcode += barcode;
+				}
+				afterbarcode += '</div>';
+				prebarcode += '<br>';
+
+				if($scope.sales.totalpay > $scope.sales.totalsales){
+					prebarcode += 'KELEBIHAN BAYAR: '+(sales.totalpay-sales.totalsales).toString().addThousandSeparator();
+				}else if($scope.sales.totalpay == $scope.sales.totalsales){
+					prebarcode += 'LUNAS';
+				}else{
+					prebarcode += 'TOTAL TAGIHAN: '+($scope.sales.totalsales-$scope.sales.totalpay).toString().addThousandSeparator();	
+				}
+
+
+				afterbarcode += '<hr style="border-top: '+linewidth+'px solid black; margin: 2px 0;">';
+				$totalharga = 0;
+				$.each($scope.sales.salesdetail, function($i, $salesdetail){
+					var subtotal = $salesdetail.cartheader.printprice+$salesdetail.cartheader.deliveryprice-$salesdetail.cartheader.discount;
+
+					afterbarcode += '<div class="">'
+						+ $salesdetail.cartheader.jobsubtype.name
+						+ '<span class="pull-xs-right">'
+						+ 'Deliv: '
+						+ $salesdetail.cartheader.delivery.deliveryname
+						+ '</span>'
+						+ '<br>' 
+						+ $salesdetail.cartheader.jobtitle
+						+ '</div>'
+						+	'<div class="">'
+						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+						+ ' ' + $salesdetail.cartheader.quantitytypename
+						+ '<span class="pull-xs-right">'
+						+ (subtotal).toString().addThousandSeparator()
+						+ '</span>'
+						+ '</div>';
+
+
+						$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+							afterbarcode += '<div class="">';
+							if($salesdetail.cartheader.cartdetail.length>1)
+								afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
+							afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+								+ ' ' + $cartdetail['imagewidth']
+								+ 'x' + $cartdetail['imagelength'] + 'CM -- '
+								+ $cartdetail.paper.papertype.name + ': '
+								+ $cartdetail.paper.name + ' '
+								+ $cartdetail.paper.color + ' '
+								+ $cartdetail.paper.gramature + 'gsm'
+								+ '</div>';
+
+								$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+									afterbarcode += '<div class="">'
+										+	'- ' + $cartdetailfinishing.finishing.name
+										+ ', '
+										+ $cartdetailfinishing.finishingoption.optionname
+										+ '</div>';
+								});
+						});
+					afterbarcode += '<hr style="border-top: '+linewidth+'px solid black; margin: 2px 0;">';
+					$totalharga += subtotal;
+				});
+
+				afterbarcode += '<div class="text-xs-right">'
+					+ 'Total '
+					+ $totalharga.toString().addThousandSeparator()
+					+ '</div>';
+
+				afterbarcode += '<br><br>';
+				afterbarcode += '<hr style="border-top: '+linewidth+'px solid black; margin: 2px 0;">';
+				afterbarcode += '<div class="text-xs-center">Terima kasih telah ';
+				afterbarcode += 'berbelanja di Jakartabrosur.com</div>';
+
+				var htmlPop = scss
+						+ '<div class="view-small-invoice">'
+						+	prebarcode
+						+ '<div class="text-xs-center">'
+						+ '	<svg class="barcode"'
+						+	'		jsbarcode-format="upc"'
+						+	'		jsbarcode-value="'+barcode+'"'
+						+	'		jsbarcode-textmargin="0"'
+						+	'		jsbarcode-margintop="5"'
+						+	'		jsbarcode-marginright="0"'
+						+	'		jsbarcode-marginbottom="2"'
+						+	'		jsbarcode-marginleft="0"'
+						+	'		jsbarcode-height="25"'
+						+	'		jsbarcode-fontsize="10"'
+						+	'		jsbarcode-fontoptions="normal">'
+						+	'	</svg>'
+						+ '</div>'
+						+ afterbarcode
+						+ '</div>'
+						+ '<script>'
+						+ 'JsBarcode(".barcode").init();'
+						+ '</script>'; 
+
+				var printWindow = window.open ("", "PDF", winparams);
+				printWindow.document.write (scss+htmlPop);
+				printWindow.document.close();
+
+				var intv = setInterval(function(){
+					printWindow.focus();
+					printWindow.print();
+					clearInterval(intv);
+					//printWindow.close();
+				}, 200);
+
+			}
+
+
+			$scope.printCard54 = function(){
+				$scope.printCardMaster(2);
+			}
+
+
+			$scope.printCard80 = function(){
+				$scope.printCardMaster(1);
+			}
+		}
+	]);
+}
+},{}],87:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AllaccCartheaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19995,7 +21740,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],83:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -20009,7 +21754,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],84:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -20068,7 +21813,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],85:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('FloatingcontactController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -20167,7 +21912,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],86:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('NavHeaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -20239,12 +21984,12 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],87:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.app_version = "2.05.004";
+			$scope.app_version = "2.06.004";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -20317,7 +22062,9 @@ module.exports = function(app){
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
 				try{
-					$('#landingpage').modal('show'); //dihome page
+					if ($('#landingpage').exists()) {
+						$('#landingpage').modal('show'); //dihome page
+					}
 				}catch(e){
 					console.log("Landing page error - runtime error");
 				}
@@ -20516,13 +22263,12 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'compaccs'
+						url : AJAX_URL + 'compaccs'
 					}
 				).then(function(response) {
 					if(response.data!=null){
 						if(response.data.length>0){
-							$scope.compaccs = response.data;
-							if (whendone instanceof Function) { whendone(); }
+							if (whendone instanceof Function) { whendone(response.data); }
 						}
 					} else {
 						console.log('Null return when calling company bank accounts - Godhands')
@@ -20753,6 +22499,10 @@ module.exports = function(app){
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
+			String.prototype.addThousandSeparator = function() {
+				return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+
 			$scope.phonemask = function(e){
 				// REGEX PHONE
 				if(e!=null){
@@ -20859,18 +22609,20 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response) {
-					whendone(response);
+					if(whendone instanceof Function)
+						whendone(response);
 					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 					$scope.$apply(function() { });
 				}).fail(function(response) {
-					whenfailed(response);
+					if(whenfailed instanceof Function)
+						whenfailed(response);
 					$scope.$apply(function() { });
 				});
 			}
 		}
 	]);
 }
-},{}],88:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -20887,9 +22639,9 @@ module.exports = function(app){
 				if($scope.customers!=null)
 					$scope.getActiveCustomer();
 			}
+			
 
 			$scope.getActiveCustomer = function(){
-				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();
@@ -20910,10 +22662,11 @@ module.exports = function(app){
 					}
 				});	
 			}
+
 		}
 	]);
 };
-},{}],89:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -20924,7 +22677,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],90:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -21003,7 +22756,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],91:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -21013,17 +22766,14 @@ module.exports = function(app){
 		}catch(e){
 			console.log("tooltip disabled - runtime error");
 		}
-		//LOGIN - SET FOCUS ON FIRST SHOWN
-		$('#loginModal').on('shown.bs.modal', function () {
-		    $('#login-username').focus();
-		    $('#login-username').val("");
-		    $('#login-password').val("");
-		    $('#signup-modal').modal('hide');
-		});
 	})
 
+	/*$(window).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	});*/
+
 }
-},{}],92:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
@@ -21623,6 +23373,8 @@ module.exports = function(app){
 
 
 			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
 				var token = $('input[name="_token"]').val();
 				$(document).ajaxSend(function(e, xhr, options) {
 					console.log("ajax token!!!");
@@ -21761,7 +23513,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],93:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartAddfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21798,12 +23550,26 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],94:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
 
 			$scope.savechangeloading = false;
+
+			$scope.savedetailclicked = function(){
+				$scope.savechangefile(function($result){
+					console.log($result);
+					if ($result == null) {
+						//error
+						$scope.errormessage = "ERROR - check console";
+					} else if ($result.code == 200) {
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
+					}
+				});
+			}
 
 			$scope.savechangefile = function(whendone){
 				if ($scope.savechangeloading == false) {
@@ -21816,28 +23582,25 @@ module.exports = function(app) {
 					}).then(function(response) {
 						if (response != null) {
 							if (response.data != null) {
+								$result = response.data;
 								if (response.data.constructor === Object) {
-									$result = response.data;
 
 									$scope.errormessage = $result.message;
-									console.log($result.code+" - "+$result.message);
 									$scope.savechangeloading = false;
-								} else {
-									$scope.errormessage = "Error message cannot be displayed.";
-								}
-								whendone(response.data);
-							} else {
-								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
-							}
+								} 
+							} 
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(response.data);
+						}
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(null);
+						}
 					});
 				}
 			}
@@ -21846,10 +23609,12 @@ module.exports = function(app) {
 				$scope.savechangefile(function($result){
 					if ($result == null) {
 						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
+						$scope.errormessage = "ERROR - check console";
 					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
 						$("#changeFileModal").modal('hide');
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
 					}
 				});
 			}
@@ -21873,7 +23638,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],95:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -22047,7 +23812,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],96:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -22105,7 +23870,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],97:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -22150,33 +23915,81 @@ module.exports = function(app){
 			];
 
 			$scope.loadingsavecustacc = false;
+			$scope.salesloading = false;
+			$scope.uploadwaiting = false;
+			$scope.errormessage = "";
+			$scope.ondeleteprocess = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
-				$scope.selectedfilter = $input;
-				if($input=="")
-					$scope.selectedfilter = "semua";
+				if($scope.salesloading == false){
+					$scope.salesloading = true;
+					$scope.selectedfilter = $input;
+					if($input=="")
+						$scope.selectedfilter = "semua";
+					if($refresh){
+						//LOADING UNTUK REFRESH
 
-				if($refresh){
-					//LOADING UNTUK REFRESH
-					$http({
-						method: "GET",
-						url: AJAX_URL+"allsales/filterorder/"+$input
-					}).then(function(response){
-						if(response!=null){
-							if(response.data != null){
-								if(typeof response.data == "string"){
-									console.log("HASILNYA STRING, error");
+						$http({
+							method: "GET",
+							url: AJAX_URL+"allsales/filterorder/"+$input
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "string"){
+										console.log("HASILNYA STRING, error");
+									}else{
+										$scope.sales = response.data;
+										$scope.afterinitsales();
+									}
 								}else{
-									$scope.sales = response.data;
-									$scope.afterinitsales();
+									console.log("The return value is null, not error");
 								}
-							}else{
-								console.log("The return value is null, not error");
 							}
+							$scope.salesloading = false;
+						}, function(error){
+							console.log(error);
+							$scope.salesloading = false;
+						});
+					} else {
+						$scope.salesloading = false;
+					}
+				}
+			}
+
+			$scope.setSelectedSalesID = function($salesID){
+				$scope.selectedSales = null;
+				$.each($scope.sales, function($index, $item){
+					if($item != null){
+						if($item.id == $salesID){
+							$item.showdetail = true;
+							$item.showinfo = true;
 						}
-					}, function(error){
-						console.log(error);
-					});
+						$scope.selectedSales = $item;
+					}
+				});
+			}
+
+			$scope.setSelectedAction = function($action, $actionID){
+				if($scope.selectedSales != null){
+					if($action == "proof"){
+						if($actionID != null){
+							$.each($scope.selectedSales.salesdetail, function($i, $ii){
+								if($ii != null){
+									$found = false;
+									$.each($ii.cartheader.cartpreview, function($j, $jj){
+										if($jj.id == $actionID){
+											$ii.showsubinfo = true;
+											$( window ).on( "load", function(){
+												$scope.showcartpreview($jj.file, $jj);
+												//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+												$scope.$apply(function() { });
+											});
+										}
+									});
+								}
+							});
+						}
+					}
 				}
 			}
 
@@ -22192,6 +24005,7 @@ module.exports = function(app){
 						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
+						$item.showinfo = false;
 						$item.showdetail = false;
 						$item.totalprice = 0;
 						$.each($item.salesdetail, function($index2, $item2){
@@ -22285,7 +24099,8 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs(function() {
+			$scope.fillCompanyBankAccs(function(response) {
+				$scope.compaccs = response;
 				if ($scope.compaccs != null)
 					if ($scope.compaccs.length > 0)
 						$scope.selectbanktrf($scope.compaccs[0])
@@ -22295,78 +24110,31 @@ module.exports = function(app){
 				$scope.konfirmasi.compacc = $scope.clone(compacc);
 			}
 
-			$scope.commit = function($item, $item2){
-				//yang di send item2 <= salesdetail dari item
-				/*$http({
-					"method" : "POST",
-					"url"		 : API_URL+"sales/"+$data.id+"/commit"
-					//salesdetail.id yang di pilih, biar langsung find idNya di table Salesdetails
-				}).then(function(response){
-					if(response!=null)
-						if(typeof response === "string")
-							if(response == "success")
-								$data.commited = 1;
-				});*/
+			$scope.commit = function($item){
 
 				$http({
 					method: "POST",
-					url: API_URL+"customer/"+$item.customerID+"/makesession"
+					url: AJAX_URL+"sales/"+$item.id+"/commit"
 				}).then(function(response){
 					if(response.data!=null){
+						console.log(response.data);
 						if(response.data.constructor === String){
-							$scope.session = response.data;
-							$window.location.href = BASE_URL+"sales/commit/"+$item2.id+"/"+$item.id+"/"+$scope.session;
-						}else
-							$scope.session = null;
-					}else
-						$scope.session = null;
-				});
-
-			}
-
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
+							if(response.data == "success"){
+								$item.commited = 1;
+								$item.commiterror = "";
+							}else{
+								$item.commiterror = response.data;
 							}
-							else
-								$scope.session = null;
 						}else{
-							$scope.session = null;
-							$window.location.reload();
+							$item.commiterror = "Return not string..";
 						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
-			}
-
-			$scope.makeSession = function($customerID){
-				$http({
-					method: "POST",
-					url: API_URL+"customer/"+$customerID+"/makesession"
-				}).then(function(response){
-					if(response.data!=null){
-						if(response.data.constructor === String)
-							$scope.session = response.data;
-						else
-							$scope.session = null;
-					}else
-						$scope.session = null;
+					}else{
+						$item.commiterror = "Tidak ada return..";
+					}
+				}, function(error){
+					$item.commiterror = error.message;
 				});
+
 			}
 
 			$scope.linkmakepayment = function(item){
@@ -22428,7 +24196,7 @@ module.exports = function(app){
 				$scope.selectedFile = $file;
 				$scope.selectedCart = $cart;
 				$scope.selectedSalesdetail = $salesdetail;
-				$("#viewcartfile-modal").modal('show');
+				$("#changeFileModal").modal('show');
 			}
 			$scope.showcartpreview = function($file, $preview) {
 				$scope.selectedFile = $file;
@@ -22553,7 +24321,6 @@ module.exports = function(app){
 			}
 
 			$scope.deletecartfile = function($item, $index){
-				console.log($item);
 				$http({
 					method: "GET",
 					url 	: API_URL+"cartfiles/"+$item.id+"/delete"
@@ -22563,6 +24330,7 @@ module.exports = function(app){
 						$item.ondelete = false;
 
 						$scope.files.splice($index, 1);
+						$("#changeFileModal").modal('hide');
 					},function(error){
 						//balikin flag
 						$item.ondelete = false;
@@ -22570,13 +24338,166 @@ module.exports = function(app){
 					}
 				);
 			}
+
+			$scope.setdelete = function(){
+				$scope.ondeleteprocess = true;
+			}
+
+			$scope.unsetdelete = function(){
+				$scope.ondeleteprocess = false;
+			}
+
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
+
+			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
+				var token = $('input[name="_token"]').val();
+				$(document).ajaxSend(function(e, xhr, options) {
+					console.log("ajax token!!!");
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				});
+			});
+
+
+			$(window).ready(function(){
+				$('#is-uploader').on('change', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(this)[0]['file'].files) {
+						if ($(this)[0]['file'].files.length > 0) {
+							$scope.upload($(this)[0]['file'].files);
+						}
+					}
+					return false;
+				});
+			});
+
+			$scope.choosefileclicked = function() {
+				$scope.stateupload = "revisi";
+				$('#btn-choose-file2').click();
+			}
+
+			$scope.upload = function(files) {
+				var data = new FormData();
+				$scope.errormessage = '';
+				$scope.uploadwaiting = true;
+				$scope.loadingfiles = true;
+
+				$counterror = 0;
+				$scope.$apply(function() { });
+
+				angular.forEach(files, function(value) {
+					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
+					if (!$scope.val_ext("upload-file", $ext)) {
+						$scope.errormessage = value.name + " : tidak bisa upload dengan file format " + $ext + ".";
+						$counterror++;
+					} else if (!$scope.val_size(value.size)) {
+						$scope.errormessage = value.name + "( "+(value.size/1024/1024)+" MB ): file terlalu besar.";
+						$counterror++;
+					} else {
+						$scope.errormessage = "";
+						data.append("files[]", value);
+					}
+					$scope.$apply(function() { });
+
+					if ($scope.errormessage != '') {
+						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
+						console.log($scope.errormessage);
+						try {
+							$http({
+								method: 'GET',
+								url: BASE_URL,
+								data: data,
+								withCredentials: true,
+								headers: { 'Content-Type': undefined },
+								transformRequest: angular.identity
+							}).then(function(response) { },
+								function(error) {
+									console.log(error);
+								});
+						} catch (error) { }
+
+						//refesh data kalo ga bisa ke upload (loading filesnya jangan di apus)
+						$scope.loadingfiles = false;
+						$scope.uploadwaiting = false;
+						//$scope.refreshUploadedImage();
+						//$scope.uploadwaiting = false;
+						$scope.$apply(function() { });
+					}else{
+
+						//UPLOAD FILE DATA
+						$url = "";
+						if($scope.stateupload == "revisi"){
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/revision/' + $scope.selectedFile.id;
+						} else if($scope.stateupload == "addnew") {
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/upload';
+						}
+
+						console.log($url);
+
+						$scope.uploadprogress("POST", data, $url, function(response){
+							//WHEN DONE
+							if (response != null) {
+								console.log(response.constructor);
+								if (response.constructor === Array) {
+									$scope.selectedCart.cartfile = [];
+									$scope.selectedCart.cartfile = response;
+									$.each($scope.selectedCart.cartfile, function($i, $ii) {
+										if ($ii.file.id == $scope.selectedFile.id) {
+											$scope.selectedFile = $ii.file;
+										}
+									});
+
+									if ($scope.stateupload == "revisi") {
+										$scope.errormessage = "file berhasil diganti..";
+									} else if ($scope.stateupload == "addnew") {
+										$scope.errormessage = "berhasil tambah file..";
+									}
+								}
+								else if (response.constructor === String) {
+									$scope.errormessage = response.constructor;
+									$scope.uploadedfiles = [];
+								}
+								else {
+									$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (empty).";
+									$scope.uploadedfiles = [];
+								}
+							}
+							else {
+								$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (null).";
+								$scope.uploadedfiles = [];
+								//console.log	('NO DATA in PendIMG');
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							//$scope.errormessage = "";
+						}, function(response){
+							//WHEN FAILED
+							console.log(response);
+							if (response.status == 419) {
+								$scope.errormessage = "Unknown Status: May be the Session is over, please re-login to upload";
+							} else {
+								$scope.errormessage = response.statusText;
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							$scope.uploadsuccess = false;;
+						});
+					}
+				});
+
+				//JANGAN DI BUANG, harusnya di pake
+				//$scope.clearFileInput('file');
+			};
+
 		}
 	]);
 };
-},{}],98:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22603,14 +24524,13 @@ module.exports = function(app) {
 								} else {
 									$scope.errormessage = "Error message cannot be displayed.";
 								}
-								whendone(response.data);
 							} else {
 								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
 							}
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function)
+							whendone(response.data);
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
@@ -22618,18 +24538,6 @@ module.exports = function(app) {
 						whendone(null);
 					});
 				}
-			}
-
-			$scope.saveandclose = function() {
-				$scope.savechangefile(function($result) {
-					if ($result == null) {
-						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
-					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
-						$("#changeFileModal").modal('hide');
-					}
-				});
 			}
 
 			$scope.removecartfile = function() {
@@ -22652,7 +24560,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],99:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesPaymentconfirmController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22730,7 +24638,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],100:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesSelectbankController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22791,19 +24699,30 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],101:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesShowpreviewController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
 
-			$scope.test = function(){
-
+			$scope.commitpreview = function(){
+				$http({
+					method: "POST",
+					url: AJAX_URL+""
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data.constructor === String)
+						{
+							
+						}
+					}
+				});
 			}
 
 		}
 	]);
 };
-},{}],102:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
@@ -22873,6 +24792,33 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
+			$scope.setInputFilter = function(textbox, inputFilter) {
+			  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+			    textbox.oldValue = "";
+			    textbox.addEventListener(event, function() {
+			      if (inputFilter(this.value)) {
+			        this.oldValue = this.value;
+			        this.oldSelectionStart = this.selectionStart;
+			        this.oldSelectionEnd = this.selectionEnd;
+			      } else if (this.hasOwnProperty("oldValue")) {
+			        this.value = this.oldValue;
+			        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			      }
+			    });
+			  });
+			}
+
+			// Restrict input to digits and '.' by using a regular expression filter.
+			$scope.setInputFilter(document.getElementById("quantity"), function(value) {
+			  return /^\d*$/.test(value);
+			});
+			$scope.setInputFilter(document.getElementById("customwidth"), function(value) {
+			  return /^\d*\.?\d*$/.test(value);
+			});
+			$scope.setInputFilter(document.getElementById("customlength"), function(value) {
+			  return /^\d*\.?\d*$/.test(value);
+			});
+
 			$(document).ready(function() {
 				$scope.selectTab("calculation");
 				var url = document.location.toString();
@@ -22915,11 +24861,27 @@ module.exports = function(app){
 				}
 			}
 
+			$scope.checkIfMin = function($input, $min){
+				if($input == null)
+					return 0;
+				else if($input == "")
+					return $min;
+				else if($input < $min)
+					return $min;
+				else
+					return $input;
+
+				$scope.getPrice();
+			}
+
 			$scope.setSelectedByURL = function($input){
 				$tmps = JSON.parse($input);
 				$finclone = $scope.clone($scope.selected.finishings);
 
 				$scope.selected = Object.assign($scope.selected, $tmps);
+				$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
+				$scope.setFinishingRole();
+				$scope.selected.finishings = $tmps.finishings;
 
 				//SELECT SIZE
 				$.each($scope.datas.jobsubtypesize, function($i, $ii){
@@ -22990,9 +24952,11 @@ module.exports = function(app){
 					$scope.selected.deliveryaddress = "";
 				}
 				
-				if ($scope.selected.deliveryaddress == "") {
-					if ($scope.customeraddresses.length > 0) {
-						$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+				if($scope.customeraddresses!=null){
+					if ($scope.selected.deliveryaddress == "") {
+						if ($scope.customeraddresses.length > 0) {
+							$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+						}
 					}
 				}
 
@@ -23004,9 +24968,12 @@ module.exports = function(app){
 				$scope.getPrice();
 			}
 
-			$scope.hapusbro = function(){
+			$scope.sendUrl = function(){
+				window.open("https://api.whatsapp.com/send?text=Silahkan di cek di%0A%0A"+encodeURIComponent($scope.getCurrentURL()), "_blank");
+			}
+
+			$scope.getCurrentURL = function(){
 				$tmps = $scope.clone($scope.selected);
-				console.log($scope.selected);
 
 
 				//RAPIHIN FILE
@@ -23051,11 +25018,11 @@ module.exports = function(app){
 				}
 
 				$addurl = JSON.stringify($tmps);
-				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
+				$base = BASE_URL=='/jakartabrosur/public/'?'localhost'+BASE_URL:'www.jakartabrosur.com/';
+				$addurl = $base+"shop/"+$link+"?ss="+$addurl;
 				
-				//console.log($tmps);
-
-				console.log($addurl);
+				$scope.copyToClipboard($addurl);
+				return $addurl;
 			}
 
 			$scope.restrictNotLogined = function()
@@ -23431,6 +25398,32 @@ module.exports = function(app){
 				return $result;
 			}
 
+			$scope.setFinishingRole = function(){
+				if($scope.selected.finishings!=null)
+					if($scope.selected.finishings.length>0)
+						$scope.selected.finishings = [];
+				//BUAT APUS SEMUA FINISHING - REFRESH JADI 0 LAGI
+
+				$scope.finishings = $scope.setFinishingData($scope.datas);
+				//SET SEMUA FINISHING OPTION DI ENABLE
+				$.each($scope.finishings, function($index, $item){
+					$.each($item.finishing.finishingoption, function($index2, $item2){
+						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
+					});
+				});
+
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
+					if($ii.mustdo){
+						$ii.finishing.finishingoption[0].disabled = true;
+						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
+						if($scope.selected.finishings[$i].id == 0){
+							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
+						}
+					}
+				});
+			}
+
 			$scope.refreshOfDg = function(){
 
 				$finishchanging = false;
@@ -23452,13 +25445,7 @@ module.exports = function(app){
 						$scope.selected.finishings = [];
 				//BUAT APUS SEMUA FINISHING - REFRESH JADI 0 LAGI
 
-				$scope.finishings = $scope.setFinishingData($scope.datas);
-				//SET SEMUA FINISHING OPTION DI ENABLE
-				$.each($scope.finishings, function($index, $item){
-					$.each($item.finishing.finishingoption, function($index2, $item2){
-						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
-					});
-				});
+				$scope.setFinishingRole();
 
 				
 				// buat flyer selalu select potong - OF Only
@@ -23472,17 +25459,7 @@ module.exports = function(app){
 				// 	}
 				// }
 
-				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
-					if($ii.mustdo){
-						$ii.finishing.finishingoption[0].disabled = true;
-						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
-						if($scope.selected.finishings[$i].id == 0){
-							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
-							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
-						}
-						//console.log($ii.finishing.finishingoption);
-					}
-				});
+				
 
 				// 2 ==> CUMA CUSTOM AJA - BANNER!
 				if($scope.datas.sizetype==2)
@@ -23572,14 +25549,14 @@ module.exports = function(app){
 			}
 
 			$scope.increment = function($step){
-				if($scope.selected.quantity + $step <= $scope.datas['maxqty']){
-					$scope.selected.quantity += $step;
+				if(parseInt($scope.selected.quantity) + parseInt($step) <= $scope.datas['maxqty']){
+					$scope.selected.quantity = parseInt($scope.selected.quantity) + parseInt($step);
 					$scope.getPrice();
 				}
 			}
 			$scope.decrement = function($step){
-				if($scope.selected.quantity - $step >= $scope.datas['minqty']){
-					$scope.selected.quantity -= $step;
+				if(parseInt($scope.selected.quantity) - parseInt($step) >= $scope.datas['minqty']){
+					$scope.selected.quantity = parseInt($scope.selected.quantity) - parseInt($step);
 					$scope.getPrice();
 				}
 			}
@@ -23652,8 +25629,6 @@ module.exports = function(app){
 					$scope.waitingprice = true;
 					$post.counter = $scope.counter;
 
-					//console.log($post);
-
 
 					$http({
 						"method" 	: "POST",
@@ -23707,7 +25682,6 @@ module.exports = function(app){
 								$scope.checkerrorstatus();
 							}
 						},function(error){
-							//console.log("masuk ke ERROR");
 							$scope.waitingprice = false; //bikin spinner stop
 							$scope.total.price = 0;
 							$scope.total.deliv = 0;
@@ -23732,14 +25706,6 @@ module.exports = function(app){
 					$scope.error.savebtnval = "File belum ada!";*/
 				else if($scope.selected.cartID == null)
 				{
-					//ngefek baru, edit, udah ada di sales atau belum
-					// console.log($scope.selected.cartID);
-					// $http({
-					// 	"method"	: "GET",
-					// 	"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
-					// }).then(function(response){
-					// 	console.log(response);
-					// });
 
 					$http({
 						"method" 	: "POST",
@@ -23965,7 +25931,6 @@ module.exports = function(app){
 			}
 
 			$scope.showsavedialog = function(){
-				console.log($scope.selected);
 				if($scope.role == "customer"){
 					$scope.getPrice();
 					$scope.setFinishingName();
@@ -24753,7 +26718,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],103:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -25995,7 +27960,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],104:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -26029,7 +27994,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],105:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -26105,7 +28070,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],106:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -26265,7 +28230,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],107:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -26324,7 +28289,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],108:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -26368,7 +28333,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],109:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -26390,7 +28355,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],110:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -26405,7 +28370,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],111:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -26422,7 +28387,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],112:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -27063,7 +29028,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],113:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -27078,7 +29043,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],114:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -27333,11 +29298,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],115:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":114}],116:[function(require,module,exports){
+},{"./angular-cookies":119}],121:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -28250,11 +30215,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],117:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":116}],118:[function(require,module,exports){
+},{"./angular-resource":121}],123:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -29521,11 +31486,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],119:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":118}],120:[function(require,module,exports){
+},{"./angular-route":123}],125:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -30440,11 +32405,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],121:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":120}],122:[function(require,module,exports){
+},{"./angular-sanitize":125}],127:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -66673,11 +68638,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],123:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":122}],124:[function(require,module,exports){
+},{"./angular":127}],129:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');

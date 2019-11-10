@@ -105,6 +105,7 @@ class Jobplotter extends Job{
 
 		//BELOM DI JUMLAHIN CETAK SAMA PAPER
 		$data['total']['price'] += $printprice;
+		$data['total']['disc'] = $data['total']['price'] * 19 / 100;
 
 
 		$this->data = $data;

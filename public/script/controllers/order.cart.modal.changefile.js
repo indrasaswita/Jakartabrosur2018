@@ -4,6 +4,20 @@ module.exports = function(app) {
 
 			$scope.savechangeloading = false;
 
+			$scope.savedetailclicked = function(){
+				$scope.savechangefile(function($result){
+					console.log($result);
+					if ($result == null) {
+						//error
+						$scope.errormessage = "ERROR - check console";
+					} else if ($result.code == 200) {
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
+					}
+				});
+			}
+
 			$scope.savechangefile = function(whendone){
 				if ($scope.savechangeloading == false) {
 					$scope.errormessage = "";
@@ -15,28 +29,25 @@ module.exports = function(app) {
 					}).then(function(response) {
 						if (response != null) {
 							if (response.data != null) {
+								$result = response.data;
 								if (response.data.constructor === Object) {
-									$result = response.data;
 
 									$scope.errormessage = $result.message;
-									console.log($result.code+" - "+$result.message);
 									$scope.savechangeloading = false;
-								} else {
-									$scope.errormessage = "Error message cannot be displayed.";
-								}
-								whendone(response.data);
-							} else {
-								$scope.errormessage = "Error message cannot be displayed.";
-								whendone(null);
-							}
+								} 
+							} 
 						}
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(response.data);
+						}
 					}, function(error) {
 						$scope.errormessage = "Error message cannot be displayed. See Console for further message.";
 						console.log(error);
 						$scope.savechangeloading = false;
-						whendone(null);
+						if(whendone instanceof Function){
+							whendone(null);
+						}
 					});
 				}
 			}
@@ -45,10 +56,12 @@ module.exports = function(app) {
 				$scope.savechangefile(function($result){
 					if ($result == null) {
 						//error
-						$scope.errormessage = "Error: NO RETURN RESULT";
+						$scope.errormessage = "ERROR - check console";
 					} else if ($result.code == 200) {
-						console.log($("#changeFileModal"));
 						$("#changeFileModal").modal('hide');
+					} else {
+						$scope.errormessage = $result.message;
+						console.log($result.code + " - " + $result.message);
 					}
 				});
 			}

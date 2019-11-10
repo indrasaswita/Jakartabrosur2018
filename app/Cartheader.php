@@ -38,7 +38,7 @@ class Cartheader extends Model
 	}
 
 	public function deliveryaddress(){
-		return $this->belongsTo('App\Address', 'deliveryaddressID');
+		return $this->belongsTo('App\Address', 'deliveryaddressID')->with('city');
 	}
 
 	public function delivery(){

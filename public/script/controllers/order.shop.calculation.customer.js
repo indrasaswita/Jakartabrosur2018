@@ -67,6 +67,33 @@ module.exports = function(app){
 			$scope.uploadmaxfilesize = 26214400;
 			$scope.newfiledetail = "";
 
+			$scope.setInputFilter = function(textbox, inputFilter) {
+			  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+			    textbox.oldValue = "";
+			    textbox.addEventListener(event, function() {
+			      if (inputFilter(this.value)) {
+			        this.oldValue = this.value;
+			        this.oldSelectionStart = this.selectionStart;
+			        this.oldSelectionEnd = this.selectionEnd;
+			      } else if (this.hasOwnProperty("oldValue")) {
+			        this.value = this.oldValue;
+			        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			      }
+			    });
+			  });
+			}
+
+			// Restrict input to digits and '.' by using a regular expression filter.
+			$scope.setInputFilter(document.getElementById("quantity"), function(value) {
+			  return /^\d*$/.test(value);
+			});
+			$scope.setInputFilter(document.getElementById("customwidth"), function(value) {
+			  return /^\d*\.?\d*$/.test(value);
+			});
+			$scope.setInputFilter(document.getElementById("customlength"), function(value) {
+			  return /^\d*\.?\d*$/.test(value);
+			});
+
 			$(document).ready(function() {
 				$scope.selectTab("calculation");
 				var url = document.location.toString();
@@ -109,11 +136,27 @@ module.exports = function(app){
 				}
 			}
 
+			$scope.checkIfMin = function($input, $min){
+				if($input == null)
+					return 0;
+				else if($input == "")
+					return $min;
+				else if($input < $min)
+					return $min;
+				else
+					return $input;
+
+				$scope.getPrice();
+			}
+
 			$scope.setSelectedByURL = function($input){
 				$tmps = JSON.parse($input);
 				$finclone = $scope.clone($scope.selected.finishings);
 
 				$scope.selected = Object.assign($scope.selected, $tmps);
+				$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
+				$scope.setFinishingRole();
+				$scope.selected.finishings = $tmps.finishings;
 
 				//SELECT SIZE
 				$.each($scope.datas.jobsubtypesize, function($i, $ii){
@@ -184,9 +227,11 @@ module.exports = function(app){
 					$scope.selected.deliveryaddress = "";
 				}
 				
-				if ($scope.selected.deliveryaddress == "") {
-					if ($scope.customeraddresses.length > 0) {
-						$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+				if($scope.customeraddresses!=null){
+					if ($scope.selected.deliveryaddress == "") {
+						if ($scope.customeraddresses.length > 0) {
+							$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+						}
 					}
 				}
 
@@ -198,9 +243,12 @@ module.exports = function(app){
 				$scope.getPrice();
 			}
 
-			$scope.hapusbro = function(){
+			$scope.sendUrl = function(){
+				window.open("https://api.whatsapp.com/send?text=Silahkan di cek di%0A%0A"+encodeURIComponent($scope.getCurrentURL()), "_blank");
+			}
+
+			$scope.getCurrentURL = function(){
 				$tmps = $scope.clone($scope.selected);
-				console.log($scope.selected);
 
 
 				//RAPIHIN FILE
@@ -245,11 +293,11 @@ module.exports = function(app){
 				}
 
 				$addurl = JSON.stringify($tmps);
-				$addurl = BASE_URL+"shop/"+$link+"?ss="+$addurl;
+				$base = BASE_URL=='/jakartabrosur/public/'?'localhost'+BASE_URL:'www.jakartabrosur.com/';
+				$addurl = $base+"shop/"+$link+"?ss="+$addurl;
 				
-				//console.log($tmps);
-
-				console.log($addurl);
+				$scope.copyToClipboard($addurl);
+				return $addurl;
 			}
 
 			$scope.restrictNotLogined = function()
@@ -625,6 +673,32 @@ module.exports = function(app){
 				return $result;
 			}
 
+			$scope.setFinishingRole = function(){
+				if($scope.selected.finishings!=null)
+					if($scope.selected.finishings.length>0)
+						$scope.selected.finishings = [];
+				//BUAT APUS SEMUA FINISHING - REFRESH JADI 0 LAGI
+
+				$scope.finishings = $scope.setFinishingData($scope.datas);
+				//SET SEMUA FINISHING OPTION DI ENABLE
+				$.each($scope.finishings, function($index, $item){
+					$.each($item.finishing.finishingoption, function($index2, $item2){
+						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
+					});
+				});
+
+				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
+					if($ii.mustdo){
+						$ii.finishing.finishingoption[0].disabled = true;
+						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
+						if($scope.selected.finishings[$i].id == 0){
+							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
+							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
+						}
+					}
+				});
+			}
+
 			$scope.refreshOfDg = function(){
 
 				$finishchanging = false;
@@ -646,13 +720,7 @@ module.exports = function(app){
 						$scope.selected.finishings = [];
 				//BUAT APUS SEMUA FINISHING - REFRESH JADI 0 LAGI
 
-				$scope.finishings = $scope.setFinishingData($scope.datas);
-				//SET SEMUA FINISHING OPTION DI ENABLE
-				$.each($scope.finishings, function($index, $item){
-					$.each($item.finishing.finishingoption, function($index2, $item2){
-						$scope.datas.jobsubtypefinishing[$index].finishing.finishingoption[$index2].disabled = false;
-					});
-				});
+				$scope.setFinishingRole();
 
 				
 				// buat flyer selalu select potong - OF Only
@@ -666,17 +734,7 @@ module.exports = function(app){
 				// 	}
 				// }
 
-				$.each($scope.datas.jobsubtypefinishing, function($i, $ii) {
-					if($ii.mustdo){
-						$ii.finishing.finishingoption[0].disabled = true;
-						//kalo lagi di select di option 0 baru boleh di ganti, kalo ga, ga boleh di ganti jadi option 1
-						if($scope.selected.finishings[$i].id == 0){
-							$scope.selected.finishings[$i] = $scope.finishings[$i].finishing.finishingoption[1];
-							$scope.finishingchanged($scope.finishings[$i].finishing.name, $scope.selected.finishings[$i]); //check finishing change ketika ganti jadi option pertama
-						}
-						//console.log($ii.finishing.finishingoption);
-					}
-				});
+				
 
 				// 2 ==> CUMA CUSTOM AJA - BANNER!
 				if($scope.datas.sizetype==2)
@@ -766,14 +824,14 @@ module.exports = function(app){
 			}
 
 			$scope.increment = function($step){
-				if($scope.selected.quantity + $step <= $scope.datas['maxqty']){
-					$scope.selected.quantity += $step;
+				if(parseInt($scope.selected.quantity) + parseInt($step) <= $scope.datas['maxqty']){
+					$scope.selected.quantity = parseInt($scope.selected.quantity) + parseInt($step);
 					$scope.getPrice();
 				}
 			}
 			$scope.decrement = function($step){
-				if($scope.selected.quantity - $step >= $scope.datas['minqty']){
-					$scope.selected.quantity -= $step;
+				if(parseInt($scope.selected.quantity) - parseInt($step) >= $scope.datas['minqty']){
+					$scope.selected.quantity = parseInt($scope.selected.quantity) - parseInt($step);
 					$scope.getPrice();
 				}
 			}
@@ -846,8 +904,6 @@ module.exports = function(app){
 					$scope.waitingprice = true;
 					$post.counter = $scope.counter;
 
-					//console.log($post);
-
 
 					$http({
 						"method" 	: "POST",
@@ -901,7 +957,6 @@ module.exports = function(app){
 								$scope.checkerrorstatus();
 							}
 						},function(error){
-							//console.log("masuk ke ERROR");
 							$scope.waitingprice = false; //bikin spinner stop
 							$scope.total.price = 0;
 							$scope.total.deliv = 0;
@@ -926,14 +981,6 @@ module.exports = function(app){
 					$scope.error.savebtnval = "File belum ada!";*/
 				else if($scope.selected.cartID == null)
 				{
-					//ngefek baru, edit, udah ada di sales atau belum
-					// console.log($scope.selected.cartID);
-					// $http({
-					// 	"method"	: "GET",
-					// 	"url"			: AJAX_URL + "cartcheck/"+$scope.selected.cartID
-					// }).then(function(response){
-					// 	console.log(response);
-					// });
 
 					$http({
 						"method" 	: "POST",
@@ -1159,7 +1206,6 @@ module.exports = function(app){
 			}
 
 			$scope.showsavedialog = function(){
-				console.log($scope.selected);
 				if($scope.role == "customer"){
 					$scope.getPrice();
 					$scope.setFinishingName();

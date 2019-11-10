@@ -18,6 +18,9 @@ use App\Pricetype;
 use App\Role;
 use App\Paper;
 use DB;
+use App\Salespayment;
+use App\Salespaymentverif;
+use App\Customerbankacc;
 
 class MobileappsAPI extends Controller
 {
@@ -45,6 +48,23 @@ class MobileappsAPI extends Controller
 		return $customers;
 	}
 
+	public function getcustomerpaymentbyid($data){
+		$cartID = $data['cartID'];
+
+		$salespayment = Salesheader::with('salespayment')
+				->with('salesdetail')
+				->whereHas('salesdetail', function($q) use ($cartID){
+					$q->whereHas('cartheader', function($q2) use ($cartID){
+						$q2->where('id', $cartID);
+						});
+					})
+				->first();
+
+		//dd($salespayment);
+
+		return $salespayment;
+	}
+
 	public function getroles(){
 		//$data = $request->all();
 		$roles = Role::with('employee')
@@ -61,6 +81,14 @@ class MobileappsAPI extends Controller
 				->get();
 
 		return $notifications;
+	}
+
+	public function getcustbankaccount($data){
+		$customerbankacc = Customerbankacc::with('bank')
+				->where('customerID', $data['customerID'])
+				->orderBy('created_at', 'desc')
+				->get();
+		return $customerbankacc;
 	}
 
 	public function updatenotification($data){
@@ -186,10 +214,14 @@ class MobileappsAPI extends Controller
 				return $this->getcustomers();
 			}else if($value == "pricelists"){
 				return $this->getpricelists();
-			}else if($value=="pricetypes"){
+			}else if($value == "pricetypes"){
 				return $this->getpricetypes();
-			}else if($value=="papers"){
+			}else if($value == "papers"){
 				return $this->getpapers();
+			}else if($value == "getcustomerpaymentbyid"){
+				return $this->getcustomerpaymentbyid($data);
+			}else if($value == "getcustbankaccount"){
+				return $this->getcustbankaccount($data);
 			}else{
 				return "VALUE BELOM DI DAFTAR";
 			}
@@ -212,7 +244,31 @@ class MobileappsAPI extends Controller
 
 		if($value == "pricelists"){
 			return $this->addpricelist($data);
+		}else if($value == "paymentverif"){
+			return $this->insertpaymentverif($data);
+		}else{
+			return "VALUE BELUM DI DAFTARKAN";
 		}
+	}
+
+	public function insertpaymentverif($data){
+		$datas = $request->all();
+		if($datas['paymentID']==null){
+			$newpayment = new Salespayment();
+			$newpayment->salesID = $datas['salesID'];
+			$newpayment->customeraccID = $datas['customeraccID'];
+			$newpayment->companyaccID = $datas['companyaccID'];
+			$newpayment->paydate = $datas['paydate'];
+			$newpayment->save();
+		}
+		$newverif = new Salespaymentverif();
+		$newverif->paymentID = $datas['paymentID'];
+		$newverif->employeeID = $datas['employeeID'];
+		$newverif->veriftime = Carbon::now();
+		$newverif->note = $datas['note'];
+		$newverif->save();
+		$msg = 'sucess';
+		return $msg;
 	}
 
 	public function update(Request $request, $value){
@@ -303,12 +359,38 @@ class MobileappsAPI extends Controller
 
 	}
 
+	public function cektoken (Request $request){
+		$datas = $request->all();
+
+		if(!array_key_exists('app_token', $datas))
+			return null;
+		if(!array_key_exists('onesignalID', $datas))
+			return null;
+
+
+
+		$cek = Employeeonesignal::where('app_token', $datas['app_token'])
+				->whereHas('onesignal', function($query) use ($datas){
+					$query->where('player_id', $datas['onesignalID']);
+				})
+				->with('employee')
+				->first();
+
+		if($cek == null)
+			return null;
+
+		$token = $datas['app_token'];
+		$usertype = 'EM';
+		return array(1, $token, $cek['employee'], $usertype);
+	}
+
 	public function login(Request $request){
 		$datas = $request->all();
 		$usertype = '';
 
 		if($datas['onesignalID']!=null){
 			$user = Employee::with('employeeonesignal')
+					->with('role')
 					->where('email', $datas['username'])
 					->first();
 			$token = Hash::make(Carbon::now());
@@ -463,35 +545,42 @@ class MobileappsAPI extends Controller
 	}
 
 	public function register(Request $request){
-		dd($request);
 		$datas = $request->all();
+
+		if(!array_key_exists('email', $datas)){
+			return null;
+		}
 
 		if($datas['email']!=null){
 			$customer = Customer::where('email', $datas['email'])
-				->get();
-				$msg = "Data customer sudah ada";
-				dd($msg);
+				->first();
+				$msg = $customer;
+			//dd($msg);
 			if($customer != null){
 				return $msg;
 			}
 			else{
 				$newcustomer = new Customer();
-				$newcustomer->companyID = '1';
+				$newcustomer->companyID = null;
 				$newcustomer->email = $datas['email'];
-				$newcustomer->password = Hash::make('123456');
 				$newcustomer->name = $datas['name'];
+				$newcustomer->password = ''; 
+				// password di set kosong kalo,
+				// customer di daftarin dari employee
+				// efeknya: nanti suruh set password pas login
 				$newcustomer->type = 'personal';
-				$newcustomer->title = 'Mr.';
-				$newcustomer->postcode = '';
+				$newcustomer->title = $datas['title'];
 				$newcustomer->phone1 = $datas['telp1'];
 				$newcustomer->phone2 = $datas['telp2'];
 				$newcustomer->phone3 = $datas['telp3'];
-				$newcustomer->news = 'true';
+				$newcustomer->news = '0';
 				$newcustomer->balance = '0';
-				$newcustomer->remember_token = '';
-				$newcustomer->verify_token = '';
+				$newcustomer->remember_token = null;
+				$newcustomer->verify_token = null;
 				$newcustomer->save();
 			}
+		} else {
+			return null;
 		}
 	}
 }

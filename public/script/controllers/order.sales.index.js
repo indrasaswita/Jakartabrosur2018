@@ -42,33 +42,81 @@ module.exports = function(app){
 			];
 
 			$scope.loadingsavecustacc = false;
+			$scope.salesloading = false;
+			$scope.uploadwaiting = false;
+			$scope.errormessage = "";
+			$scope.ondeleteprocess = false;
 
 			$scope.setselectedfilter = function($input, $refresh){
-				$scope.selectedfilter = $input;
-				if($input=="")
-					$scope.selectedfilter = "semua";
+				if($scope.salesloading == false){
+					$scope.salesloading = true;
+					$scope.selectedfilter = $input;
+					if($input=="")
+						$scope.selectedfilter = "semua";
+					if($refresh){
+						//LOADING UNTUK REFRESH
 
-				if($refresh){
-					//LOADING UNTUK REFRESH
-					$http({
-						method: "GET",
-						url: AJAX_URL+"allsales/filterorder/"+$input
-					}).then(function(response){
-						if(response!=null){
-							if(response.data != null){
-								if(typeof response.data == "string"){
-									console.log("HASILNYA STRING, error");
+						$http({
+							method: "GET",
+							url: AJAX_URL+"allsales/filterorder/"+$input
+						}).then(function(response){
+							if(response!=null){
+								if(response.data != null){
+									if(typeof response.data == "string"){
+										console.log("HASILNYA STRING, error");
+									}else{
+										$scope.sales = response.data;
+										$scope.afterinitsales();
+									}
 								}else{
-									$scope.sales = response.data;
-									$scope.afterinitsales();
+									console.log("The return value is null, not error");
 								}
-							}else{
-								console.log("The return value is null, not error");
 							}
+							$scope.salesloading = false;
+						}, function(error){
+							console.log(error);
+							$scope.salesloading = false;
+						});
+					} else {
+						$scope.salesloading = false;
+					}
+				}
+			}
+
+			$scope.setSelectedSalesID = function($salesID){
+				$scope.selectedSales = null;
+				$.each($scope.sales, function($index, $item){
+					if($item != null){
+						if($item.id == $salesID){
+							$item.showdetail = true;
+							$item.showinfo = true;
 						}
-					}, function(error){
-						console.log(error);
-					});
+						$scope.selectedSales = $item;
+					}
+				});
+			}
+
+			$scope.setSelectedAction = function($action, $actionID){
+				if($scope.selectedSales != null){
+					if($action == "proof"){
+						if($actionID != null){
+							$.each($scope.selectedSales.salesdetail, function($i, $ii){
+								if($ii != null){
+									$found = false;
+									$.each($ii.cartheader.cartpreview, function($j, $jj){
+										if($jj.id == $actionID){
+											$ii.showsubinfo = true;
+											$( window ).on( "load", function(){
+												$scope.showcartpreview($jj.file, $jj);
+												//UNTUK REFRESH YANG ADA DI ANGULAR HTML
+												$scope.$apply(function() { });
+											});
+										}
+									});
+								}
+							});
+						}
+					}
 				}
 			}
 
@@ -84,6 +132,7 @@ module.exports = function(app){
 						$item.created_at = $scope.makeDateTime($item.created_at);
 						$item.showpayment = false;
 						$item.showdelivery = false;
+						$item.showinfo = false;
 						$item.showdetail = false;
 						$item.totalprice = 0;
 						$.each($item.salesdetail, function($index2, $item2){
@@ -177,7 +226,8 @@ module.exports = function(app){
 			}
 
 			//darigodhands
-			$scope.fillCompanyBankAccs(function() {
+			$scope.fillCompanyBankAccs(function(response) {
+				$scope.compaccs = response;
 				if ($scope.compaccs != null)
 					if ($scope.compaccs.length > 0)
 						$scope.selectbanktrf($scope.compaccs[0])
@@ -187,78 +237,31 @@ module.exports = function(app){
 				$scope.konfirmasi.compacc = $scope.clone(compacc);
 			}
 
-			$scope.commit = function($item, $item2){
-				//yang di send item2 <= salesdetail dari item
-				/*$http({
-					"method" : "POST",
-					"url"		 : API_URL+"sales/"+$data.id+"/commit"
-					//salesdetail.id yang di pilih, biar langsung find idNya di table Salesdetails
-				}).then(function(response){
-					if(response!=null)
-						if(typeof response === "string")
-							if(response == "success")
-								$data.commited = 1;
-				});*/
+			$scope.commit = function($item){
 
 				$http({
 					method: "POST",
-					url: API_URL+"customer/"+$item.customerID+"/makesession"
+					url: AJAX_URL+"sales/"+$item.id+"/commit"
 				}).then(function(response){
 					if(response.data!=null){
+						console.log(response.data);
 						if(response.data.constructor === String){
-							$scope.session = response.data;
-							$window.location.href = BASE_URL+"sales/commit/"+$item2.id+"/"+$item.id+"/"+$scope.session;
-						}else
-							$scope.session = null;
-					}else
-						$scope.session = null;
-				});
-
-			}
-
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
+							if(response.data == "success"){
+								$item.commited = 1;
+								$item.commiterror = "";
+							}else{
+								$item.commiterror = response.data;
 							}
-							else
-								$scope.session = null;
 						}else{
-							$scope.session = null;
-							$window.location.reload();
+							$item.commiterror = "Return not string..";
 						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
-			}
-
-			$scope.makeSession = function($customerID){
-				$http({
-					method: "POST",
-					url: API_URL+"customer/"+$customerID+"/makesession"
-				}).then(function(response){
-					if(response.data!=null){
-						if(response.data.constructor === String)
-							$scope.session = response.data;
-						else
-							$scope.session = null;
-					}else
-						$scope.session = null;
+					}else{
+						$item.commiterror = "Tidak ada return..";
+					}
+				}, function(error){
+					$item.commiterror = error.message;
 				});
+
 			}
 
 			$scope.linkmakepayment = function(item){
@@ -320,7 +323,7 @@ module.exports = function(app){
 				$scope.selectedFile = $file;
 				$scope.selectedCart = $cart;
 				$scope.selectedSalesdetail = $salesdetail;
-				$("#viewcartfile-modal").modal('show');
+				$("#changeFileModal").modal('show');
 			}
 			$scope.showcartpreview = function($file, $preview) {
 				$scope.selectedFile = $file;
@@ -445,7 +448,6 @@ module.exports = function(app){
 			}
 
 			$scope.deletecartfile = function($item, $index){
-				console.log($item);
 				$http({
 					method: "GET",
 					url 	: API_URL+"cartfiles/"+$item.id+"/delete"
@@ -455,6 +457,7 @@ module.exports = function(app){
 						$item.ondelete = false;
 
 						$scope.files.splice($index, 1);
+						$("#changeFileModal").modal('hide');
 					},function(error){
 						//balikin flag
 						$item.ondelete = false;
@@ -462,9 +465,162 @@ module.exports = function(app){
 					}
 				);
 			}
+
+			$scope.setdelete = function(){
+				$scope.ondeleteprocess = true;
+			}
+
+			$scope.unsetdelete = function(){
+				$scope.ondeleteprocess = false;
+			}
+
 			$scope.showupdatefile = function($item){
 				$item.onupdate = true;
 			}
+
+			$(function() {
+				//DIPAKE UNTUK UPLOAD KIRIM TOKEN
+				//KALO GA DIPAKE ERROR LINE 203 HttpHandler
+				var token = $('input[name="_token"]').val();
+				$(document).ajaxSend(function(e, xhr, options) {
+					console.log("ajax token!!!");
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				});
+			});
+
+
+			$(window).ready(function(){
+				$('#is-uploader').on('change', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if ($(this)[0]['file'].files) {
+						if ($(this)[0]['file'].files.length > 0) {
+							$scope.upload($(this)[0]['file'].files);
+						}
+					}
+					return false;
+				});
+			});
+
+			$scope.choosefileclicked = function() {
+				$scope.stateupload = "revisi";
+				$('#btn-choose-file2').click();
+			}
+
+			$scope.upload = function(files) {
+				var data = new FormData();
+				$scope.errormessage = '';
+				$scope.uploadwaiting = true;
+				$scope.loadingfiles = true;
+
+				$counterror = 0;
+				$scope.$apply(function() { });
+
+				angular.forEach(files, function(value) {
+					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
+
+					if (!$scope.val_ext("upload-file", $ext)) {
+						$scope.errormessage = value.name + " : tidak bisa upload dengan file format " + $ext + ".";
+						$counterror++;
+					} else if (!$scope.val_size(value.size)) {
+						$scope.errormessage = value.name + "( "+(value.size/1024/1024)+" MB ): file terlalu besar.";
+						$counterror++;
+					} else {
+						$scope.errormessage = "";
+						data.append("files[]", value);
+					}
+					$scope.$apply(function() { });
+
+					if ($scope.errormessage != '') {
+						//BUANGAN SUPAYA BISA LOAD HTML DOANG (GA TAU KNPAA)
+						console.log($scope.errormessage);
+						try {
+							$http({
+								method: 'GET',
+								url: BASE_URL,
+								data: data,
+								withCredentials: true,
+								headers: { 'Content-Type': undefined },
+								transformRequest: angular.identity
+							}).then(function(response) { },
+								function(error) {
+									console.log(error);
+								});
+						} catch (error) { }
+
+						//refesh data kalo ga bisa ke upload (loading filesnya jangan di apus)
+						$scope.loadingfiles = false;
+						$scope.uploadwaiting = false;
+						//$scope.refreshUploadedImage();
+						//$scope.uploadwaiting = false;
+						$scope.$apply(function() { });
+					}else{
+
+						//UPLOAD FILE DATA
+						$url = "";
+						if($scope.stateupload == "revisi"){
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/revision/' + $scope.selectedFile.id;
+						} else if($scope.stateupload == "addnew") {
+							$url = AJAX_URL + 'cartfiles/' + $scope.selectedCart.id + '/upload';
+						}
+
+						console.log($url);
+
+						$scope.uploadprogress("POST", data, $url, function(response){
+							//WHEN DONE
+							if (response != null) {
+								console.log(response.constructor);
+								if (response.constructor === Array) {
+									$scope.selectedCart.cartfile = [];
+									$scope.selectedCart.cartfile = response;
+									$.each($scope.selectedCart.cartfile, function($i, $ii) {
+										if ($ii.file.id == $scope.selectedFile.id) {
+											$scope.selectedFile = $ii.file;
+										}
+									});
+
+									if ($scope.stateupload == "revisi") {
+										$scope.errormessage = "file berhasil diganti..";
+									} else if ($scope.stateupload == "addnew") {
+										$scope.errormessage = "berhasil tambah file..";
+									}
+								}
+								else if (response.constructor === String) {
+									$scope.errormessage = response.constructor;
+									$scope.uploadedfiles = [];
+								}
+								else {
+									$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (empty).";
+									$scope.uploadedfiles = [];
+								}
+							}
+							else {
+								$scope.errormessage = "Error, tidak dapat terima data yang sudah di upload (null).";
+								$scope.uploadedfiles = [];
+								//console.log	('NO DATA in PendIMG');
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							//$scope.errormessage = "";
+						}, function(response){
+							//WHEN FAILED
+							console.log(response);
+							if (response.status == 419) {
+								$scope.errormessage = "Unknown Status: May be the Session is over, please re-login to upload";
+							} else {
+								$scope.errormessage = response.statusText;
+							}
+							$scope.loadingfiles = false;
+							$scope.uploadwaiting = false;
+							$scope.uploadsuccess = false;;
+						});
+					}
+				});
+
+				//JANGAN DI BUANG, harusnya di pake
+				//$scope.clearFileInput('file');
+			};
+
 		}
 	]);
 };

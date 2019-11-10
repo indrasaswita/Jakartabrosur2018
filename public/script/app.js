@@ -13,6 +13,11 @@ var app = require("./init");
 require('./constants/variable')(app);
 require('./constants/analytics')(app);
 
+require('./constants/mandiri_loginmerged2')(app);
+require('./constants/logo-for-print')(app);
+
+
+
 //require("./route")(app);
 
 
@@ -50,6 +55,7 @@ require("./controllers/order.sales.history")(app);
 
 //ADMIN + CUSTOMER ORDER
 require("./controllers/allacc.sales.cartheader")(app);
+require("./controllers/allacc.printforms.smallinvoice")(app);
 
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
@@ -57,6 +63,7 @@ require("./controllers/admin.cart.index")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
+require('./controllers/admin.master.compaccs.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
 require("./controllers/admin.master.paper.paperdetailstore")(app);
@@ -69,6 +76,7 @@ require("./controllers/admin.master.jobsizes")(app);
 require("./controllers/admin.master.pricetext.index")(app);
 require("./controllers/admin.master.customer.index")(app);
 require("./controllers/admin.master.customer.pendingcompany")(app);
+require("./controllers/admin.master.customer.addusernopass")(app);
 require("./controllers/admin.master.shoppricing")(app);
 require("./controllers/admin.master.finishing.index")(app);
 require("./controllers/admin.master.vendor.index")(app);

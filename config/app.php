@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -192,7 +192,6 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\CalculationServiceProvider::class,
         //Berkayk\OneSignal\OneSignalServiceProvider::class,
-
     ],
 
     /*

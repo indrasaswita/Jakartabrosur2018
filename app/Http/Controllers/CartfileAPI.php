@@ -56,10 +56,11 @@ class CartfileAPI extends Controller
 
 	public function deleteCartfileByID($id){
 		$cartfile = Cartfile::with('file')
-						->where('id', '=', $id)
+						->where('fileID', '=', $id)
 						->first();
 
-		$cartID = $cartfile->cartID;
+
+		$cartID = $cartfile['cartID'];
 
 		//return public_path();
 		//remove dulu pathnya

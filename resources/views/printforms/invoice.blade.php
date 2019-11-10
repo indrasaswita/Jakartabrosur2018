@@ -316,7 +316,7 @@
 				<p><span class="text-bold">Bank BRI</span><br>210-201-004-093-506<br>an. Indra Saswita<br>Cab. Pangeran Jayakarta</p>
 			</td>
 			<td width="25%">
-				<img src="image/BNI.jpg" height="25px">
+				<img src="image/BNI 46.jpg" height="25px">
 				<p><span class="text-bold">Bank BNI</span><br>0-480-767-560<br>an. Indra Saswita<br>Cab. Pangeran Jayakarta</p>
 			</td>
 		</tr>

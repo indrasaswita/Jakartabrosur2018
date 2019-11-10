@@ -1,0 +1,51 @@
+
+
+@font-face {
+    font-family: 'EAN13';
+    src: url('../font/ean13-Half.woff');
+}
+
+.view-small-invoice{
+	font-family: Consolas;
+	line-height: 0.95;
+	font-size: 11.8px;
+}
+
+.view-small-invoice .barcode-label{
+	letter-spacing: 7px;
+	text-align: center;
+	width: 100%;
+	padding-left: 4px;
+}
+
+.pull-xs-right{
+	float: right;
+}
+
+.text-xs-right{
+	text-align: right;
+}
+.text-xs-center{
+	text-align: center;
+}
+
+.title{
+	font-size: 120%;
+	margin: 2px 0;
+}
+.detail{
+	margin: 5px 0 5px 2px;
+	padding: 0 0 0 3px;
+	border-left: 2px double #777;
+}
+
+.size-80 { font-size: 80%; }
+.size-90 { font-size: 90%; }
+.size-110 { font-size: 110%; }
+.size-120 { font-size: 120%; }
+.size-130 { font-size: 130%; }
+.size-140 { font-size: 140%; }
+.size-150 { font-size: 150%; }
+.padding-5 { padding: 5px; } 
+hr.dashed { border-top: 1px dashed #000; margin: 2px 0; }
+hr.solid { border-top: 1px solid #000; margin: 2px 0; }

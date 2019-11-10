@@ -2,7 +2,7 @@ module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	// $public_path = '/'; 
+	//$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
