@@ -5,23 +5,21 @@
 @section('robots', 'index,follow')
 @section('content')
 <div ng-controller="HomePageController">
-
 	@if(!Session::has('role'))
 		@if(Cookie::get('landing') != 'waiting')
-			<?php //Cookie::queue('landing', '', 1) ?>
+			<?php //Cookie::queue('landing', '', 0.001) ?>
 	<div class="hm-landingpage-wrapper modal fade" tabindex="-1" role="dialog" id="landingpage">
 		<div class="hm-landingpage modal-dialog" role="document">
 			<div class="btn-close">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
-					<i class="fal fa-times tx-red"></i>
-					Close
+					<i class="fas fa-times"></i>
 				</button>
 			</div>
 			<div class="logo disable-select">
 				<div class="img">
-					<img src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="50px">
+					<img src="{{URL::asset('image/home/slogan.png')}}" alt="logo" height="100px">
 				</div>
-				<div class="text">
+				<div class="text" hidden>
 					<div class="top">
 						<span class="tx-darkpurple">Jakarta</span><span class="tx-gray">brosur</span>
 					</div>
@@ -592,6 +590,7 @@
 		</a>
 	</div>
 
+	
 	@endif
 </div>
 @stop

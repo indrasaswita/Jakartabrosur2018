@@ -14,7 +14,7 @@ class Salesheader extends Model
 	protected $dates = ['tempo', 'estdate', 'created_at', 'updated_at', 'deleted_at'];
 
 	public function customer(){
-		return $this->belongsTo('App\Customer', 'customerID')->with('company');
+		return $this->belongsTo('App\Customer', 'customerID')->with('company', 'customeraddress');
 	}
 
 	public function salesdetail(){

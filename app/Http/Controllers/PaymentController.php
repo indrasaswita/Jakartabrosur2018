@@ -20,6 +20,7 @@ use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
+
 	public function show($id)
 	{
 		// BUAT MUNCULIN HALAMAN PAYMENT, YANG DULU DI BUAT KEPISAH dengan Sales/all
@@ -30,9 +31,9 @@ class PaymentController extends Controller
 		$customerID = session()->get('userid');
 
 		$allsales = Salesheader::with('salespayment', 'salesdetail', 'Salesdelivery', 'customer')
-								->where('id', '=', $id)
-								->where('customerID', '=', $customerID)
-								->get();
+				->where('id', '=', $id)
+				->where('customerID', '=', $customerID)
+				->get();
 
 		foreach ($allsales['salespayment'] as $i => $item) {
 			if ($item['verifID'] == null)
@@ -102,11 +103,7 @@ class PaymentController extends Controller
 		return "success";
 	}
 
-	public function createInvoicePDF($id)
-	{
-		$pdf = PDF::loadHTML('dompdf.wrapper');
-
-
+	public function getAllInoviceData($id){
 		$sales = Salesheader::with('salespayment', 'salesdetail', 'salesdelivery', 'customer')
 				->where('id', '=', $id)
 				->first();
@@ -128,6 +125,22 @@ class PaymentController extends Controller
 			$afterprint = $mulai->addWeekdays(intval($detail['cartheader']['processtime']))->toDateString();
 			$detail['cartheader']['afterprint'] = Carbon::parse($afterprint)->format('D, d M \'y');
 		}
+
+		return $sales;
+	}
+
+	public function showInvoiceAdmin($id){
+		$sales = $this->getAllInoviceData($id);
+
+		return view('printforms.html-smallinvoice', compact('sales'));
+	}
+
+	public function createInvoicePDF($id)
+	{
+		$pdf = PDF::loadHTML('dompdf.wrapper');
+
+
+		$sales = $this->getAllInoviceData($id);
 
 		$pdf->loadHTML(view('printforms.invoice', compact('sales')));
 		$pdf->setPaper('A4', 'portrait');

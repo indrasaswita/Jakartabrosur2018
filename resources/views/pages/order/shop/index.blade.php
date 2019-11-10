@@ -5,12 +5,17 @@
 @section('content')
 
 <div>
+	<button class="btn btn-sm btn-purple" ng-click="getCurrentURL()" ng-if="role=='employee'">
+		MAKE URL
+	</button>
+	<button class="btn btn-sm btn-purple" ng-click="sendUrl()" ng-if="role=='employee'">
+		<i class="fab fa-whatsapp fa-fw"></i>
+		Send URL
+	</button>
+</div>
+
+<div>
 	
-	<!-- <div class="order-panel-header">
-		<div class="panel-title">{{$datas['name']}}</div>
-		<div class="panel-subtitle">SEGERA HITUNG KEBUTUHAN ANDA DISINI</div>
-	</div> -->
-	[[role]]
 	<div class="order-panel-tabs">
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
@@ -18,7 +23,7 @@
 					<i class="fal fa-fw fa-calculator"></i>	
 					<span class="hidden-xs-down">Kalkulasi</span>
 					<span class="hidden-sm-up">Calc</span>
- 				</a>
+				</a>
 			</li>
 			<li class="nav-item" ng-if="role==null">
 				<a class="nav-link" href="{{URL::asset('login')}}?url={{substr(url()->current(), strlen(url('/'))+1)}}?ss={{app('request')->input('ss')}}">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Logic\Curl\Klikbca;
+use App\Logic\Curl\MandiriOnline;
 use App\Companybankaccmutation;
 use Carbon\Carbon;
 
@@ -20,6 +21,16 @@ class AdmCompanyaccountsAPI extends Controller
 				->get();
 
 		return $datas;
+	}
+
+	public function mutasi_mandiri (Request $request){
+		$datas = $request->all();
+
+		$mandiri = new MandiriOnline($datas);
+		$mandiri->random_number();
+		$res = $mandiri->login();
+
+		return $res;
 	}
 
 	public function mutasi_bca(Request $request, $accid){

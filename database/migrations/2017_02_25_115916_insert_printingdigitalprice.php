@@ -13,15 +13,15 @@ class InsertPrintingdigitalprice extends Migration
 	public function up()
 	{
 		DB::unprepared("
-			INSERT INTO printingdigitalprices VALUES('1', '5', '1', '6000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('2', '5', '10', '5500', now(), now());
-			INSERT INTO printingdigitalprices VALUES('3', '5', '20', '5000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('4', '5', '30', '4500', now(), now());
-			INSERT INTO printingdigitalprices VALUES('5', '5', '50', '4000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('6', '5', '100', '3500', now(), now());
-			INSERT INTO printingdigitalprices VALUES('7', '5', '150', '3000', now(), now());
-			INSERT INTO printingdigitalprices VALUES('8', '5', '200', '2500', now(), now());
-			INSERT INTO printingdigitalprices VALUES('9', '5', '250', '2000', now(), now());
+			INSERT INTO printingdigitalprices VALUES('1', '5', '1', '5500', now(), now());
+			INSERT INTO printingdigitalprices VALUES('2', '5', '10', '5000', now(), now());
+			INSERT INTO printingdigitalprices VALUES('3', '5', '20', '4500', now(), now());
+			INSERT INTO printingdigitalprices VALUES('4', '5', '30', '3900', now(), now());
+			INSERT INTO printingdigitalprices VALUES('5', '5', '50', '3400', now(), now());
+			INSERT INTO printingdigitalprices VALUES('6', '5', '100', '2900', now(), now());
+			INSERT INTO printingdigitalprices VALUES('7', '5', '150', '2400', now(), now());
+			INSERT INTO printingdigitalprices VALUES('8', '5', '200', '2100', now(), now());
+			INSERT INTO printingdigitalprices VALUES('9', '5', '300', '1800', now(), now());
 			INSERT INTO printingdigitalprices VALUES('10', '8', '1', '60000', now(), now());
 			INSERT INTO printingdigitalprices VALUES('11', '8', '8', '50000', now(), now());
 			INSERT INTO printingdigitalprices VALUES('12', '8', '15', '40000', now(), now());

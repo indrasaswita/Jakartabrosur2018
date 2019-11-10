@@ -1,5 +1,5 @@
 <div class="modal fade" id="manualPaymentModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-dialog modal-md" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -41,11 +41,11 @@
 				<div class="alert alert-warning margin-0">
 					Akun Bank Customer
 					<div class="form-group">
-						<select class="form-control size-12" ng-model="selectedcustacc" ng-options="item as item.accno+' ('+singkatText(item.accname,15, '')+')' for item in customerbankaccs track by item.id"></select>
+						<select class="form-control size-12" ng-model="selectedcustacc" ng-options="item as item.accno+' ('+item.bank.alias+') a/n. '+item.accname for item in customerbankaccs track by item.id"></select>
 					</div>
 					Akun Bank Tujuan
 					<div class="form-group">
-						<select class="form-control size-12" ng-model="selectedcompacc" ng-options="item as item.accno+' ('+singkatText(item.accname,15, '')+')' for item in companybankaccs track by item.id"></select>
+						<select class="form-control size-12" ng-model="selectedcompacc" ng-options="item as item.accno+' ('+item.bank.alias+')' for item in companybankaccs track by item.id"></select>
 					</div>
 					Tanggal Trf.
 					<div class="form-group">

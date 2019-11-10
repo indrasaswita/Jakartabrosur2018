@@ -67,4 +67,15 @@ class CustomerbankaccAJAX extends Controller
 			//kalo ada datanya di update
 		}
 	}
+
+	public function getByCustID($id){
+		$accs = Customerbankacc::with('bank')
+			->where('customerID', $id)
+			->get();
+
+		if(count($accs)>0)
+			return $accs;
+		else
+			return null;
+	}
 }

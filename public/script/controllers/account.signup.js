@@ -33,6 +33,14 @@ module.exports = function(app){
 				}
 			}
 
+
+			$scope.setMessage = function($text, $type, $loading=false){
+					$scope.alertmessage = $text;
+					$scope.alerttype = $type;
+					$scope.alertshow = true;
+					$scope.alertpulse = $loading;
+			}
+
 			$scope.alertshow = false;
 			$scope.clearAllData.call();
 			$scope.setNews = function(value){
@@ -138,10 +146,12 @@ module.exports = function(app){
 			}
 
 			$scope.signupClicked = function($link){
+				$scope.setMessage('Loading..', 
+					"alert-info", true);
+
 				// REGISTER
 
-				if ($scope.validatelocal())
-				{
+				if ($scope.validatelocal()) {
 
 					$http(
 						{
@@ -154,21 +164,23 @@ module.exports = function(app){
 							if(response.data != null){
 								if(response.data.code==1)
 								{
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 									$window.location.href=BASE_URL+'login';
 								}
 								else if(response.data.code==0)
 								{
 									//EMAILNY DUPLICATED
-									$scope.error.terms = response.data.message;
+									$scope.setMessage(response.data.message, 'alert-danger', false);
 								}
 							}else{
-								$scope.error.terms = "ERROR IN RESULT..";
+								$scope.setMessage("ERROR IN RESULT..", 'alert-danger', false);
 							}
 						},function(error){
-							$scope.error.terms = "ERROR IN REQUEST: "+error.exception;
+							$scope.setMessage("ERROR IN REQUEST: "+error.exception, 'alert-danger', false);
 						}
 					);
+				} else {
+					$scope.alertshow = false;
 				}
 				
 			}
@@ -178,18 +190,6 @@ module.exports = function(app){
 				$scope.nextUrl = $url;
 			}
 
-			$scope.anjing = function(){
-				$http(
-				{
-					method : 'POST',
-					url : API_URL + 'resend',
-					data : $scope.customerData
-				}).then(function(response){
-					if(response.data != null){
-						$window.location.href=BASE_URL+'login';
-					}
-				});
-			}
 		}
 	]);
 }

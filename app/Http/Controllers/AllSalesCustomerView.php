@@ -18,8 +18,10 @@ class AllSalesCustomerView extends Controller
 		return $this->index('');
 	}
 
-	public function index($link)
+	public function index(Request $request)
 	{
+		$link = $request->input('f', '');
+
 		//SAMA PERSIS DENGAN AllSalesCustomerAPI@filterorder
 
 		$customerID = session()->get('userid');

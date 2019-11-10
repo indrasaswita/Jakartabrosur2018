@@ -14,9 +14,9 @@ module.exports = function(app){
 				if($scope.customers!=null)
 					$scope.getActiveCustomer();
 			}
+			
 
 			$scope.getActiveCustomer = function(){
-				console.log("TEST");
 				$scope.totalloggedweek = 0;
 				$scope.totalsignedweek = 0;
 				$today = new Date();
@@ -37,6 +37,7 @@ module.exports = function(app){
 					}
 				});	
 			}
+
 		}
 	]);
 };

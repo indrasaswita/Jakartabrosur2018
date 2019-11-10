@@ -27,8 +27,6 @@ Route::get('signup', ['as'=>'pages.account.signup', 'uses'=>"UserController@sign
 //HARUS UDA LOGIN - BOLEH CUSTOMER BOLEH EMPLOYEE
 
 
-/* LOGIN LOGOUT ACCOUNT */
-Route::get  ('logout',  'UserController@logout');
 //BUAT PAS KLIK DI LINK EMAIL
 Route::get('/customer/verify/{token}', 'CustomerController@verifyEmail');
 //BUAT MASUK KE VERIFICATION PAGES
@@ -97,12 +95,10 @@ Route::group(['middleware'=>['verified']], function(){
 	Route::get('profile', "ProfileController@index");
 	Route::get('payment/{id}', 'PaymentController@show');
 	Route::get('cart', 'CartController@index');
-	Route::get('sales/all', 'AllSalesCustomerView@indexempty');
-	Route::get('sales/all/{link}', 'AllSalesCustomerView@index');
+	Route::get('sales/all', 'AllSalesCustomerView@index');
 	Route::get('AJAX/file/{id}/download', 'FileAJAX@downloadByFileID');
 	Route::get('AJAX/file/preview/{id}/download', 'FileAJAX@downloadPreviewByFileID');
 
-	Route::get('sales/commit/{id}/{sid}/{tk}', 'SalesdetailController@showCommitByID');
 	Route::post('AJAX/custbankaccs/save', 'CustomerbankaccAJAX@insert');
 	Route::post('AJAX/custbankaccs/{id}/update', 'CustomerbankaccAJAX@update'); //belom kepake tapi uda di buat
 
@@ -116,16 +112,24 @@ Route::group(['middleware'=>['verified']], function(){
 /*** EMPLOYEE WEB ***/
 /*** EMPLOYEE WEB ***/
 Route::group    (['middleware'=>['employee']], function(){
+	Route::get('admin/addusernopass', 'AdmCustomerController@addusernopass');
 	Route::resource ('roles',   "RoleController");
 	Route::get ('admin/master/customer',    "CustomerController@index");
 	Route::get  ('cartdetails/cartfiles/download/{id}', 'CartdetailController@downloadByFileID');
 	Route::get('admin/master/ctw/database', "AdmChangetheworldController@index");
+	Route::post('AJAX/commit/cartpreview/{id}/undo', 'AdmCartpreviewAJAX@undofile');
+	Route::post('AJAX/admin/cartpreview/{id}/delete', 'AdmCartpreviewAJAX@deleteFile');
+
+	Route::get('AJAX/admin/file/{id}/download', 'AdmFileAJAX@downloadByFileID');
+	Route::get('AJAX/admin/previewfile/{id}/download', 'AdmFileAJAX@downloadPreviewByFileID');
 
 	//ADMIN WEB 
 	Route::get('admin/tracking', 'AdmTrackingController@index');
 	Route::resource ('admin/allsales',  'AdmAllSalesController');
 	Route::get("admin/cart", 'AdmCartController@index');
 	Route::get('admin/pricetext', 'AdmPricetextController@index');
+
+	Route::get("admin/payment/invoice/{id}", 'PaymentController@showInvoiceAdmin');
 
 
 	//ADMIN MASTER WEB
@@ -156,6 +160,7 @@ Route::group    (['middleware'=>['employee']], function(){
 
 
 	Route::get('notification', 'NotificationController@index'); // di customer juga ada
+	Route::get("admin/companybankacc/mutasi", "AdmCompanyaccountsController@index");
 });
 
 
@@ -194,7 +199,6 @@ Route::get("API/cartfiles/{id}/delete", 'CartfileAPI@deleteCartfileByID'); // ha
 Route::post('AJAX/files/saveurl', 'FileAJAX@saveurl');
 Route::post('AJAX/files/savedetail', 'FileAJAX@savedetail');
 Route::get('AJAX/allsales/filterorder/{link}', 'AllSalesCustomerAJAX@filterorder');
-Route::post('AJAX/carts/changefile/save', 'CartfileAJAX@savefile');
 
 //HARUS LOGIN ADMIN
 Route::get('AJAX/admin/ctw/getbytablename/{table}', 'AdmChangetheworldAJAX@getByTablename');
@@ -224,9 +228,14 @@ Route::post("AJAX/paper/savenewpaper", "AdmPaperAJAX@addnewpaper");
 Route::post("AJAX/paperdetail/savenewplano", "AdmPaperdetailAJAX@savenewplano");
 Route::post("AJAX/jobsubtypepaper/{id}/changeofdg", "AdmJobsubtypepaperAJAX@changeofdg");
 Route::post("AJAX/jobsubtypesize/{id}/changeofdg", "AdmJobsubtypesizeAJAX@changeofdg");
+Route::post("AJAX/master/customer/saveusernopass", "AdmCustomerAJAX@saveusernopass");
+Route::post("AJAX/master/customer/updateusernopass", "AdmCustomerAJAX@updateusernopass");
 
 /* LOGIN LOGOUT ACCOUNT */
-Route::post ('API/login',   'UserController@login');
+Route::post ('AJAX/login',   'AllUserAJAX@login');
+Route::post ('AJAX/makepassword',   'AllUserAJAX@makepassword');
+Route::post('AJAX/checkmail', 'AllUserAJAX@checkMail');
+Route::get('logout',  'AllUserAJAX@logout');
 
 
 /*END ACCOUNT ROUTE*/
@@ -250,7 +259,7 @@ Route::post("API/calc/planosize", "Calculation@calcPlanoSize_url");
 /*** EMPLOYEE API ***/
 /*** EMPLOYEE API ***/
 Route::group(['middleware'=>"employeeAPI"], function(){
-	Route::post ('API/upload/preview/{cartid}', ['as' => 'upload-post-preview', 'uses' =>'ImageController@previewUploadEmployee']);
+	Route::post ('AJAX/upload/preview/{cartid}', 'ImageController@previewUploadEmployee');
 	Route::post ('API/upload/original/{custid}/{cartid}',   ['as' => 'upload-post', 'uses' =>'ImageController@originalUploadEmployee']);
 
 	//change status tracking
@@ -261,7 +270,8 @@ Route::group(['middleware'=>"employeeAPI"], function(){
 	Route::post('API/admin/tracking/chstdelivery', 'AdmChangeTrackingAPI@changeStatusDelivery');
 	Route::post('API/admin/tracking/chstdone', 'AdmChangeTrackingAPI@changeStatusDone'); //HARUSNYA DARI CUSTOMER - NANTI HARUS DI GANTI LAGI
 
-	Route::post('API/admin/payment/{id}', 'AdmSalesPaymentAPI@setPaymentByID');
+	Route::get('AJAX/bankaccs/customer/{id}', 'CustomerBankAccAJAX@getByCustID');
+	Route::post('AJAX/admin/payment/{id}', 'AdmSalesPaymentAJAX@setPaymentByID');
 	Route::post('API/admin/master/paper/update', "AdmPaperAPI@updateManyRows");
 
 	//VERIFIKASI PEMBAYARAN
@@ -300,6 +310,7 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post ('API/upload',  ['as' => 'upload-post', 'uses' =>'ImageController@originalUploadCustomer']);
 	Route::post ('API/upload/delete', ['as' => 'upload-remove', 'uses' =>'ImageController@deleteUpload']);
 	Route::get  ('API/pendimg', ['as'=>'upload-pendimg', 'uses' => 'ImageController@getPendingImage']);
+	Route::post('AJAX/carts/changefile/save', 'CartfileAJAX@savefile');
 
 	Route::post ('AJAX/cart/delete', 'CartAJAX@cartDelete');
 	Route::post ('AJAX/cart/duplicate', 'CartAJAX@cartDuplicate');
@@ -312,13 +323,16 @@ Route::group(['middleware'=>"customerAPI"], function(){
 	Route::post('API/payment/confirm', 'PaymentController@confirmStore');
 	Route::get("API/addresses/custactive", "AddressAPI@apiGetByActiveCustomer");
 	Route::get("API/addresses/customeraddress", 'CustomerAPI@apiGetAddressByActiveCustomer');
-	Route::post("API/sales/{id}/commit", "AllSalesCustomerAPI@commit");
+	Route::post("AJAX/sales/{id}/commit", "AllSalesCustomerAJAX@commit");
 });
 
 
 
-Route::get('API/bankaccs/customer/{id}', 'CustomerBankAccAPI@getByID');
-Route::get('API/compaccs',  ["as"=>"api.compaccs", "uses"=>"CompanyBankAccAPI@getAll"]);
+
+//SEMUA BISA AMBIL
+Route::get('AJAX/compaccs',  "CompanybankaccAJAX@getAll");
+
+
 Route::get('API/banks', ["as"=>"api.bank", "uses"=>"BankAPI@getAll"]);
 //master
 Route::get('API/company/getpending', 'CompanyAPI@getPending');
@@ -329,4 +343,3 @@ Route::get('contohemail', 'CustomerController@panggilemail');
 
 //history sales order customer
 Route::get('saleshistory', 'SalesdetailController@historySalesCustomer');
-

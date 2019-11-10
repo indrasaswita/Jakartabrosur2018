@@ -1,36 +1,66 @@
 @extends('layouts.container') @section('title', 'Proses & Pembayaran') @section('robots', 'noindex,nofollow') @section('content')
-<!-- <form> -->
-<div ng-controller="AllSalesController" class="all-sales-customer">
+
+<div ng-controller="AllSalesController" class="sales-employee-wrapper">
 
 	@if(isset($allsales))
 	<?php
 		$temp = str_replace(array('\r', '\"', '\n', '\''), '?', $allsales);
 	?>
 		<div ng-init="initAllSales('{{$temp}}')"></div>
-		@if ($allsales != null) @if(count($allsales) != 0)
+		@if ($allsales != null) 
+			@if(count($allsales) != 0)
 		<div ng-init="globalSalesID('{{$allsales[0]['id']}}')"></div>
-		@endif @endif @if($link != null)
-		<div ng-init="setselectedfilter('{{$link}}', false)"></div>
+			@endif 
+		@endif 
+
+
+		@if(app('request')->input('f') != null)
+		<div ng-init="setselectedfilter('{{app('request')->input('f')}}', false)"></div>
 		@else
 		<div ng-init="setselectedfilter('', false)"></div>
-		@endif @endif
+		@endif 
+
+		@if(app('request')->input('s') != null)
+		<div ng-init="setSelectedSalesID('{{app('request')->input('s')}}')"></div>
+		@endif 
+
+		@if(app('request')->input('a') != null)
+		<div ng-init="setSelectedAction('{{app('request')->input('a')}}', '{{app('request')->input('aa')}}')"></div>
+		@endif 
+	@endif
 		<!-- NANTI MESTI BUAT VALIDASI KALO ORANG LANGSUNG MASUK KE UPLOAD HARUS DI CEK DULU UDA ADA SESSION DARI PAGE ORDER BLOM.. -->
 
-		@include('includes.nav.subnav') @if($allsales != null) @if(count($allsales) > 0) @include('includes.nav.salenav')
+		@include('includes.nav.subnav')
+
+		@if($allsales != null) 
+			@include('includes.nav.salenav')
 
 		<div ng-if="selectedfilter!=-1">
 			<div class="page-title margin-10-0">
 				<!--  ng-bind-html="allsalespagetitle"> -->
 				<i class="far fa-bags-shopping fa-fw"></i> Transaction Overview
 			</div>
+
+			<form action="/" method="post" id="is-uploader" enctype="multipart/form-data" hidden>
+				@method('patch')
+				@csrf
+
+				<input name="file" id="btn-choose-file2" type="file"  ng-disabled="uploadwaiting" ng-if="!uploadwaiting" >
+			</form>
+
 			<div class="margin-0">
 				<div class="btn-filter-scroll-x">
-					<a href="" ng-click="setselectedfilter(item.link, true)" ng-class="{'active':item.link==selectedfilter}" class="btn" ng-repeat="item in filters">
+					<a href="" ng-click="setselectedfilter(item.link, true)" ng-class="{'active':item.link==selectedfilter}" class="btn ease" ng-repeat="item in filters">
 						<i class="fal hidden-xs-down" ng-class="item.icon"></i> [[item.name]]
 					</a>
 				</div>
 
-				<table class="table table-sm table-custom-allsales">
+				<div class="allsales-loading" ng-if="salesloading">
+					<i class="fas fa-sync fa-fw fa-spin fa-3x"></i><br>
+					Loading
+				</div>
+
+				<table class="table table-sm table-custom-allsales" ng-if="!salesloading">
 					<thead class="">
 						<tr>
 							<th class="width-min hidden-xs-down text-xs-center">#Job</th>
@@ -96,14 +126,14 @@
 						</tr>
 						<tr class="content-detail detail-item" ng-show="item.showdetail">
 							<td class="" colspan="10">
-								<div class="detail-tabs">
+								<div class="detail-tabs ease">
 									<button class="tab-list" ng-class="{'selected':item.showpayment}" ng-click="showpayment(item)">
 										Payment
 									</button>
-									<button class="tab-list selected" ng-class="{'selected':item.showinfo}" ng-click="showinfo(item)">
+									<button class="tab-list ease selected" ng-class="{'selected':item.showinfo}" ng-click="showinfo(item)">
 										Detail
 									</button>
-									<button class="tab-list" ng-class="{'selected':item.showdelivery}" ng-click="showdelivery(item)">
+									<button class="tab-list ease" ng-class="{'selected':item.showdelivery}" ng-click="showdelivery(item)">
 										Delivery
 									</button>
 								</div>
@@ -214,7 +244,7 @@
 														DATA GAMBAR & FILE
 														<i class="fab fa-adobe fa-fw"></i>
 													</div>
-													<div class="detail-card-text">
+													<div class="detail-card-text" ng-if="salesdetail.cartheader.cartfile.length>0">
 														<div class="detail ease" ng-repeat="cfile in salesdetail.cartheader.cartfile" ng-click="showselectedfile(cfile.file, salesdetail.cartheader, salesdetail)">
 															<div class="icon">
 																<i class="fal fa-copy fa-fw fa-2x"></i>
@@ -246,6 +276,15 @@
 															</div>
 														</div>
 													</div>
+													<div ng-if="salesdetail.cartheader.cartfile.length==0" class="line-12 text-xs-center">
+														<br>
+
+														<i class="fas fa-eye-slash fa-fw tx-warning fa-3x"></i><br><br>
+														TIDAK ADA DATA YANG DIUPLOAD<br>
+														<small>
+															untuk kirim file, dapat menghubungi Call Center kami.
+														</small>
+													</div>
 												</div>
 											</div>
 											<div class="card-wrapper">
@@ -259,8 +298,14 @@
 															<div class="">
 																<i class="fal fa-truck fa-fw"></i> [[salesdetail.cartheader.delivery.deliveryname]]
 															</div>
-															<div class="">
+															<div class="" ng-if="salesdetail.cartheader.deliveryID!=1">
 																<i class="fal fa-house-flood fa-fw"></i> [[salesdetail.cartheader.deliveryaddress.address]]
+															</div>
+															<div class="" ng-if="salesdetail.cartheader.deliveryID==1">
+																<i class="fal fa-house-flood fa-fw"></i> Diambil di 
+																<a class="a-purple" href="https://www.google.co.id/maps/place/Jakarta+Brosur/@-6.1410584,106.825155,17z/data=!3m1!4b1!4m5!3m4!1s0x2e69f5fa2f737f37:0x43667f0d0a3cbf7f!8m2!3d-6.1410637!4d106.8273437?hl=en" target="_blank">
+																	Workshop Jakartabrosur.com
+																</a>
 															</div>
 															<div class="package">
 																<i class="fal fa-boxes fa-fw"></i> [[salesdetail.cartheader.totalpackage|number:0]] bungkus.
@@ -335,17 +380,24 @@
 																</span>
 															</div>
 														</div>
-														<div class="detail text-xs-center" ng-if="item.totalprice<=item.totalpay">
-															<button class="btn btn-sm btn-outline-purple">
+														<div class="detail text-xs-center" ng-if="item.totalprice<=item.totalpay&&salesdetail.commited==0">
+															<button class="btn btn-sm btn-outline-purple" ng-click="commit(salesdetail)">
 																Ya setuju, kerjakan dan proses cetak.
 															</button>
+
+															<div ng-if="salesdetail.commiterror!=null">
+																<div class="line-12" ng-if="salesdetail.commiterror.length>0">
+																	<br><br>
+																	[[salesdetail.commiterror]]
+																</div>
+															</div>
 														</div>
 														<div class="detail text-xs-center" ng-if="item.totalprice>item.totalpay">
 															<button class="btn btn-sm btn-outline-purple" ng-click="linkmakepayment(item)">
 																Buat Pembayaran
 															</button>
 														</div>
-														<div class="alert alert-sm" ng-if="item.totalprice<=item.totalpay">
+														<div class="alert alert-sm margin-top-10" ng-if="item.totalprice<=item.totalpay">
 															Setelah setuju (commit) dengan hasil dummy (preview),
 															<ol>
 																<li>Proses dijalankan.</li>
@@ -692,7 +744,7 @@
 															 [[payment.customeracc.accno]]
 														 </span> 
 														 <span class="hidden-xs-down">
-														 	<b>[[payment.customeracc.accname.toTitleCase()]]</b>
+															<b>[[payment.customeracc.accname.toTitleCase()]]</b>
 														 </span>
 															<i class="fal fa-arrow-alt-right fa-fw"></i>
 															<span ng-if="payment.companyacc.bank.alias.length==0">
@@ -791,6 +843,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div ng-if="selectedfilter == -1">
 			FILTER WASNT SET YET
 		</div>
@@ -810,13 +863,7 @@
 			<span class="size-16">Silahkan buat pesanan Anda terlebih dahulu.<br></span>
 			<span class="size-16">( <a href="{{URL::asset('flyer')}}"><span class="fas fa-edit size-14"></span> Flyer</a> | <a href="{{URL::asset('cart')}}"><span class="fas fa-shopping-basket size-14"></span> Cart</a> )</span>
 		</div>
-		@endif @else
-		<div class="text-muted margin-40-0 text-xs-center">
-			<span class="size-30">Tidak Ada Data Belanja</span><br>
-			<span class="size-16">Silahkan buat pesanan Anda terlebih dahulu.<br></span>
-			<span class="size-16">( <a href="{{URL::asset('flyer')}}"><span class="fas fa-edit size-14"></span> Flyer</a> | <a href="{{URL::asset('cart')}}"><span class="fas fa-shopping-basket size-14"></span> Cart</a> )</span>
-		</div>
 		@endif
 </div>
-<!-- </form> -->
+
 @stop

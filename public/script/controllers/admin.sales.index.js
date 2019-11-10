@@ -1,6 +1,6 @@
 module.exports = function(app){
-	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
+	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($timeout, $scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 			$scope.initHeader = function($headers, $deliveries, $couriers, $activeemployee){
 				$scope.headers = JSON.parse($headers);
 				$scope.deliveries = JSON.parse($deliveries);
@@ -547,11 +547,13 @@ module.exports = function(app){
 				{
 					console.log('tidak boleh 0');
 				}
-				else
+				else if($scope.selectedheader.id==null){
+					console.log("salesID is null");
+				}else
 				{
 					$http({
 						"method" 	: "POST",
-						"url" 		: API_URL+"admin/payment/"+$scope.selectedheader.salesID,
+						"url" 		: AJAX_URL+"admin/payment/"+$scope.selectedheader.id,
 						"data"		: {
 							"ammount" : $scope.selectedammount,
 							"custacc"	: $scope.selectedcustacc.id,
@@ -768,7 +770,7 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'bankaccs/customer/' + $customerID
+						url : AJAX_URL + 'bankaccs/customer/' + $customerID
 					}
 				).then(function(response) {
 					if(response.data != null)
@@ -778,10 +780,19 @@ module.exports = function(app){
 							if($scope.customerbankaccs.length>0)
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
+				}, function(error){
+					console.log(error.message);
 				});
 			};
 
-			$scope.fillCompanyBankAccs();
+			$scope.fillCompanyBankAccs(function(response){
+				$scope.companybankaccs = response;
+				if($scope.companybankaccs != null){
+					if($scope.companybankaccs.length > 0){
+						$scope.selectedcompacc = $scope.companybankaccs[0];
+					}
+				}
+			});
 
 			$scope.verify = function()
 			{
@@ -801,7 +812,7 @@ module.exports = function(app){
 			$scope.resetCommitPreview = function($cartpreview){
 				$http({
 					method: "POST",
-					url: API_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
+					url: AJAX_URL+"commit/cartpreview/"+$cartpreview.id+"/undo"
 				}).then(function(response){
 					if(response.data != null){
 						if(response.data.constructor === String){
@@ -814,19 +825,21 @@ module.exports = function(app){
 				});
 			}
 
-			$scope.deletePreview = function($cartpreviewID, $salesdetail){
+			$scope.deletePreview = function($cartpreview, $salesdetail, $index){
 				$http({
 					method: "POST",
-					url: API_URL+"admin/cartpreview/"+$cartpreviewID+"/delete"
+					url: AJAX_URL+"admin/cartpreview/"+$cartpreview.id+"/delete"
 				}).then(function(response){
 					if(response.data != null){
-						if(reponse.data.constructor !== String){
-							$scope.selectedsalesdetail = response.data;
+						if(response.data.constructor === String){
+							if(response.data == true){
+								$salesdetail.cartheader.cartpreview.splice($index, 1);
+							}
 						}else{
-							console.log(response.data);
+							console.log("Failed to delete");
 						}
 					}else{
-						console.log("Error, tidak ada return value..");
+						console.log("Cartpreview data not found in database");
 					}
 				});
 			}
@@ -836,34 +849,8 @@ module.exports = function(app){
 				$("#addprooffileModal").modal("show");
 			}
 
-			$scope.sendcommit = function($url, $item, $item2){
-				if($scope.session == null){
-					$http({
-						method: "POST",
-						url: API_URL+"customer/"+$item.customerID+"/makesession"
-					}).then(function(response){
-						if(response.data!=null){
-							if(response.data.constructor === String){
-								$scope.session = response.data;
-								$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-							}
-							else
-								$scope.session = null;
-						}else{
-							$scope.session = null;
-							$window.location.reload();
-						}
-					}, function(error){
-						$window.location.reload();
-					});
-				}else{
-					$scope.sendwacommit($url, $item2.id, $item.id, $scope.session);
-				}
-				
-			}
-
-			$scope.sendwacommit = function($url, $did, $sid, $key){
-				$window.open("http://wa.me/?text=Cek%20kembali%20cetakan%20Anda%20sebelum%20naik%20cetak,%20klik%20di%20"+$url+"sales%2Fcommit%2F"+$did+"%2F"+$sid+"%2F"+$key);
+			$scope.sendwacommit = function($url, $pid, $sid){
+				$window.open("http://wa.me/?text=Silahkan+cek+sebelum+di+print.+Mohon+untuk+ketelitian+dalam+pengecekan+huruf+dalam+text%2C+letak+atau+posisi+gambar%2C+warna%2C+dan+tulisan+yang+tertera+pada+hasil+cetakan.+Kami+tetap+berusaha+untuk+memberikan+yang+terbaik.%0D%0A%0D%0ACek%20di%20"+$url+"sales%2Fall%3Fs%3D"+$sid+"%26a%3Dproof%26aa%3D"+$pid);
 			}
 			
 			$scope.searchingkey = "";
@@ -925,7 +912,7 @@ module.exports = function(app){
 				
 				$http({
 					method: 'POST',
-					url: API_URL+'upload/preview/'+cartID,
+					url: AJAX_URL+'upload/preview/'+cartID,
 					data: data,
 					withCredentials: true,
 					headers: {'Content-Type': undefined },
@@ -945,8 +932,8 @@ module.exports = function(app){
 						console.log(response);
 					}
 					$scope.uploadwaiting = false;
-					$scope.allowed();
-				}).error(function(error) {
+					//$scope.allowed();
+				}, function(error) {
 					$scope.error.files = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
@@ -954,6 +941,161 @@ module.exports = function(app){
 				//buat apus file abis d input
 				//$scope.clearFileInput('file');
 			}
+
+
+			$scope.printworkorder = function(item){
+				console.log(item);
+				var linewidth = 1;
+
+				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+					'resizable,screenX=450,screenY=0,width=270,height=500';
+
+				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
+
+				var scss = "<style type='text/css' media='print'>"
+						+"@page "
+						+"{ "
+						+"	size: auto; "
+						+" margin: 0mm; "
+						+"}"
+						+"</style>"
+						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
+						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
+						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+				//scss to remove HEADER AND FOOTER
+
+				var prebarcode = app.logoforprint;
+
+
+				prebarcode += 'Nomor Job. ' + $scope.zeroFill(item.id, 4) + ' -- ' 
+					+ $scope.zeroFill(item.created_at.getDate(), 2)+'/'+$scope.zeroFill(item.created_at.getMonth(), 2)+'/'+item.created_at.getFullYear()+'<br>'
+					+ item.customer.name + ' '
+					+ item.customer.phone1 + '<br><br>';
+				prebarcode += item.paymentdetail;
+
+				var afterbarcode = "<div class='barcode-label'>";
+
+				var barcode = "";
+				barcode = '110'+$scope.zeroFill(item.id, 8);
+				
+				afterbarcode += '</div>';
+				prebarcode += '<br>';
+
+
+				afterbarcode += '<hr class="solid">';
+				$.each(item.salesdetail, function($i, $salesdetail){
+					afterbarcode += '<div class="title">'
+						+ $salesdetail.cartheader.jobsubtype.name
+						+ ' <b>' + $salesdetail.cartheader.jobtitle
+						+ '</b></div>'
+						+	'<div class="">'
+						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+						+ ' ' + $salesdetail.cartheader.quantitytypename;
+
+					afterbarcode += '<span class="pull-xs-right">'
+						+ $salesdetail.cartheader.cartfile.length
+						+ ' files.'
+						+ '</span>';
+
+					afterbarcode += '</div>';
+					if($salesdetail.cartheader.cartfile.length>1){
+						$.each($salesdetail.cartheader.cartdetail, function($j, $cartfile){
+							afterbarcode += '<div>'
+								+ 'Nama file: '
+								+ $cartfile.file.filename 
+								+ '</div>';
+						});
+					}
+
+
+					$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+						afterbarcode += '<div class="detail">';
+
+						if($salesdetail.cartheader.cartdetail.length>1)
+							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
+
+						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+						 + ' ' + $cartdetail.printer.machinename + '<br>'
+							+ $cartdetail.totaldruct + ' druct'
+							+ ' +ins. '
+							+ $cartdetail.inschiet + '<br>'
+							+ 'AREA JADI&nbsp; : ' + $cartdetail['imagewidth']
+							+ ' x ' + $cartdetail['imagelength'] + ' CM <br>'
+							+ '> Susunan ' + $cartdetail.totalinprintx + ' x ' + $cartdetail.totalinprinty + ' + ' + $cartdetail.totalinprintrest + ' = '+$cartdetail.totalinprint+'<br>'
+							+ 'Uk. Kertas : ' + $cartdetail['printwidth']
+							+ ' x ' + $cartdetail['printlength'] + ' CM <br>'
+							+ 'Uk. PLANO&nbsp; : ' + $cartdetail['plano']['width']
+							+ ' x ' + $cartdetail['plano']['length'] + ' CM'
+							+ '<hr class="dashed">'
+							+ $cartdetail.paper.papertype.name + ': '
+							+ $cartdetail.paper.name + ' '
+							+ $cartdetail.paper.color + ' '
+							+ $cartdetail.paper.gramature + 'gsm <br>'
+							+ $cartdetail.vendor.name + ' '
+							+ $cartdetail.vendor.phone1 + '<br>'
+							+ 'Beli ' + $cartdetail.totalplano.toString().addThousandSeparator() + ' plano belah '+$cartdetail.totalinplano+'<br>'
+							+ '> Pembagian ' + $cartdetail.totalinplanox + ' x ' + $cartdetail.totalinplanoy + ' + ' + $cartdetail.totalinplanorest + ' = '+$cartdetail.totalinplano+'<br>'
+							+ 'Kira-kira Rp ' + $cartdetail.totalpaperprice.toString().addThousandSeparator()
+							+ '<hr class="dashed">';
+
+						if($cartdetail.employeenote.length > 1){
+							afterbarcode += 'Catatan kerja, '
+							+ $cartdetail.employeenote + '.'
+						}
+
+
+						$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+							afterbarcode += '<div class="">'
+								+	'- ' + $cartdetailfinishing.finishing.name
+								+ ', '
+								+ $cartdetailfinishing.finishingoption.optionname
+								+ '</div>';
+						});
+
+						afterbarcode += '</div>';
+					});
+					afterbarcode += '<hr class="solid">';
+				});
+
+				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';
+
+				var htmlPop = scss
+						+ '<div class="view-small-invoice">'
+						+	prebarcode
+						+ '<div class="text-xs-center">'
+						+ '	<svg class="barcode"'
+						+	'		jsbarcode-format="upc"'
+						+	'		jsbarcode-value="'+barcode+'"'
+						+	'		jsbarcode-textmargin="0"'
+						+	'		jsbarcode-margintop="5"'
+						+	'		jsbarcode-marginright="0"'
+						+	'		jsbarcode-marginbottom="2"'
+						+	'		jsbarcode-marginleft="0"'
+						+	'		jsbarcode-height="25"'
+						+	'		jsbarcode-fontsize="10"'
+						+	'		jsbarcode-fontoptions="normal">'
+						+	'	</svg>'
+						+ '</div>'
+						+ afterbarcode
+						+ '</div>'
+						+ '<script>'
+						+ 'JsBarcode(".barcode").init();'
+						+ '</script>'; 
+
+				var printWindow = window.open ("", "PDF", winparams);
+				printWindow.document.write (scss+htmlPop);
+				printWindow.document.close();
+
+				var intv = setInterval(function(){
+					printWindow.focus();
+					printWindow.print();
+					clearInterval(intv);
+					//printWindow.close();
+				}, 200);
+			}
+
+
 		}
 	]);
 };

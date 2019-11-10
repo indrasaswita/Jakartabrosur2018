@@ -19,14 +19,12 @@
 		
 		<div class="size-16 margin-10-0">
 			<small class="fas fa-shopping-bag tx-lightgray"></small> Proses kerja & Alur penjualan
-
 			<small class="fas fa-angle-right tx-lightmagenta"></small>
-
 			<span class="fas fa-universal-access tx-lightgray"></span> Hak Admin
 		</div>
 
 		
-		<table class="table table-sm table-custom-allsales">
+		<table class="table table-sm table-allsales-employee">
 			<thead class="text-center">
 				<tr>
 					<th class="width-min">#Inv.</th>
@@ -82,55 +80,41 @@
 					<td class="" colspan="10">
 						<div class="detail">
 							<div class="subheader">
-								DETAIL BARANG dan FILE
-								<a href="{{URL::asset('sales/workorder/pdf')}}/[[item.salesID]]" class="a-purple float-right text-regular" target="_blank" data-toggle="tooltip" data-title="print WO" data-placement="left">
+								<div class="txt">
+									DETAIL BARANG dan FILE
+								</div>
+								<a href="{{URL::asset('sales/workorder/pdf')}}/[[item.id]]" class="a-purple float-right txt" target="_blank">
+									<i class="fas fa-print"></i> Go to WO!
+								</a>
+								<a href="" class="a-purple float-right txt" ng-click="printworkorder(item)">
 									<i class="fas fa-print"></i> Print WO!
 								</a>
 							</div>
 							<table class="table table-cartheader">
-								<thead>
-									<tr>
-										<th class="" colspan="2">Judul Job</th>
-										<th class="text-xs-center">File</th>
-										<th class="text-xs-center">ACC.</th>
-										<th></th>
-									</tr>
-								</thead>
 								<tbody ng-repeat="item2 in item.salesdetail">
 									<tr class="row-header">
-										<td class="size-130p width-min">
-										<span class="tag tag-purple tag-sm">
-											[[zeroFill(item2.id, 4)]]
-										</span>
-										</td>
-										<td class="text-left size-130p">
-											<span class="tx-primary">
-												[[item2.cartheader.jobsubtype.name]] 
-											</span>
-											<strong>
+										<td>
+											[[item2.cartheader.jobsubtype.name]] 
+											<b>
 												[[item2.cartheader.jobtitle]]
-											</strong>
+											</b>
 										</td>
 										<td class="width-min">
-											<button href="" class="btn btn-sm btn-outline-purple text-bold" ng-click="showfiles(item2.cartheader)">
-												<span class="fas fa-file"></span>
-											</button>
-										</td>
-										<td class="width-min size-130p">
-											<div ng-show="item2.commited==1" class="tx-success" data-toggle="tooltip" data-title="<b class='tx-success'>OK!</b>" data-placement="bottom" data-html='true'>
-												<i class="fas fa-check"></i> 
+											<div ng-show="item2.commited==1" data-toggle="tooltip" data-title="<b class='tx-success'>OK!</b>" data-placement="bottom" data-html='true'>
+												<i class="fas fa-check"></i> ACC!
 											</div>
-											<div ng-show="item2.commited==0" class="tx-danger" data-toggle="tooltip" data-title="<b class='tx-danger'>Pending..</b>" data-placement="bottom" data-html="true">
-												<i class="fas fa-times"></i> 
+											<div ng-show="item2.commited==0" data-toggle="tooltip" data-title="<b class='tx-danger'>Pending..</b>" data-placement="bottom" data-html="true">
+												<i class="fas fa-times"></i> Belum OK!
 											</div>
 										</td>
-										<td class="width-min"><div class="tag tag-purple text-regular">[[item2.cartheader.jobtype]]</div></td>
 									</tr>
 									<tr>
 										<td colspan="10" class="padding-0-10">
 											<div class="subheader">
-												<i class="fas fa-tasks icon"></i> 
-												DETAIL PESANAN
+												<div class="txt">
+													<i class="fas fa-tasks icon"></i> 
+													DETAIL PESANAN
+												</div>
 											</div>
 											<table class="table table-cartdetail">
 												<tbody>
@@ -309,10 +293,16 @@
 														</td>
 														<td class="text-xs-left" colspan="3">
 															<i class="tx-lightgray fas fa-location-arrow"></i> 
-															<span ng-hide="item2.cartheader.deliveryaddress.length==0">
-																[[item2.cartheader.deliveryaddress]]
+															<span ng-if="item2.cartheader.deliveryaddressID!=null">
+
+																[[item2.cartheader.deliveryaddress.name]], [[item2.cartheader.deliveryaddress.address]], [[item2.cartheader.deliveryaddress.city.name]] 
+
+																<span class="tx-gray">
+																	[ [[item2.cartheader.deliveryaddress.addressnotes]] ]
+																</span>
+																
 															</span>
-															<span ng-show="item2.cartheader.deliveryaddress.length==0">
+															<span ng-if="item2.cartheader.deliveryaddressID==null">
 																Tidak tercantum alamat!
 															</span>
 														</td>
@@ -320,30 +310,25 @@
 												</tbody>
 											</table>
 											<div class="subheader">
-												<i class="far fa-file-archive icon"></i> 
-												DETAIL FILE
+												<div class="txt">
+													<i class="far fa-file-archive icon"></i> 
+													DETAIL FILE
+												</div>
 											</div>
 											<table class="table table-cartdetail">
 												<thead>
 													<tr>
-														<th class="width-min text-xs-center">Preview</th>
 														<th class="width-85">File</th>
 													</tr>
 												</thead>
 												<tbody ng-repeat="item3 in item2.cartheader.cartfile" class="text-v-center">
 													<tr>
-														<td rowspan="3">
-															<div class="break-word">
-																<img ng-src="{{URL::asset('[[item3.file.icon]]')}}" alt="No Preview" height="70px" width="70px" class="img-rounded margin-5">
-															</div>
-															<div class="tx-red line-11 margin-5-0 size-80p" ng-hide="uploaderror==''">
-																[[uploaderror]]
-															</div>
 														</td>
 														<td class="text-xs-left break-word">
 															<span>
 																<b class="tx-gray">	
 																	#CF[[item3.id]].
+																	[[item3.file.id]].
 																</b>
 																[[item3.file.filename]] ([[(item3.file.size/1024)|number:1]]KB)
 															</span>
@@ -355,31 +340,25 @@
 													<tr>
 														<td class="text-xs-left break-word">
 															File Asli : 
-															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.path]] --> Link</a> 
-															<a class="a-purple" ng-href="{{URL::asset('cartheaders/cartfiles/download')}}/[[item3.file.id]]">
+															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> 
+
+															Link</a> 
+															<a class="a-purple" ng-href="{{URL::asset('AJAX/admin/file')}}/[[item3.file.id]]/download">
 																<span class="fas fa-cloud-download-alt tx-purple"></span> Download
-															</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-xs-left break-word">
-															Icon : 
-															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.icon]] --> Link</a> 
-															<a class="a-purple" href="">
-																<span class="fas fa-cloud-upload-alt tx-purple"></span> Upload
 															</a>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 											<div class="subheader">
-												<i class="fas fa-search-dollar icon"></i> 
-												PROOF FILE
+												<div class="txt">
+													<i class="fas fa-search-dollar icon"></i> 
+													PROOF FILE
+												</div>
 											</div>
 											<table class="table table-cartdetail">
 												<thead>
 													<tr>
-														<th class="width-min text-xs-center">Preview</th>
 														<th class="">File</th>
 														<th class="width-min text-xs-center">
 															<i class="fas fa-cogs"
@@ -388,15 +367,6 @@
 												</thead>
 												<tbody ng-repeat="item3 in item2.cartheader.cartpreview" class="text-v-center">
 													<tr>
-														<td rowspan="3">
-															<div class="break-word">
-																<img ng-src="{{URL::asset('[[item3.file.icon]]')}}" alt="No Preview" height="70px" width="70px" class="img-rounded margin-5">
-																<br>
-																<!-- <a class="a-purple" href="" ng-click="uploadpreviewClick(item3.file.id)">
-																	<span class="fas fa-cloud-upload"></span> Upload
-																</a> -->
-															</div>
-														</td>
 														<td class="text-xs-left break-word">
 															<span>
 																<b class="tx-gray">
@@ -413,28 +383,27 @@
 														</td>
 														<td rowspan="3">
 															<div class="btn-group-vertical">
-																<button class="btn btn-sm btn-danger" ng-click="deletePreview(item3.id, item2)">
+																<button class="btn btn-sm btn-danger" ng-click="deletePreview(item3, item2, $index)">
 																	<i class="far fa-trash-alt"></i> Delete
 																</button>
 																<button class="btn btn-sm btn-outline-danger" ng-if="item3.commit!=0" ng-click="resetCommitPreview(item3)">
 																	<i class="fas fa-history"></i> Reset
+																</button>
+																<button class="btn btn-sm btn-success" ng-if="item3.commit==0" ng-click="sendwacommit('{{URL::asset('')}}', item3.id, item.id)">
+																	<i class="fab fa-whatsapp fa-fw"></i> Send
 																</button>
 															</div>
 														</td>
 													</tr>
 													<tr>
 														<td class="text-xs-left break-word">
-															Orig. : 
-															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item3.file.path]] --> Link</a> 
-															<a class="a-purple" ng-href="{{URL::asset('cartheaders/cartfiles/download')}}/[[item3.file.id]]">
+															File : 
+															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> 
+															Link</a> 
+															<a class="a-purple" ng-href="{{URL::asset('AJAX/admin/previewfile')}}/[[item3.file.id]]/download">
 																<span class="fas fa-cloud-download-alt tx-purple"></span> Download
 															</a>
-															<!-- &nbsp;&nbsp;
-															Icon : 
-															<a href="{{URL::asset('')}}[[item3.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> Link</a> 
-															<a class="a-purple" href="">
-																<span class="fas fa-cloud-upload-alt tx-purple"></span> Upload
-															</a> -->
+
 														</td>
 													</tr>
 													<tr>
@@ -455,9 +424,6 @@
 														<i class="fas fa-search-plus"></i>
 														Add Proof File
 													</button>
-													<button class="btn btn-sm btn-success" ng-click="sendcommit('{{URL::asset('/')}}', item, item2)">
-														<i class="fab fa-whatsapp"></i> Send
-													</button>
 												</div>
 											</div>
 										</td>
@@ -471,7 +437,9 @@
 					<td class="" colspan="10">
 						<div class="detail text-xs-center padding">
 							<div class="subheader">
-								DETAIL PENGIRIMAN
+								<div class="txt">
+									DETAIL PENGIRIMAN
+								</div>
 							</div>
 							<table class="table table-cartdetail">
 								<thead>
@@ -512,16 +480,13 @@
 												PARSIAL
 											</span>
 										</td>
-										<td class="width-min">
-											<!-- <a class="a-purple" href="" data-toggle="tooltip" data-placement="top" data-title="edit delivery">
-												<i class="fas fa-edit text-bold"></i>
-											</a> -->
-										</td>
 									</tr>
 								</tbody>
 							</table>
 							<div class="subheader">
-								DETAIL SURAT JALAN
+								<div class="txt">
+									DETAIL SURAT JALAN
+								</div>
 							</div>
 							<table class="table table table-cartdetail">
 								<thead>
@@ -608,7 +573,9 @@
 					<td class="" colspan="10">
 						<div class="detail padding">
 							<div class="subheader">
-								TOTAL TAGIHAN
+								<div class="txt">
+									TOTAL TAGIHAN
+								</div>
 							</div>
 							<table class="table table-center">
 								<tbody>
@@ -622,8 +589,7 @@
 											<i class="fas fa-print tx-purple"></i> [[item2.cartheader.printprice|number:0]]<br class="hidden-lg-up"><span class="hidden-md-down padding-0-10"> <i class="fas fa-plus-circle"></i> </span>
 											<i class="fas fa-truck tx-purple"></i> +[[item2.cartheader.deliveryprice|number:0]]
 										</td>
-										<!-- <td><b>-</b></td>
-										<td data-toggle="tooltip" data-title="Total Diskon" data-placement='bottom' class="tx-danger">[[item2.discount|number:0]]</td> -->
+
 										<td class="width-min"><b>=</b></td>
 										<td data-toggle="tooltip" data-title="Total Harga" data-placement='bottom' class="text-xs-right width-min">[[(item2.cartheader.printprice+item2.cartheader.deliveryprice-item2.cartheader.discount)|number:0]]</td>
 									</tr>
@@ -710,7 +676,7 @@
 										<br>
 										Lihat Daftar Nomor Rekening <a href="" class="a-purple" data-toggle="modal" data-target="#compaccnoModal">disini</a>.<br>
 										Cetak Penawaran <a href="" class="a-purple">disini</a>.<br>
-										Cetak Invoice <a href="" class="a-purple">disini</a>.
+										<a class="btn btn-sm btn-outline-primary" href="{{URL::asset('admin/payment/invoice')}}/[[item.id]]"  target="_blank">Print Invoice Pegawai</a>
 									</div>
 									<div class="divider"></div>
 									<div class="margin-0 size-80p gray">
@@ -725,7 +691,9 @@
 					<td class="" colspan="10">
 						<div class="detail padding">
 							<div class="subheader">
-								PROGRESS CETAK
+								<div class="txt">
+									PROGRESS CETAK
+								</div>
 							</div>
 
 							<table class="table table-cartdetail">
@@ -874,10 +842,6 @@
 				</tr>
 			</tbody>
 		</table>
-			<!-- <div class="panel-sales-wrapper">
-				<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="{{URL::asset('bower_components/angularUtils-pagination/dirPagination.tpl.html')}}"></dir-pagination-controls>
-				<div class="divider"></div>
-			</div> -->
 		<div class="frame frame-action frame-right">
 			<div class="title">
 				<i class="fas fa-bolt"></i> Links

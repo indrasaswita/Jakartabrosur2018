@@ -74,7 +74,7 @@
 							</button>
 						</div>
 
-						<div class="error">
+						<div class="error" ng-if="errormessage.length>0">
 							[[errormessage]]
 						</div>
 					</div>

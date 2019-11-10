@@ -15,7 +15,6 @@ Route::get('/file/maxfilesize', 'ImageAPI@getMaxFilesize');
 
 Route::post('/commit/cartpreview/{id}/accept', 'CartpreviewAPI@acceptfile');
 Route::post('/commit/cartpreview/{id}/reject', 'CartpreviewAPI@rejectfile');
-Route::post('/commit/cartpreview/{id}/undo', 'CartpreviewAPI@undofile');
 Route::post('/commit/salesdetail/{id}', 'SalesdetailAPI@commit');
 Route::post('/commit/salesdetail/{id}/undo', 'SalesdetailAPI@release');
 
@@ -52,8 +51,7 @@ Route::post('/notifications/customer/{id}/count', 'NotificationAPI@customerall')
 Route::post('/notifications/all/count', 'NotificationAPI@all');
 
 //EMPLOYEE ONLY
-Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');
-Route::post('/admin/cartpreview/{id}/delete', 'AdmCartpreviewAPI@deleteFile');
+Route::post('/admin/compaccs/mandiri/refresh', 'AdmCompanyaccountsAPI@mutasi_mandiri');
 Route::post('/admin/compaccs/{accid}/bca/refresh', 'AdmCompanyaccountsAPI@mutasi_bca');
 Route::get('/admin/compaccs/{accid}/bca/read', 'AdmCompanyaccountsAPI@read_bca');
 

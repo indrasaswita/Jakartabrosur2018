@@ -12,16 +12,19 @@ class CreateSalespaymentverifTable extends Migration
      */
     public function up()
     {
-        Schema::create('salespaymentverifs', function(Blueprint $table){
-            $table->engine="InnoDB";
-            $table->increments('id');
-            $table->integer('paymentID')->unsigned();
-            //$table->primary('paymentID');
-            $table->string('note');
-            $table->integer('employeeID')->unsigned();
-            $table->datetime('veriftime');
-            $table->timestamps();
-        });
+
+        DB::unprepared("
+            CREATE TABLE salespaymentverifs (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                paymentID INT UNSIGNED NOT NULL,
+                customerbankaccID INT UNSIGNED DEFAULT NULL,
+                note VARCHAR(128) NOT NULL DEFAULT '',
+                employeeID INT UNSIGNED NOT NULL,
+                veriftime DATETIME NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NULL
+            );
+        ");
 
         //DB::statement('ALTER TABLE salespaymentverifs DROP PRIMARY KEY, ADD PRIMARY KEY (id, salesID, paymentID)');
     }

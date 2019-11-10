@@ -2,7 +2,7 @@ module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
-			$scope.app_version = "2.05.004";
+			$scope.app_version = "2.06.004";
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -75,7 +75,9 @@ module.exports = function(app){
 				clearInterval(interval);
 				$('#content-wrapper').fadeIn();
 				try{
-					$('#landingpage').modal('show'); //dihome page
+					if ($('#landingpage').exists()) {
+						$('#landingpage').modal('show'); //dihome page
+					}
 				}catch(e){
 					console.log("Landing page error - runtime error");
 				}
@@ -274,13 +276,12 @@ module.exports = function(app){
 				$http(
 					{
 						method : 'GET',
-						url : API_URL + 'compaccs'
+						url : AJAX_URL + 'compaccs'
 					}
 				).then(function(response) {
 					if(response.data!=null){
 						if(response.data.length>0){
-							$scope.compaccs = response.data;
-							if (whendone instanceof Function) { whendone(); }
+							if (whendone instanceof Function) { whendone(response.data); }
 						}
 					} else {
 						console.log('Null return when calling company bank accounts - Godhands')
@@ -511,6 +512,10 @@ module.exports = function(app){
 				return $arr.filter(value => Object.keys(value).length !== 0);
 			}
 
+			String.prototype.addThousandSeparator = function() {
+				return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+
 			$scope.phonemask = function(e){
 				// REGEX PHONE
 				if(e!=null){
@@ -617,11 +622,13 @@ module.exports = function(app){
 						return myXhr;
 					}
 				}).done(function(response) {
-					whendone(response);
+					if(whendone instanceof Function)
+						whendone(response);
 					//UNTUK REFRESH YANG ADA DI ANGULAR HTML
 					$scope.$apply(function() { });
 				}).fail(function(response) {
-					whenfailed(response);
+					if(whenfailed instanceof Function)
+						whenfailed(response);
 					$scope.$apply(function() { });
 				});
 			}
