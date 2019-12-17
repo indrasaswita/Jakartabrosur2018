@@ -3,54 +3,54 @@
 		<span class="fas fa-fw fa-chevron-down transition"></span>
 	</button>
 	<a class="navbar-brand hidden-md-up sm" href="{{Request::path()=='/'?'#':(URL::asset('home'))}}">
-  	<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="50px">
-  	<span class="tx-purple">Jakarta</span><span class="tx-gray">brosur</span>
-  	<!-- <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="183px" height="31px">
+	<img class="hidden-xs-down" src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="50px">
+	<span class="tx-purple">Jakarta</span><span class="tx-gray">brosur</span>
+	<!-- <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="183px" height="31px">
 			<g transform="scale(0.25)">
-  	@include ("includes.subheader-logo")
- 			</g>
- 		</svg> -->
+	@include ("includes.subheader-logo")
+			</g>
+		</svg> -->
   </a>
 	<div class="collapse navbar-toggleable-sm" id="navbar-collapse">
-    <a class="navbar-brand hidden-sm-down lg" href="{{Request::path()=='/'?'#':(URL::asset('home'))}}">
-    	<img src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="70px"><span class="tx-purple">Jakarta</span><span class="tx-gray">brosur</span><!-- <span class="size-50p">.com</span> -->
-    	<!-- <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="278px" height="47px">
+	<a class="navbar-brand hidden-sm-down lg" href="{{Request::path()=='/'?'#':(URL::asset('home'))}}">
+		<img src="{{URL::asset('image/logo-transp/logo-contrast-200px.png')}}" alt="logo" height="70px"><span class="tx-purple">Jakarta</span><span class="tx-gray">brosur</span><!-- <span class="size-50p">.com</span> -->
+		<!-- <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="278px" height="47px">
 				<g transform="scale(0.38)">
-	  	@include ("includes.subheader-logo")
-	 			</g>
-	 		</svg> -->
-    </a>
-    
-    <ul class="nav navbar-nav">
+		@include ("includes.subheader-logo")
+				</g>
+			</svg> -->
+	</a>
+	
+	<ul class="nav navbar-nav">
 
-	    <li class="nav-item" ng-class="{'active':'{{Request::path()}}'=='home'||'{{Request::path()}}'=='/'}">
-	        <a class="nav-link" href="{{URL::asset('home')}}">
-	        	<div class="ico">
-	        		<i class="fal fa-fw fa-home"></i> 
-	        	</div>
-	        	<div class="txt">HOME</div>
-        	</a>
-	    </li>
-	    <li class="nav-item" ng-class="{'active':isOrder('{{Request::path()}}')}">
-	        <a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
-	        	<div class="ico">
-	        		<i class="fal fa-fw fa-abacus"></i> 
-	        	</div>
-	        	<div class="txt">ORDER</div>
-        	</a>
-	    </li>
+		<li class="nav-item" ng-class="{'active':'{{Request::path()}}'=='home'||'{{Request::path()}}'=='/'}">
+			<a class="nav-link" href="{{URL::asset('home')}}">
+				<div class="ico">
+					<i class="fal fa-fw fa-home"></i> 
+				</div>
+				<div class="txt">HOME</div>
+			</a>
+		</li>
+		<li class="nav-item" ng-class="{'active':isOrder('{{Request::path()}}')}">
+			<a class="nav-link" href="{{URL::asset('orderlistcustomer')}}">
+				<div class="ico">
+					<i class="fal fa-fw fa-abacus"></i> 
+				</div>
+				<div class="txt">ORDER</div>
+			</a>
+		</li>
 		@if(Session::has('role'))
 			@if(Session::get('role') == 'customer')
 
-    	<li class="nav-item dropdown" ng-class="{'active':isCustTransaksi('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-ballot-check"></i> 
-        	</div>
-        	<div class="txt">TRANSAKSI</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		<li class="nav-item dropdown" ng-class="{'active':isCustTransaksi('{{Request::path()}}')}">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="fal fa-fw fa-ballot-check"></i> 
+			</div>
+			<div class="txt">TRANSAKSI</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
 								Transaksi Anda
@@ -64,14 +64,14 @@
 			</li>
 			@elseif(Session::get('role') != 'customer')
 			<li class="nav-item dropdown" ng-class="{'active':isEmpTransaksi('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-shredder"></i> 
-        	</div>
-        	<div class="txt">TRANSAKSI</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="fal fa-fw fa-shredder"></i> 
+			</div>
+			<div class="txt">TRANSAKSI</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
 								Add New User
@@ -117,17 +117,22 @@
 						</div>
 					</div>
 				</div>
-	    </li>
-	    <li class="nav-item dropdown" ng-class="{'active':isEmpMaster('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-key"></i> 
-        	</div>
-        	<div class="txt">MASTER</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		</li>
+		<li class="nav-item dropdown" ng-class="{'active':isEmpMaster('{{Request::path()}}')}">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="fal fa-fw fa-key"></i> 
+			</div>
+			<div class="txt">MASTER</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
+							<a class="dropdown-item" href="{{URL::asset('admin/master/calendar')}}">
+								<span class="far fa-fw fa-calendar icon"></span>
+								Work Calendar
+							</a>
+							<div class="dropdown-divider"></div>
 							<div class="dropdown-title">
 								KERTAS
 								<span class="fas fa-paper-plane fa-fw tx-purple"></span>
@@ -173,16 +178,16 @@
 						</div>
 					</div>
 				</div>
-	    </li>
-	    <li class="nav-item dropdown" ng-class="{'active':isEmpJobsubtype('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-bullseye-pointer"></i> 
-        	</div>
-        	<div class="txt">JOBSTYPE</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		</li>
+		<li class="nav-item dropdown" ng-class="{'active':isEmpJobsubtype('{{Request::path()}}')}">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="fal fa-fw fa-bullseye-pointer"></i> 
+			</div>
+			<div class="txt">JOBSTYPE</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
 								Status 
@@ -229,16 +234,16 @@
 						</div>
 					</div>
 				</div>
-	    </li>
-	    <li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'.startsWith('admin/master/ctw')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="fal fa-fw fa-crown"></i> 
-        	</div>
-        	<div class="txt">GOD ROLE</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		</li>
+		<li class="nav-item dropdown" ng-class="{'active':'{{Request::path()}}'.startsWith('admin/master/ctw')}">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="fal fa-fw fa-crown"></i> 
+			</div>
+			<div class="txt">GOD ROLE</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
 								Warning!
@@ -251,21 +256,21 @@
 						</div>
 					</div>
 				</div>
-	    </li>
+		</li>
 			@endif
 		@endif
 		@if(Session::has('role'))
 			<li class="nav-item dropdown" ng-class="{'active':isAccount('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<span class="fal fa-fw fa-user"></span> 
-        	</div>
-        	<div class="txt">
-        		{{ strtoupper( explode(' ',trim( Session::get( 'name' )) )[0] ) }}
-      		</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<span class="fal fa-fw fa-user"></span> 
+			</div>
+			<div class="txt">
+				{{ strtoupper( explode(' ',trim( Session::get( 'name' )) )[0] ) }}
+			</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<div class="dropdown-title">
 								Hi, 
@@ -295,17 +300,17 @@
 						</div>
 					</div>
 				</div>
-	    </li>
+		</li>
 		@else
 			<li class="nav-item dropdown" ng-class="{'active':isAccount('{{Request::path()}}')}">
-        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
-        	<div class="ico dropdown-toggle">
-        		<i class="far fa-fw fa-power-off"></i> 
-        	</div>
-        	<div class="txt">ACCOUNT</div>
-      	</a>
-      	<div class="dropdown-menu-center">
-      		<div class="wrapper">
+		<a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="{{URL::asset('orderlistcustomer')}}">
+			<div class="ico dropdown-toggle">
+				<i class="far fa-fw fa-power-off"></i> 
+			</div>
+			<div class="txt">ACCOUNT</div>
+		</a>
+		<div class="dropdown-menu-center">
+			<div class="wrapper">
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="{{URL::asset('login?url=').(substr(Request::getPathInfo(),1).(Request::getQueryString()?('?'.Request::getQueryString()):''))}}">
 								<span class="far fa-fw fa-sign-in-alt icon"></span> LOGIN
@@ -316,8 +321,8 @@
 						</div>
 					</div>
 				</div>
-	    </li>
+		</li>
 		@endif
-  	</ul>
+	</ul>
 	</div>
 </nav>

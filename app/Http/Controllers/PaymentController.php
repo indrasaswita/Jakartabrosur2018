@@ -141,7 +141,7 @@ class PaymentController extends Controller
 
 
 		$sales = $this->getAllInoviceData($id);
-
+//dd($sales);
 		$pdf->loadHTML(view('printforms.invoice', compact('sales')));
 		$pdf->setPaper('A4', 'portrait');
 		//$pdf->render();

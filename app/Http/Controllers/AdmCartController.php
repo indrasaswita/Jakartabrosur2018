@@ -41,6 +41,21 @@ class AdmCartController extends Controller
 				->get();
 
 				
-		return view("pages.admin.cartdetails.index", compact("carts", 'jobsubtypes', 'printers', 'papers', 'deliveries'));
+		return view("pages.admin.cart.index", compact("carts", 'jobsubtypes', 'printers', 'papers', 'deliveries'));
+	}
+
+	public function joincart(){
+		$carts = Cartheader::with('customer')
+				->with('jobsubtype')
+				->with('cartfile')
+				->with('cartdetail')
+				->with('delivery')
+				->whereNotIn('id', function($query){
+					$query->select('cartID')->from('salesdetails');
+				})
+				->orderBy('customerID', 'asc')
+				->get();
+
+		return view('pages.admin.cart.joincart', compact('carts'));
 	}
 }

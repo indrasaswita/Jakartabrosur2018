@@ -342,7 +342,7 @@
 					<div class="txt">
 						X-Banner
 					</div>
-					<a href="{{URL::asset('shop/rollupbanner')}}">
+					<a href="{{URL::asset('shop/standbanner')}}">
 						<div class="highlight">
 							PROMO
 						</div>

@@ -13940,10 +13940,12 @@ require("./controllers/allacc.printforms.smallinvoice")(app);
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
 require("./controllers/admin.cart.index")(app);
+require("./controllers/admin.cart.joincart")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require('./controllers/admin.master.compaccs.index')(app);
+require('./controllers/admin.master.calendar.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
 require("./controllers/admin.master.paper.paperdetailstore")(app);
@@ -13977,7 +13979,7 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":52,"./constants/logo-for-print":53,"./constants/mandiri_loginmerged2":54,"./constants/variable":55,"./controllers/account.login":56,"./controllers/account.notification":57,"./controllers/account.profiles":58,"./controllers/account.resendemail":59,"./controllers/account.signup":60,"./controllers/admin.cart.addbyadmin":61,"./controllers/admin.cart.index":62,"./controllers/admin.changetheworld.index":63,"./controllers/admin.master.compaccs.index":64,"./controllers/admin.master.customer.addusernopass":65,"./controllers/admin.master.customer.index":66,"./controllers/admin.master.customer.pendingcompany":67,"./controllers/admin.master.finishing.index":68,"./controllers/admin.master.jobactivation":69,"./controllers/admin.master.jobeditor":70,"./controllers/admin.master.jobfinishings":71,"./controllers/admin.master.jobpapers":72,"./controllers/admin.master.jobquantities":73,"./controllers/admin.master.jobsizes":74,"./controllers/admin.master.onesignal.index":75,"./controllers/admin.master.paper.changeprice":76,"./controllers/admin.master.paper.newpaper":77,"./controllers/admin.master.paper.paperdetailstore":78,"./controllers/admin.master.pricetext.index":79,"./controllers/admin.master.shoppricing":80,"./controllers/admin.master.vendor.index":81,"./controllers/admin.master.verifcustomer":82,"./controllers/admin.sales.index":83,"./controllers/admin.tracking.index":84,"./controllers/aice.index":85,"./controllers/allacc.printforms.smallinvoice":86,"./controllers/allacc.sales.cartheader":87,"./controllers/createheader":88,"./controllers/description":89,"./controllers/global.includes.floatingcontact":90,"./controllers/global.nav.header":91,"./controllers/godhands":92,"./controllers/home":93,"./controllers/includes.modals.compaccno":94,"./controllers/includes.nav.subnav":95,"./controllers/main":96,"./controllers/order.cart.index":97,"./controllers/order.cart.modal.addfile":98,"./controllers/order.cart.modal.changefile":99,"./controllers/order.sales.commit":100,"./controllers/order.sales.history":101,"./controllers/order.sales.index":102,"./controllers/order.sales.modal.changefile":103,"./controllers/order.sales.modal.confirm":104,"./controllers/order.sales.modal.cust-selectbank":105,"./controllers/order.sales.modal.showpreview":106,"./controllers/order.shop.calculation.customer":107,"./controllers/order.shop.create.page":108,"./controllers/order.shop.lists.customer":109,"./controllers/roles":110,"./controllers/salespaymentconfirm":111,"./controllers/salespayments":112,"./controllers/trackingcustomer":113,"./customs/sticky-shop-total":114,"./directives/bootstrap-select-addon":115,"./directives/bootstrap-tooltip":116,"./directives/pagination/dirPagination":117,"./init":118,"angular":128,"angular-cookies":120,"angular-resource":122,"angular-route":124,"angular-sanitize":126,"node-gzip":129}],52:[function(require,module,exports){
+},{"./constants/analytics":52,"./constants/logo-for-print":53,"./constants/mandiri_loginmerged2":54,"./constants/variable":55,"./controllers/account.login":56,"./controllers/account.notification":57,"./controllers/account.profiles":58,"./controllers/account.resendemail":59,"./controllers/account.signup":60,"./controllers/admin.cart.addbyadmin":61,"./controllers/admin.cart.index":62,"./controllers/admin.cart.joincart":63,"./controllers/admin.changetheworld.index":64,"./controllers/admin.master.calendar.index":65,"./controllers/admin.master.compaccs.index":66,"./controllers/admin.master.customer.addusernopass":67,"./controllers/admin.master.customer.index":68,"./controllers/admin.master.customer.pendingcompany":69,"./controllers/admin.master.finishing.index":70,"./controllers/admin.master.jobactivation":71,"./controllers/admin.master.jobeditor":72,"./controllers/admin.master.jobfinishings":73,"./controllers/admin.master.jobpapers":74,"./controllers/admin.master.jobquantities":75,"./controllers/admin.master.jobsizes":76,"./controllers/admin.master.onesignal.index":77,"./controllers/admin.master.paper.changeprice":78,"./controllers/admin.master.paper.newpaper":79,"./controllers/admin.master.paper.paperdetailstore":80,"./controllers/admin.master.pricetext.index":81,"./controllers/admin.master.shoppricing":82,"./controllers/admin.master.vendor.index":83,"./controllers/admin.master.verifcustomer":84,"./controllers/admin.sales.index":85,"./controllers/admin.tracking.index":86,"./controllers/aice.index":87,"./controllers/allacc.printforms.smallinvoice":88,"./controllers/allacc.sales.cartheader":89,"./controllers/createheader":90,"./controllers/description":91,"./controllers/global.includes.floatingcontact":92,"./controllers/global.nav.header":93,"./controllers/godhands":94,"./controllers/home":95,"./controllers/includes.modals.compaccno":96,"./controllers/includes.nav.subnav":97,"./controllers/main":98,"./controllers/order.cart.index":99,"./controllers/order.cart.modal.addfile":100,"./controllers/order.cart.modal.changefile":101,"./controllers/order.sales.commit":102,"./controllers/order.sales.history":103,"./controllers/order.sales.index":104,"./controllers/order.sales.modal.changefile":105,"./controllers/order.sales.modal.confirm":106,"./controllers/order.sales.modal.cust-selectbank":107,"./controllers/order.sales.modal.showpreview":108,"./controllers/order.shop.calculation.customer":109,"./controllers/order.shop.create.page":110,"./controllers/order.shop.lists.customer":111,"./controllers/roles":112,"./controllers/salespaymentconfirm":113,"./controllers/salespayments":114,"./controllers/trackingcustomer":115,"./customs/sticky-shop-total":116,"./directives/bootstrap-select-addon":117,"./directives/bootstrap-tooltip":118,"./directives/pagination/dirPagination":119,"./init":120,"angular":130,"angular-cookies":122,"angular-resource":124,"angular-route":126,"angular-sanitize":128,"node-gzip":131}],52:[function(require,module,exports){
 module.exports = function(app){
 	
 }
@@ -15109,7 +15111,7 @@ module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	//$public_path = '/'; 
+	$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
@@ -16512,6 +16514,102 @@ module.exports = function(app){
 	]);
 };
 },{}],63:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmJoincartController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+			$scope.carts = null;
+
+			$scope.initData = function($datas){
+				$scope.carts = JSON.parse($datas);
+				$.each($scope.carts, function($index, $item){
+					//$item.enable = true;
+					$item.selected = false;
+					$item.created_at = $scope.makeDateTime($item.created_at);
+					$item.updated_at = $scope.makeDateTime($item.updated_at);
+				});
+			}
+
+			$scope.splitcustomer = function($index, $customerID){
+
+				if($index != $scope.carts.length - 1){
+					if($scope.carts[$index+1].customerID == $customerID){
+						return false;
+					}else{
+						return true;
+					}
+				}else{
+					return true;
+				}
+			}
+
+			$scope.selectAllbyCust = function($customerID){
+				$.each($scope.carts, function($index, $item){
+					if($item.customerID == $customerID){
+						//$item.enable = true;
+						$item.selected = true;
+					}else{
+						//$item.enable = false;
+						$item.selected = false;
+					}
+				});	
+			}
+
+			$scope.setOtherDisabled = function($customerID, $selectedCart){
+				console.log($selectedCart.selected);
+
+				$.each($scope.carts, function($index, $item){
+					if($item.customerID != $customerID){
+						//disabled
+						//$item.enable = false;
+						$item.selected = false;
+					}else{
+						//$item.enable = true;
+					}
+				});	
+
+			}
+
+			$scope.checkout = function($customerID){
+				$count = 0;
+				$.each($scope.carts, function($index, $item){
+					if($item.customerID == $customerID
+							&& $item.selected == true){
+						$count++;
+					}
+				});
+
+				if($count == 0){
+					//belom ada yang di selected
+					//send error message
+					console.log("NO ONE SELECTED");
+				}else{
+					//checkout here
+					$allselected = [];
+					$.each($scope.carts, function($index, $item){
+						if($item.selected)
+							$allselected.push($item);
+					});
+
+					$http({
+						method: "POST",
+						url: AJAX_URL+"admin/cart/checkout",
+						data: $allselected
+					}).then(function(response){
+						if(response.data!=null)
+						{
+							if(response.data.constructor === String)
+							{
+								$window.location.href=BASE_URL+"admin/allsales?id="+response.data;
+							}
+						}
+					});
+				}
+			}
+
+		}
+	]);
+}
+},{}],64:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmChangetheworldController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16622,7 +16720,127 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmCalendarController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+			$scope.dates = [];
+
+			$scope.initData = function($offdays, $today){
+				$temp = $scope.makeDate($today);
+				$scope.today = {};
+				$scope.today.date = $temp.getDate();
+				$scope.today.month = $temp.getMonth()+1;
+				$scope.today.year = $temp.getFullYear();
+				$scope.selectedmonth = $scope.today.month;
+				$scope.selectedyear = $scope.today.year;
+
+				$scope.offdays = JSON.parse($offdays);
+				$.each($scope.offdays, function($index, $item){
+					$item.created_at = $scope.makeDateTime($item.created_at);
+					$item.updated_at = $scope.makeDateTime($item.updated_at);
+				});
+
+
+				$scope.refreshCalendar();
+			}
+
+			$scope.initSetAfter = function($after){
+				//console.log($after);
+				$scope.after = $scope.makeDate($after);
+			}
+
+			$scope.isDate = function($check, $date){
+				if($check.getMonth()+1 == $scope.selectedmonth && $check.getFullYear() == $scope.selectedyear){
+					if($check.getDate() == $date){
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			$scope.refreshCalendar = function(){
+				$scope.dates = [];
+				$totalpip = (new Date($scope.selectedyear, $scope.selectedmonth-1, 1).getDay())-1;
+				$totalpip = $totalpip == -1 ? 7-1 : $totalpip;
+
+				$count = 1-$totalpip;
+
+				if($scope.selectedmonth==2){
+					if($scope.selectedyear%4==0)
+						$totalday = 29;
+					else
+						$totalday = 28;
+				}else if($scope.selectedmonth<=6){
+					if($scope.selectedmonth%2==1)
+						$totalday = 31;
+					else if($scope.selectedmonth%2==0)
+						$totalday = 30;
+				}else{
+					if($scope.selectedmonth%2==0)
+						$totalday = 31;
+					else if($scope.selectedmonth%2==1)
+						$totalday = 30;
+				}
+				for (var i = 0; $count <= $totalday; i++) {
+					$temp = [];
+					for(var j = 0; j < 7 && $count <= $totalday; j++){
+						if($count>0)
+							$temp.push($count);
+						else
+							$temp.push("");
+						$count++;
+					}
+					$scope.dates.push($temp);
+				}
+			}
+
+			$scope.isToday = function($dt){
+				if($dt == $scope.today.date
+						&& $scope.selectedmonth == $scope.today.month
+						&& $scope.selectedyear == $scope.today.year){
+					return true;
+				}
+			}
+
+			$scope.isOffday = function($dt){
+				$flag = false;
+				$.each($scope.offdays, function($index, $item){
+					if($item.offday == ""+$scope.selectedyear+"-"+$scope.zeroFill($scope.selectedmonth,2)+"-"+$scope.zeroFill($dt,2)){
+						$flag = true;
+						return;
+					}
+				});
+				if($flag) return true;
+			}
+
+			$scope.decrement_month = function(){
+				if($scope.selectedmonth == 1){
+					$scope.selectedmonth = 12;
+					$scope.selectedyear--;
+				} else {
+					$scope.selectedmonth--;
+				}
+
+				$scope.refreshCalendar();
+			}
+
+			$scope.increment_month = function(){
+				if($scope.selectedmonth == 12){
+					$scope.selectedmonth = 1;
+					$scope.selectedyear++;
+				} else {
+					$scope.selectedmonth++;
+				}
+
+				$scope.refreshCalendar();
+			}
+
+		}
+	]);
+}
+},{}],66:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompaccsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -16655,7 +16873,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],65:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AddUserNoPassController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -16793,7 +17011,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],66:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -16848,7 +17066,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],67:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmCompanyPendingController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -16866,7 +17084,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],68:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmFinishingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16882,7 +17100,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],69:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobactivationController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16942,7 +17160,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],70:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobeditorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -16994,7 +17212,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],71:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobfinishingsController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -17409,7 +17627,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],72:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobpapersController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18096,7 +18314,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],73:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobquantitiesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -18785,7 +19003,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmJobsizesController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19137,7 +19355,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],75:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmOnesignalController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19156,7 +19374,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],76:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricePaperController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, BASE_URL, $cookies, $window){
@@ -19376,7 +19594,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],77:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmNewPaperController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -19531,7 +19749,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],78:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPaperdetailController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window){
@@ -19785,7 +20003,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],79:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmPricetextController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -19827,7 +20045,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],80:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmShoppricingController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19959,7 +20177,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],81:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AdmVendorController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -19973,7 +20191,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('VerifCustomerController', 
 		[
@@ -20016,7 +20234,7 @@ module.exports = function(app) {
 		]
 	);
 }
-},{}],83:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdminSalesController', ['$timeout', '$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -21118,7 +21336,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],84:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -21299,7 +21517,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],85:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -21537,7 +21755,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSmallInvoiceController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -21717,7 +21935,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],87:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AllaccCartheaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21740,7 +21958,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],88:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -21754,7 +21972,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],89:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -21813,7 +22031,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('FloatingcontactController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21912,7 +22130,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('NavHeaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -21984,12 +22202,27 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],92:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
 			$scope.godSalesID = 0;
 			$scope.app_version = "2.06.004";
+
+			$scope.month_enum = {
+				1: "Januari",
+				2: "Februari",
+				3: "Maret",
+				4: "April",
+				5: "Mei",
+				6: "Juni",
+				7: "Juli",
+				8: "Agustus",
+				9: "September",
+				10: "Oktober",
+				11: "November",
+				12: "Desember"
+			};
 
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
@@ -22557,15 +22790,33 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.val_size = function($size){
-				if($size <= 50 * 1024 * 1024){
+			$scope.val_size = function($size, $max=100*1024*1024){
+				if($size <= $max){
 					return true;
 				} else{
 					return false;
 				}
 			}
 
+			Number.prototype.toFixedFloat = function( dp ){
+				return +parseFloat(this).toFixed( dp );
+			}
 
+			$scope.size_minimize = function($size){
+				if($size < 1024){
+					return parseFloat($size).toFixedFloat(2)+"";
+				} else if ($size < 1024*1024){
+					return (parseFloat($size)/1024).toFixedFloat(2)+" KB";
+				} else if ($size < 1024*1024*1024){
+					return (parseFloat($size)/1024/1024).toFixedFloat(2)+" MB";
+				} else if ($size < 1024*1024*1024*1024){
+					return (parseFloat($size)/1024/1024/1024).toFixedFloat(2)+" GB";
+				} else if ($size < 1024*1024*1024*1024*1024){
+					return (parseFloat($size)/1024/1024/1024/1024).toFixedFloat(2)+" TB";
+				}
+
+				return "HUGE";
+			}
 
 			$scope.uploadprogress = function(type, data, url, whendone, whenfailed) {
 
@@ -22622,7 +22873,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -22666,7 +22917,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -22677,7 +22928,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -22756,7 +23007,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],96:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -22773,7 +23024,7 @@ module.exports = function(app){
 	});*/
 
 }
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
@@ -22799,6 +23050,124 @@ module.exports = function(app){
 			$scope.stateupload = "";
 			$scope.uploadwaiting = false;
 			$scope.errormessage = ""; // untuk di add dan changefile
+
+			$scope.settips = function(){
+				//$(window).ready(function(){
+					console.log($(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark"));
+
+					$temp = $(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark");
+
+					$top = $temp.offset().top-100;
+					console.log($top);
+					$('html, body').animate({
+			        scrollTop: $top
+			    }, 50, function(){
+			    	console.log("TEST");
+			    	
+						$(".tips").css("display", "block");
+			    });
+			    return false;
+			}
+
+			$(window).ready(function(){
+
+
+				$(window).scroll(function(){
+					if($('.tips').css('display') == 'block'){
+						var doc = document.documentElement;
+						var sleft = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+						var stop = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+
+						$temp = $(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark");
+
+						$diff = 12;
+						$top = $temp.offset().top-$diff-stop;
+						$left = $temp.offset().left-$diff-sleft;
+						$right = $temp.offset().left+$temp[0].offsetWidth+$diff-sleft;
+						$bottom = $temp.offset().top+$temp[0].offsetHeight+$diff-stop;
+
+						console.log("TEST");
+
+						window.setTimeout(function(){
+							$temp = $(".tips svg");
+							$arrowwidth = 40;
+							$arrowheight = 45;
+							$newtop = $top - 20 - ($arrowheight);
+							$newleft = (($left+$right)/2) - $arrowwidth/2;
+
+							$(".tips svg").css("top", $newtop);
+							$(".tips svg").css("left", $newleft);
+
+
+							$(".tips").css("clip-path", "polygon(0% 0%, 100% 0%, 100% 100%, "+$right+"px 100%, "+$right+"px "+$top+"px, "+$left+"px "+$top+"px, "+$left+"px "+$bottom+"px, "+$right+"px "+$bottom+"px, "+$right+"px 100%, 20px 100%, 0 100%)");
+						}, 50);
+					}
+				});
+			});
+
+			$scope.hidetips = function(){
+				$(".tips").css("display", "none");
+			}
+
+			$scope.initData = function($carts, $deliveries, $custaddresses){
+				$scope.carts = JSON.parse($carts);
+				$scope.deliveries = JSON.parse($deliveries);
+				$scope.custaddresses = JSON.parse($custaddresses);
+
+				//select addressnya harus dari $scope.customeraddresses di select index
+				$.each($scope.carts, function($c, $cc){
+					//dipilihin setiap cartsnya
+					$.each($scope.custaddresses, function($i, $ii) {
+						//di cek setiap customer addressnya ada yang sama ga idnya
+						if ($ii.addressID == $cc.deliveryaddressID) {
+							$cc.deliveryaddress = $ii.address;
+						}
+					});
+				});
+				
+
+				$scope.allchecked = true;
+				$scope.checkAll(); //hitung total dan check all and hide all
+				$.each($scope.carts, function($i, $ii){
+					if ($i == 0) {
+						$scope.carts[$i].showdetail = true;
+						$scope.selectedCart = $scope.carts[$i];
+					}
+
+					$scope.carts[$i].showinfo = true;
+					$scope.carts[$i].showfile = false;
+					$scope.carts[$i].showdelivery = false;
+					if($ii.created_at != null)
+						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
+					if ($ii.updated_at != null)
+						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
+
+
+					$.each($ii.cartdetail, function($j, $jj) {
+						$jj.jobtypelong =
+							($jj.jobtype == "OF") ? "Offset Print" :
+								($jj.jobtype == "DG") ? "Digital Print" :
+									($jj.jobtype == "PL") ? "Large Format" : "Others";
+					});
+
+					$.each($ii.cartfile, function($j, $jj){
+						if ($jj.file.created_at != null)
+							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
+						if ($jj.file.updated_at != null)
+							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+					$.each($scope.deliveries, function($j, $jj){
+						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
+						if($jj.id == $ii.deliveryID){
+							$ii.delivery = $jj;
+						}
+					});
+
+				});
+
+			}
 
 			$scope.tick = function(){
 				$scope.second = parseInt(Date.now()/1000);
@@ -22912,6 +23281,10 @@ module.exports = function(app){
 			$scope.checkChanged = function($item){
 				$scope.countSelectedPrice();
 
+				if($scope.totalSelected > 0){
+					$scope.hidetips();
+				}
+
 				if ($scope.totalSelected == $scope.carts.length) {
 					if ($scope.allchecked == false)
 						$scope.allchecked = true;
@@ -22919,65 +23292,6 @@ module.exports = function(app){
 					if ($scope.allchecked == true)
 						$scope.allchecked = false;
 				}
-			}
-
-			$scope.initData = function($carts, $deliveries, $custaddresses){
-				$scope.carts = JSON.parse($carts);
-				$scope.deliveries = JSON.parse($deliveries);
-				$scope.custaddresses = JSON.parse($custaddresses);
-
-				//select addressnya harus dari $scope.customeraddresses di select index
-				$.each($scope.carts, function($c, $cc){
-					//dipilihin setiap cartsnya
-					$.each($scope.custaddresses, function($i, $ii) {
-						//di cek setiap customer addressnya ada yang sama ga idnya
-						if ($ii.addressID == $cc.deliveryaddressID) {
-							$cc.deliveryaddress = $ii.address;
-						}
-					});
-				});
-				
-
-				$scope.allchecked = true;
-				$scope.checkAll(); //hitung total dan check all and hide all
-				$.each($scope.carts, function($i, $ii){
-					if ($i == 0) {
-						$scope.carts[$i].showdetail = true;
-						$scope.selectedCart = $scope.carts[$i];
-					}
-
-					$scope.carts[$i].showinfo = true;
-					$scope.carts[$i].showfile = false;
-					$scope.carts[$i].showdelivery = false;
-					if($ii.created_at != null)
-						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
-					if ($ii.updated_at != null)
-						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
-
-
-					$.each($ii.cartdetail, function($j, $jj) {
-						$jj.jobtypelong =
-							($jj.jobtype == "OF") ? "Offset Print" :
-								($jj.jobtype == "DG") ? "Digital Print" :
-									($jj.jobtype == "PL") ? "Large Format" : "Others";
-					});
-
-					$.each($ii.cartfile, function($j, $jj){
-						if ($jj.file.created_at != null)
-							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
-						if ($jj.file.updated_at != null)
-							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
-					});
-
-					$.each($scope.deliveries, function($j, $jj){
-						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
-						if($jj.id == $ii.deliveryID){
-							$ii.delivery = $jj;
-						}
-					});
-
-				});
-
 			}
 
 			$scope.showingdetail = function($cart, $index){
@@ -23235,14 +23549,18 @@ module.exports = function(app){
 			}
 
 			$scope.review = function(){
-				$scope.selected = [];
-				$.each($scope.carts, function($i, $ii) {
-					if($ii.checked)
-						$scope.selected.push($ii);
-				});
-				$scope.countSelectedPrice();
+				if($scope.totalSelected==0){
+					$scope.settips();
+				}else{
+					$scope.selected = [];
+					$.each($scope.carts, function($i, $ii) {
+						if($ii.checked)
+							$scope.selected.push($ii);
+					});
+					$scope.countSelectedPrice();
 
-				$("#reviewCartModal").modal("show");
+					$("#reviewCartModal").modal("show");
+				}
 			}
 
 			$scope.checkout = function(){
@@ -23250,7 +23568,7 @@ module.exports = function(app){
 				$http(
 					{
 						method: 'POST',
-						url: API_URL+'sales/create',
+						url: AJAX_URL+'sales/create',
 						data: $scope.selected 
 					}
 				).then(function(response){
@@ -23513,7 +23831,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartAddfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -23550,7 +23868,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],99:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -23638,7 +23956,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],100:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -23812,7 +24130,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],101:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -23870,7 +24188,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -24497,7 +24815,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],103:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24560,7 +24878,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesPaymentconfirmController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24638,7 +24956,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],105:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesSelectbankController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24699,7 +25017,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],106:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesShowpreviewController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24722,7 +25040,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],107:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
@@ -25447,17 +25765,6 @@ module.exports = function(app){
 
 				$scope.setFinishingRole();
 
-				
-				// buat flyer selalu select potong - OF Only
-				// dan disable index ke 0
-				// if($scope.selected.jobsubtypeID == 1) { 
-				// 	//FLYER untuk ID jobsubtype = 1
-				// 	if($scope.selected.printtype == "OF"){
-				// 		$scope.finStat0("potong", false);
-				// 	}else if($scope.selected.printtype == "DG"){
-				// 		$scope.finStat0("potong", true);
-				// 	}
-				// }
 
 				
 
@@ -26048,7 +26355,7 @@ module.exports = function(app){
 				{
 					//KONDISI UNTUK BAHAN OUTDOOR
 					$scope.finStat('laminasi', false, $finishingfield);
-				}
+			}
 				else if ($item.papertypeID == 10)
 				{
 					// KALO STICKER --> JADI 1 mUKA
@@ -26069,6 +26376,26 @@ module.exports = function(app){
 					$scope.finStat('perforasi', false, $finishingfield);
 				else
 					$scope.finStat('perforasi', true, $finishingfield);
+
+
+				//DOUBLE SIDE DI SIMPEN DI PAPER-printbothside
+				if($scope.selected.paper.bothsideprint==2){
+					$scope.datas.sisicetak = 2; //harus 2
+					$scope.selected.sideprint = "2";
+					$scope.materialvariable = "Akan dicetak pada kedua sisi / bolak balik.";
+					//2 sisi
+				}else if($scope.selected.paper.bothsideprint==1){
+					$scope.datas.sisicetak = 1; //hrus 1
+					$scope.selected.sideprint = "1";
+					$scope.materialvariable = "Bahan ini hanya dapat dicetak pada 1 sisi.";
+					//1 sisi
+				}else if($scope.selected.paper.bothsideprint==0){
+					$scope.datas.sisicetak = 0;
+					$scope.materialvariable = "";
+					//$scope.selected.sideprint = "1";
+					//bebas
+				}
+
 
 				$scope.getPrice();
 			}
@@ -26718,7 +27045,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],108:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -27960,7 +28287,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],109:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -27994,7 +28321,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],110:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -28070,7 +28397,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],111:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -28230,7 +28557,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],112:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -28289,7 +28616,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],113:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -28333,7 +28660,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],114:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -28355,7 +28682,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],115:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -28370,7 +28697,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],116:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -28387,7 +28714,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -29028,7 +29355,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],118:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -29043,7 +29370,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],119:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -29298,11 +29625,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],120:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":119}],121:[function(require,module,exports){
+},{"./angular-cookies":121}],123:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -30215,11 +30542,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],122:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":121}],123:[function(require,module,exports){
+},{"./angular-resource":123}],125:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -31486,11 +31813,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],124:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":123}],125:[function(require,module,exports){
+},{"./angular-route":125}],127:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -32405,11 +32732,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],126:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":125}],127:[function(require,module,exports){
+},{"./angular-sanitize":127}],129:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -68638,11 +68965,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],128:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":127}],129:[function(require,module,exports){
+},{"./angular":129}],131:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');

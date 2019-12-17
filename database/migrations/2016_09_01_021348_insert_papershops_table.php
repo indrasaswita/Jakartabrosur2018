@@ -45,6 +45,8 @@ class InsertPapershopsTable extends Migration
             INSERT INTO vendors VALUES('0', 'Maman Pulpen', '081399163231', '', 'Pasar Pagi', 'Maman', 'ballpoint', now(), now());
             INSERT INTO vendors VALUES('0', 'Anugrah Jaya', '08988003365', '082114041381', 'Pasar Pagi', 'Wandi', 'ballpoint', now(), now());
             INSERT INTO vendors VALUES('0', 'Cemerlang Abadi', '081258038989', '', 'Pasar Pagi', '', 'ballpoint + pin', now(), now());
+            INSERT INTO vendors VALUES('0', 'Armada Printing', '081311222566', '', 'Manggarai', 'Pak Rian', 'PVC Supplier', now(), now());
+            INSERT INTO vendors VALUES('0', 'Puma Printing', '0818676887', '', 'Teluk Gong', '', 'Standing Tripod', now(), now());
         ");
     }
 

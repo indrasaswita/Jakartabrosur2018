@@ -60,10 +60,12 @@ require("./controllers/allacc.printforms.smallinvoice")(app);
 //ADMIN
 require("./controllers/admin.tracking.index")(app);
 require("./controllers/admin.cart.index")(app);
+require("./controllers/admin.cart.joincart")(app);
 require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require('./controllers/admin.master.compaccs.index')(app);
+require('./controllers/admin.master.calendar.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);
 require("./controllers/admin.master.paper.newpaper")(app);
 require("./controllers/admin.master.paper.paperdetailstore")(app);

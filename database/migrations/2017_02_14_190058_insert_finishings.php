@@ -56,7 +56,9 @@ class InsertFinishings extends Migration
 				(40, 'Thin Book Binding', 'Jilid Kawat OF', 'Dijilid dari bagian tengah buku, pada posisi terbuka.', 1, 0, 0, 50, 50, 2, 2, '2019-06-08 20:46:20', '2019-06-08 20:46:20'),
 				(41, 'Thin Book Binding', 'Jilid Kawat DG', 'Dijilid dari bagian tengah buku, pada posisi terbuka.', 1, 0, 0, 50, 50, 2, 2, '2019-06-08 20:46:20', '2019-06-08 20:46:20'),
 				(42, 'Plastik Kartu', 'Plastic', 'Plastik bungkus untuk kartu panitia, kartu anggota, atau kartu member. Plastik transparan, yang cukup tebal dan lentur. Note: hanya plastik belum termasuk tali.', 1, 0, 350, 0, 0, 0, 0, '2019-06-29 07:43:11', NULL),
-				(43, 'Tali ID Card', 'Tali', 'Tali untuk dipasangkan ke plastik member card atau id card. Tali berbahan nylon cukup tebal. Note: hanya tali, belum termasuk plastik.', 1, 0, 350, 0, 0, 0, 0, '2019-06-29 07:45:32', NULL);
+				(43, 'Tali ID Card', 'Tali', 'Tali untuk dipasangkan ke plastik member card atau id card. Tali berbahan nylon cukup tebal. Note: hanya tali, belum termasuk plastik.', 1, 0, 350, 0, 0, 0, 0, '2019-06-29 07:45:32', NULL),
+				(44, 'Plastik ID Card', 'Plastik ID Card', 'Ukuran menyesuaikan kartu ATM', 1, 0, 0, 0, 0, 0, 0, '2019-11-10 03:39:02', NULL);
+;
 			");
 	}
 

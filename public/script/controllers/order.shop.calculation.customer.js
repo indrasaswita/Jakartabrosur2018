@@ -722,17 +722,6 @@ module.exports = function(app){
 
 				$scope.setFinishingRole();
 
-				
-				// buat flyer selalu select potong - OF Only
-				// dan disable index ke 0
-				// if($scope.selected.jobsubtypeID == 1) { 
-				// 	//FLYER untuk ID jobsubtype = 1
-				// 	if($scope.selected.printtype == "OF"){
-				// 		$scope.finStat0("potong", false);
-				// 	}else if($scope.selected.printtype == "DG"){
-				// 		$scope.finStat0("potong", true);
-				// 	}
-				// }
 
 				
 
@@ -1323,7 +1312,7 @@ module.exports = function(app){
 				{
 					//KONDISI UNTUK BAHAN OUTDOOR
 					$scope.finStat('laminasi', false, $finishingfield);
-				}
+			}
 				else if ($item.papertypeID == 10)
 				{
 					// KALO STICKER --> JADI 1 mUKA
@@ -1344,6 +1333,26 @@ module.exports = function(app){
 					$scope.finStat('perforasi', false, $finishingfield);
 				else
 					$scope.finStat('perforasi', true, $finishingfield);
+
+
+				//DOUBLE SIDE DI SIMPEN DI PAPER-printbothside
+				if($scope.selected.paper.bothsideprint==2){
+					$scope.datas.sisicetak = 2; //harus 2
+					$scope.selected.sideprint = "2";
+					$scope.materialvariable = "Akan dicetak pada kedua sisi / bolak balik.";
+					//2 sisi
+				}else if($scope.selected.paper.bothsideprint==1){
+					$scope.datas.sisicetak = 1; //hrus 1
+					$scope.selected.sideprint = "1";
+					$scope.materialvariable = "Bahan ini hanya dapat dicetak pada 1 sisi.";
+					//1 sisi
+				}else if($scope.selected.paper.bothsideprint==0){
+					$scope.datas.sisicetak = 0;
+					$scope.materialvariable = "";
+					//$scope.selected.sideprint = "1";
+					//bebas
+				}
+
 
 				$scope.getPrice();
 			}

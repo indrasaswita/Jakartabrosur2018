@@ -11,12 +11,12 @@
 <link rel="shortcut icon" href="{{URL::asset('image/icon.png')}}" type="image/x-icon" />
 
 <link rel="stylesheet" href="{{URL::asset('css/tether-1.3.3.min.css')}}">
-<link async rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}?version=2.6.4">
+<link async rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}?version=2.7.0">
 
 <link rel="stylesheet" href="{{URL::asset('css/typeaheadjs.css')}}">
 
 <!-- FONT AWESOME -->
-<link rel="stylesheet" href="{{URL::asset('css/fontawesome-all.min.css')}}?version=5.10.1">
+<!-- <link rel="stylesheet" href="{{URL::asset('css/fontawesome-all.min.css')}}?version=5.10.1"> -->
 
 
 <script type="text/javascript" src="{{URL::asset('js/jquery.min.js')}}?version=3.4.1"></script>
@@ -25,8 +25,8 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144197477-1"></script>
 
 <script async type="text/javascript" src="{{URL::asset('js/tether-1.3.3.min.js')}}"></script>
-<script async type="text/javascript" src="{{URL::asset('js/script.js')}}?version=2.6.4"></script> <!-- NPM -->
-<script async type="text/javascript" src="{{URL::asset('js/fontawesome-all.min.js')}}?version=5.10.1"></script>
+<script async type="text/javascript" src="{{URL::asset('js/script.min.js')}}?version=2.7.0"></script> <!-- NPM -->
+<script async type="text/javascript" src="{{URL::asset('js/fontawesome-all.js')}}?version=5.12.0"></script>
 <script async type="text/javascript" src="{{URL::asset('js/handlebars-v4.0.11.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/typeahead.bundle.min.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/bootstrap.min.js')}}"></script>
