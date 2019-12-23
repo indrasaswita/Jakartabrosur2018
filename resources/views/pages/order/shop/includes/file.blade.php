@@ -1,4 +1,4 @@
-<div class="order-panel tab-pane fade in" id="file" ng-class="{'active':selectedTab=='file'}">
+<div class="order-panel tab-pane" id="file" ng-class="{'active':selectedTab=='file'}">
 
 	<div class="panel-block" ng-show="error.message==''">
 		<div class="block-subdetail">
@@ -54,7 +54,7 @@
 					<tr>
 						<td class="text-xs-center">#</td>
 						<td class="text-xs-center">
-							<i class="far fa-check-square fa-fw tx-purple"></i>
+							<i class="far fa-check fa-fw tx-purple"></i>
 						</td>
 						<td>File</td>
 						<td class="text-xs-center">.ext</td>
@@ -62,7 +62,7 @@
 							<i class="fal fa-check fa-fw"></i>
 						</td>
 						<td class="text-xs-center">
-							<i class="fal fa-eraser tx-red fa-fw"></i>
+							<i class="fal fa-trash tx-red fa-fw"></i>
 						</td>
 					</tr>
 				</thead>
@@ -114,7 +114,7 @@
 						</td>
 						<td class="text-xs-center">
 							<button class="btn btn-sm btn-outline-red" ng-click="removeSelectedFiles(item)" ng-disabled="item.checked">
-								<i class="fas fa-eraser"></i>
+								<i class="fas fa-trash"></i>
 							</button>
 						</td>
 					</tr>

@@ -2,12 +2,12 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
 				<h4 class="modal-title" id="myModalLabel">
 					Buat Pengiriman
 				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<table class="table table-sm table-custom-allsales">
@@ -56,13 +56,13 @@
 				</table>
 
 				<div class="alert alert-sm alert-outline-lightmagenta text-xs-center size-80p tx-gray">
-					<i class="fa fa-arrow-up"></i>
+					<i class="fas fa-arrow-up"></i>
 					pilih barang yang dikirim, diatas
-					<i class="fa fa-arrow-up"></i>
+					<i class="fas fa-arrow-up"></i>
 					<hr class="margin-5">
-					<i class="fa fa-hand-o-down"></i>
+					<i class="fas fa-angle-double-down"></i>
 					<b>lengkapi pengiriman, dibawah</b>
-					<i class="fa fa-hand-o-down"></i>
+					<i class="fas fa-angle-double-down"></i>
 				</div>
 				<table class="table table-sm table-custom-allsales" ng-show="newdelivery.deliverydetail.length>0">
 					<thead class="text-center">

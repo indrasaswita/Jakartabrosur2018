@@ -50,7 +50,7 @@
 								<tbody>
 									<tr ng-repeat="item2 in item.detail">
 										<td>[[$index+1]].</td>
-										<td><strong>[[item2.jobtitle]]</strong> <div class="tag tag-purple text-regular">[[item2.jobtype]]</div> [[item2.quantity|number:0]] [[item2.quantitytypename]]</td>
+										<td><strong>[[item2.jobtitle]]</strong> <div class="badge badge-purple text-regular">[[item2.jobtype]]</div> [[item2.quantity|number:0]] [[item2.quantitytypename]]</td>
 									</tr>
 								</tbody>
 							</table>
@@ -97,8 +97,8 @@
 							<span class="size-14">(Hubungi kami di <span class="lightpurple size-16">0813-1551-9889</span>, bila ada kesalahan pesanan)</span>
 						</li>
 						<li>Bila pihak kami telah menyelesaikan seluruh pekerjaan.<br></li>
-						<li>Dan Anda dapat memberi 'rating' atas pekerjaan kami. <span class="tag tag-purple text-regular">soon</span></li>
-						<li>Dan Anda dapat melakukan repeat order. <span class="tag tag-purple text-regular">soon</span></li>
+						<li>Dan Anda dapat memberi 'rating' atas pekerjaan kami. <span class="badge badge-purple text-regular">soon</span></li>
+						<li>Dan Anda dapat melakukan repeat order. <span class="badge badge-purple text-regular">soon</span></li>
 					</ol>
 				</span>
 			</div>

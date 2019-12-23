@@ -188,7 +188,7 @@
 						<div class="empty" ng-if="item.cartfile.length==0">
 							<a href="" ng-click="addnewfile()">
 								<div class="a-wrapper">
-									<i class="fad fa-folder-open fa-3x fa-fw"></i>
+									<i class="far fa-folder-tree fa-3x fa-fw"></i>
 									<br>
 									<div class="tx-header">
 										No File

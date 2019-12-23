@@ -52,14 +52,21 @@
 						</button>
 					</td>
 					<td class="text-xs-right">
-						<button class="btn btn-sm btn-purple" ng-click="checkout(cart.customerID)">
-							Checkout 
-							<i class="far fa-chevron-right fa-fw"></i>
-						</button>
+						<div ng-if="!joincartwaiting">
+							<button class="btn btn-sm btn-purple" ng-click="changecustomermodal(cart.customerID)">
+								Ganti Customer
+							</button>
+							<button class="btn btn-sm btn-purple" ng-click="checkout(cart.customerID)">
+								Checkout 
+								<i class="far fa-chevron-right fa-fw"></i>
+							</button>
+						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		@include ('pages.admin.cart.modals.changecustomer')
 	</div>
 </div>
 

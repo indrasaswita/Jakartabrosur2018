@@ -4,12 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Salesheader;
 use App\Salesdetail;
+use App\Cartheader;
 use App\Customer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AdmCartController;
 
 class AdmCartAJAX extends Controller
 {
+	public function changecustomerID($cartid, $custid){
+		$cartheader = Cartheader::findOrFail($cartid);
+		$cartheader->customerID = $custid;
+		$result = $cartheader->save();
+
+		$ctrl = new AdmCartController();
+		$carts = $ctrl->getdatajoincart();
+
+		if($result == null)
+			return null;
+		else
+			return $carts;
+	}
 	public function checkout(Request $request){
 		$data = $request->all();
 		if(count($data)==0)

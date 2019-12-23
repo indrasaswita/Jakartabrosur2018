@@ -170,6 +170,14 @@ module.exports = function(app){
 				}
 			}
 
+			//REFRESH SELECTPICKER BOOTSTRAP-SELECT on MODAL
+			$(document).on('show.bs.modal', function (e) {
+				setTimeout(function(){
+					$('.selectpicker').selectpicker('refresh');
+					console.log("All selectpickers on modal refreshed.");
+				}, 50);
+			});
+
 			/*$scope.afterAngular = function(){
 				$scope.selectpickerrefresh();
 			}

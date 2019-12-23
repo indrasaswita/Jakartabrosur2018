@@ -1,4 +1,4 @@
-<div class="order-panel tab-pane fade in" id="calculation" ng-class="{'active':selectedTab=='calculation'}">
+<div class="order-panel tab-pane" id="calculation" ng-class="{'active':selectedTab=='calculation'}">
 
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->
@@ -214,13 +214,13 @@
 						<div class="input-block">
 							<div class="input-group">
 								<span class="input-group-btn">
-									<button class="btn btn-secondary" ng-click="decrementModel($index)">
+									<button class="btn" ng-click="decrementModel($index)">
 										<span class="fas fa-minus"></span>
 									</button>
 								</span>
 								<input type="text" class="form-control text-xs-center" value="[[selected.jobsubtypedetail[$index].multip|number:0]] model" disabled>
 								<span class="input-group-btn">
-									<button class="btn btn-secondary" ng-click="incrementModel($index)">
+									<button class="btn" ng-click="incrementModel($index)">
 										<span class="fas fa-plus"></span>
 									</button>
 								</span>

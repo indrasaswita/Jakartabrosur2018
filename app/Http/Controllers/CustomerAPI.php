@@ -171,7 +171,7 @@ class CustomerAPI extends Controller
 		//$customer->save();
 
 		//comment dulu biar gak perlu verif
-    //updated 12 agustus 2019
+	//updated 12 agustus 2019
 		// Mail::to($customer->email)->send(new VerifyMail($customer));
 
 		// $notif = new OneSignal();

@@ -45,6 +45,12 @@ class AdmCartController extends Controller
 	}
 
 	public function joincart(){
+		$carts = $this->getdatajoincart();
+
+		return view('pages.admin.cart.joincart', compact('carts'));
+	}
+
+	public function getdatajoincart(){
 		$carts = Cartheader::with('customer')
 				->with('jobsubtype')
 				->with('cartfile')
@@ -56,6 +62,6 @@ class AdmCartController extends Controller
 				->orderBy('customerID', 'asc')
 				->get();
 
-		return view('pages.admin.cart.joincart', compact('carts'));
+		return $carts;
 	}
 }

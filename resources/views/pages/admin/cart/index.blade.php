@@ -65,7 +65,7 @@
 								<span class="fas fa-times"></span>
 							</button>
 							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="showdetail(item)">
-								<span class="fas fa-clipboard-list"></span>
+								<span class="fas fa-th"></span>
 							</button>
 						</div>
 					</td>
@@ -126,7 +126,7 @@
 									<tr>
 										<td colspan="3" class="text-xs-left">
 											<span class="tx-purple margin-right-10" data-title="catatan pelanggan">
-												<i class="fas fa-sticky-note"></i> 
+												<i class="far fa-quote-left"></i> 
 												<i class="size-80p">catatan</i>
 											</span>
 											[[item.customernote]]
@@ -277,7 +277,7 @@
 											<b ng-hide="item.resellername.length>0" class="tx-purple">Jakarta Brosur</b>
 										</td>
 										<td>
-											<i class="fas fa-print tx-purple"></i> [[item.processtime|number:0]]d <i class="fas fa-exchange-alt tx-lightgray"></i> 2/2/2017
+											<i class="fas fa-print tx-purple"></i> [[item.processtime|number:0]]d <i class="fas fa-exchange tx-lightgray"></i> 2/2/2017
 										</td>
 										<td>
 											<i class="fas fa-truck tx-purple"></i> 
@@ -349,7 +349,7 @@
 	
 
 	<!-- HARUS DI DALAM IF, KARENA KALO GA ADA DATA - ERROR -->
-	@include('pages.admin.cartdetails.modals.cartreject')
+	@include('pages.admin.cart.modals.cartreject')
 	
 	<input id="uploadoriginal" type="file" hidden>
 
@@ -381,7 +381,7 @@
 	</div>
 
 	<!-- HARUS DI LUAR SEGALANYA, KARENA BISA TAMBAH DATA WALAUPUN KOSONG -->
-	@include('pages.admin.cartdetails.modals.addbyadmin')
+	@include('pages.admin.cart.modals.addbyadmin')
 
 </div>
 

@@ -150,7 +150,6 @@ Route::group    (['middleware'=>['employee']], function(){
 	//Route::get('admin/sales/commit/{id}/{sid}/{tk}', 'AdmSalesdetailController@showCommitByID');
 
 	//PRINT PRINT PRINT
-	Route::get("sales/workorder/pdf/{id}", 'PaymentController@createWorkOrderPDF');
 	Route::get("sales/printlist/pdf", 'AdmJadwalCetak@createJadwalCetakPDF');
 	Route::get("sales/paperlist/pdf", 'AdmBeliKertas@createBeliKertasPDF');
 	Route::get("admin/sales/delivery/{id}/pdf", 'AdmSalesdeliveryController@print');
@@ -256,6 +255,9 @@ Route::post("API/calc/planosize", "Calculation@calcPlanoSize_url");
 /*** EMPLOYEE API ***/
 /*** EMPLOYEE API ***/
 Route::group(['middleware'=>"employeeAPI"], function(){
+	Route::post("AJAX/admin/cart/{cartid}/changecustomer/{custid}", "AdmCartAJAX@changecustomerID");
+	Route::get('AJAX/customers', 'AdmCustomerAJAX@getcustomers');
+
 	Route::post('AJAX/commit/cartpreview/{id}/undo', 'AdmCartpreviewAJAX@undofile');
 	Route::post('AJAX/admin/cartpreview/{id}/delete', 'AdmCartpreviewAJAX@deleteFile');
 	Route::get('AJAX/admin/file/{id}/download', 'AdmFileAJAX@downloadByFileID');
