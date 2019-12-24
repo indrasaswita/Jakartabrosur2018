@@ -750,7 +750,7 @@ module.exports = function(app){
 							//WHEN DONE
 							if (response != null) {
 								console.log(response.constructor);
-								if (response.constructor === Array) {
+								if (Array.isArray(response)) {
 									$scope.selectedCart.cartfile = [];
 									$scope.selectedCart.cartfile = response;
 									$.each($scope.selectedCart.cartfile, function($i, $ii) {

@@ -673,6 +673,50 @@ module.exports = function(app){
 					$scope.$apply(function() { });
 				});
 			}
+
+
+
+
+
+
+			//AJAX- DIRECT DATABASE
+
+			$scope.getbanks = function(whendone, whenfailed){
+				$http({
+					method: "GET",
+					url: AJAX_URL+"banks"
+				}).then(function(response){
+					if(response.data!=null){
+						if(Array.isArray(response.data)){
+							if(whendone instanceof Function){
+								whendone(response.data);
+							}
+						}else{
+							if(whenfailed instanceof Function){
+								whenfailed();
+							}
+						}
+					}else{
+						if(whenfailed instanceof Function){
+							whenfailed();
+						}
+					}
+				}, function(error){
+					console.log(error);
+					if(whenfailed instanceof Function){
+						whenfailed();
+					}
+				});
+			}
+
+
+
+
+
+
+
+
+
 		}
 	]);
 }

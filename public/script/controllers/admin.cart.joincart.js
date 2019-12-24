@@ -64,7 +64,7 @@ module.exports = function(app){
 				}).then(function(response){
 					if(response.data!=null)
 					{
-						if(response.data.constructor === Array)
+						if(Array.isArray(response.data))
 						{
 							$scope.customers = response.data;
 
@@ -106,9 +106,8 @@ module.exports = function(app){
 									method: "POST",
 									url: AJAX_URL+"admin/cart/"+$ii.id+"/changecustomer/"+$customer.id
 								}).then(function(response){
-									if(response.data!=null)
-									{
-										if(response.data.constructor === Array){
+									if(response.data!=null){
+										if(Array.isArray(response.data)){
 											$scope.carts = response.data;
 											$('#modal-changecustomer').modal('hide');
 										}else{

@@ -20,15 +20,13 @@ class InsertCustomersTable extends Migration
 				'name' => 'Indra Saswita',
 				'type' => 'personal',
 				'title' => 'Mr.', 
-				'address' => 'Jl. Pangeran Jayakarta 113 A', 
-				'postcode' => '10730',
-				'cityID' => 1,
 				'phone1' => '081315519889',
 				'phone2' => '085959717175',
 				'news' => 1,
-				'remember_token'=>'12345',
-				'remember_token'=>'1234',
+				'remember_token'=>'1234575',
+				'verify_token'=>'1234',
 				'balance' => 123456,
+				'verified' => 1,
 				'created_at' => now()
 			]
 		);
@@ -41,15 +39,85 @@ class InsertCustomersTable extends Migration
 				'name' => 'Septiana Rahayu Dewi',
 				'type' => 'personal',
 				'title' => 'Mr.', 
-				'address' => 'Jl. Agung Utara 5A no. 26, Sunter, Tanjung Priok', 
-				'postcode' => '10430',
-				'cityID' => 3,
 				'phone1' => '0216555661',
 				'phone2' => '0216661116',
 				'news' => 0,
-				'remember_token'=>'98765',
-				'remember_token'=>'1234',
+				'remember_token'=>'9876556',
+				'verify_token'=>'1234',
 				'balance' => 0,
+				'verified' => 1,
+				'created_at' => now()
+			]
+		);
+		
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'sapiii@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'Septi Sapi',
+				'type' => 'personal',
+				'title' => 'Mr.', 
+				'phone1' => '0216555661',
+				'phone2' => '0216661116',
+				'news' => 0,
+				'remember_token'=>'9876512',
+				'verify_token'=>'1234',
+				'balance' => 200000,
+				'created_at' => now()
+			]
+		);
+		
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'anakonyet@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'ANak Onyet',
+				'type' => 'personal',
+				'title' => 'Mrs.', 
+				'phone1' => '0216555661',
+				'phone2' => '0216661116',
+				'news' => 1,
+				'remember_token'=>'9876574',
+				'verify_token'=>'1234',
+				'balance' => 100000,
+				'created_at' => now()
+			]
+		);
+		
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'endut@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'Endut Banget',
+				'type' => 'personal',
+				'title' => 'Mr.', 
+				'phone1' => '0216555661',
+				'phone2' => '0216661116',
+				'news' => 1,
+				'remember_token'=>'9876515',
+				'verify_token'=>'1234',
+				'balance' => 150000,
+				'created_at' => now()
+			]
+		);
+		
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'kurus@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'Kurus Banget',
+				'type' => 'personal',
+				'title' => 'Mrs.', 
+				'phone1' => '0216555661',
+				'phone2' => '0216661116',
+				'news' => 0,
+				'remember_token'=>'9876274',
+				'verify_token'=>'1234',
+				'balance' => 180000,
 				'created_at' => now()
 			]
 		);

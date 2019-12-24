@@ -4,11 +4,11 @@
 @section('keywords', 'Cetak '.$datas['name'].', Nyetak '.$datas['name'].', Cetk '.$datas['name'].', '.$datas['name'].' print, Cetak '.$datas['name'].' cepat, Cetak '.$datas['name'].' murah')
 @section('content')
 
-<div>
-	<button class="btn btn-sm btn-purple" ng-click="getCurrentURL()" ng-if="role=='employee'">
-		MAKE URL
+<div class="url-action" ng-if="role=='employee'">
+	<button class="btn btn-sm btn-outline-purple" ng-click="getCurrentURL()">
+		URL to Clipboard
 	</button>
-	<button class="btn btn-sm btn-purple" ng-click="sendUrl()" ng-if="role=='employee'">
+	<button class="btn btn-sm btn-outline-purple" ng-click="sendUrl()">
 		<i class="fab fa-whatsapp fa-fw"></i>
 		Send URL
 	</button>

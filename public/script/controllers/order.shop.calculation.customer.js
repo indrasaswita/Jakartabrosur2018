@@ -68,30 +68,30 @@ module.exports = function(app){
 			$scope.newfiledetail = "";
 
 			$scope.setInputFilter = function(textbox, inputFilter) {
-			  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-			    textbox.oldValue = "";
-			    textbox.addEventListener(event, function() {
-			      if (inputFilter(this.value)) {
-			        this.oldValue = this.value;
-			        this.oldSelectionStart = this.selectionStart;
-			        this.oldSelectionEnd = this.selectionEnd;
-			      } else if (this.hasOwnProperty("oldValue")) {
-			        this.value = this.oldValue;
-			        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-			      }
-			    });
-			  });
+				["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+				textbox.oldValue = "";
+				textbox.addEventListener(event, function() {
+					if (inputFilter(this.value)) {
+					this.oldValue = this.value;
+					this.oldSelectionStart = this.selectionStart;
+					this.oldSelectionEnd = this.selectionEnd;
+					} else if (this.hasOwnProperty("oldValue")) {
+					this.value = this.oldValue;
+					this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+					}
+				});
+				});
 			}
 
 			// Restrict input to digits and '.' by using a regular expression filter.
 			$scope.setInputFilter(document.getElementById("quantity"), function(value) {
-			  return /^\d*$/.test(value);
+				return /^\d*$/.test(value);
 			});
 			$scope.setInputFilter(document.getElementById("customwidth"), function(value) {
-			  return /^\d*\.?\d*$/.test(value);
+				return /^\d*\.?\d*$/.test(value);
 			});
 			$scope.setInputFilter(document.getElementById("customlength"), function(value) {
-			  return /^\d*\.?\d*$/.test(value);
+				return /^\d*\.?\d*$/.test(value);
 			});
 
 			$(document).ready(function() {
@@ -149,98 +149,116 @@ module.exports = function(app){
 				$scope.getPrice();
 			}
 
+			$scope.decompress = function($input){
+
+				return app.LZUTF8.decompress($input, {inputEncoding: "Base64", outputEncoding: "String"});
+			}
+
+			$scope.compress = function($input){
+				return app.LZUTF8.compress($input, {outputEncoding: "Base64"});
+			}
+
 			$scope.setSelectedByURL = function($input){
-				$tmps = JSON.parse($input);
-				$finclone = $scope.clone($scope.selected.finishings);
-
-				$scope.selected = Object.assign($scope.selected, $tmps);
-				$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
-				$scope.setFinishingRole();
-				$scope.selected.finishings = $tmps.finishings;
-
-				//SELECT SIZE
-				$.each($scope.datas.jobsubtypesize, function($i, $ii){
-					if($ii.size.id == $scope.selected.sizeID){
-						$scope.selected.size = $ii.size;
-					}
-				});
-				//SELECT JENIS MATERIAL
-				$.each($scope.datas.jobsubtypepaper,function($i, $ii){
-					if($ii.paper.id == $scope.selected.paperID){
-						$scope.selected.paper = $ii.paper;
-					}
-				});
-				//SELECT SISI CETAK
-				//sudah langsung cek ke sideprint: 1/2
-				//SELECT FINISHING
-				$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
-					//$s <- dari url (selected)
-					$tidakadadiurl = true;
-					$.each($scope.selected.finishings, function($s, $ss){
-						if($ss.finishingID == $ii.finishing.id){
-							//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
-							$tidakadadiurl = false;
-							$tidakadasama = true;
-							$.each($ii.finishing.finishingoption, function($j, $jj){
-								if($jj.id == $ss.optionID){
-									//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
-									$scope.selected.finishings[$s] = $scope.clone($jj);
-									$tidakadasama = false;
-								}
-								//jika tidak ada yang sama satu pun maka masuk ke bawah
-							});
-							//jika tidak ada yang sama
-							if($tidakadasama == true){
-								//jika optionID tidak ada: error, maka dimasukkan default
-								$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
-								//finclone sudah di copy di awal
-							}
-						}
-					});
-					if($tidakadadiurl == true){
-						$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
-					}
-				});
-				//SELECT DELIVERY TYPE
-				$dlvfound = false;
-				$.each($scope.deliveries, function($i, $ii){
-					if($ii.id == $scope.selected.deliveryID){
-						$scope.selected.delivery = $ii;
-						$dlvfound = true;
-						if($ii.id != 0){
-							$scope.fillCities();
-							//kalo bukan pick up di fill cities buat tambah address;
-						}
-					}
-				});
-				if($dlvfound){
-					$.each($scope.customeraddresses, function($i, $ii){
-						if($ii.addressID == $scope.selected.deliveryaddressID){
-							if($ii.id != 0)
-								$scope.selected.deliveryaddress = $ii;
-							else{
-								$scope.selected.deliveryaddress = "";
-							}
-						}
-					});
-				}else{
-					$scope.selected.deliveryaddress = "";
-				}
+				if(app.isBase64($input)){
 				
-				if($scope.customeraddresses!=null){
-					if ($scope.selected.deliveryaddress == "") {
-						if ($scope.customeraddresses.length > 0) {
-							$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+					$input2 = $scope.decompress($input);
+					$tmps = JSON.parse($input2);
+
+					$finclone = $scope.clone($scope.selected.finishings);
+
+					$scope.selected = Object.assign($scope.selected, $tmps);
+					$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
+					$scope.setFinishingRole();
+					$scope.selected.finishings = $tmps.finishings;
+
+					//SELECT SIZE
+					$.each($scope.datas.jobsubtypesize, function($i, $ii){
+						if($ii.size.id == $scope.selected.sizeID){
+							$scope.selected.size = $ii.size;
+						}
+					});
+					//SELECT JENIS MATERIAL
+					$.each($scope.datas.jobsubtypepaper,function($i, $ii){
+						if($ii.paper.id == $scope.selected.paperID){
+							$scope.selected.paper = $ii.paper;
+						}
+					});
+					//SELECT SISI CETAK
+					//sudah langsung cek ke sideprint: 1/2
+					//SELECT FINISHING
+					$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
+						//$s <- dari url (selected)
+						$tidakadadiurl = true;
+						$.each($scope.selected.finishings, function($s, $ss){
+							if($ss.finishingID == $ii.finishing.id){
+								//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
+								$tidakadadiurl = false;
+								$tidakadasama = true;
+								$.each($ii.finishing.finishingoption, function($j, $jj){
+									if($jj.id == $ss.optionID){
+										//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
+										$scope.selected.finishings[$s] = $scope.clone($jj);
+										$tidakadasama = false;
+									}
+									//jika tidak ada yang sama satu pun maka masuk ke bawah
+								});
+								//jika tidak ada yang sama
+								if($tidakadasama == true){
+									//jika optionID tidak ada: error, maka dimasukkan default
+									$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+									//finclone sudah di copy di awal
+								}
+							}
+						});
+						if($tidakadadiurl == true){
+							$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
+						}
+					});
+					//SELECT DELIVERY TYPE
+					$dlvfound = false;
+					$.each($scope.deliveries, function($i, $ii){
+						if($ii.id == $scope.selected.deliveryID){
+							$scope.selected.delivery = $ii;
+							$dlvfound = true;
+							if($ii.id != 0){
+								$scope.fillCities();
+								//kalo bukan pick up di fill cities buat tambah address;
+							}
+						}
+					});
+					if($dlvfound){
+						$.each($scope.customeraddresses, function($i, $ii){
+							if($ii.addressID == $scope.selected.deliveryaddressID){
+								if($ii.id != 0)
+									$scope.selected.deliveryaddress = $ii;
+								else{
+									$scope.selected.deliveryaddress = "";
+								}
+							}
+						});
+					}else{
+						$scope.selected.deliveryaddress = "";
+					}
+					
+					if($scope.customeraddresses!=null){
+						if ($scope.selected.deliveryaddress == "") {
+							if ($scope.customeraddresses.length > 0) {
+								$scope.selected.deliveryaddress = $scope.customeraddresses[0];
+							}
 						}
 					}
+
+					//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
+
+					//kalo ada cartID -> berarti edit data
+					//matiin file
+					$("#file-headtab").parent().hide();
+					$scope.getPrice();
+					//END SET SELECTED URL
+
+				}else{
+					console.log("WRONG PARAMETER");
 				}
-
-				//FILE DI SELECT PAS DI AJAX, SOALNYA SAMPE TAHAP INI BELOM KE LOAD ($scope.refreshUploadedImage)
-
-				//kalo ada cartID -> berarti edit data
-				//matiin file
-				$("#file-headtab").parent().hide();
-				$scope.getPrice();
 			}
 
 			$scope.sendUrl = function(){
@@ -292,7 +310,7 @@ module.exports = function(app){
 					delete $tmps.reselleraddress;
 				}
 
-				$addurl = JSON.stringify($tmps);
+				$addurl = $scope.compress(JSON.stringify($tmps));
 				$base = BASE_URL=='/jakartabrosur/public/'?'localhost'+BASE_URL:'www.jakartabrosur.com/';
 				$addurl = $base+"shop/"+$link+"?ss="+$addurl;
 				
@@ -1496,7 +1514,7 @@ module.exports = function(app){
 							data: $scope.newaddress
 						}).then(function(response){
 							if(response.data != null){
-								if(response.data.constructor === Array){
+								if(Array.isArray(response.data)){
 									$scope.customeraddresses = response.data;
 									$scope.selected.deliveryaddress = $scope.customeraddresses[$scope.customeraddresses.length-1];
 									$scope.addtambahbaruaddress();
@@ -1530,7 +1548,7 @@ module.exports = function(app){
 						function(response){
 							if(response!=null)
 							{
-								if(response.data.constructor === Array)
+								if(Array.isArray(response.data))
 								{
 									$scope.uploadedfiles = response.data;
 									if ($scope.uploadedfiles.length > 0) 
@@ -1579,7 +1597,7 @@ module.exports = function(app){
 
 							if(response.data!=null)
 							{
-								if(response.data.constructor === Array)
+								if(Array.isArray(response.data))
 								{
 									$scope.uploadedfiles = response.data;
 									if ($scope.uploadedfiles.length > 0) {
@@ -1851,7 +1869,7 @@ module.exports = function(app){
 					$jumlahsebelomupload = -1;
 					if(response!=null)
 					{
-						if(response.constructor === Array)
+						if(Array.isArray(response))
 						{
 							$jumlahsebelomupload = $scope.uploadedfiles.length;
 							$scope.uploadedfiles = [];

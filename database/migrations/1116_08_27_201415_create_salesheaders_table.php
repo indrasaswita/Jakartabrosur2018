@@ -5,33 +5,35 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSalesheadersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('salesheaders', function(Blueprint $table){
-            $table->engine="InnoDB";
-            $table->increments('id');
-            $table->integer('customerID')->unsigned();
-            $table->string('name')->default('');
-            $table->date('tempo')->nullable();
-            $table->date('estdate')->nullable();
-            $table->string('companyname', 50)->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('salesheaders');
-    }
+		DB::unprepared("
+			CREATE TABLE salesheaders(
+				id INT PRIMARY KEY AUTO_INCREMENT,
+				customerID INT UNSIGNED NOT NULL,
+				name VARCHAR(255) NOT NULL,
+				tempo DATE NULL,
+				estdate DATE NULL,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL,
+				deleted_at TIMESTAMP NULL
+			);
+		");
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('salesheaders');
+	}
 }

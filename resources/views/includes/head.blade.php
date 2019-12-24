@@ -20,6 +20,7 @@
 <!-- <link rel="stylesheet" href="{{URL::asset('css/fontawesome-all.min.css')}}?version=5.10.1"> -->
 
 
+
 <script type="text/javascript" src="{{URL::asset('js/jquery.min.js')}}?version=3.4.1"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

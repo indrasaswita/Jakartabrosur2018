@@ -21172,6 +21172,15 @@ ol {
   color: red;
 }
 
+.url-action {
+  margin-bottom: 10px;
+  padding: 2px;
+  border: 1px solid #aaa;
+  background-color: #ffe;
+  border-radius: 3px;
+  text-align: right;
+}
+
 .order-panel {
   background-color: white;
   border-radius: 0 0 4px 4px;
@@ -24660,6 +24669,32 @@ ol {
   color: #fa0;
 }
 
+.allacc-notification .table {
+  border-collapse: separate;
+  border-spacing: 0 3px;
+  border: 1px solid #aaa;
+  padding: 0 3px;
+}
+.allacc-notification .table > tbody > tr {
+  border: 1px solid #e4e4e4;
+}
+.allacc-notification .table > tbody > tr.broadcast > td {
+  background-color: #fe7;
+}
+.allacc-notification .table > tbody > tr > td {
+  background-color: #f2f2f2;
+}
+.allacc-notification .table > tbody > tr > td.content .header {
+  font-weight: bold;
+}
+.allacc-notification .table > tbody > tr > td.content .tag {
+  color: rgba(0, 0, 0, 0.4);
+}
+.allacc-notification .table > tbody > tr > td.content .detail {
+  font-size: 85%;
+  line-height: 1.2;
+}
+
 .view-small-invoice .view-wrapper {
   display: flex;
 }
@@ -25529,6 +25564,28 @@ ol {
 }
 .admin-sales-index-wrapper .admin-sales-index .trf-detail .nominal {
   font-weight: bold;
+}
+
+.admin-salesmanualpayment .modal .modal-body .custacc-addnew {
+  border: 1px solid #aaa;
+  background-color: #ffe;
+  color: #856404;
+  padding: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.admin-salesmanualpayment .modal .modal-body .custacc-addnew .form-control,
+.admin-salesmanualpayment .modal .modal-body .custacc-addnew .selectpicker {
+  font-size: inherit;
+}
+.admin-salesmanualpayment .modal .modal-body .custacc-addnew .line {
+  margin: 5px 0;
+}
+.admin-salesmanualpayment .modal .modal-body .custacc-addnew .line.error {
+  border: 1px dashed #aaa;
+  background-color: #fee;
+  padding: 2px 5px;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 450px) {

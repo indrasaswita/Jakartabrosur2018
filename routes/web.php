@@ -59,6 +59,8 @@ Route::group(['middleware'=>['loggedin']], function(){
 	
 	//HARUS SUDAH LOGIN (CUST/ADMIN)
 	Route::get("sales/cartheader/{cartid}", 'AllaccCartheaderController@show');
+	
+	Route::get('notification', 'NotificationController@index'); 
 });
 
 Route::get('chpass', "ProfileController@changepass");
@@ -104,7 +106,6 @@ Route::group(['middleware'=>['verified']], function(){
 
 	Route::post('AJAX/salespayment/insert', 'SalespaymentAJAX@insert');
 
-	Route::get('notification', 'NotificationController@index'); // di employee juga ada
 });
 
 /*** EMPLOYEE WEB ***/
@@ -154,8 +155,6 @@ Route::group    (['middleware'=>['employee']], function(){
 	Route::get("sales/paperlist/pdf", 'AdmBeliKertas@createBeliKertasPDF');
 	Route::get("admin/sales/delivery/{id}/pdf", 'AdmSalesdeliveryController@print');
 
-
-	Route::get('notification', 'NotificationController@index'); // di customer juga ada
 	Route::get("admin/companybankacc/mutasi", "AdmCompanyaccountsController@index");
 });
 
@@ -337,7 +336,7 @@ Route::group(['middleware'=>"customerAPI"], function(){
 Route::get('AJAX/compaccs',  "CompanybankaccAJAX@getAll");
 
 
-Route::get('API/banks', ["as"=>"api.bank", "uses"=>"BankAPI@getAll"]);
+Route::get('AJAX/banks', "BankAPI@getAll");
 //master
 Route::get('API/company/getpending', 'CompanyAPI@getPending');
 Route::get('API/companies', 'CompanyAPI@getAll');

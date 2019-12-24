@@ -122,15 +122,11 @@
 			</table>
 			
 		</div>
-
-		<div class="block-text-left" ng-hide="error.files==''" hidden>
-			<span class="txt">
-				<span class="far fa-exclamation tx-warning"></span> 
-				[[error.files]]
-			</span>
-		</div>
 	</div>
 
-
+	<div class="panel-block text-xs-center padding-40-0" ng-show="error.message!=''">
+		<i class="fas fa-ban fa-fw fa-4x tx-danger"></i><br><br>
+		[[error.message]]
+	</div>
 
 </div>
