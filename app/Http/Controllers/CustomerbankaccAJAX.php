@@ -13,8 +13,15 @@ class CustomerbankaccAJAX extends Controller
 		if($userid == null) return "Unauthorized action";
 
 		if($data != null){
-			$data['accno'] = $data['accno'] == null ? "" : $data['accno'];
-			$data['accname'] = $data['accname'] == null ? "" : $data['accname'];
+			if(!array_key_exists('accno', $data)){
+				$data['accno'] = "";
+			}
+			$data['accno'] =  $data['accno'] == null ? "" : $data['accno'];
+
+			if(!array_key_exists('accname', $data)){
+				$data['accname'] = "";
+			}
+			$data['accname'] =  $data['accname'] == null ? "" : $data['accname'];
 			$cek = Customerbankacc::where('bankID', $data['bank']['id'])
 					->where('accno', $data['accno'])
 					->where('accname', $data['accname'])

@@ -994,7 +994,7 @@ module.exports = function(app){
 						function(response){
 							if(response!=null)
 							{
-								if(response.data.constructor === Array)
+								if(Array.isArray(response.data))
 								{
 									$scope.uploadedfiles = response.data;
 									if ($scope.uploadedfiles.length > 0) 
@@ -1062,7 +1062,7 @@ module.exports = function(app){
 
 						if(response!=null)
 						{
-							if(response.data.constructor === Array)
+							if(Array.isArray(response.data))
 							{
 								$scope.uploadedfiles = response.data;
 								if ($scope.uploadedfiles.length > 0) 
@@ -1175,7 +1175,7 @@ module.exports = function(app){
 				}).then(function(response) {
 					if(response!=null)
 					{
-						if(response.data.constructor === Array)
+						if(Array.isArray(response.data))
 						{
 							$scope.uploadedfiles = response.data;
 							if ($scope.uploadedfiles.length > 0) 

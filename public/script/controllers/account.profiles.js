@@ -231,7 +231,7 @@ module.exports = function(app){
 					data: $scope.newaddress
 				}).then(function(response){
 					if(response.data != null){
-						if(response.data.constructor === Array){
+						if(Array.isArray(response.data)){
 							$scope.customer.customeraddress = response.data;
 							$scope.newaddress = [];
 							$('#createnewaddress').modal('hide');
@@ -346,7 +346,7 @@ module.exports = function(app){
 					data: $scope.newaddresscomp
 				}).then(function(response){
 					if(response.data != null){
-						if(response.data.constructor === Array){
+						if(Array.isArray(response.data)){
 							$scope.customer.company.companyaddress = response.data;
 							$scope.newaddress = [];
 							$('#createnewaddrcompany').modal("hide");

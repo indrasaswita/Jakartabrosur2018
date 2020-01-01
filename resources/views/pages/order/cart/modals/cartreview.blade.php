@@ -1,68 +1,93 @@
 <!-- Modal -->
 <div class="modal fade" id="reviewCartModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					Data Yang Terpilih
+				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
+						<span aria-hidden="true">&times;</span>
 				</button>
-				<h6 class="modal-title" id="myModalLabel">Data Yang Terpilih</h6>
-		  </div>
+			</div>
 			<div class="modal-body">
 				<div class="cart-checkout">
-					<div class="" ng-hide="selected.length > 0">
-						Silahkan pilih pada keranjang belanja.
-					</div>
-					<table class="table table-sm cart-checkout-table" ng-show="selected.length > 0">
-						<thead class="bg-purple">
-						</thead>
+					<table class="table">
 						<tbody ng-repeat="item in selected">
 							<tr class="row-head">
-								<td class="data-title text-xs-center" colspan="3">
+								<td class="data-title" colspan="3">
 									[[zeroFill($index+1, 2)]].
 									<b>[[item.jobsubtype.name]]</b>
 									[[singkatText(item.jobtitle, 35, '')]]
 								</td>
 							</tr>
+							<tr class="row-head">
+								<td class="data-detail" colspan="2">
+									<div>
+										<span>
+											[[item.quantity|number:0]] lembar
+										</span>
+										<span class="pull-xs-right">
+											Rp [[(item.printprice)|number:0]]
+										</span>
+									</div>
+									<div>
+										<span>
+											deliv: [[item.delivery.deliveryname]]
+										</span>
+										<span class="pull-xs-right">
+											Rp [[(item.deliveryprice)|number:0]]
+										</span>
+									</div>
+									<div ng-if="item.discount>0">
+										<span>
+											discount
+										</span>
+										<span class="pull-xs-right tx-purple">
+											<b>- Rp [[(item.discount)|number:0]]</b>
+										</span>
+									</div>
+								</td>
+							</tr>
 							<tr ng-repeat="item2 in item.cartdetail">
-								<td class="data-detail">
-									[[item2.cartname]]
+								<td class="width-min" rowspan="[[(item.cartdetail.length+1)]]" ng-if="$index==0">
+									<img src="{{URL::asset('')}}image/jobsubtypeicons/[[item.jobsubtype.icon]]" alt="" >
 								</td>
 								<td class="data-detail">
-									[[item2.printwidth]] x [[item2.printlength]] cm
-								</td>
-								<td class="data-detail text-xs-right">
-									[[item2.paper.name]] "[[item2.paper.color]]" [[item2.paper.gramature]]gsm
+									[[item2.cartname]] -- 
+									<span ng-if="item2.jobtype=='DG'">
+										Digital Print
+									</span>
+									<span ng-if="item2.jobtype=='OF'">
+										Offset Print
+									</span>
+									<br>
+									[[item2.printwidth]] x [[item2.printlength]] cm -- [[item2.paper.name]] "[[item2.paper.color]]" [[item2.paper.gramature]]gsm
+									<div ng-repeat="detailfin in item2.cartdetailfinishing">
+										- [[detailfin.finishing.name]], [[detailfin.finishingoption.optionname]]
+									</div>
 								</td>
 							</tr>
 							<tr>
-								<td class="data-detail">
-									[[item.quantity|number:0]] lembar
-								</td>
-								<td class="data-detail">
-									[[item.delivery.deliveryname]]
-								</td>
-								<td class="data-detail text-xs-right">
-									[[(item.deliveryprice+item.printprice-item.discount)|number:0]]
+								<td class="data-detail subtotal">
+									Subtotal:
+									<span class="pull-xs-right">
+										[[(item.deliveryprice+item.printprice-item.discount)|number:0]]
+									</span>
 								</td>
 							</tr>
-						</tbody>
-						<tbody>
-							<tr class="row-end">
-								<td class="text-xs-right data-detail" colspan="2">Total Price : &nbsp;</td>
-								<td class="text-xs-right data-detail tx-purple">[[selectedPrice|number:0]]</td>
+							<tr>
+								<td class="data-spacing" colspan="3"></td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="alert alert-sm alert-outline-purple size-80p tx-gray">
-						Item yang dipilih <span class="size-12">(diatas)</span> akan diproses menjadi satu kesatuan, diantaranya:
-						<ol class="margin-0">
-							<li>Satu nota (bisa berisi banyak item)</li>
-							<li>Satu kali pembayaran</li>
-							<li>Satu alamat pengiriman</li>
-						</ol>
+				</div>
+				<div class="total-price">
+					total belanja
+					<div class="num">
+						Rp [[selectedPrice|number:0]]
 					</div>
-			  </div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-purple" data-dismiss="modal" ng-click="checkout()">

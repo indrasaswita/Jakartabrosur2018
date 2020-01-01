@@ -24,6 +24,7 @@ class InsertPrintingmachine extends Migration
             INSERT INTO printingmachines(machinename) VALUES('Outdoor35PL');
             INSERT INTO printingmachines(machinename) VALUES('DigitalCuttingSticker');
             INSERT INTO printingmachines(machinename) VALUES('A3CuttingSticker');
+            INSERT INTO printingmachines(machinename) VALUES('UV Flatbed');
         ");
     }
 

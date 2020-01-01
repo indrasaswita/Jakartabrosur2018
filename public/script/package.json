@@ -9,11 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.7.3",
+    "angular": "^1.7.9",
     "angular-cookies": "^1.7.3",
     "angular-resource": "^1.7.3",
     "angular-route": "^1.7.3",
     "angular-sanitize": "^1.7.3",
+    "is-base64": "^1.0.0",
+    "lzutf8": "^0.5.5",
     "node-gzip": "^1.1.2",
     "uglify-js": "^2.8.29",
     "watchify": "^3.11.0"

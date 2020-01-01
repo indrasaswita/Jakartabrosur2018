@@ -161,7 +161,7 @@
 										<td class="width-min">[[$index+1]]. </td>
 										<td class="text-xs-left">
 											<strong>[[item2.jobtitle]]</strong>
-											<span class="tag tag-purple text-regular">[[item2.jobtype]]</span>
+											<span class="badge badge-purple text-regular">[[item2.jobtype]]</span>
 										</td>
 										<td class="text-xs-left" data-toggle="tooltip" data-title="Waktu <b>PROSES</b> + <b>KIRIM</b>.<br><br>Bila ada perubahan akan diberitahukan." data-html="true" data-placement='bottom'>
 											[[item2.processtime|number:0]] + [[item2.deliverytime|number:0]] hari
@@ -194,7 +194,7 @@
 										<td class="width-min">[[$index+1]]. </td>
 										<td class="text-xs-left">
 											<strong>[[item2.jobtitle]]</strong>
-											<span class="tag tag-purple text-regular">[[item2.jobtype]]</span>
+											<span class="badge badge-purple text-regular">[[item2.jobtype]]</span>
 										</td>
 										<td class="text-xs-left" data-toggle="tooltip" data-title="Harga Cetak<br><br>Harga Kertas + Ongkos Cetak + Ongkos Finishing" data-placement='bottom' data-html='true'>
 											<i class="fa fa-print tx-purple"></i> [[item2.printprice|number:0]]<br class="hidden-lg-up"><span class="hidden-md-down padding-0-10"> <i class="fa fa-plus-circle"></i> </span>
@@ -217,12 +217,12 @@
 									<tr ng-repeat='item2 in item.payments'>
 										<td class="text-xs-right" colspan="3">
 											Pembayaran <span ng-show="item.payments.length>1">[[$index+1]] </span>([[item2.paydate]])
-											<span class="tag tag-danger signika size-80p" ng-show="item2.verif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="hubungi <b>0813-1551-9889</b>,<br>untuk mempercepat proses">
+											<span class="badge badge-danger signika size-80p" ng-show="item2.verif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="hubungi <b>0813-1551-9889</b>,<br>untuk mempercepat proses">
 												&nbsp;
 												<i class="fa fa-hourglass-half fa-spin"></i> &nbsp;&nbsp;
 												MENUNGGU VERIFIKASI
 											</span>
-											<span class="tag tag-success signika size-80p" ng-show="item2.verif.veriftime!=null">
+											<span class="badge badge-success signika size-80p" ng-show="item2.verif.veriftime!=null">
 												<i class="fa fa-check"></i> 
 												[[item2.verif.veriftime]]
 											</span>

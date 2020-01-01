@@ -18,7 +18,9 @@ class InsertJobtypesTable extends Migration
 			INSERT INTO jobtypes VALUES( '3', 'Promotion Banner', 'Spanduk dan Cetak Ukuran Besar', '#88cc44', now(), now() );
 			INSERT INTO jobtypes VALUES( '4', 'Packaging', 'Keperluan Pengemasan', '#00aaaa', now(), now() );
 			INSERT INTO jobtypes VALUES( '5', 'Souvenir', 'Cetak Suvenir', '#ff9944', now(), now() );
-			INSERT INTO jobtypes VALUES( '6', 'PVC Material & Print', 'Cetak & Bahan PVC', '#aa99bb', now(), now() );
+			INSERT INTO jobtypes VALUES( '6', 'PVC Print', 'Cetak PVC', '#aa99bb', now(), now() );
+			INSERT INTO jobtypes VALUES( '7', 'PVC Material', 'Bahan PVC', '#aa99bb', now(), now() );
+			INSERT INTO jobtypes VALUES( '8', 'Setting & Design', 'Setting', '#aabb99', now(), now() );
 		");
 	}
 

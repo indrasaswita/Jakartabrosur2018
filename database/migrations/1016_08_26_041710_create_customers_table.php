@@ -5,43 +5,45 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateCustomersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->engine="InnoDB";
-            $table->increments('id');
-            $table->integer('companyID')->unsigned();
-            $table->string('email')->unique();
-            $table->string('password', 64);
-            $table->string('name', 64);
-            $table->string('type', 32);
-            $table->string('title', 8);
-            $table->string('address');
-            $table->string('postcode', 8);
-            $table->integer('cityID')->unsigned();
-            $table->string('phone1', 16)->nullable();
-            $table->string('phone2', 16)->nullable();
-            $table->string('phone3', 16)->nullable();
-            $table->tinyinteger('news');
-            $table->decimal('balance', 10, 2);
-            $table->rememberToken();
-            $table->timestamps();
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
 
-    }
+		DB::unprepared("
+			CREATE TABLE customers(
+				id INT PRIMARY KEY AUTO_INCREMENT,
+				companyID INT UNSIGNED NULL,
+				email VARCHAR(255) NOT NULL,
+				password VARCHAR(64) NOT NULL DEFAULT '',
+				name VARCHAR(64) NOT NULL,
+				type VARCHAR(32) NOT NULL,
+				title VARCHAR(8) NOT NULL,
+				phone1 VARCHAR(16) NULL,
+				phone2 VARCHAR(16) NULL,
+				phone3 VARCHAR(16) NULL,
+				news TINYINT NOT NULL,
+				balance DECIMAL(10,2) NOT NULL,
+				remember_token VARCHAR(100) NOT NULL,
+				verify_token VARCHAR(100) NOT NULL,
+				verified TINYINT NOT NULL DEFAULT 0,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL
+			);
+		");
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('customers');
-    }
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('customers');
+	}
 }

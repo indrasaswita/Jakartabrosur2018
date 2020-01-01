@@ -80,6 +80,7 @@ module.exports = function(app){
 				{
 					$item.showdetail = false;
 				}
+				else
 				{
 					$anyopen = false;
 					$.each($scope.carts, function($i, $ii){
@@ -196,7 +197,7 @@ module.exports = function(app){
 					if(response.data!=null)
 					{
 						console.log(response.data);
-						if(response.data.constructor === Array)
+						if(Array.isArray(response.data))
 						{
 							$scope.carts[$scope.activeCartIndex].cartfile = response.data;
 						}

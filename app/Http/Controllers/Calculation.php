@@ -19,6 +19,7 @@ use App\Size;
 use App\Printingmachine;
 use App\Helpers\MathHelper;
 use App\Logic\Utility\Jobflyer;
+use App\Logic\Utility\Jobprintuv;
 use App\Logic\Utility\Jobplotter;
 use App\Logic\Utility\Jobbusinesscard;
 use App\Logic\Utility\Jobdeskcalendar;
@@ -186,6 +187,15 @@ class Calculation extends Controller
 			if($result != null)
 				return $result;
 			//sudah sekalian finishing untuk setiap kertasnya, tapi belom finsihing global
+		}else if($job == "uvcard"){
+			$obj = new Jobprintuv($data, $this->cs);
+			$obj->setMaxPrint(6,9.5);
+			$result = $obj->hitungPrintUV();
+
+			if($result != null)
+				return $result;
+
+			$obj->calcFinishing();
 		}else{
 			return "Belum Terdaftar"; // error
 		}
@@ -222,10 +232,7 @@ class Calculation extends Controller
 		$data = $this->convDataNUMBER($data);
 
 		//BAG 2: AMBIL JOBSUBTYPE sesuai data
-		//$this->jobsubtype = Jobsubtype::findOrFail($data['jobsubtypeID']);
-		//.  MOVE
-		//pindah ke $data['jobsubtype'];
-
+		//ambil di $data['jobsubtype'];
 
 		//BAG 3: ambil data =>> set ke $cs
 		$constants = Constant::all();
@@ -233,8 +240,6 @@ class Calculation extends Controller
 				$this->cs[$item['name']] = $item['price'];
 		}
 		unset($constants); // HAPUS
-
-
 
 		//BAG 5: calculate intinya
 		$job = $data['jobsubtype']['link'];

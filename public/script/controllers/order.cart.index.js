@@ -24,6 +24,124 @@ module.exports = function(app){
 			$scope.uploadwaiting = false;
 			$scope.errormessage = ""; // untuk di add dan changefile
 
+			$scope.settips = function(){
+				//$(window).ready(function(){
+					console.log($(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark"));
+
+					$temp = $(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark");
+
+					$top = $temp.offset().top-100;
+					console.log($top);
+					$('html, body').animate({
+			        scrollTop: $top
+			    }, 50, function(){
+			    	console.log("TEST");
+			    	
+						$(".tips").css("display", "block");
+			    });
+			    return false;
+			}
+
+			$(window).ready(function(){
+
+
+				$(window).scroll(function(){
+					if($('.tips').css('display') == 'block'){
+						var doc = document.documentElement;
+						var sleft = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+						var stop = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+
+						$temp = $(".cart-list-wrapper:first .title-wrapper .check .custom-checkbox .checkmark");
+
+						$diff = 12;
+						$top = $temp.offset().top-$diff-stop;
+						$left = $temp.offset().left-$diff-sleft;
+						$right = $temp.offset().left+$temp[0].offsetWidth+$diff-sleft;
+						$bottom = $temp.offset().top+$temp[0].offsetHeight+$diff-stop;
+
+						console.log("TEST");
+
+						window.setTimeout(function(){
+							$temp = $(".tips svg");
+							$arrowwidth = 40;
+							$arrowheight = 45;
+							$newtop = $top - 20 - ($arrowheight);
+							$newleft = (($left+$right)/2) - $arrowwidth/2;
+
+							$(".tips svg").css("top", $newtop);
+							$(".tips svg").css("left", $newleft);
+
+
+							$(".tips").css("clip-path", "polygon(0% 0%, 100% 0%, 100% 100%, "+$right+"px 100%, "+$right+"px "+$top+"px, "+$left+"px "+$top+"px, "+$left+"px "+$bottom+"px, "+$right+"px "+$bottom+"px, "+$right+"px 100%, 20px 100%, 0 100%)");
+						}, 50);
+					}
+				});
+			});
+
+			$scope.hidetips = function(){
+				$(".tips").css("display", "none");
+			}
+
+			$scope.initData = function($carts, $deliveries, $custaddresses){
+				$scope.carts = JSON.parse($carts);
+				$scope.deliveries = JSON.parse($deliveries);
+				$scope.custaddresses = JSON.parse($custaddresses);
+
+				//select addressnya harus dari $scope.customeraddresses di select index
+				$.each($scope.carts, function($c, $cc){
+					//dipilihin setiap cartsnya
+					$.each($scope.custaddresses, function($i, $ii) {
+						//di cek setiap customer addressnya ada yang sama ga idnya
+						if ($ii.addressID == $cc.deliveryaddressID) {
+							$cc.deliveryaddress = $ii.address;
+						}
+					});
+				});
+				
+
+				$scope.allchecked = true;
+				$scope.checkAll(); //hitung total dan check all and hide all
+				$.each($scope.carts, function($i, $ii){
+					if ($i == 0) {
+						$scope.carts[$i].showdetail = true;
+						$scope.selectedCart = $scope.carts[$i];
+					}
+
+					$scope.carts[$i].showinfo = true;
+					$scope.carts[$i].showfile = false;
+					$scope.carts[$i].showdelivery = false;
+					if($ii.created_at != null)
+						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
+					if ($ii.updated_at != null)
+						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
+
+
+					$.each($ii.cartdetail, function($j, $jj) {
+						$jj.jobtypelong =
+							($jj.jobtype == "OF") ? "Offset Print" :
+								($jj.jobtype == "DG") ? "Digital Print" :
+									($jj.jobtype == "PL") ? "Large Format" : "Others";
+					});
+
+					$.each($ii.cartfile, function($j, $jj){
+						if ($jj.file.created_at != null)
+							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
+						if ($jj.file.updated_at != null)
+							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
+					});
+
+					$.each($scope.deliveries, function($j, $jj){
+						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
+						if($jj.id == $ii.deliveryID){
+							$ii.delivery = $jj;
+						}
+					});
+
+				});
+
+			}
+
 			$scope.tick = function(){
 				$scope.second = parseInt(Date.now()/1000);
 				$timeout($scope.tick, 1000);
@@ -136,6 +254,10 @@ module.exports = function(app){
 			$scope.checkChanged = function($item){
 				$scope.countSelectedPrice();
 
+				if($scope.totalSelected > 0){
+					$scope.hidetips();
+				}
+
 				if ($scope.totalSelected == $scope.carts.length) {
 					if ($scope.allchecked == false)
 						$scope.allchecked = true;
@@ -143,65 +265,6 @@ module.exports = function(app){
 					if ($scope.allchecked == true)
 						$scope.allchecked = false;
 				}
-			}
-
-			$scope.initData = function($carts, $deliveries, $custaddresses){
-				$scope.carts = JSON.parse($carts);
-				$scope.deliveries = JSON.parse($deliveries);
-				$scope.custaddresses = JSON.parse($custaddresses);
-
-				//select addressnya harus dari $scope.customeraddresses di select index
-				$.each($scope.carts, function($c, $cc){
-					//dipilihin setiap cartsnya
-					$.each($scope.custaddresses, function($i, $ii) {
-						//di cek setiap customer addressnya ada yang sama ga idnya
-						if ($ii.addressID == $cc.deliveryaddressID) {
-							$cc.deliveryaddress = $ii.address;
-						}
-					});
-				});
-				
-
-				$scope.allchecked = true;
-				$scope.checkAll(); //hitung total dan check all and hide all
-				$.each($scope.carts, function($i, $ii){
-					if ($i == 0) {
-						$scope.carts[$i].showdetail = true;
-						$scope.selectedCart = $scope.carts[$i];
-					}
-
-					$scope.carts[$i].showinfo = true;
-					$scope.carts[$i].showfile = false;
-					$scope.carts[$i].showdelivery = false;
-					if($ii.created_at != null)
-						$scope.carts[$i].created_at = $scope.makeDateTime($ii.created_at);
-					if ($ii.updated_at != null)
-						$scope.carts[$i].updated_at = $scope.makeDateTime($ii.updated_at);
-
-
-					$.each($ii.cartdetail, function($j, $jj) {
-						$jj.jobtypelong =
-							($jj.jobtype == "OF") ? "Offset Print" :
-								($jj.jobtype == "DG") ? "Digital Print" :
-									($jj.jobtype == "PL") ? "Large Format" : "Others";
-					});
-
-					$.each($ii.cartfile, function($j, $jj){
-						if ($jj.file.created_at != null)
-							$scope.carts[$i].cartfile[$j].file.created_at = $scope.makeDateTime($jj.file.created_at);
-						if ($jj.file.updated_at != null)
-							$scope.carts[$i].cartfile[$j].file.updated_at = $scope.makeDateTime($jj.file.updated_at);
-					});
-
-					$.each($scope.deliveries, function($j, $jj){
-						//SELECT $scope.carts.DELIVERY nya dari object $scope.deliveries, biar bisa modalnya di select perobject (ng-model)
-						if($jj.id == $ii.deliveryID){
-							$ii.delivery = $jj;
-						}
-					});
-
-				});
-
 			}
 
 			$scope.showingdetail = function($cart, $index){
@@ -459,14 +522,18 @@ module.exports = function(app){
 			}
 
 			$scope.review = function(){
-				$scope.selected = [];
-				$.each($scope.carts, function($i, $ii) {
-					if($ii.checked)
-						$scope.selected.push($ii);
-				});
-				$scope.countSelectedPrice();
+				if($scope.totalSelected==0){
+					$scope.settips();
+				}else{
+					$scope.selected = [];
+					$.each($scope.carts, function($i, $ii) {
+						if($ii.checked)
+							$scope.selected.push($ii);
+					});
+					$scope.countSelectedPrice();
 
-				$("#reviewCartModal").modal("show");
+					$("#reviewCartModal").modal("show");
+				}
 			}
 
 			$scope.checkout = function(){
@@ -474,7 +541,7 @@ module.exports = function(app){
 				$http(
 					{
 						method: 'POST',
-						url: API_URL+'sales/create',
+						url: AJAX_URL+'sales/create',
 						data: $scope.selected 
 					}
 				).then(function(response){
@@ -683,7 +750,7 @@ module.exports = function(app){
 							//WHEN DONE
 							if (response != null) {
 								console.log(response.constructor);
-								if (response.constructor === Array) {
+								if (Array.isArray(response)) {
 									$scope.selectedCart.cartfile = [];
 									$scope.selectedCart.cartfile = response;
 									$.each($scope.selectedCart.cartfile, function($i, $ii) {

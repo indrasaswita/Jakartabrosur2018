@@ -63,4 +63,10 @@ class AdmCustomerAJAX extends Controller
 
 		return $result."";
 	}
+
+	public function getcustomers(){
+		$customers = Customer::with('company', 'customeraddress')
+				->get();
+		return $customers;
+	}
 }

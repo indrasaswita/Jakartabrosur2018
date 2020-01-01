@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-	protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'postcode', 'phone1', 'phone2', 'phone3', 'news', 'balance', 'remember_token', 'verify_token'];
+	protected $fillable = ['companyID', 'email', 'password', 'name', 'type', 'title', 'postcode', 'phone1', 'phone2', 'phone3', 'news', 'balance', 'remember_token', 'verify_token', 'verified'];
 	protected $guarded = ['id'];
 	protected $hidden = ['password', 'balance', 'remember_token'];
 	protected $dates = ['created_at', 'updated_at'];

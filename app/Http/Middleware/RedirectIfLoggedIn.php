@@ -16,10 +16,10 @@ class RedirectIfLoggedIn
 	 */
 	public function handle($request, Closure $next)
 	{
-		
+
 		if (session()->has('role')){
 			if(session()->get('role')=="customer"){
-				
+				//CUSTOMER
 				$email = session()->get('email');
 
 				if($email==null)
@@ -30,16 +30,19 @@ class RedirectIfLoggedIn
 							->first();
 
 					if($customer != null){
+						/*  SEMENTARA
 						if($customer['verify_token']==null){
 							return $next($request);
 						}else{
 							return redirect()->route('pages.verification');
-						}
+						}*/
+						return $next($request);
 					}else{
 						return redirect()->route('pages.account.signup');
 					}
 				}
 			} else {
+				//EMPLOYEE
 				return $next($request);
 			}
 		}

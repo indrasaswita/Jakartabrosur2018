@@ -4,6 +4,21 @@ module.exports = function(app){
 			$scope.godSalesID = 0;
 			$scope.app_version = "2.06.004";
 
+			$scope.month_enum = {
+				1: "Januari",
+				2: "Februari",
+				3: "Maret",
+				4: "April",
+				5: "Mei",
+				6: "Juni",
+				7: "Juli",
+				8: "Agustus",
+				9: "September",
+				10: "Oktober",
+				11: "November",
+				12: "Desember"
+			};
+
 			/*Global site tag (gtag.js) - Google Analytics */
 			// ============================================
 			$window.dataLayer = $window.dataLayer || [];
@@ -154,6 +169,14 @@ module.exports = function(app){
 					return $text;
 				}
 			}
+
+			//REFRESH SELECTPICKER BOOTSTRAP-SELECT on MODAL
+			$(document).on('show.bs.modal', function (e) {
+				setTimeout(function(){
+					$('.selectpicker').selectpicker('refresh');
+					console.log("All selectpickers on modal refreshed.");
+				}, 50);
+			});
 
 			/*$scope.afterAngular = function(){
 				$scope.selectpickerrefresh();
@@ -570,15 +593,33 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.val_size = function($size){
-				if($size <= 50 * 1024 * 1024){
+			$scope.val_size = function($size, $max=100*1024*1024){
+				if($size <= $max){
 					return true;
 				} else{
 					return false;
 				}
 			}
 
+			Number.prototype.toFixedFloat = function( dp ){
+				return +parseFloat(this).toFixed( dp );
+			}
 
+			$scope.size_minimize = function($size){
+				if($size < 1024){
+					return parseFloat($size).toFixedFloat(2)+"";
+				} else if ($size < 1024*1024){
+					return (parseFloat($size)/1024).toFixedFloat(2)+" KB";
+				} else if ($size < 1024*1024*1024){
+					return (parseFloat($size)/1024/1024).toFixedFloat(2)+" MB";
+				} else if ($size < 1024*1024*1024*1024){
+					return (parseFloat($size)/1024/1024/1024).toFixedFloat(2)+" GB";
+				} else if ($size < 1024*1024*1024*1024*1024){
+					return (parseFloat($size)/1024/1024/1024/1024).toFixedFloat(2)+" TB";
+				}
+
+				return "HUGE";
+			}
 
 			$scope.uploadprogress = function(type, data, url, whendone, whenfailed) {
 
@@ -632,6 +673,50 @@ module.exports = function(app){
 					$scope.$apply(function() { });
 				});
 			}
+
+
+
+
+
+
+			//AJAX- DIRECT DATABASE
+
+			$scope.getbanks = function(whendone, whenfailed){
+				$http({
+					method: "GET",
+					url: AJAX_URL+"banks"
+				}).then(function(response){
+					if(response.data!=null){
+						if(Array.isArray(response.data)){
+							if(whendone instanceof Function){
+								whendone(response.data);
+							}
+						}else{
+							if(whenfailed instanceof Function){
+								whenfailed();
+							}
+						}
+					}else{
+						if(whenfailed instanceof Function){
+							whenfailed();
+						}
+					}
+				}, function(error){
+					console.log(error);
+					if(whenfailed instanceof Function){
+						whenfailed();
+					}
+				});
+			}
+
+
+
+
+
+
+
+
+
 		}
 	]);
 }

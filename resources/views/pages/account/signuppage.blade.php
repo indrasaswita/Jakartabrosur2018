@@ -109,7 +109,7 @@
 						<span class="checkmark"></span>
 					</label>
 					<div class="label">
-						Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="tag tag-danger text-regular">not yet</div>
+						Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="badge badge-danger text-regular">not yet</div>
 					</div>
 				</div>
 			</div>

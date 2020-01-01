@@ -1,8 +1,7 @@
-<div class="order-panel tab-pane fade in" id="calculation" ng-class="{'active':selectedTab=='calculation'}">
+<div class="order-panel tab-pane" id="calculation" ng-class="{'active':selectedTab=='calculation'}">
 
 	<div class="panel-block">
 		<!-- <div class="block-divider"></div> -->
-
 		<div class="block-list">
 			<div class="input">
 				<div class="main">
@@ -137,6 +136,11 @@
 				</div>
 			</div>
 		</div>
+		<div class="" ng-if="materialvariable!=null">
+			<div class="block-list warning" ng-if="materialvariable.length>0">
+				[[materialvariable]]
+			</div>
+		</div>
 		<div class="block-list" ng-show="datas.jobsubtypedetail==null||datas.jobsubtypedetail.length==0">
 			<div class="txt">
 				Sisi
@@ -148,10 +152,10 @@
 				<div class="main">
 					<div class="select">
 						<select class="form-control" data-width="100%" ng-model="selected.sideprint" ng-change="getPrice()">
-							<option ng-show="datas.sisicetak==1||datas.sisicetak==0" value="1">
+							<option ng-disabled="datas.sisicetak!=1&&datas.sisicetak!=0" value="1">
 								1 sisi cetak
 							</option>
-							<option ng-show="datas.sisicetak==2||datas.sisicetak==0" ng-disabled="selected.paper.papertypeID==10" value="2">
+							<option ng-disabled="(datas.sisicetak!=2&&datas.sisicetak!=0)||selected.paper.papertypeID==10" value="2">
 								2 sisi cetak
 							</option>
 						</select>
@@ -210,13 +214,13 @@
 						<div class="input-block">
 							<div class="input-group">
 								<span class="input-group-btn">
-									<button class="btn btn-secondary" ng-click="decrementModel($index)">
+									<button class="btn" ng-click="decrementModel($index)">
 										<span class="fas fa-minus"></span>
 									</button>
 								</span>
 								<input type="text" class="form-control text-xs-center" value="[[selected.jobsubtypedetail[$index].multip|number:0]] model" disabled>
 								<span class="input-group-btn">
-									<button class="btn btn-secondary" ng-click="incrementModel($index)">
+									<button class="btn" ng-click="incrementModel($index)">
 										<span class="fas fa-plus"></span>
 									</button>
 								</span>

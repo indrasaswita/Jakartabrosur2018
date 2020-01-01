@@ -146,7 +146,9 @@ class InsertFinishingoptions extends Migration
 				(132, 43, 'Nylon 1.5cm - Polos + Stopper + Sablon', '3700.00', 'qty', 0, 0, 3, NULL, 0, '2019-06-29 15:19:44', NULL),
 				(133, 43, 'Nylon 2cm - Polos + Stopper', '1000.00', 'qty', 0, 0, 1, NULL, 0, '2019-06-29 15:20:06', NULL),
 				(134, 43, 'Nylon 2cm - Polos + Stopper', '2000.00', 'qty', 0, 0, 3, NULL, 0, '2019-06-29 15:20:06', NULL),
-				(135, 43, 'Nylon 2cm - Polos + Stopper + Sablon', '4000.00', 'qty', 0, 0, 3, NULL, 0, '2019-06-29 15:20:06', NULL);
+				(135, 43, 'Nylon 2cm - Polos + Stopper + Sablon', '4000.00', 'qty', 0, 0, 3, NULL, 0, '2019-06-29 15:20:06', NULL),
+				(136, 44, 'Plastik Transparant', '4500.00', 'pcs', 0, 0, 0, NULL, 0, '2019-11-10 03:44:06', NULL),
+				(137, 44, 'Plastik Opaque Biru', '3500.00', 'pcs', 0, 0, 1, NULL, 1, '2019-11-10 03:44:06', NULL);
 		");
 	}
 
