@@ -8,7 +8,13 @@ use App\Customerbankacc;
 class CustomeraccountAJAX extends Controller
 {
 	public function all(){
+
 		$custid = session()->get('userid');
+		$accs = $this->getalldata($custid);
+		return $accs;
+	}
+
+	public function getalldata($custid){
 		$accs = Customerbankacc::with('bank')
 				->with('customer')
 				->where('customerID', '=', $custid)
@@ -24,25 +30,24 @@ class CustomeraccountAJAX extends Controller
 		$no = $data['accno'];
 		$nm = $data['accname'];
 		$loc = $data['acclocation'];
+		if(isset($data['custID']))
+			$custid = $data['custID']==null?$custid:$data['custID'];
+		//kalo bukan customer harus ada index custID
 
 		$acc = new Customerbankacc();
 		$acc->customerID = $custid;
 		$acc->bankID = $bankID;
-		$acc->accno = $no;
+		$acc->accno = $no==null?"":$no;
 		$acc->accname = $nm;
-		$acc->acclocation = $loc;
-		$acc->save();
+		$acc->acclocation = $loc==null?"":$loc;
+		$result = $acc->save();
 
-		$test = Customerbankacc::orderBy('id', 'DESC')
-				->first();
-		if($test!=null)
-		{
-			if($test['accno'] == $no){
-				$accs = $this->all();
-				return $accs;
-			}
+		if($result){
+			$accs = $this->getalldata($custid);
+			return $accs;
+		}else{
+			return null;
 		}
-		return null;
 	}
 
 }

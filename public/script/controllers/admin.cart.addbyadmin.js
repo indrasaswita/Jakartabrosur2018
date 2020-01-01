@@ -1,14 +1,63 @@
 module.exports = function(app){
-	app.controller('AdminCartAddbyadminController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
-		function($scope, $http, API_URL, BASE_URL, $window){
+	app.controller('AdminCartAddbyadminController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
 
+			$scope.getVendorPlanoByPaperID = function($i, $paper){
+				$temp = [];
+				$.each($paper.paperdetail, function($j, $jj){
+					$found = false;
+					$.each($temp, function($k, $kk){
+						if($kk.id == $jj.plano.id){
+							$found = true;
+							return false;
+						}
+					});
+					if(!$found)
+						$temp.push($jj.plano);
+				});
+				$scope.newcart.cartdetails[$i].planos = $temp;
+				if($temp.length>0){
+					$scope.newcart.cartdetails[$i].planosize = $temp[0];
+					$scope.planosizechanged($i, $paper);
+				}
+			}
+
+			$scope.vendorchanged = function($index){
+				$scope.newcart.cartdetails[$index].paperpriceunit = $scope.getHargaKertasPerUnit($index);
+			}
+			
 			$scope.setKertasPrinterIndex0 = function($index){
 				if($scope.papers!=null)
-					if($scope.papers.length>0)
+					if($scope.papers.length>0){
 						$scope.newcart.cartdetails[$index].paper = $scope.papers[0];
+
+						$scope.getVendorPlanoByPaperID($index, $scope.papers[0]);
+					}
 				if($scope.printers!=null)
 					if($scope.printers.length>0)
 						$scope.newcart.cartdetails[$index].printerID = $scope.printers[0].id;
+			}
+
+			$scope.planosizechanged = function($i, $paper){
+				$temp = [];
+				$.each($paper.paperdetail, function($j, $jj){
+					if($jj.planoID == $scope.newcart.cartdetails[$i].planosize.id){
+						$found = false;
+						$.each($temp, function($k, $kk){
+							if($kk.id == $jj.vendor.id){
+								$found = true;
+								return false;
+							}
+						});
+						if(!$found)
+							$temp.push($jj.vendor);
+					}
+				});
+				$scope.newcart.cartdetails[$i].vendors = $temp;
+				if($temp.length>0){
+					$scope.newcart.cartdetails[$i].vendor = $temp[0];
+					$scope.vendorchanged($i);
+				}
 			}
 
 			$scope.addcartdetailsclicked = function(){
@@ -40,8 +89,38 @@ module.exports = function(app){
 					printqtyerror:true,
 					employeenote:'',
 				};
+
 				$scope.newcart.cartdetails.push($temp);
 				$scope.setKertasPrinterIndex0(parseInt($scope.newcart.cartdetails.length)-1);
+			}
+
+			$scope.getHargaKertasPerUnit = function($index){
+				$selectedpaper = $scope.newcart.cartdetails[$index].paper;
+				$selectedsize = $scope.newcart.cartdetails[$index].planosize;
+				$selectedvendor = $scope.newcart.cartdetails[$index].vendor;
+
+				$result = -1;
+				
+				if($scope.newcart.cartdetails[$index].paper!=null &&
+						$scope.newcart.cartdetails[$index].vendor!=null && 
+						$scope.newcart.cartdetails[$index].planosize!=null)
+					{
+					var selectedvendorID = $scope.newcart.cartdetails[$index].vendor.id;
+					var selectedplanoID = $scope.newcart.cartdetails[$index].planosize.id;
+					$.each($scope.newcart.cartdetails[$index].paper.paperdetail, function($i, $ii){
+						console.log($ii.vendorID+" == "+selectedvendorID+"    -> "+ $ii.planoID+" == "+selectedplanoID);
+						if($ii.vendorID == selectedvendorID &&
+							$ii.planoID == selectedplanoID)
+						{
+							console.log($ii.unitprice);   
+							$result = $ii.unitprice;
+							return false;
+						}
+					});
+				}else{
+					console.log("Muka bebek");
+				}
+				return $result;
 			}
 
 			$scope.resetmodal = function(){
@@ -66,15 +145,25 @@ module.exports = function(app){
 					reseller: "",
 					resellerphone: "",
 					reselleraddress: "",
-					cartdetails: []
+					cartdetails: [],
+					hidedeliveryprice: false,
+					hidediscount: false,
+					hidetotalweight: false,
+					hidedeadline: false,
+					hidedelivery: false,
+					hidedeliveryaddress: false,
+					hidedeliverytime: false
 				};
 				$scope.addcartdetailsclicked();
 
-				if($scope.jobsubtypes!=null)
+				if($scope.jobsubtypes!=null){
 					if($scope.jobsubtypes.length>0){
 						$scope.newcart.jobsubtype = $scope.jobsubtypes[0];
 						$scope.newcart.quantitytypename = $scope.newcart.jobsubtype.satuan;
 					}
+				}else{
+					$('#addbyadminModal').modal('hide');
+				}
 
 				if($scope.deliveries != null)
 					if($scope.deliveries.length>0)
@@ -83,50 +172,6 @@ module.exports = function(app){
 				$scope.setKertasPrinterIndex0(0);
 				$scope.customerloading = false;
 				$scope.jobtypesymbols = ["OF", "DG", "PL", "LL"];
-			}
-			$scope.resetmodal();
-
-			$scope.getVendorPlanoByPaperID = function($index, $paperID){
-				$http({
-					method: "get",
-					url: API_URL+"paper/"+$paperID+"/paperdetail/vendor-plano"
-				}).then(
-					function(response){
-						$scope.newcart.cartdetails[$index].paperdetails = response.data;
-						$scope.newcart.cartdetails[$index].planos = null;
-
-						//DISTINCT buat cari plano yg unique saja
-						$.each(response, function($i, $ii){
-							$duplicated = false;
-							$.each($scope.newcart.cartdetails[$index].planos, function($j, $jj){
-								if($ii.planoID==$jj.id)
-								{
-									//KALO SUDAH ADA DI GANTI
-									$duplicated = true;
-								}
-							});
-							if($duplicated == false){
-								//KALO NULL GA BISA ADD DATA
-								if($scope.newcart.cartdetails[$index].planos==null)
-									$scope.newcart.cartdetails[$index].planos = [];
-								//KALO UDA BENTUK ARRAY baru di PUSH
-								$scope.newcart.cartdetails[$index].planos.push($ii.plano);
-							}
-						});
-
-						//KALO UDA ADA ARRAY DI UKURAN PLANO
-						//DIPILIH INDEX 1
-						if($scope.newcart.cartdetails[$index].planos!=null)
-							if($scope.newcart.cartdetails[$index].planos.length>0) {
-								$scope.newcart.cartdetails[$index].planosize = $scope.newcart.cartdetails[$index].planos[0];
-								$scope.planosizechanged($index);
-							}
-					},function(error){
-						$scope.newcart.cartdetails[$index].paperdetails = null;
-						$scope.newcart.cartdetails[$index].planos = null;
-						$scope.planosizechanged($index);
-					}
-				);
 			}
 
 			$scope.checktotaldruct = function($index){
@@ -137,7 +182,7 @@ module.exports = function(app){
 					//artinya tidak sesuai
 					$scope.newcart.cartdetails[$index].planoqtyerror = true;
 				}
-				else
+				else	
 					$scope.newcart.cartdetails[$index].planoqtyerror = false;
 
 				if($scope.newcart.cartdetails[$index].totalplano!=0)
@@ -153,76 +198,16 @@ module.exports = function(app){
 				}
 			}
 
-			$scope.planosizechanged = function($index){
-				$scope.newcart.cartdetails[$index].vendors = null;
-				if($scope.newcart.cartdetails[$index].paperdetails!=null)
-				{
-					$.each($scope.newcart.cartdetails[$index].paperdetails, function($i, $ii){
-						if($ii.planoID == $scope.newcart.cartdetails[$index].planosize.id){
-							//BRARTI UNTUK UKURAN YANG SAMA
-							//BISA DAPET TOKO yg UNIQUE
-							$duplicated = false;
-							$.each($scope.newcart.cartdetails[$index].vendors, function($j, $jj){
-								if($ii.vendorID == $jj.id)
-								{
-									//KALO SUDAH ADA DI GANTI duplicated = true
-									$duplicated = true;
-								}
-							});
-							if($duplicated == false){
-								//KALO NULL GA BISA ADD DATA
-								if($scope.newcart.cartdetails[$index].vendors==null)
-									$scope.newcart.cartdetails[$index].vendors = [];
-								//JIKA BELOM ADA & ukuran tepat
-								//INPUT SETELAH JADI ARRAY
-								$scope.newcart.cartdetails[$index].vendors.push($ii.vendor);
-							}
-						}
-					});
-					//KALO UDA ADA ARRAY DI UKURAN PLANO
-					//DIPILIH INDEX 1
-					if($scope.newcart.cartdetails[$index].vendors!=null)
-						if($scope.newcart.cartdetails[$index].vendors.length>0)
-							$scope.newcart.cartdetails[$index].vendor = $scope.newcart.cartdetails[$index].vendors[0];
-				}
-			}
-
 			$scope.getHargaKertas = function($index){
-				$scope.newcart.cartdetails[$index].paperprice = parseInt(parseFloat($scope.newcart.cartdetails[$index].totalplano)*$scope.getHargaKertasPerUnit($index));
-			}
-
-			$scope.getHargaKertasPerUnit = function($index){
-				$selectedpaper = $scope.newcart.cartdetails[$index].paper;
-				$selectedsize = $scope.newcart.cartdetails[$index].planosize;
-				$selectedvendor = $scope.newcart.cartdetails[$index].vendor;
-
-				$result = -1;
-				
-				if($selectedpaper!=null)
-				{
-					if($selectedsize!=null)
-					{
-						if($selectedvendor!=null)
-						{
-							$.each($scope.newcart.cartdetails[$index].paperdetails, function($i, $ii){
-								if($ii.paperID == $selectedpaper.id &&
-									$ii.vendorID == $selectedvendor.id &&
-									$ii.planoID == $selectedsize.id)
-								{
-									$result = $ii.unitprice;
-									return false;
-								}
-							});
-						}	
-					}	
+				if($scope.newcart.cartdetails[$index].paperpriceunit != 0){
+					$scope.newcart.cartdetails[$index].paperprice = parseInt(parseFloat($scope.newcart.cartdetails[$index].totalplano)*$scope.newcart.cartdetails[$index].paperpriceunit);
 				}
-				return $result;
 			}
 
 			$scope.refreshcustomerdata = function(){
 				$http({
 					method: 'get',
-					url: API_URL+'data/customers/name'
+					url: AJAX_URL+'data/customers/name'
 				}).then(function(response){
 					$scope.customers = new Bloodhound({
 					  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -259,7 +244,9 @@ module.exports = function(app){
 				        'Tidak ketemu',
 				      '</div>'
 				    ].join('\n'),
-				    suggestion: Handlebars.compile('<div><strong>{{name}}</strong> – {{address}}</div>')
+				    suggestion: Handlebars.compile('<div class="line-1">'
+				    	+'{{name}} &nbsp;<small>{{phone1}}<br>{{email}} &nbsp; {{phone2}}</small>'
+				    	+'</div>')
 				  }
 				});
 				$("#find-customer .typeahead").typeahead('open');
@@ -273,6 +260,66 @@ module.exports = function(app){
 
 			$scope.jobsubtypechanged = function(){
 				$scope.newcart.quantitytypename = $scope.newcart.jobsubtype.satuan;
+				console.log($scope.newcart.jobsubtype);
+
+				if($scope.newcart.jobsubtype.jobtype.id == 8){
+					//SETTING
+
+					$scope.newcart.quantitytypename = "jam";
+					$scope.newcart.quantitytypename = "jam";
+					$scope.newcart.quantitytypename = "jam";
+					$scope.newcart.hidereseller = true;
+					$scope.newcart.reseller = "";
+					$scope.newcart.hidedeliveryprice = true;
+					$scope.newcart.hidedeliveryprice = true;
+					$scope.newcart.deliveryprice = 0;
+					$scope.newcart.hidedeliveryprice = true;
+					$scope.newcart.discount = 0;
+					$scope.newcart.hidediscount = true;
+					$scope.newcart.totalweight = 0;
+					$scope.newcart.hidetotalweight = true;
+					$scope.newcart.processtype = 0;
+					$scope.newcart.deadline = 0;
+					$scope.newcart.hidedeadline = true;
+					$scope.newcart.delivery = $scope.deliveries[0];
+					$scope.newcart.hidedelivery = true;
+					$scope.newcart.deliveryaddress = "";
+					$scope.newcart.hidedeliveryaddress = true;
+					$scope.newcart.hidedeliverytime = true;
+
+					$.each($scope.newcart.cartdetails, function($i, $ii){
+						$ii.hidepaper = true;
+						$ii.paper = null;
+						$ii.planosize = null;
+						$ii.vendor = null;
+						$ii.hideprinter = true;
+						$ii.hidedruct = true;
+						$ii.side1 = 1;
+						$ii.side2 = 0;
+						$ii.hidesdp = true;
+						$ii.jobtype = "DG";
+					});
+				}else{
+					$scope.newcart.hidedeliveryprice = false;
+					$scope.newcart.hidediscount = false;
+					$scope.newcart.hidetotalweight = false;
+					$scope.newcart.hidedeadline = false;
+					$scope.newcart.hidedelivery = false;
+					$scope.newcart.hidedeliveryaddress = false;
+					$scope.newcart.hidedeliverytime = false;
+
+					$.each($scope.newcart.cartdetails, function($i, $ii){
+						$ii.hidepaper = false;
+						$ii.paper = papers[0];
+						$scope.getVendorPlanoByPaperID($i, $ii.paper);
+						$ii.planosize = detail.planos[0];
+						$ii.vendor = detail.vendors[0];
+						$ii.hideprinter = false;
+						$ii.hidedruct = false;
+						$ii.hidesdp = false;
+						$ii.jobtype = "OF";
+					});
+				}
 			}
 
 			$scope.showcustomerdata = function($customerID){
@@ -281,7 +328,7 @@ module.exports = function(app){
 					$scope.customerloading = true;
 					$http({
 						method : "GET",
-						url : API_URL+"customer/"+$customerID+"/sales"
+						url : AJAX_URL+"customer/"+$customerID+"/sales"
 					}).then(
 						function(response){
 							$scope.newcart.customersales = response.data;
@@ -307,6 +354,10 @@ module.exports = function(app){
 			$scope.customerpicked = function(){
 				$scope.selectedcustomer = $("#find-customer .typeahead").typeahead('val');
 			}
+
+
+
+			$scope.resetmodal();
 		}
 	]);
 };

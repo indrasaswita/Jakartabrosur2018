@@ -5,40 +5,43 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePapersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('papers', function(Blueprint $table){
-            $table->engine="InnoDB";
-            $table->increments('id');
-            $table->integer('papertypeID')->unsigned();
-            $table->string('name', 64);
-            $table->string('color', 16);
-            $table->smallinteger('gramature');
-            $table->tinyinteger('texture')->default(0);
-            $table->tinyinteger('numerator')->default(0);
-            $table->tinyinteger('varnish')->default(0);
-            $table->tinyinteger('spotuv')->default(0);
-            $table->tinyinteger('laminating')->default(0);
-            $table->tinyinteger('folding')->default(0);
-            $table->tinyinteger('perforation')->default(0);
-            $table->integer('coatingtypeID')->unsigned()->default(1);
-            $table->tinyinteger('diecut')->default(0);
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		DB::unprepared("
+			CREATE TABLE papers (
+				id INT PRIMARY KEY AUTO_INCREMENT,
+				papertypeID INT UNSIGNED NOT NULL,
+				name VARCHAR(64) NOT NULL,
+				color VARCHAR(16) NOT NULL,
+				gramature SMALLINT NOT NULL,
+				bothsideprint TINYINT NOT NULL DEFAULT 1,
+				texture TINYINT NOT NULL DEFAULT 0,
+				numerator TINYINT NOT NULL DEFAULT 0,
+				varnish TINYINT NOT NULL DEFAULT 0,
+				spotuv TINYINT NOT NULL DEFAULT 0,
+				laminating TINYINT NOT NULL DEFAULT 0,
+				folding TINYINT NOT NULL DEFAULT 0,
+				perforation TINYINT NOT NULL DEFAULT 0,
+				coatingtypeID INT UNSIGNED NOT NULL DEFAULT 1,
+				diecut TINYINT NOT NULL DEFAULT 0,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP NULL
+			);
+		");
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('papers');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('papers');
+	}
 }

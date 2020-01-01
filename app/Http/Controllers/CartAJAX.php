@@ -8,7 +8,10 @@ use App\Cartfile;
 use App\Cartdetail;
 use App\Cartheader;
 use App\Salesdetail;
+use App\Salesheader;
+use App\Customer;
 use App\Http\Controllers\CartController;
+use Carbon\Carbon;
 
 class CartAJAX extends Controller
 {
@@ -81,7 +84,7 @@ class CartAJAX extends Controller
 	}
 
 	public function cartCheck($cartID){
-		dd($cartID);
+		//dd($cartID);
 		$checksalesdetail = Salesdetail::where("cartID", $cartID)
 			->get();
 		if($checksalesdetail){
@@ -97,6 +100,54 @@ class CartAJAX extends Controller
 			}
 		}	
 		return $msg;
+	}
+
+	public function createHeader(Request $request){
+		$selected = $request->all();
+		if ($selected == null) return null;
+		$customerID = session()->get('userid');
+
+		$header = new Salesheader();
+		$header->customerID = $customerID;
+		$header->tempo = Carbon::now();
+		$header->estdate = Carbon::now();
+
+		$customer = Customer::where('id', $customerID)
+				->with('company')
+				->first();
+		//kalo customernya ga ketemu = hack
+		if($customer!=null){
+			if($customer['company']['id']!=null){
+				$header->companyname = $customer['company']['name'];
+			}else{
+				$header->companyname = '';
+			}
+			$result = $header->save();
+
+			if($result){
+				$headerID = Salesheader::latest()
+					->limit(1)
+					->select('id')
+					->get()[0]['id'];
+				for($i=0;$i<count($selected);$i++)
+				{
+					$detail = new Salesdetail();
+					$detail->salesID = $headerID;
+					$detail->cartID = $selected[$i]['id'];
+					$detail->prioritylevel = 2;
+					$detail->statusfile = 1;
+					$detail->statusctp = 0;
+					$detail->statusprint = 0;
+					$detail->statuspacking = 0;
+					$detail->statusdelivery = 0;
+					$detail->statusdone = 0;
+					$detail->save();
+				}
+				return $headerID;
+			}
+		}
+
+		return null;		
 	}
 
 }

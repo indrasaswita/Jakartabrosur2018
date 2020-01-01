@@ -79,20 +79,20 @@ class AdmAllSalesAPI extends Controller
 
 	public function apiGetVerif(){
 		$verifs = Salesheader::join('customers', 'customers.id', '=', 'customerID')
-							->leftjoin('salespayments', 'salesheaders.id', '=', 'salespayments.salesID')
-							->leftjoin('salespaymentverifs', 'paymentID', '=', 'salespayments.id')
-							->leftjoin('customerbankaccs as cua', 'customeraccID', '=', 'cua.id')
-							->leftjoin('companybankaccs as coa', 'companyaccID', '=', 'coa.id')
-							->join('salesdetails', 'salesheaders.id', '=', 'salesdetails.salesID')
-							->join('cartdetails', 'cartdetails.id', '=', 'cartdetailID')
-							->leftjoin('banks as cub', 'cub.id', '=', 'cua.bankID')
-							->leftjoin('banks as cob', 'cob.id', '=', 'coa.bankID')
-							//->where(DB::raw('DATEDIFF(now(), salesheaders.created_at)'), '<', 2) //BELOM EXPIRED
-							->where('salespayments.id', '<>', NULL) //SUDAH BAYAR
-							->where('salespaymentverifs.id', '=', NULL) //BELOM DI VERIF
-							->select('salesheaders.id as salesID', 'customers.name as customername', 'cua.accno as cuano', 'cua.acclocation as cualocation', 'cub.bankname as cubankname', 'cua.accname as cuaname', 'coa.accno as coano', 'coa.acclocation as coalocation', 'coa.accname as coaname', 'cob.bankname as cobankname', DB::raw('SUM(totalprice) as totalprice'), 'ammount', 'salesheaders.created_at as salesTime')
-							->groupBy('salesheaders.id', 'customers.name', 'ammount')
-							->get();
+			->leftjoin('salespayments', 'salesheaders.id', '=', 'salespayments.salesID')
+			->leftjoin('salespaymentverifs', 'paymentID', '=', 'salespayments.id')
+			->leftjoin('customerbankaccs as cua', 'customeraccID', '=', 'cua.id')
+			->leftjoin('companybankaccs as coa', 'companyaccID', '=', 'coa.id')
+			->join('salesdetails', 'salesheaders.id', '=', 'salesdetails.salesID')
+			->join('cartdetails', 'cartdetails.id', '=', 'cartdetailID')
+			->leftjoin('banks as cub', 'cub.id', '=', 'cua.bankID')
+			->leftjoin('banks as cob', 'cob.id', '=', 'coa.bankID')
+			//->where(DB::raw('DATEDIFF(now(), salesheaders.created_at)'), '<', 2) //BELOM EXPIRED
+			->where('salespayments.id', '<>', NULL) //SUDAH BAYAR
+			->where('salespaymentverifs.id', '=', NULL) //BELOM DI VERIF
+			->select('salesheaders.id as salesID', 'customers.name as customername', 'cua.accno as cuano', 'cua.acclocation as cualocation', 'cub.bankname as cubankname', 'cua.accname as cuaname', 'coa.accno as coano', 'coa.acclocation as coalocation', 'coa.accname as coaname', 'cob.bankname as cobankname', DB::raw('SUM(totalprice) as totalprice'), 'ammount', 'salesheaders.created_at as salesTime')
+			->groupBy('salesheaders.id', 'customers.name', 'ammount')
+			->get();
 		return $verifs;
 	}
 }

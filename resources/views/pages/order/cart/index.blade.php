@@ -40,6 +40,16 @@
 	@if($carts != null)
 		@if(count($carts) != 0)
 
+	<div class="tips">
+		<i class="fas fa-arrow-alt-down fa-3x tx-yellow ease"></i>
+		<div class="info">
+			Anda harus memilih dahulu pesanan Anda.
+			<button class="close" ng-click="hidetips()">
+				<i class="fas fa-times fa-fw"></i>
+			</button>
+		</div>
+	</div>
+
 	<div class="order-cart-wrapper">
 		<div class="cart-title">
 			Review Order
@@ -74,7 +84,7 @@
 				<a href="" ng-click="showingdetail(item, $index)">
 					<div class="header">
 						<div class="image">
-							<img ng-src="{{URL::asset('image/jobsubtypeicons')}}/[[item.jobsubtype.icon]]" width="100%">
+							<img src="{{URL::asset('image/jobsubtypeicons')}}/[[item.jobsubtype.icon]]" alt="" width="100%">
 						</div>
 						<div class="title">
 							[[item.jobsubtype.name]] 
@@ -178,7 +188,7 @@
 						<div class="empty" ng-if="item.cartfile.length==0">
 							<a href="" ng-click="addnewfile()">
 								<div class="a-wrapper">
-									<i class="fad fa-folder-open fa-3x fa-fw"></i>
+									<i class="far fa-folder-tree fa-3x fa-fw"></i>
 									<br>
 									<div class="tx-header">
 										No File
@@ -204,20 +214,12 @@
 									[[cfile.file.filename]]&nbsp;
 									<div class="tag tag-primary tag-sm" ng-if="cfile.file.revision>1">
 										REVISED
-									</div>
+									</div><br>
+									[[cfile.file.created_at|date:'dd MMMM yyyy [HH:mm]']]
 								</div>
 								<div class="size">
-									<small ng-if="cfile.file.size<=1024">
-										very<br>small
-									</small>
-									<span ng-if="cfile.file.size>1024 && cfile.file.size<=1024*1024/2">
-										[[(cfile.file.size/1024)|number:1]]<br><small>KB</small>
-									</span>
-									<span ng-if="cfile.file.size>1024*1024/2 && cfile.file.size<=1024*1024*1024/2">
-										[[(cfile.file.size/1024/1024)|number:1]]<br><small>MB</small>
-									</span>
-									<span ng-if="cfile.file.size>1024*1024*1024/2 && cfile.file.size<=1024*1024*1024*1024/2">
-										[[(cfile.file.size/1024/1024/1024)|number:1]]<br><small>GB</small>
+									<span>
+										[[size_minimize(cfile.file.size)]]
 									</span>
 								</div>
 							</div>
