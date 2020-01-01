@@ -22,21 +22,19 @@ class RedirectIfVerified
 		$url_trimmed = substr($url_full, $position+7);
 		$url_start = substr($url_full, 0, $position+7);
 //dd($url_start."login?url=".$url_trimmed);
-		
 		if (session()->has('role')){
 			if (session()->get('role') == "customer"){
 
-				$email = session()->get('email');
+				$userid = session()->get('userid');
 
-				if($email==null)
+				if($userid==null)
 					return redirect()->route('pages.account.login');
 				else{
 
-					$customer = Customer::where('email', $email)
-							->first();
+					$customer = Customer::find($userid);
 
 					if($customer != null){
-						if($customer['verify_token']==null){
+						if($customer['verified']==1){
 							return $next($request);
 						}else{
 							return redirect()->route('pages.verification');

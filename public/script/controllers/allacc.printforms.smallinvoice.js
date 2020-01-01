@@ -46,7 +46,6 @@ module.exports = function(app){
 
 				prebarcode += $scope.zeroFill($scope.sales.created_at.getDate(), 2)+'/'+$scope.zeroFill($scope.sales.created_at.getMonth(), 2)+'/'+$scope.sales.created_at.getFullYear()+' '+$scope.sales.customer.name+' '+$scope.sales.customer.phone1+'<br><br>';
 
-
 				var afterbarcode = "<div class='barcode-label'>";
 				var barcode = "";
 				if($scope.sales.totalpay >= $scope.sales.totalsales){

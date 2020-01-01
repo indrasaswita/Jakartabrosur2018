@@ -88,41 +88,48 @@
 		@foreach($details as $detail)
 		<table class="width-100 text-left size-14 v-top">
 			<tr>
-				<th colspan="4" style="border-top: 1px solid #999;">
-					{{$detail['jobtitle']}}
-				</th>
+				<td colspan="2" style="border-top: 2px solid #cc9;">
+					{{$detail['cartheader']['jobtitle']}}
+				</td>
+				<td colspan="2" style="border-top: 2px solid #cc9;">
+					{{number_format($detail['cartheader']['quantity'], 0, '.', ',')}} {{$detail['cartheader']['quantitytypename']}}
+				</td>
+			</tr>
+		@foreach($detail['cartheader']['cartdetail'] as $detail2)
+			<tr>
+				<td>
+					Cetak {{$detail2['side2']>0?"2":"1"}} sisi ({{$detail2['side1']}}/{{$detail2['side2']}})
+				</td>
+				<td>
+					Plano: {{number_format($detail2['plano']['width'], 0, '.', ',')}} x {{number_format($detail2['plano']['length'], 0, '.', ',')}} cm
+				</td>
+				<td>
+					Kertas: {{number_format($detail2['printwidth'], 1, '.', ',')}} x {{number_format($detail2['printlength'], 1, '.', ',')}} cm
+				</td>
+				<td>
+					Gambar: {{$detail2['imagewidth']}} x {{$detail2['imagelength']}} cm
+				</td>
 			</tr>
 			<tr>
 				<td>
-					{{number_format($detail['quantity'], 0, '.', ',')}} {{$detail['quantitytypename']}}
+					Total {{number_format($detail2['totaldruct'], 0, '.', ',')}} druct
 				</td>
 				<td>
-					Cetak {{$detail['sideprint']}} sisi
-				</td>
-				<td>
-					{{$detail['printwidth']}} x {{$detail['printlength']}} cm
-				</td>
-				<td>
-					-> {{$detail['imagewidth']}} x {{$detail['imagelength']}} cm
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Total {{number_format($detail['totaldruct'], 0, '.', ',')}} druct
-				</td>
-				<td>
-					{{number_format($detail['totaldruct']-$detail['inschiet'], 0, '.', ',')}} + {{number_format($detail['inschiet'], 0, '.', ',')}} lembar
+					{{number_format($detail2['totaldruct']-$detail2['inschiet'], 0, '.', ',')}} druct +ins. {{number_format($detail2['inschiet'], 0, '.', ',')}}
 				</td>
 				<td colspan="2">
-					{{$detail['totalinprintx']}} x {{$detail['totalinprinty']}} + {{$detail['totalinprintrest']}} = {{$detail['totalinprint']}} dalam 1 druct
+					{{$detail2['totalinprintx']}} x {{$detail2['totalinprinty']}}{{$detail2['totalinprintrest']==0?"":" + ".$detail2['totalinprintrest']}} = {{$detail2['totalinprint']}} dalam 1 druct
 				</td>
 			</tr>
+		@endforeach
 			<tr>
 				<td colspan="2">
-					<b>Customer:</b> {{$detail['customername']}}
+					<b>Customer:</b> 
+					{{$detail['salesheader']['customer']['name']}}
+					{{$detail['salesheader']['customer']['companyID']!=1?"[".$detail['salesheader']['customer']['company']['name']."]":""}}
 				</td>
 				<td colspan="2" class="text-xs-right">
-					<b>Tgl. Pesan:</b> {{$detail['salestime']}}
+					<b>Tgl. Pesan:</b> {{$detail['salesheader']['created_at']}}
 				</td>
 			</tr>
 			@if($detail['customernote']!='')
@@ -135,7 +142,7 @@
 			@if($detail['employeenote']!='')
 				<tr>
 					<td colspan="4">
-						<b>Pesan dr Rucil:</b> {{$detail['employeenote']}}
+						<b>Pesan dr Kasir:</b> {{$detail['employeenote']}}
 					</td>
 				</tr>
 			@endif
@@ -156,7 +163,6 @@
 	@else
 	<div class="text-xs-center size-16 margin-80-0">
 		File tidak diketemukan. -ERROR-
-		}
 	</div>
 	@endif
 </body>

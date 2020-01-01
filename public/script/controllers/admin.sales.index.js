@@ -478,13 +478,27 @@ module.exports = function(app){
 					//all accs will be stored at $scope.customerbankaccs (var)
 					//kalo kosong, bisa tambahin di modal langsung
 
-					//d sm job here
-					$selectedindex = $index;
-					$scope.selectedheader = $scope.clone($header);
-					$scope.selectedammount = 10000;
-					$('#manualPaymentModal').modal('show');
-					$dt = new Date();
-					$scope.selectedpaydate = $scope.makeDate($dt.getDateOnly());
+					$scope.getbanks(function(data){
+						//whendone
+						$scope.banks = data;
+						$.each($scope.banks, function($i, $ii){
+							if($ii.alias == "BCA"){
+								$scope.selectedbank = $ii;
+							}
+						});
+
+						//d sm job here
+						$selectedindex = $index;
+						$scope.selectedheader = $scope.clone($header);
+						$scope.selectedammount = 10000;
+						$('#manualPaymentModal').modal('show');
+						$dt = new Date();
+						$scope.selectedpaydate = $scope.makeDate($dt.getDateOnly());
+					}, function(){
+						//error
+						console.log("Gagal ambil data banks");
+					});
+
 				}
 			}
 
@@ -532,55 +546,6 @@ module.exports = function(app){
 								{
 									$dt = new Date();
 									$scope.selectedverif.veriftime = $dt.getDateOnly();
-								}
-							}
-					},function(error){});
-				}
-			}
-
-			$scope.submitManualPayment = function(){
-				if($scope.selectedammount == null)
-				{
-					console.log('tidak boleh 0');
-				}
-				else if($scope.selectedammount < 10000)
-				{
-					console.log('tidak boleh 0');
-				}
-				else if($scope.selectedheader.id==null){
-					console.log("salesID is null");
-				}else
-				{
-					$http({
-						"method" 	: "POST",
-						"url" 		: AJAX_URL+"admin/payment/"+$scope.selectedheader.id,
-						"data"		: {
-							"ammount" : $scope.selectedammount,
-							"custacc"	: $scope.selectedcustacc.id,
-							"paydate"	: $scope.selectedpaydate.getDateOnly(),
-							'compacc' : $scope.selectedcompacc.id
-						}
-					}).then(function(response){
-						if(response.data != null)
-							if(typeof response.data === 'string')
-							{
-								if (response.data == "success")
-								{
-									$dt = new Date();
-									
-									$arr = {
-										'paydate' : $scope.selectedpaydate.getDateOnly(),
-										'veriftime' : $dt.getDateOnly(),
-										'ammount' : $scope.selectedammount
-									}
-
-									$scope.headers[$selectedindex].payments.push($arr);
-									$totalpayment = 0;
-									$.each($scope.headers[$selectedindex].payments, function($index, $item){
-										$totalpayment += $item.ammount;
-									});
-									$scope.headers[$selectedindex].totalpayment = $totalpayment;
-									$scope.selectedheader = $scope.clone($scope.headers[$selectedindex]);
 								}
 							}
 					},function(error){});
@@ -774,7 +739,7 @@ module.exports = function(app){
 					}
 				).then(function(response) {
 					if(response.data != null)
-						if(response.data.constructor === Array){
+						if(Array.isArray(response.data)){
 							$scope.customerbankaccs = response.data;
 
 							if($scope.customerbankaccs.length>0)
@@ -920,7 +885,7 @@ module.exports = function(app){
 				}).then(function(response) {
 					if(response.data!=null)
 					{
-						if(response.data.constructor === Array)
+						if(Array.isArray(response.data))
 						{
 							$scope.selectedsalesdetail.cartheader.cartpreview = response.data;
 						}

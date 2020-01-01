@@ -95,7 +95,7 @@
 		<div class="form-group margin-0 padding-0">
 			<div class="custom-control custom-checkbox">
 				<input type='checkbox' class="form-check-input" ng-change="setNews(customerData.newsvalue)" ng-model="customerData.newsvalue"> 
-				<span>Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="tag tag-danger text-regular">not yet</div></span>
+				<span>Dengan ini Anda ingin menerima berita baru & promosi mengenai website kami. <div class="badge badge-danger text-regular">not yet</div></span>
 			</div>
 		</div>
 		<div class="login-redirector">

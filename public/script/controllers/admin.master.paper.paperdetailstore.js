@@ -229,7 +229,7 @@ module.exports = function(app){
 					}).then(function(response){
 						if(response!=null){
 							if(response.data != null){
-								if(response.data.constructor === Array){
+								if(Array.isArray(response.data)){
 									$window.location.reload();
 								}else{
 									alert('failed');

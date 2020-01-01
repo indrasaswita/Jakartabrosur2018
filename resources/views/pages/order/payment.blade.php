@@ -64,7 +64,7 @@
                     <tbody>
                         <tr ng-repeat="item in allsales.details">
                             <td class="text-xs-center">[[$index+1]].</td>
-                            <td class="width-50">[[item.jobtitle]] <div class="tag tag-purple text-regular">[[item.jobtype]]</div></td>
+                            <td class="width-50">[[item.jobtitle]] <div class="badge badge-purple text-regular">[[item.jobtype]]</div></td>
                             <td class="text-center width-30">[[item.quantity|number:0]] [[item.quantitytypename]] [uk. [[item.imagesize]]]</td>
                             <td class="text-right">[[item.totalprice|number:0]]</td>
                         </tr>

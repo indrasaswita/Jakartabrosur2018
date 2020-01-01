@@ -2,9 +2,12 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content bg-purple">
 			<div class="modal-header">
-				<h6 class="modal-title" id="myModalLabel">
+				<h4 class="modal-title" id="myModalLabel">
 					Verifikasi Bayar #[[zeroFill(selectedverif.salesID, 5)]]
-				</h6>
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<div class="paymentverif-wrapper">

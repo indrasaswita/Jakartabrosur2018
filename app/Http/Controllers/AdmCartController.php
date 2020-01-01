@@ -29,18 +29,39 @@ class AdmCartController extends Controller
 				->orderBy('id', 'desc')
 				->get();
 
-		$jobsubtypes = Jobsubtype::select('id', 'name', 'subname', 'satuan')
+		$jobsubtypes = Jobsubtype::with('jobtype')
 				->get();
 
 		$printers = Printingmachine::all();
 
-		$papers = Paper::select('id', 'name', 'color', 'gramature')
+		$papers = Paper::with('paperdetail')
 				->get();				
 
 		$deliveries = Delivery::select('id', 'deliverytype', 'deliveryname', 'baseprice', 'price', 'priceper', 'locked')
 				->get();
 
 				
-		return view("pages.admin.cartdetails.index", compact("carts", 'jobsubtypes', 'printers', 'papers', 'deliveries'));
+		return view("pages.admin.cart.index", compact("carts", 'jobsubtypes', 'printers', 'papers', 'deliveries'));
+	}
+
+	public function joincart(){
+		$carts = $this->getdatajoincart();
+
+		return view('pages.admin.cart.joincart', compact('carts'));
+	}
+
+	public function getdatajoincart(){
+		$carts = Cartheader::with('customer')
+				->with('jobsubtype')
+				->with('cartfile')
+				->with('cartdetail')
+				->with('delivery')
+				->whereNotIn('id', function($query){
+					$query->select('cartID')->from('salesdetails');
+				})
+				->orderBy('customerID', 'asc')
+				->get();
+
+		return $carts;
 	}
 }

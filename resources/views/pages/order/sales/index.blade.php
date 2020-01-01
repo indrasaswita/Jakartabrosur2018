@@ -466,17 +466,17 @@
 														[[item2.cartheader.quantitytypename]]
 													</td>
 													<td class="width-min">
-														<span ng-show="item2.totalkirim==0" class="tag tag-danger">
+														<span ng-show="item2.totalkirim==0" class="badge badge-danger">
 															BELOM DIKIRIM
 														</span>
-														<span ng-show="item2.cartheader.quantity==item2.totalkirim" class="tag tag-success">
+														<span ng-show="item2.cartheader.quantity==item2.totalkirim" class="badge badge-success">
 															<i class="fas fa-check"></i>
 															LENGKAP
 														</span>
 														<span ng-show="item2.totalkirim>0 && item2.cartheader.quantity>item2.totalkirim" class="tag tag-primary">
 															PARSIAL
 														</span>
-														<span ng-show="item2.totalkirim>item2.cartheader.quantity" class="tag tag-purple">
+														<span ng-show="item2.totalkirim>item2.cartheader.quantity" class="badge badge-purple">
 															ERROR
 														</span>
 													</td>
@@ -543,7 +543,7 @@
 											<div class="norek-wrapper">
 												<a href="" class="norek-list" ng-repeat="item in compaccs" ng-class="{'selected':konfirmasi.compacc.bankID==item.bankID}" ng-click="selectbanktrf(item)">
 													<div class="image">
-														<img ng-src="{{URL::asset('image')}}/[[item.bank.alias]].png">
+														<img ng-src="{{URL::asset('image')}}/[[item.bank.logo]].png">
 													</div>
 													Bank
 													[[item.bank.alias]]
@@ -724,12 +724,12 @@
 													<tr class="" ng-repeat="payment in item.salespayment">
 														<td class="text-xs-left">
 															Trf. [[payment.paydate]] &nbsp;
-															<span class="tag tag-danger signika size-80p" ng-show="payment.salespaymentverif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="hubungi <b>0813-1551-9889</b>,<br>untuk mempercepat proses">
+															<span class="badge badge-danger signika size-80p" ng-show="payment.salespaymentverif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="hubungi <b>0813-1551-9889</b>,<br>untuk mempercepat proses">
 																&nbsp;
 																<i class="fas fa-hourglass-half fa-spin"></i> &nbsp;&nbsp;
 																MENUNGGU VERIFIKASI
 															</span>
-															<span class="tag tag-success signika size-80p" ng-show="payment.salespaymentverif.veriftime!=null">
+															<span class="badge badge-success signika size-80p" ng-show="payment.salespaymentverif.veriftime!=null">
 																<i class="fas fa-check"></i>
 																[[payment.salespaymentverif.veriftime]]
 															</span>

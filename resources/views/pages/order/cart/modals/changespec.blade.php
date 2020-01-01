@@ -1,12 +1,12 @@
 <div class="modal fade" id="changeSpecModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
-				</button>
+			<div class="modal-header">
 				<h4 class="modal-title" id="myModalLabel">Ganti Spesifikasi Cetak</h4>
-		  </div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 			<div class="modal-body">
 				<div class="row margin-0">
 					<div class="col-xs-12">
@@ -85,5 +85,5 @@
 				<button type="button" class="btn btn-purple" ng-click="updateSpec()">Update <span class="text-regular">(on progress)</span></button>
 			</div>
 		</div>
-  </div>
+	</div>
 </div>

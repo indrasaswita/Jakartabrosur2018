@@ -14,14 +14,8 @@ class GantiDataAddressIDDicustomer extends Migration
 	public function up()
 	{
 		DB::unprepared('
-			ALTER TABLE customers
-				DROP COLUMN cityID;
-			ALTER TABLE customers
-				DROP COLUMN address;
 			ALTER TABLE companies
-				DROP COLUMN cityID;
-			ALTER TABLE customers
-				DROP COLUMN postcode;		
+				DROP COLUMN cityID;	
 			ALTER TABLE companies 
 				DROP  COLUMN address;
 			ALTER TABLE addresses

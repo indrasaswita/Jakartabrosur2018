@@ -19,33 +19,22 @@
 	@endif
 @endif
 
-	<div class="">
-		<div class="bebas size-200p tx-lightgray text-xs-center">
+	<div class="allacc-notification">
+		<div class="page-title">
+			<i class="fas fa-bells fa-fw"></i>
 			NOTIFICATION
 		</div>
-		<table class="table table-sm table-custom-allsales">
-			<thead hidden>
-				<tr>
-					<th>#</th>
-					<th>Notification</th>
-					<th class="width-min">
-						<i class="far fa-eye tx-lightgray"></i>
-					</th>
-					<th class="width-min">
-						<i class="fas fa-cogs tx-gray"></i>
-					</th>
-				</tr>
-			</thead>
+		<table class="table table-sm">
 			<tbody>
-				<tr ng-repeat="item in notifications" class="content-header" ng-class="{'selected':!item.viewed&&item.ownerID!=null}" ng-click="view(item)">
+				<tr ng-repeat="item in notifications" class="content-header" ng-class="{'selected':!item.viewed&&item.ownerID!=null, 'broadcast':item.ownerID==null}" ng-click="view(item)">
 					<td class="number">
 						<i class="fa-2x [[item.icon]] fa-fw"></i>
 					</td>
-					<td class="line-12">
-						<b>[[item.title.toTitleCase()]]</b>
-						<small ng-if="item.ownerID==null" class="google uppercase tx-purple"><b><i>BROADCAST</i></b></small>
-						<div ng-bind-html="item.content"></div>
-						<span class="tx-lightgray">
+					<td class="content">
+						<b class="header">[[item.title.toTitleCase()]]</b>
+						<small ng-if="item.ownerID==null" class="tag"><b><i>BROADCAST</i></b></small>
+						<div class="detail" ng-bind-html="item.content"></div>
+						<span class="detail">
 							[[item.bedawaktu]]
 						</span>
 					</td>
@@ -54,7 +43,7 @@
 							<i class="fas fa-eye fa-fw tx-lightgray"></i>
 						</span>
 						<span data-html="true" data-placement="left" data-toggle="tooltip" data-title="<i class='size-80p text-bold tx-purple'>BROADCAST</i><br>Can be view by <span class='tx-gray text-bold'>all {{Session::get('role')}}</span>" ng-if="item.ownerID==null">
-							<i class="fas fa-bullhorn fa-fw tx-purple"></i>
+							<i class="fas fa-bells fa-fw tx-purple"></i>
 						</span>
 					</td>
 					<td>

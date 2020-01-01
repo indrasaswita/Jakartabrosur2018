@@ -68,7 +68,7 @@
 		<div class="row margin-10-0">
 			<div class="col-xs-12 text-xs-center">
 				<input type='checkbox' class="form-check-input" ng-change="setNews(customerData.newsvalue)" ng-model="customer.news">
-				<span>Dengan ini Anda ingin menerima berita baru lewat email. <div class="tag tag-danger text-regular">not yet</div></span>
+				<span>Dengan ini Anda ingin menerima berita baru lewat email. <div class="badge badge-danger text-regular">not yet</div></span>
 			</div>
 		</div>
 		<div class="row margin-0">

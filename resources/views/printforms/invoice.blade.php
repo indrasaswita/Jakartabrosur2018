@@ -10,6 +10,8 @@
 		.size-12{font-size:12px}
 		.size-14{font-size:14px}
 		.size-16{font-size:16px}
+		.size-90p{font-size:90%}
+		.size-80p{font-size:80%}
 		.text-xs-left{text-align:left}
 		.text-xs-right{text-align:right}
 		.text-xs-center{text-align:center}
@@ -33,13 +35,16 @@
 		.dhead{background-color: #ccc;}
 		.dhead th{padding:10px 5px;}
 		.detail tr td{border-top:1px #777 solid;padding:5px 3px;}
+		.companydetail{height:14px;border-left:5px solid #aaa;padding:0 0 2px 5px;margin: 2px 0; font-size: 12px;font-weight: bold;}
 		.border-clear td{border:0 !important;}
 		.grandtotal td{border-bottom: 1px #777 solid;}
 		.gray{color:#777;}
-		.height-12{line-height: 0.3;}
+		.height-12{line-height: 1.2;}
+		.height-03{line-height: 0.3;}
 		@page{
 			margin-top: 1.5em;
 			margin-bottom: 1.5em;
+			font-family: 'Helvetica';
 		}
 	</style>
 </head>
@@ -51,19 +56,28 @@
 	?>
 	<table class="table width-80 size-14">
 		<tr>
-			<td><img src="image/logo-new.jpg" height="20px" class="margin-10-0"></td>
+			<td><img src="image/logo-transp/logo-print.png" height="40px" class="margin-10-0"></td>
 		</tr>
 		<tr>
-			<td>{{date_format($salesCreatedAt, 'd M Y G:i:s')}}</td>	
+			<td class="courier purple">
+				<b>{{date_format($salesCreatedAt, 'd M Y G:i:s')}}</b>
+			</td>	
 		</tr>
 		<tr>
-			<td>email  : sales@jakartabrosur.com</td>	
-		</tr>
-		<tr>
-			<td>telpon : (021) 649 1101</td>	
+			<td class="height-12">
+				<div class="companydetail">
+					<span class="courier">email &nbsp; &nbsp; </span>: sales@jakartabrosur.com
+				</div>
+				<div class="companydetail">
+					<span class="courier">hotline &nbsp; </span>: 0813 1551 9889, 0816 889 889
+				</div>
+				<div class="companydetail">
+					<span class="courier">telpon &nbsp; &nbsp;</span>: (021) 649 1101, 649 1502, 639 2676
+				</div>
+			</td>	
 		</tr>
 	</table>
-	<div class="salesno helvetica height-12">
+	<div class="salesno helvetica height-03">
 		<h5 class="text-xs-center gray italic">Kode Nota</h5>
 		<h2 class="text-xs-center margin-0 italic"><span class="gray">#</span>{{sprintf('%05d', $sales['id'])}}</h2>
 	</div>
@@ -93,14 +107,16 @@
 			</td>
 			<td class="width-33">
 				Metode : 
+				<span class="courier text-bold">
 				@if(count($sales['salespayment'])==0)
 					<span>-</span>
 				@else
 					<span>{{$sales['salespayment'][0]['type']}}</span>
 				@endif
+				</span>
 				<br>
 				Status : 
-
+				<span class="courier text-bold">
 				<?php
 					$totalbelanja = 0;
 					foreach($sales['salesdetail'] as $salesdetail){
@@ -122,7 +138,7 @@
 					$allverified = true;
 					foreach($sales['salespayment'] as $salespayment){
 						$totalbayar += $salespayment['ammount'];
-						if(isset($salespayment['salespaymentverif']))
+						if(!isset($salespayment['salespaymentverif']))
 							$allverified = false;
 					}
 				?>
@@ -142,6 +158,7 @@
 						@endif
 					@endif
 				@endif
+				</span>
 			</td>
 		</tr>
 	</table>
@@ -181,9 +198,9 @@
 
 			<td>
 				Qty: <b>{{number_format($detail['cartheader']['quantity'], 0, '.', ',')}}</b> {{$detail['cartheader']['quantitytypename']}}
-				<br>Material: <b>{{$detail['cartheader']['cartdetail'][0]['paper']['papername']}} {{$detail['cartheader']['cartdetail'][0]['paper']['gramature']}}</b>gsm
+				<br>Material: <b>{{$detail['cartheader']['cartdetail'][0]['paper']['name']}} {{$detail['cartheader']['cartdetail'][0]['paper']['gramature']}}</b>gsm
 				<br>Cetak: <b>{{$detail['cartheader']['cartdetail'][0]['side2']==0?"1":"2"}}</b> sisi
-				<br>Ukuran: <b>{{$detail['cartheader']['cartdetail'][0]['imagewidth']}} x {{$detail['cartheader']['cartdetail'][0]['imagelength']}}</b> cm
+				<br>Ukuran: <b>{{number_format($detail['cartheader']['cartdetail'][0]['imagewidth'], 1, '.', ',')}} x {{number_format($detail['cartheader']['cartdetail'][0]['imagelength'], 1, '.', ',')}}</b> cm
 				<br>
 				<br>Berat: &plusmn;<b>{{$detail['cartheader']['totalweight']}}</b> kg
 				<br>Slesai Cetak: <b>{{$detail['cartheader']['afterprint']}}</b>
@@ -327,7 +344,7 @@
 	<div class="size-12 helvetica">Surat Invoice ini dicetak secara otomatis, sehingga tidak membutuhkan tanda tangan.</div>
 	<div class="clear"></div>
 	<hr>
-	<div class="size-10 helvetica text-xs-right">tgl. cetak : {{date('d M Y')}}</div>
+	<div class="size-10 helvetica text-xs-right">tgl. cetak : <span class="courier text-bold">{{date('d M Y')}}</span></div>
 	<div class="size-10 helvetica text-xs-right">di cetak dalam uk. kertas A4</div>
 	@else
 	<div class="text-xs-center size-16 margin-80-0">

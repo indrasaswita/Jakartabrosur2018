@@ -598,7 +598,10 @@ class Job
 
 					$this->textcombination .= $value[6]."<b>".$planowidth."x$planolength belah ".$paper['totalinplano']."(".$paper['totalinplanox']."x".$paper['totalinplanoy']."+".$paper['totalinplanorest'].") belah ".$paper['totalinprint']."(".$paper['totalinprintx']."x".$paper['totalinprinty'].")"."</b> -> k".$hargakertas." + c".$hargacetak." = ".($hargacetak + $hargakertas)."<br>";
 				}else if($printtype == 'DG'){
-					$machineID = 5; // Konica A3
+					//$machineID = 5; // Konica A3
+					$machineID = $data['printer']['id'];
+
+
 					$paper['totaldruct'] = $qty/$paper['totalinprint'] * $sdp;
 					$hargacetak = $this->hargaCetakDG($paper, $machineID, MathHelper::ceil($paper['totaldruct'], 1), $texttoread);
 
@@ -943,6 +946,8 @@ class Job
 		$hperrim = $this->hargaPerRim($paper, $paperID, $planoID);
 		$totalbersih = $qty / $totalinprint;
 		$totaldruct = intval(MathHelper::ceil($totalbersih + $inschiet, 1));
+		if($totalinplano==0)
+			$totalinplano = 1;
 		$totalplano = intval(MathHelper::ceil($totaldruct / $totalinplano, 1));
 		$totalrim = floatval(($totalplano) / 500);
 		$hargakertas = intval(MathHelper::ceil($totalrim * $hperrim, 1));

@@ -2,7 +2,7 @@
 @section('title', 'Sales & Payment | Admin')
 @section('content')
 
-<div class="" ng-controller="AdminSalesController">
+<div class="admin-sales-index-wrapper" ng-controller="AdminSalesController">
 
 	<?php
 		$headers_2 = str_replace(array('\r', '\"', '\n', '\''), '?', $headers);
@@ -14,13 +14,13 @@
 	@endif
 
 
-	<div class="">
+	<div class="admin-sales-index">
 		<input id="uploadpreview" type="file" hidden>
 		
 		<div class="size-16 margin-10-0">
 			<small class="fas fa-shopping-bag tx-lightgray"></small> Proses kerja & Alur penjualan
 			<small class="fas fa-angle-right tx-lightmagenta"></small>
-			<span class="fas fa-universal-access tx-lightgray"></span> Hak Admin
+			<span class="fas fa-user-robot tx-lightgray"></span> Hak Admin
 		</div>
 
 		
@@ -29,8 +29,10 @@
 				<tr>
 					<th class="width-min">#Inv.</th>
 					<th>Customer</th>
-					<th class="hidden-sm-down">Create</th>
-					<th class="hidden-md-down">Update</th>
+					<th class="hidden-sm-down">
+						Create<br>
+						Update
+					</th>
 					<th class="hidden-xs-down">Preview</th>
 					<th><span class="fas fa-cog"></span> Action</th>
 				</tr>
@@ -45,10 +47,8 @@
 						[[item.customer.name]]
 						<span class="fas fa-info-circle tx-gray"  data-toggle="tooltip" data-placement="right" data-title="e: <b>[[item.customer.email]]</b><br>p: <b>[[item.customer.phone1]]</b> <b ng-show='item.customer.phone2.length>0'> - [[item.customer.phone2]]</b> " data-html="true"></span>
 					</td>
-					<td class="hidden-sm-down text-xs-center">
-						[[item.created_at|date:'d MMM H:m']]
-					</td>
-					<td class="hidden-md-down text-xs-center">
+					<td class="hidden-sm-down text-xs-center line-1">
+						[[item.created_at|date:'d MMM H:m']]<br>
 						[[item.updated_at|date:'d MMM H:m']]
 					</td>
 					<td class="hidden-xs-down text-xs-left">
@@ -68,7 +68,7 @@
 								<span class="far fa-credit-card"></span>
 							</button>
 							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="showdetail(item)">
-								<span class="fas fa-list-ol"></span>
+								<span class="fas fa-th"></span>
 							</button>
 							<button class="btn btn-sm" ng-class="{'selected':item.showtracking}" data-toggle="tooltip" data-title="Lihat Progress Kerjaan" data-placement="top" data-html="true" ng-click="showtracking(item)">
 								<span class="fas fa-tasks"></span>
@@ -151,19 +151,19 @@
 															<i class="fas fa-calculator tx-purple"></i> [[item2.cartheader.quantity|number:0]]<i class="tx-lightmagenta"> <span class="tx-lightgray">[[item2.cartheader.quantitytypename]]</span>
 														</td>
 														<td>
-															<i class="fas fa-weight tx-purple"></i> [[item2.cartheader.totalweight|number:0]] kg
+															<i class="fas fa-dumbbell tx-purple"></i> [[item2.cartheader.totalweight|number:0]] kg
 														</td>
 														<td class="tx-danger">
 															<i class="tx-lightgray">disc</i> <b>[[item2.cartheader.discount|number:0]]</b>
 														</td>
 														<td class="text-xs-right tx-purple">
-															<i class="tx-success fas fa-coins"></i> <b>[[(item2.cartheader.printprice-item2.cartheader.discount+item2.cartheader.deliveryprice)|number:0]]</b>
+															<i class="tx-success fas fa-tags"></i> <b>[[(item2.cartheader.printprice-item2.cartheader.discount+item2.cartheader.deliveryprice)|number:0]]</b>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="3" class="text-xs-left">
 															<span class="tx-purple margin-right-10" data-title="catatan pelanggan">
-																<i class="fas fa-sticky-note"></i> 
+																<i class="fas fa-quote-left"></i> 
 																<i class="size-80p">catatan</i>
 															</span>
 															[[item2.cartheader.customernote]]
@@ -469,10 +469,10 @@
 											[[item2.cartheader.quantity|number:0]] (<span ng-class="{'tx-success':item2.cartheader.quantity==item2.totalkirim, 'tx-red':item2.cartheader.quantity!=item2.totalkirim}" data-toggle="tooltip" data-title="Terkirim">[[item2.totalkirim|number:0]]</span>) [[item2.cartheader.quantitytypename]]
 										</td>
 										<td class="width-min">
-											<span ng-show="item2.totalkirim==0" class="tag tag-danger">
+											<span ng-show="item2.totalkirim==0" class="badge badge-danger">
 												BELOM DIKIRIM
 											</span>
-											<span ng-show="item2.cartheader.quantity==item2.totalkirim" class="tag tag-success">
+											<span ng-show="item2.cartheader.quantity==item2.totalkirim" class="badge badge-success">
 												<i class="fas fa-check"></i>
 												LENGKAP
 											</span>
@@ -508,7 +508,7 @@
 										<td class="width-min">#[[zeroFill(delivery.id, 5)]] </td>
 										<td class="text-xs-left">
 											<strong>[[deliverydetail.salesdetail.cartheader.jobtitle]]</strong>
-											<span class="tag tag-purple text-regular">[[deliverydetail.salesdetail.cartheader.jobsubtype.name]]</span>
+											<span class="badge badge-purple text-regular">[[deliverydetail.salesdetail.cartheader.jobsubtype.name]]</span>
 										</td>
 										<td>
 											[[deliverydetail.actualprice|number:0]]
@@ -523,9 +523,15 @@
 											[[deliverydetail.totalpackage|number:0]] koli
 										</td>
 										<td class="hidden-xs-down tx-lightgray">
-											<i class="fas fa-truck fa-flip-horizontal" ng-class="{'tx-lightmagenta':(tick+$index)%3==0&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}"></i>
-											<i class="fas fa-truck fa-flip-horizontal" ng-class="{'tx-lightmagenta':(tick+$index)%3==1&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}"></i>
-											<i class="fas fa-truck fa-flip-horizontal" ng-class="{'tx-lightmagenta':(tick+$index)%3==2&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}"></i>
+											<span ng-class="{'opacity-05':(tick+$index*2)%6==0&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}">
+												<i class="fas fa-truck"></i>
+											</span>
+											<span ng-class="{'opacity-05':(tick+$index*2)%6==1&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}">
+												<i class="fas fa-truck"></i>
+											</span>
+											<span ng-class="{'opacity-05':(tick+$index*2)%6==2&&deliverydetail.status==1, 'tx-success':deliverydetail.status==2}">
+												<i class="fas fa-truck"></i>
+											</span>
 										</td>
 										<td class="width-min">
 											<a class="a-purple" href="" data-toggle="tooltip" data-placement="left" data-title="<b>Ubah</b> Surat Jalan<br><b>#[[zeroFill(delivery.id,5)]]</b>" data-html="true" ng-click="showUpdateDelivery(delivery)">
@@ -583,7 +589,7 @@
 										<td class="width-min">[[$index+1]]. </td>
 										<td class="text-xs-left">
 											<strong>[[item2.cartheader.jobtitle]]</strong>
-											<span class="tag tag-purple text-regular">[[item2.cartheader.jobtype]]</span>
+											<span class="badge badge-purple text-regular">[[item2.cartheader.jobtype]]</span>
 										</td>
 										<td class="" data-toggle="tooltip" data-title="Harga Cetak<br><br>Harga Kertas + Ongkos Cetak + Ongkos Finishing" data-placement='bottom' data-html='true'>
 											<i class="fas fa-print tx-purple"></i> [[item2.cartheader.printprice|number:0]]<br class="hidden-lg-up"><span class="hidden-md-down padding-0-10"> <i class="fas fa-plus-circle"></i> </span>
@@ -605,14 +611,14 @@
 									<tr ng-repeat='item2 in item.salespayment'>
 										<td class="text-xs-right" colspan="3">
 											Pembayaran <span ng-show="item.salespayments.length>1">[[$index+1]] </span>([[item2.paydate]])
-											<span class="tag tag-danger signika size-80p" ng-show="item2.salespaymentverif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="harap segera di-Verif,<br>klik disini!">
+											<span class="badge badge-danger signika size-80p" ng-show="item2.salespaymentverif.veriftime==null" data-toggle="tooltip" data-placement="top" data-html="true" data-title="harap segera di-Verif,<br>klik disini!">
 												&nbsp;
 												<a href="" class="a-white" ng-click="makePaymentVerif(item2)">
 													<i class="fas fa-hourglass-half fa-spin"></i> &nbsp;&nbsp;
 													PENDING
 												</a>
 											</span>
-											<span class="tag tag-success signika size-80p" ng-show="item2.salespaymentverif.veriftime!=null">
+											<span class="badge badge-success signika size-80p" ng-show="item2.salespaymentverif.veriftime!=null">
 												<i class="fas fa-check"></i> 
 												[[item2.salespaymentverif.veriftime]]
 											</span>
@@ -639,50 +645,44 @@
 								</tbody>
 							</table>
 
-
-							<div class="margin-10 text-bold" ng-class="{'tx-success':item.paymentdetail=='LUNAS', 'tx-danger':item.paymentdetail!='LUNAS'}">
-								<i class="fas fa-info tx-purple icon" data-toggle='tooltip' data-placement="top" data-title="info pembayaran" ng-show="item.paymentdetail!='LUNAS'"></i>
-								<i class="fas fa-check tx-purple icon" ng-show="item.paymentdetail=='LUNAS'"></i>
-								[[item.paymentdetail]]
-							</div>
-
-							<div class="margin-0" ng-show="item.totalprice-item.totalpayment>0">
-								<hr class="margin-0">
-								<div class="margin-5-10">
-									<div class="trf-detail width-100 margin-right-10">
-										<div class="left-side">
-											No. Invoice : <br><span class="nominal">#[[zeroFill(item.id, 5)]]</span>
-										</div>
-										<div class="right-side">
-											<span class="" ng-show="item.totalprice-item.totalpay>=0">
-												Sisa yg Belom diBayar : 
-											</span>
-											<span class="" ng-show="item.totalprice-item.totalpay<0">
-												Perlu Transfer balik : 
-											</span>
-											<br>
-											Rp 
-											<span class="nominal" ng-class="{'tx-red':item.totalprice-item.totalpay<0}">
-												[[(item.totalprice-item.totalpay)|number:0]]
-											</span>
-										</div>
-									</div>
-									
-									<div class="" data-toggle="tooltip" data-title="Otomatis, sehingga tidak perlu tanda tangan." data-placement="bottom" data-html="true">
-										Buat Pembayaran Manual (admin) 
-										<a href="" class="a-purple" ng-click="makeManualPayment(item, $index)">
-											disini
-										</a>.
-										<br>
-										Lihat Daftar Nomor Rekening <a href="" class="a-purple" data-toggle="modal" data-target="#compaccnoModal">disini</a>.<br>
-										Cetak Penawaran <a href="" class="a-purple">disini</a>.<br>
-										<a class="btn btn-sm btn-outline-primary" href="{{URL::asset('admin/payment/invoice')}}/[[item.id]]"  target="_blank">Print Invoice Pegawai</a>
-									</div>
-									<div class="divider"></div>
-									<div class="margin-0 size-80p gray">
-										Kami akan mengirim kembali segala kelebihan pembayaran, <br>paling lama 2x24 jam setelah pemberitahuan.
-									</div>
+							<div class="payment-info">
+								<div class="" ng-class="{'tx-success':item.paymentdetail=='LUNAS', 'tx-danger':item.paymentdetail!='LUNAS'}">
+									<i class="fas fa-info fa-fw tx-gray" data-toggle='tooltip' data-placement="top" data-title="info pembayaran" ng-show="item.paymentdetail!='LUNAS'"></i>
+									<i class="fas fa-check fa-fw tx-gray" ng-show="item.paymentdetail=='LUNAS'"></i>
+									<b>[[item.paymentdetail]]</b>
 								</div>
+								<div class="trf-detail">
+									<span class="" ng-show="item.totalprice-item.totalpay>=0">
+										Sisa yg Belom diBayar : 
+									</span>
+									<span class="" ng-show="item.totalprice-item.totalpay<0">
+										Perlu Transfer balik : 
+									</span>
+									<br>
+									Rp 
+									<span class="nominal" ng-class="{'tx-red':item.totalprice-item.totalpay<0}">
+										[[(item.totalprice-item.totalpay)|number:0]]
+									</span>
+								</div>
+							</div>
+								
+							<div class="" data-toggle="tooltip" data-title="Otomatis, sehingga tidak perlu tanda tangan." data-placement="bottom" data-html="true">
+								<a href="" class="btn btn-sm btn-outline-primary" ng-click="makeManualPayment(item, $index)">
+									Pembayaran + Verif
+								</a>.
+								<a href="" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#compaccnoModal">
+									List Norek
+								</a>
+								<a href="" class="btn btn-sm btn-outline-primary">
+									Cetak Penawaran
+								</a>
+								<a class="btn btn-sm btn-outline-primary" href="{{URL::asset('admin/payment/invoice')}}/[[item.id]]"  target="_blank">
+									Print Invoice Pegawai
+								</a>
+							</div>
+							<div class="divider"></div>
+							<div class="margin-0 size-80p gray">
+								Kami akan mengirim kembali segala kelebihan pembayaran, <br>paling lama 2x24 jam setelah pemberitahuan.
 							</div>
 						</div>
 					</td>
@@ -709,7 +709,7 @@
 										<td class="text-left">
 											Judul: 
 											<strong>[[item2.cartheader.jobtitle]]</strong>
-											<span class="tag tag-purple text-regular">[[item2.cartheader.jobtype]]</span>
+											<span class="badge badge-purple text-regular">[[item2.cartheader.jobtype]]</span>
 											<span class="pull-xs-right tx-gray" ng-show="item2.pip > -1" data-toggle="tooltip" data-html="true" data-placement="left" data-title="diedit [[item2.pip]] hari yg lalu">
 												<i class="fas fa-history"></i> [[item2.pip]]d
 											</span>

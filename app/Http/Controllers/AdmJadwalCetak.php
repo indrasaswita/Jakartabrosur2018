@@ -23,22 +23,32 @@ class AdmJadwalCetak extends Controller
 {
 	public function createJadwalCetakPDF()
 	{
+		$role = session()->get('role');
+		if($role == null){
+			abort('403');
+		}
+
 		//return view('test');
 		$pdf = PDF::loadHTML('dompdf.wrapper');
 		//$option = new Options();
 		//$pdf->set_option('defaultFont', 'Courier');
 		//$pdf = new PDF()
-		$details = Salesdetail::join('salesheaders', 'salesID', '=', 'salesheaders.id')
-				->join('cartdetails', 'cartdetailID', '=', 'cartdetails.id')
-				->join('customers', 'salesheaders.customerID', '=', 'customers.id')
-				->where('printername', '=', 'SM52')
-				->select('salesdetails.*', 'cartdetails.*', 'salesheaders.*', 'customers.name as customername', 'salesheaders.created_at as salestime')
+
+		$printername = "SM52";
+		$details = Salesdetail::with('salesheader')
+				->with(['cartheader' => function($query) use ($printername){
+					$query->with(['cartdetail' => function($query2) use ($printername){
+						$query2->with(['printer' => function($query3) use ($printername){
+							$query3->where('machinename', $printername);
+						}]);
+					}]);
+				}])
 				->get();
 
 		if($details == null)
-			return view('errors.forbidden');
+			return abort('403');
 		if(count($details) == 0)
-			return view('errors.forbidden');
+			return abort('403');
 
 
 		//$pdf->loadHTML($html);

@@ -342,7 +342,7 @@
 					<div class="txt">
 						X-Banner
 					</div>
-					<a href="{{URL::asset('shop/rollupbanner')}}">
+					<a href="{{URL::asset('shop/standbanner')}}">
 						<div class="highlight">
 							PROMO
 						</div>
@@ -504,7 +504,7 @@
 						</ol>
 					</div>
 					<br>
-					Sebagai supplier tetap, kami berusaha menjaga kualitas hasil cetak, dan akan selalu memperbaiki kekurangan kami setiap harinya. Hasil cetak kami, dapat langsung dilihat pada katalog dan contoh cetakan di <a href="">sini</a>. Atau bisa langsung datang ke workshop kami.
+					Sebagai supplier tetap, kami berusaha menjaga kualitas hasil cetak, dan akan selalu memperbaiki kekurangan kami setiap harinya. Hasil cetak kami, dapat langsung dilihat pada katalog dan contoh cetakan di <a target="_blank" href="https://www.instagram.com/jakartabrosur/">sini</a>. Atau bisa langsung datang ke workshop kami.
 				</div>
 				<div class="desc-item-footer">
 				</div>

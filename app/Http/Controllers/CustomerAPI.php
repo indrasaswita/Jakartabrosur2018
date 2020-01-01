@@ -59,66 +59,6 @@ class CustomerAPI extends Controller
 		}
 	}
 
-	public function apiGetName()
-	{
-		$customers = Customer::select('id', 'name', 'address')
-				->get();
-		if(count($customers)==0)
-			return null;
-		return json_encode($customers);
-	}
-
-	public function apiGetSalesByCustID($id){
-
-		$sales = Customer::with('salesheader')
-				->with('company')
-				->where('id', '=', $id)
-				->first();
-
-		if($sales == null)
-			return null;
-
-		foreach ($sales['salesheader'] as $i => $salesheader) {
-			$totalbayar = 0;
-			$totalprintprice = 0;
-			$totaldeliveryprice = 0;
-			$totaldiscount = 0;
-			$totalbuyprice = 0;
-			foreach($salesheader['salesdetail'] as $j => $salesdetail){
-				$totalprintprice += $salesdetail['cartheader']['printprice'];
-				$totaldiscount += $salesdetail['cartheader']['discount'];
-				$totaldeliveryprice += $salesdetail['cartheader']['deliveryprice'];
-				$totalbuyprice += $salesdetail['cartheader']['buyprice'];
-			}
-			foreach($salesheader['salespayment'] as $k => $salespayment){
-				//KALO UDA VERIF BARU DI ITUNG UDA BAYAR
-				if($salespayment['salespaymentverif']!=null)
-					$totalbayar += $salespayment['ammount'];
-			}
-		}
-
-		if(count($sales['salesheader'])>0)
-		{
-			$result['totalpayment'] = $totalbayar;
-			$result['totaltransaction'] = count($sales['salesheader']);
-			$result['totaldiscount'] = $totaldiscount;
-			$result['totalprintprice'] = $totalprintprice;
-			$result['totaldeliveryprice'] = $totaldeliveryprice;
-
-			$totalbelanja = $totalprintprice + $totaldeliveryprice - $totaldiscount;
-			if($totalbayar > $totalbelanja)
-				$result['totaldebt'] = 0;
-			else
-				$result['totaldebt'] = $totalbelanja - $totalbayar;
-			$result['totalsales'] = $totalbelanja;
-
-			return $result;
-		}else{
-			return null;
-		}
-
-	}
-
 	public function store(Request $request)
 	{
 		//CustomerModel::create(Request::all());
@@ -171,7 +111,7 @@ class CustomerAPI extends Controller
 		//$customer->save();
 
 		//comment dulu biar gak perlu verif
-    //updated 12 agustus 2019
+	//updated 12 agustus 2019
 		// Mail::to($customer->email)->send(new VerifyMail($customer));
 
 		// $notif = new OneSignal();
