@@ -20,6 +20,8 @@ class CreateSalesheadersTable extends Migration
 				name VARCHAR(255) NOT NULL,
 				tempo DATE NULL,
 				estdate DATE NULL,
+				totalprice BIGINT NOT NULL DEFAULT 0,
+				totalpayment BIGINT NOT NULL DEFAULT 0,
 				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				updated_at TIMESTAMP NULL,
 				deleted_at TIMESTAMP NULL

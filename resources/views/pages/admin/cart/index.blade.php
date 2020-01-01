@@ -2,7 +2,7 @@
 @section('title', 'All Cart | Admin')
 @section('content')
 
-<div ng-controller="AdminCartController" class="margin-0">
+<div ng-controller="AdminCartController" class="admin-cart-index-wrapper">
 
 
 <?php
@@ -29,9 +29,9 @@
 	$temp = str_replace(array('\r', '\"', '\n', '\''), '?', $carts);
 ?>
 
-	<div>
+	<div class="admin-cart-index">
 		<div ng-init="initData('{{$temp}}')"></div>
-		<table class="table table-sm table-custom-allsales">
+		<table class="table table-sm">
 			<thead class="text-center">
 				<tr class="">
 					<th>Customer</th>
@@ -55,17 +55,18 @@
 					</td>
 					<td class="th-action act-3">
 						<div class="btn-group btn-header">
-							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="deletecart(item)">
+							<button class="btn btn-sm btn-noline-red" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="deletecart(item)">
 								<span class="fas fa-trash"></span>
 							</button>
-							<button class="btn btn-sm" ng-click="setFileOK(item)" ng-show="item.filestatus==0">
+							<button class="btn btn-sm btn-noline-purple" ng-click="setFileOK(item)" ng-show="item.filestatus==0">
 								<span class="fas fa-check"></span>
 							</button>
-							<button class="btn btn-sm" ng-click="setFileNotOK(item)" ng-show="item.filestatus==1">
+							<button class="btn btn-sm btn-noline-purple" ng-click="setFileNotOK(item)" ng-show="item.filestatus==1">
 								<span class="fas fa-times"></span>
 							</button>
-							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="showdetail(item)">
-								<span class="fas fa-th"></span>
+							<button class="btn btn-sm btn-noline-purple" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="showdetail(item)">
+								<span ng-if="!item.showdetail">show</span>
+								<span ng-if="item.showdetail">hide</span>
 							</button>
 						</div>
 					</td>
@@ -78,6 +79,13 @@
 								DETAIL PESANAN
 							</div>
 							<table class="table table-cartdetail">
+								<thead>
+									<tr>
+										<th colspan="4">
+											Untuk detail pesanan pada Cart dapat dilihat dibawah
+										</th>
+									</tr>
+								</thead>
 								<tbody>
 									<tr>
 										<td class="text-xs-left">
@@ -135,7 +143,7 @@
 											<i class="tx-lightgray">buy</i> <b class="tx-info">[[item.buyprice|number:0]]</b>
 										</td>
 									</tr>
-									<tr ng-show="item.itemdescription.length>0">
+									<tr ng-if="item.itemdescription.length>0">
 										<td colspan="4" class="text-xs-left">
 											<span class="tx-purple  margin-right-10" data-title="catatan pelanggan">
 												<i class="fas fa-sticky-note"></i> 
@@ -293,19 +301,18 @@
 							<div class="subheader">
 								<i class="far fa-file-image icon"></i> 
 								DETAIL FILE
-								<button class="btn btn-xsm btn-outline-purple pull-xs-right size-90p" ng-click="uploadoriginalClick(item.customerID, item.id, $index)">
-									<i class="fas fa-plus-square"></i> 	
-									TAMBAH BARU
-								</button>
-
-
-
 							</div>
 							<table class="table table-cartdetail">
 								<thead>
 									<tr>
 										<th class="width-min text-xs-center">Preview</th>
 										<th class="">File</th>
+										<th class="text-xs-right">
+											<button class="btn btn-xsm btn-outline-purple pull-xs-right size-90p" ng-click="uploadoriginalClick(item.customerID, item.id, $index)">
+												<i class="fas fa-plus-square"></i> 	
+												TAMBAH BARU
+											</button>
+										</th>
 									</tr>
 								</thead>
 								<tbody ng-repeat="item2 in item.cartfile">
@@ -319,7 +326,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="text-xs-left break-word">
+										<td class="text-xs-left break-word" colspan="2">
 											File Asli : 
 											<a href="{{URL::asset('')}}[[item2.file.path]]" target="_blank" class="a-purple"> <i class="fas fa-location-arrow tx-purple"></i> <!-- {{URL::asset('')}}[[item2.file.path]] --> Link</a> 
 											<a class="a-purple" ng-href="{{URL::asset('cartdetails/cartfiles/download')}}/[[item2.file.id]]">

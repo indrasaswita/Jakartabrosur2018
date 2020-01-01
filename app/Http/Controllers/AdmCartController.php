@@ -29,12 +29,12 @@ class AdmCartController extends Controller
 				->orderBy('id', 'desc')
 				->get();
 
-		$jobsubtypes = Jobsubtype::select('id', 'name', 'subname', 'satuan')
+		$jobsubtypes = Jobsubtype::with('jobtype')
 				->get();
 
 		$printers = Printingmachine::all();
 
-		$papers = Paper::select('id', 'name', 'color', 'gramature')
+		$papers = Paper::with('paperdetail')
 				->get();				
 
 		$deliveries = Delivery::select('id', 'deliverytype', 'deliveryname', 'baseprice', 'price', 'priceper', 'locked')

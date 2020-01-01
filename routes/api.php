@@ -22,7 +22,7 @@ Route::post('/customer/{id}/getsession', 'CustomerAPI@getsession');
 Route::post('/customer/{id}/makesession', 'CustomerAPI@makesession');
 Route::get('/data/customers/name', 'CustomerAPI@apiGetName');
 
-Route::get('/customer/{id}/sales', 'CustomerAPI@apiGetSalesByCustID');
+
 Route::get('/cities', 'CityAPI@getAll');
 Route::get('/banks',	'BankAPI@getAll');
 

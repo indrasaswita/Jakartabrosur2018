@@ -8,7 +8,7 @@
 						<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body magra">
+			<div class="modal-body">
 				<div class="cart-header">
 					<div class="customer-wrapper">
 						<div class="find-customer" id="find-customer">
@@ -34,6 +34,12 @@
 										<td>Belanja</td>
 										<td class="text-xs-right">
 											Rp [[newcart.customersales.totalsales|number:0]]
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="text-xs-center">
+											[[newcart.customersales.parentcompanyname]]<br>
+											[[newcart.customersales.companyname]]
 										</td>
 									</tr>
 								</tbody>
@@ -74,7 +80,7 @@
 								<input type="text" class="form-control" ng-model="newcart.itemdescription" placeholder="Ket. Tambahan">
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="hidereseller">
 							<div class="label">Pengirim</div>
 							<div class="input">
 								<input type="text" class="form-control" ng-model="newcart.reseller" placeholder="jakartabrosur.com">
@@ -104,7 +110,7 @@
 								<div class="input-group">
 									<span class="input-group-addon size-90p">Rp</span>
 									<input type="number" min="0" ng-min="0" class="form-control text-xs-right" ng-model="newcart.buyprice">
-									<span class="input-group-addon size-90p" data-title="<b class='tx-red'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip">
+									<span class="input-group-addon size-90p" data-title="<b class='tx-red'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip" tooltip>
 										<i class="fas fa-user-secret tx-red"></i>
 									</span>
 								</div>
@@ -119,7 +125,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="newcart.hidedeliveryprice">
 							<div class="label">Harga Kirim</div>
 							<div class="input">
 								<div class="input-group">
@@ -128,7 +134,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="newcart.hidediscount">
 							<div class="label">Diskon</div>
 							<div class="input">
 								<div class="input-group" data-title="<b class='tx-red'>Potongan</b>" data-placement="left" data-html="true" data-toggle="tooltip">
@@ -137,24 +143,24 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="newcart.hidetotalweight">
 							<div class="label">Packing</div>
 							<div class="input">
 								<div class="input-group">
 									<span class="input-group-addon size-90p" data-title="<b class='text-primary'>jumlah pack =</b>" data-placement="right" data-html="true" data-toggle="tooltip"><i class="fas fa-archive"></i></span>
 									<input type="number" min="0" ng-min="0" class="form-control text-xs-right" ng-model="newcart.totalpackage" placeholder="pack">
-									<span class="input-group-addon size-90p" data-title="<b class='text-primary'>berat total =</b>" data-placement="right" data-html="true" data-toggle="tooltip"><i class="fas fa-balance-scale"></i></span>
+									<span class="input-group-addon size-90p" data-title="<b class='text-primary'>berat total =</b>" data-placement="right" data-html="true" data-toggle="tooltip"><i class="fas fa-dumbbell"></i></span>
 									<input type="number" min="0" ng-min="0" step="0.1" ng-step="0.1" class="form-control text-xs-right" ng-model="newcart.totalweight" placeholder="weight">
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="newcart.hidedeadline">
 							<div class="label">
-								Process <i class="fas fa-cog tx-lightgray"></i>
+								Process <i class="fas fa-cogs tx-lightgray"></i>
 							</div>
 							<div class="input">
 								<div class="input-group">
-									<div class="input-group-btn">
+									<div class="input-group-prepend">
 										<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											[[newcart.processtype]]
 										</button>
@@ -164,11 +170,11 @@
 										</div>
 									</div>
 									
-									<input type="date"class="form-control text-xs-right" ng-model="newcart.deadline" placeholder="weight" data-title="<span class='tx-red'><b>deadline</b><br>wkt. proses</span>" data-placement="left" data-toggle="tooltip" data-html='true'>
+									<input type="date" class="form-control text-xs-right" ng-model="newcart.deadline">
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row"ng-hide="newcart.hidedelivery">
 							<div class="label">Delivery</div>
 							<div class="input">
 								<div class="input-group">
@@ -176,7 +182,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row" ng-show="newcart.delivery.locked==0">
+						<div class="detail-row" ng-hide="newcart.hidedeliveryaddress" ng-show="newcart.delivery.locked==0">
 							<div class="label">Almt. Kirim</div>
 							<div class="input">
 								<div class="input-group">
@@ -184,20 +190,20 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="newcart.hidedeliverytime">
 							<div class="label">Wkt. Kirim</div>
 							<div class="input">
 								<div class="input-group">
-									<input type="datetime-local text-xs-right" class="form-control" ng-model="newcart.deliverytime">
+									<input type="datetime-local" class="form-control text-xs-right" ng-model="newcart.deliverytime">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="cart-detail" ng-repeat="detail in newcart.cartdetails">
+				<div class="cart-detail" ng-repeat="detail in newcart.cartdetails"> 
 					<div class="cart-input-detail">
 						<div class="detail-row">
-							<div class="label">Job Type</div>
+							<div class="label">Grup</div>
 							<div class="input">
 								<div class="btn-group">
 									<button class="btn btn-sm" ng-class="{'btn-purple':item2==detail.jobtype,'btn-secondary':item2!=detail.jobtype}" ng-repeat="item2 in jobtypesymbols" ng-click="detail.jobtype = item2">
@@ -218,63 +224,82 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Kertas</div>
 							<div class="input">
-								<select class="form-control" ng-model="detail.paper" ng-options="item as item.name+(printgramature(item.gramature))+' ('+item.color+')' for item in papers" ng-change="getVendorPlanoByPaperID($index, detail.paper.id)"></select>
+								<select class="form-control" ng-model="detail.paper" ng-options="item as item.name+(printgramature(item.gramature))+' ('+item.color+')' for item in papers" ng-change="getVendorPlanoByPaperID($index, detail.paper)"></select>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Uk Plano</div>
 							<div class="input" ng-show="detail.planos!=null">
-								<select class="form-control" ng-model="detail.planosize" ng-options="item as item.width+'x'+item.length for item in detail.planos" ng-change="planosizechanged($index)"></select>
+								<select class="form-control" ng-model="detail.planosize" ng-options="item as item.width+'x'+item.length for item in detail.planos" ng-change="planosizechanged($index, detail.paper)"></select>
 							</div>
 							<div class="input" ng-hide="detail.planos!=null">
 								<div class="tx-danger form-control">No Data!</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">
 								Toko 
 								<i class="fa fa-sticky-note tx-lightgray"></i>
 							</div>
 							<div class="input" ng-show="detail.vendors!=null">
-								<select class="form-control" ng-model="detail.vendor" ng-options="item as item.name for item in detail.vendors"></select>
+								<select class="form-control" ng-model="detail.vendor" ng-options="item as item.name for item in detail.vendors" ng-change="vendorchanged($index)"></select>
 							</div>
 							<div class="input" ng-hide="detail.vendors!=null">
 								<div class="tx-danger form-control">No Data!</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.paperpriceunit==null||detail.hidepaper">
+							<div class="label">
+								Harga Satuan 
+							</div>
+							<div class="input" ng-show="detail.vendors!=null">
+								<div class="form-control">
+									Rp [[detail.paperpriceunit|number:1]]
+								</div>
+							</div>
+							<div class="input" ng-hide="detail.vendors!=null">
+								<div class="tx-danger form-control">No Data!</div>
+							</div>
+						</div>
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Jlh. Plano</div>
 							<div class="input" data-placement="right" data-title="<b>lembar</b>" data-html="true" data-toggle="tooltip">
 								<div class="input-group">
-									<input type="number" min="0" ng-min="0" class="form-control" ng-model="detail.totalplano" ng-change="checktotaldruct($index)">
-									<span class="input-group-btn size-90p">
+									<input type="number" min="0" ng-min="0" class="form-control" ng-model="detail.totalplano" ng-change="getHargaKertas($index)">
+									<span class="input-group-append size-90p">
 										<button class="btn btn-sm btn-secondary" type="button" ng-click="calctotalplano($index)">
-											<i class="fas fa-calculator text-primary"></i>
+											<i class="fas fa-calculator"></i>
 										</button>
+									</span>
+									<span class="input-group-addon size-90p" ng-show="!detail.planoqtyerror">
+										<i class="fas fa-check tx-success"></i>
+									</span>
+									<span class="input-group-addon size-90p" ng-show="detail.planoqtyerror" data-toggle="tooltip" data-placement="left" data-title="jumlah plano salah" tooltip>
+										<i class="fas fa-times tx-red"></i>
 									</span>
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Hrg. Kertas</div>
 							<div class="input">
 								<div class="input-group">
 									<input type="number" min="0" ng-min="0" class="form-control text-xs-right" ng-model="detail.paperprice">
-									<span class="input-group-addon size-90p" data-title="<b class='tx-red'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip" tooltip>
-										<i class="fas fa-user-secret tx-red"></i>
-									</span>
-									<div class="input-group-btn size-90p">
+									<div class="input-group-append size-90p">
 										<button class="btn btn-sm btn-secondary" ng-click="getHargaKertas($index)">
-											<i class="fas fa-calculator text-primary"></i>
+											<i class="fas fa-calculator"></i>
 										</button>
 									</div>
+									<span class="input-group-addon size-90p" data-title="<b class='tx-danger'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip" tooltip>
+										<i class="fas fa-user-secret tx-danger"></i>
+									</span>
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Uk Cetak</div>
 							<div class="input">
 								<div class="input-group" data-title="<b>cm</b>" data-placement="right" data-html="true" data-toggle="tooltip">
@@ -296,41 +321,41 @@
 						</div>
 					</div>
 					<div class="cart-input-detail">
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hideprinter">
 							<div class="label">Printer</div>
 							<div class="input">
 								<select class="form-control" ng-model="detail.printerID" ng-options="item.id as item.machinename for item in printers"></select>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidedruct">
 							<div class="label">Druct</div>
 							<div class="input">
 								<div class="input-group">
 									<input type="number" min="0" ng-min="0" class="form-control" ng-model="detail.totaldruct" ng-change="checktotaldruct($index)">
-									<span class="input-group-addon size-90p" ng-show="!detail.planoqtyerror">
+									<span class="input-group-addon size-90p" ng-show="!detail.totaldructerror">
 										<i class="fas fa-check tx-success"></i>
 									</span>
-									<span class="input-group-addon size-90p" ng-show="detail.planoqtyerror" data-toggle="tooltip" data-placement="left" data-title="jumlah plano salah" tooltip>
+									<span class="input-group-addon size-90p" ng-show="detail.totaldructerror" data-toggle="tooltip" data-placement="left" data-title="total druct salah" tooltip>
 										<i class="fas fa-times tx-red"></i>
 									</span>
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidedruct">
 							<div class="label">Inschiet</div>
 							<div class="input">
 								<div class="input-group">
 									<input type="number" min="0" ng-min="0" class="form-control" ng-model="detail.inschiet" ng-change="checktotaldruct($index)">
-									<span class="input-group-addon size-90p" ng-show="!detail.planoqtyerror">
+									<span class="input-group-addon size-90p" ng-show="!detail.totalinschieterror">
 										<i class="fas fa-check tx-success"></i>
 									</span>
-									<span class="input-group-addon size-90p" ng-show="detail.planoqtyerror" data-toggle="tooltip" data-placement="left" data-title="jumlah plano salah" tooltip>
+									<span class="input-group-addon size-90p" ng-show="detail.totalinschieterror" data-toggle="tooltip" data-placement="left" data-title="jumlah inschiet salah" tooltip>
 										<i class="fas fa-times tx-red"></i>
 									</span>
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Jlh. PerPlano</div>
 							<div class="input">
 								<div class="input-group" data-title="<b class='tx-purple'>X</b> x <b class='tx-purple'>Y</b> + <b class='tx-purple'>sisa</b>" data-placement="top" data-html="true" data-toggle="tooltip">
@@ -342,7 +367,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Bagian Plano</div>
 							<div class="input">
 								<div class="input-group">
@@ -351,7 +376,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Jlh. PerCetak</div>
 							<div class="input">
 								<div class="input-group" data-title="<b class='tx-purple'>X</b> x <b class='tx-purple'>Y</b> + <b class='tx-purple'>sisa</b>" data-placement="top" data-html="true" data-toggle="tooltip">
@@ -363,7 +388,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidepaper">
 							<div class="label">Bagian Cetak</div>
 							<div class="input">
 								<div class="input-group">
@@ -372,7 +397,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="detail-row">
+						<div class="detail-row" ng-hide="detail.hidesdp">
 							<div class="label">Sisi Cetak</div>
 							<div class="input">
 								<div class="input-group">
@@ -387,7 +412,7 @@
 							<div class="input">
 								<div class="input-group">
 									<input type="text" class="form-control" ng-model="detail.employeenote" placeholder="internal">
-									<span class="input-group-addon size-90p" data-title="<b class='tx-red'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip">
+									<span class="input-group-addon size-90p" data-title="<b class='tx-red'>Hanya dapat dilihat karyawan</b>" data-placement="left" data-html="true" data-toggle="tooltip" tooltip>
 										<i class="fas fa-user-secret tx-red"></i>
 									</span>
 								</div>

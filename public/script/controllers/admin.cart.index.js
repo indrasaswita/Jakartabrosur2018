@@ -80,6 +80,7 @@ module.exports = function(app){
 				{
 					$item.showdetail = false;
 				}
+				else
 				{
 					$anyopen = false;
 					$.each($scope.carts, function($i, $ii){

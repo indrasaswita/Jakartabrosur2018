@@ -236,7 +236,6 @@ Route::get('logout',  'AllUserAJAX@logout');
 /*END ACCOUNT ROUTE*/
 
 
-Route::get  ("API/data/customers/name", "CustomerAPI@apiGetName");
 Route::get  ("API/salesdetails/{id}/header", ["as"=>"api.salesdetails.view", "uses"=>"SalesdetailController@apiGetSpecific"]);
 Route::get  ("API/cartdetails/{id}/header", ["as"=>"api.cartdetails.view", "uses"=>"CartdetailController@apiGetSpecificBySalesID"]);
 Route::post ("API/cartdetails/title/update", "CartdetailController@apiUpdateTitle"); 
@@ -294,6 +293,8 @@ Route::group(['middleware'=>"employeeAPI"], function(){
 	//CART ADMIN
 	Route::post("API/admin/cart/store", "AdmCartAPI@addNewCart");
 	Route::get("API/admin/cart/{id}/delete", 'AdmCartAPI@deleteCart');
+	Route::get  ("AJAX/data/customers/name", "CustomerAJAX@getName");
+	Route::get ('AJAX/customer/{id}/sales', 'CustomerAJAX@getSalesByCustID');
 
 	//AJAX FROM EMPLOYEE ROLE
 	Route::post("AJAX/jobeditor/jobsubtypes/update", 'AdmJobeditorAJAX@updatejobsubtype');
