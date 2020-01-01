@@ -132,6 +132,42 @@ class InsertSalesdetailsTable extends Migration
             'statusdone'=>1,
             'created_at'=>now()
         ]);
+        DB::table('salesdetails')->insert([
+            'salesID'=>'9',
+            'cartID'=>'16',
+            'statusfile'=>1,
+            'commited'=>1,
+            'statusctp'=>1,
+            'statusprint'=>1,
+            'statuspacking'=>1,
+            'statusdelivery'=>1,
+            'statusdone'=>1,
+            'created_at'=>now()
+        ]);
+        DB::table('salesdetails')->insert([
+            'salesID'=>'9',
+            'cartID'=>'15',
+            'statusfile'=>1,
+            'commited'=>1,
+            'statusctp'=>1,
+            'statusprint'=>1,
+            'statuspacking'=>1,
+            'statusdelivery'=>1,
+            'statusdone'=>1,
+            'created_at'=>now()
+        ]);
+        DB::table('salesdetails')->insert([
+            'salesID'=>'9',
+            'cartID'=>'14',
+            'statusfile'=>1,
+            'commited'=>1,
+            'statusctp'=>1,
+            'statusprint'=>1,
+            'statuspacking'=>1,
+            'statusdelivery'=>1,
+            'statusdone'=>1,
+            'created_at'=>now()
+        ]);
     }
 
     /**

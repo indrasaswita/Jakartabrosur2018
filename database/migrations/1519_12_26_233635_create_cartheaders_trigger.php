@@ -39,7 +39,7 @@ class CreateCartheadersTrigger extends Migration
 				UPDATE salesheaders sh
 						JOIN salesdetails sd ON sh.id = sd.salesID
 						JOIN cartheaders ch ON sd.cartID = ch.id
-				SET sh.totalprice = 4
+				SET sh.totalprice = 0
 				WHERE ch.id = NEW.id;
 
 				update_loop: LOOP
@@ -88,7 +88,7 @@ class CreateCartheadersTrigger extends Migration
 				UPDATE salesheaders sh
 						JOIN salesdetails sd ON sh.id = sd.salesID
 						JOIN cartheaders ch ON sd.cartID = ch.id
-				SET sh.totalprice = 3
+				SET sh.totalprice = 0
 				WHERE ch.id = NEW.id;
 
 				update_loop: LOOP

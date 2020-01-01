@@ -35,7 +35,10 @@ class InsertSalesheadersTable extends Migration
 				(3, 'It feel like oh-la-la..', null, '2018-06-24 12:00:00', '2018-06-21 16:00:09', null, null), 
 				(4, 'Tequila Sunrise', null, '2018-06-25 12:00:00', '2018-06-22 18:23:24', null, null), 
 				(5, 'Hello World 102', null, '2018-07-02 10:00:00', '2018-07-01 3:02:04', null, null), 
-				(6, 'Hello World', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null);
+				(6, 'Acara 17 agustus', null, '2020-01-05 10:00:00', '2019-08-15 7:23:00', null, null), 
+				(7, 'Acara Tahun Baru 2020', null, '2020-01-07 10:00:00', '2020-07-22 7:23:00', null, null), 
+				(8, 'Acara Kampus Tahun Lalu', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null), 
+				(9, 'Acara Tahun Lama 2018', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null);
 		");
 	}
 

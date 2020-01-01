@@ -39,7 +39,7 @@ class CreateSalesdetailsTrigger extends Migration
 				UPDATE salesheaders sh
 						JOIN salesdetails sd ON sh.id = sd.salesID
 						JOIN cartheaders ch ON sd.cartID = ch.id
-				SET sh.totalprice = 2
+				SET sh.totalprice = 0
 				WHERE sd.id = NEW.id;
 
 				update_loop: LOOP
@@ -54,7 +54,7 @@ class CreateSalesdetailsTrigger extends Migration
 							JOIN salesdetails sd ON sh.id = sd.salesID 
 							JOIN cartheaders ch ON sd.cartID = ch.id 
 					SET 
-						sh.totalprice = 9--sh.totalprice + ch.printprice + ch.deliveryprice - ch.discount 
+						sh.totalprice = sh.totalprice + ch.printprice + ch.deliveryprice - ch.discount 
 					WHERE
 						sd.id = salesdetailID;
 				
@@ -89,7 +89,7 @@ class CreateSalesdetailsTrigger extends Migration
 				UPDATE salesheaders sh
 						JOIN salesdetails sd ON sh.id = sd.salesID
 						JOIN cartheaders ch ON sd.cartID = ch.id
-				SET sh.totalprice = 1
+				SET sh.totalprice = 0
 				WHERE sd.id = NEW.id;
 
 				update_loop: LOOP
@@ -104,7 +104,7 @@ class CreateSalesdetailsTrigger extends Migration
 							JOIN salesdetails sd ON sh.id = sd.salesID 
 							JOIN cartheaders ch ON sd.cartID = ch.id 
 					SET 
-						sh.totalprice = 8--sh.totalprice + ch.printprice + ch.deliveryprice - ch.discount 
+						sh.totalprice = sh.totalprice + ch.printprice + ch.deliveryprice - ch.discount 
 					WHERE
 						sd.id = salesdetailID;
 				

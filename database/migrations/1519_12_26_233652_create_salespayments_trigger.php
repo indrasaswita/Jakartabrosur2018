@@ -36,7 +36,7 @@ class CreateSalespaymentsTrigger extends Migration
 
 				UPDATE salesheaders sh
 						JOIN salespayments sp ON sh.id = sp.salesID
-				SET sh.totalpayment = 5
+				SET sh.totalpayment = 0
 				WHERE sp.id = NEW.id;
 
 				update_loop: LOOP
@@ -77,7 +77,7 @@ class CreateSalespaymentsTrigger extends Migration
 
 				UPDATE salesheaders sh
 						JOIN salespayments sp ON sh.id = sp.salesID
-				SET sh.totalpayment = 6
+				SET sh.totalpayment = 0
 				WHERE sp.id = NEW.id;
 
 				update_loop: LOOP
