@@ -94,47 +94,6 @@
 		</table>
 		<div class="clear"></div>
 		<hr>
-		<!-- <table class="table margin-20-0">
-			<tr class="hhead">
-				<td>Alamat Tujuan</td>
-				<td>Info Pengiriman</td>
-				<td>Pembayaran</td>
-			</tr>
-			<tr class="v-top size-14">
-				<td class="width-33">
-					{{$sales['delivery']['receiver']}}<br>{{$sales['delivery']['address']}}
-				</td>
-				<td class="width-33">
-					@if($sales['delivery']!=null)
-						Jenis Pengiriman : <strong>{{$sales['delivery']['deliverytype']}}</strong><br>
-						Berat : 0 kg<br>
-						Harga Kirim : Rp {{number_format($sales['delivery']['price'], 0, '.', ',')}}
-					@else
-						Jenis Pengiriman : <strong>Diambil</strong><br>
-						Berat : 0 kg<br>
-						Harga Kirim : GRATIS
-					@endif
-				</td>
-				<td class="width-33">
-					Metode : 
-					@if($sales['payment']['id']==null)
-						<span>CASH</span>
-					@else
-						<span>{{$sales['payment']['type']}}</span>
-					@endif
-					<br>
-					Kode Unik : -<br>
-					Status : 
-					@if($sales['payment']['id']==null)
-						<span class="red">BELUM LUNAS</span>
-					@elseif($sales['payment']['paymentID']==null)
-						<span class="red">BELUM DI VERIF</span>
-					@else
-						<span class="green">LUNAS</span>
-					@endif
-				</td>
-			</tr>
-		</table> -->
 		<div class="clear"></div>
 		<table class="width-100 td-right text-left size-12 v-top">
 			<tr>

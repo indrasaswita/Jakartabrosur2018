@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="{{URL::asset('css/tether-1.3.3.min.css')}}">
 <link async rel="stylesheet" href="{{URL::asset('css/bootstrap-select.min.css')}}?version=4.4.1">
-<link async rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}?version=2.7.0">
+<link async rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}?version=2.9.0">
 
 <link rel="stylesheet" href="{{URL::asset('css/typeaheadjs.css')}}">
 
@@ -27,7 +27,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144197477-1"></script>
 
 <script async type="text/javascript" src="{{URL::asset('js/tether-1.3.3.min.js')}}"></script>
-<script async type="text/javascript" src="{{URL::asset('js/script.js')}}?version=2.7.0"></script> <!-- NPM -->
+<script async type="text/javascript" src="{{URL::asset('js/script.js')}}?version=2.9.0"></script> <!-- NPM -->
 <script async type="text/javascript" src="{{URL::asset('js/fontawesome-all.js')}}?version=5.12.0"></script>
 <script async type="text/javascript" src="{{URL::asset('js/handlebars-v4.0.11.js')}}"></script>
 <script async type="text/javascript" src="{{URL::asset('js/typeahead.bundle.min.js')}}"></script>

@@ -442,6 +442,13 @@ module.exports = function(app){
 					$cd = $tmps.cartdetail[0];
 					$tmps.paperID = $cd.paperID;
 					$tmps.printerID = $cd.printerID;
+					$tmps.size = {
+						"width": $cd.imagewidth,
+						"length": $cd.imagelength,
+						"id": 0,
+						"name": "Custom Size",
+						"shortname": "Custom"
+					}
 					if($cd.side2 > 0){
 						$tmps.sideprint = "2";
 					}else{
@@ -452,7 +459,7 @@ module.exports = function(app){
 					$tmps.finishings = [];
 					$.each($cd.cartdetailfinishing, function($i, $ii){
 						$temp = {
-							"finishingID": $ii.id,
+							"finishingID": $ii.finishing.id,
 							"optionID": $ii.optionID
 						};
 						$tmps.finishings.push($temp);
@@ -463,6 +470,7 @@ module.exports = function(app){
 				delete $tmps.id;
 				delete $tmps.cartdetail;
 				$addurl = JSON.stringify($tmps);
+				$addurl = $scope.compress($addurl);
 				$goto = BASE_URL + "shop/" + $tmps.pagename + "?ss=" + $addurl;
 				$window.location.href = $goto;
 			}

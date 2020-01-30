@@ -121,6 +121,40 @@ class InsertCustomersTable extends Migration
 				'created_at' => now()
 			]
 		);
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'autisssbrooo@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'Si Autis Dari Goa Hantu',
+				'type' => 'personal',
+				'title' => 'Mr.', 
+				'phone1' => '0212255661',
+				'phone2' => '0212361116',
+				'news' => 0,
+				'remember_token'=>'9876274',
+				'verify_token'=>'1234',
+				'balance' => 0,
+				'created_at' => now()
+			]
+		);
+		DB::table('customers')->insert(
+			[
+				'companyID' => null,
+				'email' => 'sitaiii@gmail.com',
+				'password' => Hash::make('123456'),
+				'name' => 'Si Tai Dari Goa DUdul',
+				'type' => 'personal',
+				'title' => 'Mrs.', 
+				'phone1' => '0216555661',
+				'phone2' => '0216661116',
+				'news' => 0,
+				'remember_token'=>'9876274',
+				'verify_token'=>'1234',
+				'balance' => 0,
+				'created_at' => now()
+			]
+		);
 	}
 
 	/**

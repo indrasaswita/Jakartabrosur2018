@@ -35,6 +35,7 @@ class AdmCartAJAX extends Controller
 
 		$header = new Salesheader();
 		$customerID = $data[0]['customerID'];
+		$header->name = "";
 		$header->customerID = $customerID;
 		$header->tempo = Carbon::now();
 		$header->estdate = Carbon::now();
@@ -44,18 +45,11 @@ class AdmCartAJAX extends Controller
 		        ->first();
 		//kalo customernya ga ketemu = hack
 		if($customer!=null){
-   if($customer['company']['id']!=null){
-    $header->companyname = $customer['company']['name'];
-   }else{
-    $header->companyname = '';
-   }
    $result = $header->save();
 
    if($result){
-				$headerID = Salesheader::latest()
-					->limit(1)
-					->select('id')
-					->get()[0]['id'];
+				$headerID = Salesheader::latest('id')->first()['id'];
+				$countdetail = 0;
 				for($i=0;$i<count($data);$i++)
 				{
 					$detail = new Salesdetail();
@@ -68,8 +62,18 @@ class AdmCartAJAX extends Controller
 					$detail->statuspacking = 0;
 					$detail->statusdelivery = 0;
 					$detail->statusdone = 0;
-					$detail->save();
+
+					$result2 = $detail->save();
+					if($result2)
+						$countdetail++;
 				}
+
+				if($countdetail != count($data)){
+					$header = Salesheader::latest()->first();
+					$header->delete();
+					return null;
+				}
+
 				return $headerID;
    }
 		}

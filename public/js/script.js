@@ -13947,6 +13947,8 @@ require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require("./controllers/admin.sales.index.modal-manualpayment")(app);
+require("./controllers/admin.sales.index.modal-addprooffile")(app);
+require("./controllers/admin.sales.index.modal-adddelivery")(app);
 require('./controllers/admin.master.compaccs.index')(app);
 require('./controllers/admin.master.calendar.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);
@@ -13982,7 +13984,7 @@ require("./customs/sticky-shop-total")(app);
 require("./directives/bootstrap-select-addon")(app);
 require("./directives/bootstrap-tooltip")(app);
 require("./directives/pagination/dirPagination")(app);
-},{"./constants/analytics":52,"./constants/logo-for-print":53,"./constants/mandiri_loginmerged2":54,"./constants/variable":55,"./controllers/account.login":56,"./controllers/account.notification":57,"./controllers/account.profiles":58,"./controllers/account.resendemail":59,"./controllers/account.signup":60,"./controllers/admin.cart.addbyadmin":61,"./controllers/admin.cart.index":62,"./controllers/admin.cart.joincart":63,"./controllers/admin.changetheworld.index":64,"./controllers/admin.master.calendar.index":65,"./controllers/admin.master.compaccs.index":66,"./controllers/admin.master.customer.addusernopass":67,"./controllers/admin.master.customer.index":68,"./controllers/admin.master.customer.pendingcompany":69,"./controllers/admin.master.finishing.index":70,"./controllers/admin.master.jobactivation":71,"./controllers/admin.master.jobeditor":72,"./controllers/admin.master.jobfinishings":73,"./controllers/admin.master.jobpapers":74,"./controllers/admin.master.jobquantities":75,"./controllers/admin.master.jobsizes":76,"./controllers/admin.master.onesignal.index":77,"./controllers/admin.master.paper.changeprice":78,"./controllers/admin.master.paper.newpaper":79,"./controllers/admin.master.paper.paperdetailstore":80,"./controllers/admin.master.pricetext.index":81,"./controllers/admin.master.shoppricing":82,"./controllers/admin.master.vendor.index":83,"./controllers/admin.master.verifcustomer":84,"./controllers/admin.sales.index":85,"./controllers/admin.sales.index.modal-manualpayment":86,"./controllers/admin.tracking.index":87,"./controllers/aice.index":88,"./controllers/allacc.printforms.smallinvoice":89,"./controllers/allacc.sales.cartheader":90,"./controllers/createheader":91,"./controllers/description":92,"./controllers/global.includes.floatingcontact":93,"./controllers/global.nav.header":94,"./controllers/godhands":95,"./controllers/home":96,"./controllers/includes.modals.compaccno":97,"./controllers/includes.nav.subnav":98,"./controllers/main":99,"./controllers/order.cart.index":100,"./controllers/order.cart.modal.addfile":101,"./controllers/order.cart.modal.changefile":102,"./controllers/order.sales.commit":103,"./controllers/order.sales.history":104,"./controllers/order.sales.index":105,"./controllers/order.sales.modal.changefile":106,"./controllers/order.sales.modal.confirm":107,"./controllers/order.sales.modal.cust-selectbank":108,"./controllers/order.sales.modal.showpreview":109,"./controllers/order.shop.calculation.customer":110,"./controllers/order.shop.create.page":111,"./controllers/order.shop.lists.customer":112,"./controllers/roles":113,"./controllers/salespaymentconfirm":114,"./controllers/salespayments":115,"./controllers/trackingcustomer":116,"./customs/sticky-shop-total":117,"./directives/bootstrap-select-addon":118,"./directives/bootstrap-tooltip":119,"./directives/pagination/dirPagination":120,"./init":121,"angular":131,"angular-cookies":123,"angular-resource":125,"angular-route":127,"angular-sanitize":129,"is-base64":132,"lzutf8":133,"node-gzip":134}],52:[function(require,module,exports){
+},{"./constants/analytics":52,"./constants/logo-for-print":53,"./constants/mandiri_loginmerged2":54,"./constants/variable":55,"./controllers/account.login":56,"./controllers/account.notification":57,"./controllers/account.profiles":58,"./controllers/account.resendemail":59,"./controllers/account.signup":60,"./controllers/admin.cart.addbyadmin":61,"./controllers/admin.cart.index":62,"./controllers/admin.cart.joincart":63,"./controllers/admin.changetheworld.index":64,"./controllers/admin.master.calendar.index":65,"./controllers/admin.master.compaccs.index":66,"./controllers/admin.master.customer.addusernopass":67,"./controllers/admin.master.customer.index":68,"./controllers/admin.master.customer.pendingcompany":69,"./controllers/admin.master.finishing.index":70,"./controllers/admin.master.jobactivation":71,"./controllers/admin.master.jobeditor":72,"./controllers/admin.master.jobfinishings":73,"./controllers/admin.master.jobpapers":74,"./controllers/admin.master.jobquantities":75,"./controllers/admin.master.jobsizes":76,"./controllers/admin.master.onesignal.index":77,"./controllers/admin.master.paper.changeprice":78,"./controllers/admin.master.paper.newpaper":79,"./controllers/admin.master.paper.paperdetailstore":80,"./controllers/admin.master.pricetext.index":81,"./controllers/admin.master.shoppricing":82,"./controllers/admin.master.vendor.index":83,"./controllers/admin.master.verifcustomer":84,"./controllers/admin.sales.index":85,"./controllers/admin.sales.index.modal-adddelivery":86,"./controllers/admin.sales.index.modal-addprooffile":87,"./controllers/admin.sales.index.modal-manualpayment":88,"./controllers/admin.tracking.index":89,"./controllers/aice.index":90,"./controllers/allacc.printforms.smallinvoice":91,"./controllers/allacc.sales.cartheader":92,"./controllers/createheader":93,"./controllers/description":94,"./controllers/global.includes.floatingcontact":95,"./controllers/global.nav.header":96,"./controllers/godhands":97,"./controllers/home":98,"./controllers/includes.modals.compaccno":99,"./controllers/includes.nav.subnav":100,"./controllers/main":101,"./controllers/order.cart.index":102,"./controllers/order.cart.modal.addfile":103,"./controllers/order.cart.modal.changefile":104,"./controllers/order.sales.commit":105,"./controllers/order.sales.history":106,"./controllers/order.sales.index":107,"./controllers/order.sales.modal.changefile":108,"./controllers/order.sales.modal.confirm":109,"./controllers/order.sales.modal.cust-selectbank":110,"./controllers/order.sales.modal.showpreview":111,"./controllers/order.shop.calculation.customer":112,"./controllers/order.shop.create.page":113,"./controllers/order.shop.lists.customer":114,"./controllers/roles":115,"./controllers/salespaymentconfirm":116,"./controllers/salespayments":117,"./controllers/trackingcustomer":118,"./customs/sticky-shop-total":119,"./directives/bootstrap-select-addon":120,"./directives/bootstrap-tooltip":121,"./directives/pagination/dirPagination":122,"./init":123,"angular":133,"angular-cookies":125,"angular-resource":127,"angular-route":129,"angular-sanitize":131,"is-base64":134,"lzutf8":135,"node-gzip":136}],52:[function(require,module,exports){
 module.exports = function(app){
 	
 }
@@ -15114,7 +15116,7 @@ module.exports = function(app){
 	$public_path = '/jakartabrosur/public/'; 
 	// LOCALHOST PAKAI yang 'jakartabrosur/public/'
 	
-	//$public_path = '/'; 
+	$public_path = '/'; 
 	// UPLOAD PAKAI yg '/'
 
 	app.constant("BASE_URL", $public_path);
@@ -20414,8 +20416,10 @@ module.exports = function(app){
 				$activeemployee = parseInt($activeemployee);
 
 				$.each($scope.headers, function($i, $item) {
+
 					$scope.headers[$i].updated_at = $scope.makeDateTime($item.updated_at+"");
 					$scope.headers[$i].created_at = $scope.makeDateTime($item.created_at+"");
+					console.log($scope.headers[$i].created_at);
 					$scope.headers[$i].showdetail = false;
 					$scope.headers[$i].showdelivery = false;
 					$scope.headers[$i].showpayment = false;
@@ -20430,48 +20434,54 @@ module.exports = function(app){
 							$courierID = $activeemployee;
 					});
 
-					var nw = new Date(Date.now());
-					$scope.newdelivery = {
-						"employeeID" : $courierID,
-						"arrivedtime" : new Date(0, 0, 0, nw.getHours(), nw.getMinutes(), nw.getSeconds()),
-						"arriveddate" : new Date(nw.getFullYear(), nw.getMonth(), nw.getDate(), 0, 0, 0),
-						"receiver" : $item.customer.name,
-						"deliveryaddress" : '',
-						"deliveryID" : 1,
-						"employeenote" : '',
-						"suratno" : '',
-						"suratimage" : '',
-						"deliverydetail" : []
-					};
-					$.each($item.salesdetail, function($index, $item2){
-						if ($item2.cartheader != null)
-						{
-							$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
-							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
-							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
-							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
 
-							$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
-							$item.deliveryselected = true;
+					if($item.customer != null){
+						var nw = new Date(Date.now());
+						$scope.newdelivery = {
+							"employeeID" : $courierID,
+							"arrivedtime" : new Date(0, 0, 0, nw.getHours(), nw.getMinutes(), nw.getSeconds()),
+							"arriveddate" : new Date(nw.getFullYear(), nw.getMonth(), nw.getDate(), 0, 0, 0),
+							"receiver" : $item.customer.name,
+							"deliveryaddress" : '',
+							"deliveryID" : 1,
+							"employeenote" : '',
+							"suratno" : '',
+							"suratimage" : '',
+							"deliverydetail" : []
+						};
+					}
 
-							$item2.totalkirim = 0;
-							$item2.totalhargakirim = 0;
-							$.each($item2.salesdeliverydetail, function($j, $jj){
-								$item2.totalkirim += parseInt($jj.quantity);
-								$item2.totalhargakirim += parseFloat($jj.actualprice);
-							});
-						}
-						else
-						{
-							// $item2.cartheader.printprice = 0;
-							// $item2.cartheader.deliveryprice = 0;
-							// $item2.cartheader.discount = 0;
-							// $item2.cartheader.buyprice = 0;
-							// $item2.cartheader.totalprice = 0;
-							// $item2.cartheader.totalkirim = 0;
-							// $item2.cartheader.totalhargakirim = 0;
-						}
-					})
+					if($item.salesdetail != null){
+						$.each($item.salesdetail, function($index, $item2){
+							if ($item2.cartheader != null)
+							{
+								$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
+								$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
+								$item2.cartheader.discount = parseInt($item2.cartheader.discount);
+								$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+
+								$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
+								$item.deliveryselected = true;
+
+								$item2.totalkirim = 0;
+								$item2.totalhargakirim = 0;
+								$.each($item2.salesdeliverydetail, function($j, $jj){
+									$item2.totalkirim += parseInt($jj.quantity);
+									$item2.totalhargakirim += parseFloat($jj.actualprice);
+								});
+							}
+							else
+							{
+								// $item2.cartheader.printprice = 0;
+								// $item2.cartheader.deliveryprice = 0;
+								// $item2.cartheader.discount = 0;
+								// $item2.cartheader.buyprice = 0;
+								// $item2.cartheader.totalprice = 0;
+								// $item2.cartheader.totalkirim = 0;
+								// $item2.cartheader.totalhargakirim = 0;
+							}
+						});
+					}
 
 					if($item.salesdelivery != null){
 						$.each($item.salesdelivery, function($index, $item2){
@@ -20974,6 +20984,13 @@ module.exports = function(app){
 				$scope.selectedheaderid = $salesID;
 
 				$('#addDeliveryModal').modal('show');
+				$('#addDeliveryModal').on('shown.bs.modal', function () {
+					if($scope.headers[$scope.selectedheaderindex].customer.customeraddress != null){
+						if($scope.headers[$scope.selectedheaderindex].customer.customeraddress.length > 0){
+							$scope.newdelivery.deliveryaddressID = $scope.headers[$scope.selectedheaderindex].customer.customeraddress[$scope.headers[$scope.selectedheaderindex].customer.customeraddress.length-1].addressID;
+						}
+					}
+				});
 			}
 
 			$scope.updateDelivery = function(){
@@ -21011,7 +21028,7 @@ module.exports = function(app){
 			$scope.updateDeliveryUniversal = function(){
 				$http({
 					"method" : "POST",
-					"url"    : API_URL+"admin/sales/delivery/update",
+					"url"    : AJAX_URL+"admin/sales/delivery/update",
 					"data"   : $scope.selecteddelivery
 				}).then(function(response){
 					if(typeof response.data === "string")
@@ -21035,68 +21052,6 @@ module.exports = function(app){
 				$('#updateDeliveryModal').modal('show');
 			}
 
-			$scope.setDeliverydetail = function($detail){
-				$detail.deliveryselected = !$detail.deliveryselected;
-				if($detail.deliveryselected==true)
-				{
-					//cek dulu uda ada ato belom
-					$notfound = true;
-					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
-						if($ii.salesdetailID == $detail.id)
-						{
-							$notfound = false;
-						}
-					});
-
-					if($notfound == true){
-						$temp = $scope.clone($detail);
-						$scope.newdelivery.deliverydetail.push({
-							"salesdetailID" : $temp.id,
-							"deliveryshow" : false,
-							"totalweight" : 0,
-							"totalpackage" : 1,
-							"ammount" : parseInt($temp.cartheader.quantity),
-							"actualprice" : parseInt($temp.cartheader.deliveryprice),
-							"totalquantity" : parseInt($temp.cartheader.quantity),
-							"quantitytypename" : $temp.cartheader.quantitytypename,
-							"jobtitle" : $temp.cartheader.jobsubtype.name + " " + $temp.cartheader.jobtitle
-						});
-					}
-				}
-				else
-				{
-					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
-						if($ii.salesdetailID == $detail.id){
-							$scope.newdelivery.deliverydetail.splice($i, 1);
-							return false;
-						}
-					});
-				}
-			}
-
-			$scope.saveDelivery = function(){
-				//DARI DIALOG BOX, MODAL
-				
-				$time = $scope.newdelivery.arrivedtime;
-				$date = $scope.newdelivery.arriveddate;
-				$scope.newdelivery.delivtime = $date.getFullYear()+"-"+$scope.zeroFill($date.getMonth(),2)+"-"+$scope.zeroFill($date.getDate(),2)+" "+$scope.zeroFill($time.getHours(),2)+":"+$scope.zeroFill($time.getMinutes(),2)+":"+$scope.zeroFill($time.getSeconds(),2);
-
-				$http(
-					{
-						method: "POST",
-						url   : API_URL+"admin/sales/delivery/"+$scope.selectedheaderid+"/store",
-						data  : $scope.newdelivery	
-					}
-				).then(function(response){
-					if(typeof response.data === "string")
-					{
-						if(response.data == "success")
-						{
-							$window.location.href=BASE_URL+"admin/allsales";
-						}
-					}
-				});
-			}
 
 			$scope.getCartData = function($id){
 				$http(
@@ -21152,7 +21107,7 @@ module.exports = function(app){
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
 				}, function(error){
-					console.log(error.message);
+					console.log(errormessage);
 				});
 			};
 
@@ -21164,6 +21119,23 @@ module.exports = function(app){
 					}
 				}
 			});
+
+			$scope.deleteheader = function($salesheader, $index){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"admin/salesheader/"+$salesheader.id+"/delete"
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data instanceof Array)
+						{
+							if(response.data[0] == 1){
+								$scope.headers.splice($index, 1);
+							}
+						}
+					}
+				});
+			}
 
 			$scope.verify = function()
 			{
@@ -21233,6 +21205,341 @@ module.exports = function(app){
 			};
 
 
+			
+
+
+			$scope.printworkorder = function(item){
+				console.log(item);
+				var linewidth = 1;
+
+				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
+					'resizable,screenX=450,screenY=0,width=270,height=500';
+
+				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
+
+				var scss = "<style type='text/css' media='print'>"
+						+"@page "
+						+"{ "
+						+"	size: auto; "
+						+" margin: 0mm; "
+						+"}"
+						+"</style>"
+						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
+						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
+						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
+				//scss to remove HEADER AND FOOTER
+
+				var prebarcode = app.logoforprint;
+
+
+				prebarcode += 'Nomor Job. ' + $scope.zeroFill(item.id, 4) + ' -- ' 
+					+ $scope.zeroFill(item.created_at.getDate(), 2)+'/'+$scope.zeroFill(item.created_at.getMonth(), 2)+'/'+item.created_at.getFullYear()+'<br>'
+					+ item.customer.name + ' '
+					+ item.customer.phone1 + '<br><br>';
+				prebarcode += item.paymentdetail;
+
+				var afterbarcode = "<div class='barcode-label'>";
+
+				var barcode = "";
+				barcode = '110'+$scope.zeroFill(item.id, 8);
+				
+				afterbarcode += '</div>';
+				prebarcode += '<br>';
+
+
+				afterbarcode += '<hr class="solid"><br>';
+				$.each(item.salesdetail, function($i, $salesdetail){
+					afterbarcode += '<div class="title">'
+						+ $salesdetail.cartheader.jobsubtype.name
+						+ ' <b>' + $salesdetail.cartheader.jobtitle
+						+ '</b></div>'
+						+	'<div class="">'
+						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
+						+ ' ' + $salesdetail.cartheader.quantitytypename;
+
+					afterbarcode += '<span class="pull-xs-right">'
+						+ $salesdetail.cartheader.cartfile.length
+						+ ' files.'
+						+ '</span>';
+
+					afterbarcode += '</div>';
+					if($salesdetail.cartheader.cartfile.length>1){
+						$.each($salesdetail.cartheader.cartdetail, function($j, $cartfile){
+							afterbarcode += '<div>'
+								+ 'Nama file: '
+								+ $cartfile.file.filename 
+								+ '</div>';
+						});
+					}
+
+
+					$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
+						afterbarcode += '<div class="detail">';
+
+						if($salesdetail.cartheader.cartdetail.length>1)
+							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
+
+						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
+							+ ' ' + $cartdetail.printer.machinename + '<br>'
+							+ $cartdetail.totaldruct + ' druct'
+							+ ' +ins. '
+							+ $cartdetail.inschiet + '<br>'
+							+ 'AREA JADI&nbsp; : ' + $cartdetail['imagewidth']
+							+ ' x ' + $cartdetail['imagelength'] + ' CM <br>'
+							+ '> Susunan ' + $cartdetail.totalinprintx + ' x ' + $cartdetail.totalinprinty + ' + ' + $cartdetail.totalinprintrest + ' = '+$cartdetail.totalinprint+'<br>'
+							+ 'Uk. Kertas : ' + $cartdetail['printwidth']
+							+ ' x ' + $cartdetail['printlength'] + ' CM <br>'
+							+ 'Uk. PLANO&nbsp; : ' + $cartdetail['plano']['width']
+							+ ' x ' + $cartdetail['plano']['length'] + ' CM'
+							+ '<hr class="dashed">'
+							+ $cartdetail.paper.papertype.name + ': '
+							+ $cartdetail.paper.name + ' '
+							+ $cartdetail.paper.color + ' '
+							+ $cartdetail.paper.gramature + 'gsm <br>'
+							+ $cartdetail.vendor.name + ' '
+							+ $cartdetail.vendor.phone1 + '<br>'
+							+ 'Beli ' + $cartdetail.totalplano.toString().addThousandSeparator() + ' plano belah '+$cartdetail.totalinplano+'<br>'
+							+ '> Pembagian ' + $cartdetail.totalinplanox + ' x ' + $cartdetail.totalinplanoy + ' + ' + $cartdetail.totalinplanorest + ' = '+$cartdetail.totalinplano+'<br>'
+							+ 'Kira-kira Rp ' + $cartdetail.totalpaperprice.toString().addThousandSeparator()
+							+ '<hr class="dashed">';
+
+						if($cartdetail.employeenote.length > 1){
+							afterbarcode += 'Catatan kerja, '
+							+ $cartdetail.employeenote + '.'
+						}
+
+
+						$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
+
+							afterbarcode += '<div class="">'
+								+	'- ' + $cartdetailfinishing.finishing.name
+								+ ', '
+								+ $cartdetailfinishing.finishingoption.optionname
+								+ '</div>';
+						});
+
+						afterbarcode += '</div>';
+					});
+					afterbarcode += '<hr class="solid"><br><br>';
+				});
+
+				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';
+
+				var htmlPop = scss
+						+ '<div class="view-small-invoice">'
+						+	prebarcode
+						+ '<div class="text-xs-center">'
+						+ '	<svg class="barcode"'
+						+	'		jsbarcode-format="upc"'
+						+	'		jsbarcode-value="'+barcode+'"'
+						+	'		jsbarcode-textmargin="0"'
+						+	'		jsbarcode-margintop="5"'
+						+	'		jsbarcode-marginright="0"'
+						+	'		jsbarcode-marginbottom="2"'
+						+	'		jsbarcode-marginleft="0"'
+						+	'		jsbarcode-height="25"'
+						+	'		jsbarcode-fontsize="10"'
+						+	'		jsbarcode-fontoptions="normal">'
+						+	'	</svg>'
+						+ '</div>'
+						+ afterbarcode
+						+ '</div>'
+						+ '<script>'
+						+ 'JsBarcode(".barcode").init();'
+						+ '</script>'; 
+
+				var printWindow = window.open ("", "PDF", winparams);
+				printWindow.document.write (scss+htmlPop);
+				printWindow.document.close();
+
+				var intv = setInterval(function(){
+					printWindow.focus();
+					printWindow.print();
+					clearInterval(intv);
+					//printWindow.close();
+				}, 200);
+			}
+
+
+		}
+	]);
+};
+},{}],86:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmSalesadddeliveryController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.addnewaddress = false;
+			$scope.newaddress = {
+				"name": "",
+				"address": "",
+				"addressnotes": "",
+				"cityID": ""
+			};
+			$scope.cityloading = false;
+			$scope.customeraddressloading = false;
+
+			$('#addDeliveryModal').on('shown.bs.modal', function () {
+				setTimeout(function(){
+					if($scope.headers[$scope.selectedheaderindex].salesdetail != null){
+						if($scope.headers[$scope.selectedheaderindex].salesdetail.length > 0){
+							//reset dulu, kosongin dulu yg di pilih
+							$scope.newdelivery.deliverydetail = [];
+
+							//UNTUK SELECT YANG INDEX 0 DOANG, karena index 0 dibuat false di awal
+							$.each($scope.headers[$scope.selectedheaderindex].salesdetail, function($i, $ii){
+								if($i == 0){
+									$scope.setDeliverydetail($ii, true);
+								}else{
+									$scope.setDeliverydetail($ii, false);
+								}
+							});
+						}
+					}
+				}, 1);
+			});
+
+			$scope.setDeliverydetail = function($detail, $init=null){
+				if($init==null){
+					if($detail.deliveryselected!=null){
+						$detail.deliveryselected = !$detail.deliveryselected;
+					}else{
+						$detail.deliveryselected = true;
+					}
+				}else{
+					$detail.deliveryselected = $init;
+				}
+				if($detail.deliveryselected==true)
+				{
+					//cek dulu uda ada ato belom
+					$notfound = true;
+					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
+						if($ii.salesdetailID == $detail.id)
+						{
+							$notfound = false;
+						}
+					});
+
+					if($notfound == true){
+						$temp = $scope.clone($detail);
+						$scope.newdelivery.deliverydetail.push({
+							"salesdetailID" : $temp.id,
+							"deliveryshow" : false,
+							"totalweight" : 0,
+							"totalpackage" : 1,
+							"ammount" : parseInt($temp.cartheader.quantitytypenameantity),
+							"actualprice" : parseInt($temp.cartheader.deliveryprice),
+							"totalquantity" : parseInt($temp.cartheader.quantity),
+							"quantitytypename" : $temp.cartheader.quantitytypename,
+							"jobtitle" : $temp.cartheader.jobsubtype.name + " " + $temp.cartheader.jobtitle
+						});
+					}
+				}
+				else
+				{
+					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
+						if($ii.salesdetailID == $detail.id){
+							$scope.newdelivery.deliverydetail.splice($i, 1);
+							return false;
+						}
+					});
+				}
+			}
+
+			$scope.setadddeliverystatus = function($value){
+				$scope.addnewaddress = $value;
+
+				if($value){
+					if($scope.cities == null){
+						if(!$scope.cityloading){
+							$scope.cityloading = true;
+							$scope.fillCities(function(response){
+								$scope.cityloading = false;
+								$.each(response.data, function($i, $ii){
+									if($ii.name == "Jakarta"){
+										$scope.newaddress.city = $ii;
+									}
+								});
+							}, function(error){
+								$scope.cityloading = false;
+							});
+						}
+					}
+				}
+			}
+
+			$scope.insertcustomeraddress = function(){
+				$customerID = $scope.headers[$scope.selectedheaderindex].customer.id;
+
+				if(!$scope.customeraddressloading){
+					$scope.customeraddressloading = true;
+					$http({
+						method: "POST",
+						url: AJAX_URL+"custadds/store/"+$customerID,
+						data: $scope.newaddress
+					}).then(function(response){
+						if(response.data!=null)
+						{
+							if(response.data instanceof Array)
+							{
+								$.each($scope.headers, function($i, $ii){
+									if($ii.customerID == $customerID){
+										$ii.customer.customeraddress = response.data;
+									}
+								});
+								//tinggal select yang sudah di add
+								//karena ascending, makanya di pilih yang paling akhir
+								$scope.newdelivery.deliveryaddressID = response.data[response.data.length-1].addressID;
+
+								$scope.addnewaddress = false;
+							}else{
+								console.log('response not array');
+							}
+						}else{
+							console.log("no response, null");
+						}
+						$scope.customeraddressloading = false;
+					}, function(error){
+						console.log(error);
+						$scope.customeraddressloading = false;
+					});
+				}
+			}
+
+			$scope.saveDelivery = function(){
+				//DARI DIALOG BOX, MODAL
+				
+				$time = $scope.newdelivery.arrivedtime;
+				$date = $scope.newdelivery.arriveddate;
+				$scope.newdelivery.delivtime = $date.getFullYear()+"-"+$scope.zeroFill($date.getMonth(),2)+"-"+$scope.zeroFill($date.getDate(),2)+" "+$scope.zeroFill($time.getHours(),2)+":"+$scope.zeroFill($time.getMinutes(),2)+":"+$scope.zeroFill($time.getSeconds(),2);
+
+				$http(
+					{
+						method: "POST",
+						url   : AJAX_URL+"admin/sales/delivery/"+$scope.selectedheaderid+"/store",
+						data  : $scope.newdelivery	
+					}
+				).then(function(response){
+					if(typeof response.data === "string")
+					{
+						if(response.data == "success")
+						{
+							$window.location.href=BASE_URL+"admin/allsales";
+						}
+					}
+				});
+			}
+
+		}
+	]);
+}
+},{}],87:[function(require,module,exports){
+module.exports = function(app){
+	app.controller('AdmSalesaddprooffileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
+		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
+
+			$scope.errormessage = "";
+			
 			//UPLOAD ON modals/ADDPROOFFILE.blade.php
 			$scope.uploadpreviewClick = function($cartID, $index)
 			{
@@ -21305,7 +21612,7 @@ module.exports = function(app){
 					$scope.uploadwaiting = false;
 					//$scope.allowed();
 				}, function(error) {
-					$scope.error.files = "Error file (error not detected), call customer service for this error";
+					$scope.errormessage = "Error file (error not detected), call customer service for this error";
 					$scope.uploadwaiting = false;
 				});
 
@@ -21313,164 +21620,10 @@ module.exports = function(app){
 				//$scope.clearFileInput('file');
 			}
 
-
-			$scope.printworkorder = function(item){
-				console.log(item);
-				var linewidth = 1;
-
-				var winparams = 'dependent=no,locationbar=no,scrollbars=no,menubar=no,'+
-					'resizable,screenX=450,screenY=0,width=270,height=500';
-
-				var bootstrap = '<link async rel="stylesheet" href="'+BASE_URL+'css/bootstrap.css?version=0.2">';
-
-				var scss = "<style type='text/css' media='print'>"
-						+"@page "
-						+"{ "
-						+"	size: auto; "
-						+" margin: 0mm; "
-						+"}"
-						+"</style>"
-						+"<script src='"+BASE_URL+"js/jquery.min.js'></script>"
-						+"<script src='"+BASE_URL+"script/constants/JsBarcode.ean-upc.min.js'></script>"
-						+"<link async rel='stylesheet' href='"+BASE_URL+"css/onlyprint.css'>";
-				//scss to remove HEADER AND FOOTER
-
-				var prebarcode = app.logoforprint;
-
-
-				prebarcode += 'Nomor Job. ' + $scope.zeroFill(item.id, 4) + ' -- ' 
-					+ $scope.zeroFill(item.created_at.getDate(), 2)+'/'+$scope.zeroFill(item.created_at.getMonth(), 2)+'/'+item.created_at.getFullYear()+'<br>'
-					+ item.customer.name + ' '
-					+ item.customer.phone1 + '<br><br>';
-				prebarcode += item.paymentdetail;
-
-				var afterbarcode = "<div class='barcode-label'>";
-
-				var barcode = "";
-				barcode = '110'+$scope.zeroFill(item.id, 8);
-				
-				afterbarcode += '</div>';
-				prebarcode += '<br>';
-
-
-				afterbarcode += '<hr class="solid">';
-				$.each(item.salesdetail, function($i, $salesdetail){
-					afterbarcode += '<div class="title">'
-						+ $salesdetail.cartheader.jobsubtype.name
-						+ ' <b>' + $salesdetail.cartheader.jobtitle
-						+ '</b></div>'
-						+	'<div class="">'
-						+ $salesdetail.cartheader.quantity.toString().addThousandSeparator()
-						+ ' ' + $salesdetail.cartheader.quantitytypename;
-
-					afterbarcode += '<span class="pull-xs-right">'
-						+ $salesdetail.cartheader.cartfile.length
-						+ ' files.'
-						+ '</span>';
-
-					afterbarcode += '</div>';
-					if($salesdetail.cartheader.cartfile.length>1){
-						$.each($salesdetail.cartheader.cartdetail, function($j, $cartfile){
-							afterbarcode += '<div>'
-								+ 'Nama file: '
-								+ $cartfile.file.filename 
-								+ '</div>';
-						});
-					}
-
-
-					$.each($salesdetail.cartheader.cartdetail, function($j, $cartdetail){
-						afterbarcode += '<div class="detail">';
-
-						if($salesdetail.cartheader.cartdetail.length>1)
-							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
-
-						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
-						 + ' ' + $cartdetail.printer.machinename + '<br>'
-							+ $cartdetail.totaldruct + ' druct'
-							+ ' +ins. '
-							+ $cartdetail.inschiet + '<br>'
-							+ 'AREA JADI&nbsp; : ' + $cartdetail['imagewidth']
-							+ ' x ' + $cartdetail['imagelength'] + ' CM <br>'
-							+ '> Susunan ' + $cartdetail.totalinprintx + ' x ' + $cartdetail.totalinprinty + ' + ' + $cartdetail.totalinprintrest + ' = '+$cartdetail.totalinprint+'<br>'
-							+ 'Uk. Kertas : ' + $cartdetail['printwidth']
-							+ ' x ' + $cartdetail['printlength'] + ' CM <br>'
-							+ 'Uk. PLANO&nbsp; : ' + $cartdetail['plano']['width']
-							+ ' x ' + $cartdetail['plano']['length'] + ' CM'
-							+ '<hr class="dashed">'
-							+ $cartdetail.paper.papertype.name + ': '
-							+ $cartdetail.paper.name + ' '
-							+ $cartdetail.paper.color + ' '
-							+ $cartdetail.paper.gramature + 'gsm <br>'
-							+ $cartdetail.vendor.name + ' '
-							+ $cartdetail.vendor.phone1 + '<br>'
-							+ 'Beli ' + $cartdetail.totalplano.toString().addThousandSeparator() + ' plano belah '+$cartdetail.totalinplano+'<br>'
-							+ '> Pembagian ' + $cartdetail.totalinplanox + ' x ' + $cartdetail.totalinplanoy + ' + ' + $cartdetail.totalinplanorest + ' = '+$cartdetail.totalinplano+'<br>'
-							+ 'Kira-kira Rp ' + $cartdetail.totalpaperprice.toString().addThousandSeparator()
-							+ '<hr class="dashed">';
-
-						if($cartdetail.employeenote.length > 1){
-							afterbarcode += 'Catatan kerja, '
-							+ $cartdetail.employeenote + '.'
-						}
-
-
-						$.each($cartdetail.cartdetailfinishing, function($k, $cartdetailfinishing){
-
-							afterbarcode += '<div class="">'
-								+	'- ' + $cartdetailfinishing.finishing.name
-								+ ', '
-								+ $cartdetailfinishing.finishingoption.optionname
-								+ '</div>';
-						});
-
-						afterbarcode += '</div>';
-					});
-					afterbarcode += '<hr class="solid">';
-				});
-
-				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';
-
-				var htmlPop = scss
-						+ '<div class="view-small-invoice">'
-						+	prebarcode
-						+ '<div class="text-xs-center">'
-						+ '	<svg class="barcode"'
-						+	'		jsbarcode-format="upc"'
-						+	'		jsbarcode-value="'+barcode+'"'
-						+	'		jsbarcode-textmargin="0"'
-						+	'		jsbarcode-margintop="5"'
-						+	'		jsbarcode-marginright="0"'
-						+	'		jsbarcode-marginbottom="2"'
-						+	'		jsbarcode-marginleft="0"'
-						+	'		jsbarcode-height="25"'
-						+	'		jsbarcode-fontsize="10"'
-						+	'		jsbarcode-fontoptions="normal">'
-						+	'	</svg>'
-						+ '</div>'
-						+ afterbarcode
-						+ '</div>'
-						+ '<script>'
-						+ 'JsBarcode(".barcode").init();'
-						+ '</script>'; 
-
-				var printWindow = window.open ("", "PDF", winparams);
-				printWindow.document.write (scss+htmlPop);
-				printWindow.document.close();
-
-				var intv = setInterval(function(){
-					printWindow.focus();
-					printWindow.print();
-					clearInterval(intv);
-					//printWindow.close();
-				}, 200);
-			}
-
-
 		}
 	]);
-};
-},{}],86:[function(require,module,exports){
+}
+},{}],88:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AdmSalesmanualpaymentController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -21580,7 +21733,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],87:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -21761,7 +21914,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],88:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AiceIndexController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -21999,7 +22152,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],89:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSmallInvoiceController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $window){
@@ -22178,7 +22331,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('AllaccCartheaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22201,7 +22354,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateHeaderController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -22215,7 +22368,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],92:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = function(app){
 	/*app.controller('OffsetPricing', ['$scope', '$http', 'ProductService', "$routeParams", 'API_URL',
 		function($scope, $http, ProductService, $routeParams, API_URL){*/
@@ -22274,7 +22427,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('FloatingcontactController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22373,7 +22526,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('NavHeaderController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -22445,7 +22598,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HandOfGod', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window', '$sce',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window, $sce){
@@ -22483,6 +22636,22 @@ module.exports = function(app){
 			// ==========================================
 			/*Global site tag (gtag.js) - Google Analytics */
 
+			$scope.decompress = function($input){
+				return app.LZUTF8.decompress($scope.replaceAll($input, '$', '+'), {inputEncoding: "Base64", outputEncoding: "String"});
+			}
+
+			$scope.compress = function($input){
+				return $scope.replaceAll(app.LZUTF8.compress($input, {outputEncoding: "Base64"}), '+', '$');
+			}
+
+			$scope.replaceAll = function($input, $find, $with){
+				if($input.indexOf($find)!=-1){
+					$input = $input.replace($find, $with);
+					return $scope.replaceAll($input, $find, $with);
+				}else{
+					return $input;
+				}
+			}
 
 			$scope.showAlertOK = function($title, $detail, $login = false){
 				$scope.alertmessage = {
@@ -22637,8 +22806,14 @@ module.exports = function(app){
 			}*/
 
 			$scope.clone = function($obj){
-				//GA BISA BUAT ARRAY
-				return jQuery.extend(true, {}, $obj);
+				if($obj instanceof Array){
+					//untuk array
+					$test = JSON.parse(JSON.stringify($obj));
+					return $test;
+				}else{
+					//GA BISA BUAT ARRAY
+					return jQuery.extend(true, {}, $obj);
+				}
 			};
 
 			$scope.isNum = function($input){
@@ -22725,7 +22900,7 @@ module.exports = function(app){
 				});
 			};
 
-			$scope.fillCities = function()
+			$scope.fillCities = function(whendone=null, whenfailed=null)
 			{
 				$http(
 					{
@@ -22733,12 +22908,30 @@ module.exports = function(app){
 						url : API_URL + 'cities'
 					}
 				).then(function(response) {
-					if(response.data!=null)
-						if(response.data.length>0)
+					if(response.data!=null){
+						if(response.data.length>0){
 							$scope.cities = response.data;
+							if(whendone instanceof Function){
+								whendone(response);
+							}
+						}else{
+							console.log("return city was none");
+							if(whenfailed instanceof Function){
+								whenfailed(response);
+							}
+						}
+					}else{
+							console.log("return city null");
+						if(whenfailed instanceof Function){
+							whenfailed(response);
+						}
+					}
 				}, function(error){
 					console.log("cannot get city data");
 					console.log(error);
+					if(whenfailed instanceof Function){
+						whenfailed(response);
+					}
 				});
 			};
 
@@ -23168,7 +23361,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],96:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HomePageController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -23212,7 +23405,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CompaccShowController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -23223,7 +23416,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SubnavigationController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window) {
@@ -23302,7 +23495,7 @@ module.exports = function(app) {
 		}
 	]);
 }
-},{}],99:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = function(app){
 
 	$(function () {
@@ -23319,7 +23512,7 @@ module.exports = function(app){
 	});*/
 
 }
-},{}],100:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderCartController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', 'AJAX_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, AJAX_URL, $window){
@@ -23764,6 +23957,13 @@ module.exports = function(app){
 					$cd = $tmps.cartdetail[0];
 					$tmps.paperID = $cd.paperID;
 					$tmps.printerID = $cd.printerID;
+					$tmps.size = {
+						"width": $cd.imagewidth,
+						"length": $cd.imagelength,
+						"id": 0,
+						"name": "Custom Size",
+						"shortname": "Custom"
+					}
 					if($cd.side2 > 0){
 						$tmps.sideprint = "2";
 					}else{
@@ -23774,7 +23974,7 @@ module.exports = function(app){
 					$tmps.finishings = [];
 					$.each($cd.cartdetailfinishing, function($i, $ii){
 						$temp = {
-							"finishingID": $ii.id,
+							"finishingID": $ii.finishing.id,
 							"optionID": $ii.optionID
 						};
 						$tmps.finishings.push($temp);
@@ -23785,6 +23985,7 @@ module.exports = function(app){
 				delete $tmps.id;
 				delete $tmps.cartdetail;
 				$addurl = JSON.stringify($tmps);
+				$addurl = $scope.compress($addurl);
 				$goto = BASE_URL + "shop/" + $tmps.pagename + "?ss=" + $addurl;
 				$window.location.href = $goto;
 			}
@@ -24126,7 +24327,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],101:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartAddfileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24163,7 +24364,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('CartChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -24251,7 +24452,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],103:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('SalesCommitController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -24425,7 +24626,7 @@ module.exports = function(app){
 		}
 	]);
 }
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('HistoryController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -24483,7 +24684,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],105:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('AllSalesController', ['$scope', '$http', 'BASE_URL', 'AJAX_URL', 'API_URL', '$window',
 		function($scope, $http, BASE_URL, AJAX_URL, API_URL, $window){
@@ -25110,7 +25311,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],106:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesChangefileController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -25173,7 +25374,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],107:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesPaymentconfirmController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -25251,7 +25452,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],108:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('OrdersalesSelectbankController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -25312,7 +25513,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],109:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = function(app) {
 	app.controller('SalesShowpreviewController', ['$scope', '$http', 'API_URL', 'AJAX_URL', 'BASE_URL', '$cookies', '$window',
 		function($scope, $http, API_URL, AJAX_URL, BASE_URL, $cookies, $window) {
@@ -25335,7 +25536,7 @@ module.exports = function(app) {
 		}
 	]);
 };
-},{}],110:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 
 module.exports = function(app){
 	app.controller('OrderShopCalculationController', ['$timeout', '$scope', '$http', 'AJAX_URL', 'API_URL', 'BASE_URL', '$window',
@@ -25487,47 +25688,82 @@ module.exports = function(app){
 				$scope.getPrice();
 			}
 
-			$scope.decompress = function($input){
-
-				return app.LZUTF8.decompress($input, {inputEncoding: "Base64", outputEncoding: "String"});
-			}
-
-			$scope.compress = function($input){
-				return app.LZUTF8.compress($input, {outputEncoding: "Base64"});
-			}
-
 			$scope.setSelectedByURL = function($input){
-				if(app.isBase64($input)){
+				if(app.isBase64($scope.replaceAll($input, '$', '+'))){
 				
 					$input2 = $scope.decompress($input);
 					$tmps = JSON.parse($input2);
 
-					$finclone = $scope.clone($scope.selected.finishings);
+					$finclone = $scope.clone($tmps.finishings);
 
 					$scope.selected = Object.assign($scope.selected, $tmps);
+					
+					if($scope.selected != null){
+						if($scope.selected.size != null){
+							if($scope.selected.size.width != null){
+								if(typeof $scope.selected.size.width == "string"){
+									$scope.selected.size.width = parseFloat($scope.selected.size.width);
+								}
+							}
+							if($scope.selected.size.length != null){
+								if(typeof $scope.selected.size.length == "string"){
+									$scope.selected.size.length = parseFloat($scope.selected.size.length);
+								}
+							}
+						}
+					}
+
 					$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
 					$scope.setFinishingRole();
 					$scope.selected.finishings = $tmps.finishings;
 
 					//SELECT SIZE
-					$.each($scope.datas.jobsubtypesize, function($i, $ii){
-						if($ii.size.id == $scope.selected.sizeID){
-							$scope.selected.size = $ii.size;
-						}
-					});
+					if($scope.datas.jobsubtypesize.length>0){
+						$.each($scope.datas.jobsubtypesize, function($i, $ii){
+							if($scope.selected.sizeID != null){
+								if($ii.size.id == $scope.selected.sizeID){
+									$scope.selected.size = $ii.size;
+								}
+							}else{
+								if($scope.selected.size.id != 0){
+									if($ii.size.id == $scope.selected.size.id){
+										$scope.selected.size = $ii.size;
+									}else{
+										$scope.customsize = true;
+									}
+								}else{
+									$scope.customsize = true;
+								}
+							}
+						});
+					}else{
+						$scope.customsize = true;
+					}
 					//SELECT JENIS MATERIAL
 					$.each($scope.datas.jobsubtypepaper,function($i, $ii){
-						if($ii.paper.id == $scope.selected.paperID){
+						if($ii.paper.id == $scope.selected.paper.id){
 							$scope.selected.paper = $ii.paper;
 						}
 					});
 					//SELECT SISI CETAK
 					//sudah langsung cek ke sideprint: 1/2
 					//SELECT FINISHING
+
+					console.log($finclone);
 					$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
 						//$s <- dari url (selected)
 						$tidakadadiurl = true;
-						$.each($scope.selected.finishings, function($s, $ss){
+
+						//INIT DATA KALO DIA TIDAK PAKAI FINISHING (OPTION 0)
+						if($ii.finishing!=null)
+							if($ii.finishing.finishingoption)
+								if($ii.finishing.finishingoption.length>0){
+									$scope.selected.finishings[$i] = $ii.finishing.finishingoption[0];
+									console.log("SET AWAL");
+								}
+
+						$.each($finclone, function($s, $ss){
+							console.log("TEST "+$ii.finishing.id+" == "+$ss.finishingID);
 							if($ss.finishingID == $ii.finishing.id){
 								//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
 								$tidakadadiurl = false;
@@ -25535,23 +25771,25 @@ module.exports = function(app){
 								$.each($ii.finishing.finishingoption, function($j, $jj){
 									if($jj.id == $ss.optionID){
 										//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
-										$scope.selected.finishings[$s] = $scope.clone($jj);
+										$scope.selected.finishings[$i] = $scope.clone($jj);
+										console.log("SAMA "+$jj.id+" == "+$ss.optionID);
+										console.log($scope.clone($jj));
 										$tidakadasama = false;
+										console.log($scope.selected.finishings);
 									}
 									//jika tidak ada yang sama satu pun maka masuk ke bawah
 								});
 								//jika tidak ada yang sama
 								if($tidakadasama == true){
 									//jika optionID tidak ada: error, maka dimasukkan default
-									$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+									$scope.selected.finishings[$i] = $scope.clone($finclone[$s]);
 									//finclone sudah di copy di awal
 								}
 							}
 						});
-						if($tidakadadiurl == true){
-							$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
-						}
 					});
+					console.log($scope.selected.finishings);
+
 					//SELECT DELIVERY TYPE
 					$dlvfound = false;
 					$.each($scope.deliveries, function($i, $ii){
@@ -25595,6 +25833,7 @@ module.exports = function(app){
 					//END SET SELECTED URL
 
 				}else{
+					alert('WRONG PARAMETER, contact Jakartabrosur.com SUPPORT')
 					console.log("WRONG PARAMETER");
 				}
 			}
@@ -25622,7 +25861,7 @@ module.exports = function(app){
 				$tmpsf = [];
 				$.each($tmps.finishings, function($i, $ii){
 					$temp = {
-						"finishingID": $ii.finishingID,
+						"finishingID": $ii.finishing.id,
 						"optionID": $ii.id
 					};
 					$tmpsf.push($temp);
@@ -26596,6 +26835,16 @@ module.exports = function(app){
 				$('#easyaccess').modal('show');
 			}
 
+			$scope.blurwidth = function($item){
+				$scope.selected.size.width = $scope.checkIfMin($scope.selected.size.width, 3);
+				$scope.sizeChanged($item);
+			}
+
+			$scope.blurlength = function($item){
+				$scope.selected.size.length = $scope.checkIfMin($scope.selected.size.length, 3);
+				$scope.sizeChanged($item);
+			}
+
 			$scope.sizeChanged = function($item)
 			{
 				if($item.id!=0)
@@ -26625,6 +26874,7 @@ module.exports = function(app){
 					// KALO ID = 0 brarti custom
 					$scope.customsize = true;
 					$scope.selected.size = $item;
+					$scope.getPrice();
 				}
 			}
 
@@ -27358,7 +27608,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],111:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('CreateOrderController', ['$timeout', '$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($timeout, $scope, $http, API_URL, BASE_URL, $window){
@@ -28600,7 +28850,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],112:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('OrderListCustomerController', ['$scope', '$http', 'API_URL', 'BASE_URL', '$window',
 		function($scope, $http, API_URL, BASE_URL, $window){
@@ -28634,7 +28884,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],113:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('RoleController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -28710,7 +28960,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],114:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentConfirmController', ['$scope', '$http', 'BASE_URL', 'API_URL', 'AJAX_URL', '$window',
 		function($scope, $http, BASE_URL, API_URL, AJAX_URL, $window){
@@ -28870,7 +29120,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],115:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('PaymentController', ['$scope', '$http', 'API_URL', '$window',
 		function($scope, $http, API_URL, $window){
@@ -28929,7 +29179,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],116:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = function(app){
 	app.controller('TrackingController', ['$scope', '$http', 'API_URL', 
 		function($scope, $http, API_URL){
@@ -28973,7 +29223,7 @@ module.exports = function(app){
 		}
 	]);
 };
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 module.exports = function(app){
 	$(window).on('scroll', function(event) {
 		if($('.order-panel-summary').length > 0)
@@ -28995,7 +29245,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],118:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('pageRefresh', function($timeout) {
 		return {
@@ -29010,7 +29260,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],119:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 module.exports = function(app){
 	app.directive('tooltip', function($timeout) {
 		return {
@@ -29027,7 +29277,7 @@ module.exports = function(app){
 		}
 	});
 }
-},{}],120:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 /**
  * dirPagination - AngularJS module for paginating (almost) anything.
  *
@@ -29668,7 +29918,7 @@ module.exports = function(app) {
     }
 };
 
-},{}],121:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 module.exports = angular.module('jakartabrosur', 
 	[
 		"ngRoute",
@@ -29683,7 +29933,7 @@ module.exports = angular.module('jakartabrosur',
         $interpolateProvider.endSymbol(']]');
     }
 )
-},{}],122:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -29938,11 +30188,11 @@ angular.module('ngCookies').provider('$$cookieWriter', /** @this */ function $$C
 
 })(window, window.angular);
 
-},{}],123:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":122}],124:[function(require,module,exports){
+},{"./angular-cookies":124}],126:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -30855,11 +31105,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],125:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":124}],126:[function(require,module,exports){
+},{"./angular-resource":126}],128:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -32126,11 +32376,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],127:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":126}],128:[function(require,module,exports){
+},{"./angular-route":128}],130:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -33045,11 +33295,11 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],129:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":128}],130:[function(require,module,exports){
+},{"./angular-sanitize":130}],132:[function(require,module,exports){
 /**
  * @license AngularJS v1.7.3
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -69278,11 +69528,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],131:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":130}],132:[function(require,module,exports){
+},{"./angular":132}],134:[function(require,module,exports){
 ;(function(root) {
   'use strict';
 
@@ -69329,7 +69579,7 @@ module.exports = angular;
   }
 })(this);
 
-},{}],133:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,setImmediate){
 /*!
  LZ-UTF8 v0.5.5
@@ -70970,7 +71220,7 @@ var LZUTF8;
 })(LZUTF8 || (LZUTF8 = {}));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],require("timers").setImmediate)
-},{"_process":29,"buffer":9,"stream":45,"timers":46}],134:[function(require,module,exports){
+},{"_process":29,"buffer":9,"stream":45,"timers":46}],136:[function(require,module,exports){
 'use strict';
 
 var zlib = require('zlib');

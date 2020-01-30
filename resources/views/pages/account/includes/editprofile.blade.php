@@ -1,4 +1,4 @@
-<div class="order-panel tab-pane fade in active" id="profile">
+<div class="order-panel tab-pane  active" id="profile">
 	<div class="editprofiledata">
 		<div class="data-row">
 			<div class="data-title">Panggilan</div>

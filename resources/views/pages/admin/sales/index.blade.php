@@ -17,7 +17,7 @@
 	<div class="admin-sales-index">
 		<input id="uploadpreview" type="file" hidden>
 		
-		<div class="size-16 margin-10-0">
+		<div class="page-title">
 			<small class="fas fa-shopping-bag tx-lightgray"></small> Proses kerja & Alur penjualan
 			<small class="fas fa-angle-right tx-lightmagenta"></small>
 			<span class="fas fa-user-robot tx-lightgray"></span> Hak Admin
@@ -25,53 +25,61 @@
 
 		
 		<table class="table table-sm table-allsales-employee">
-			<thead class="text-center">
-				<tr>
-					<th class="width-min">#Inv.</th>
-					<th>Customer</th>
-					<th class="hidden-sm-down">
-						Create<br>
-						Update
-					</th>
-					<th class="hidden-xs-down">Preview</th>
-					<th><span class="fas fa-cog"></span> Action</th>
-				</tr>
-			</thead>
 			<tbody dir-paginate="item in headers|itemsPerPage:20">
-				<tr class="content-header">
-					<td>
+				<tr class="content-header-1">
+					<td class="num" rowspan="2" ng-click="showdetail(item)">
 						#[[zeroFill(item.id, 5)]]
 					</td>
-					<td class="text-xs-center">
-						<span class="fas fa-user" ng-class="{'tx-lightmagenta':item.customer.title=='Mrs.'||item.customer.title=='Ms.', 'tx-primary':item.customer.title=='Mr.'}"></span>
-						[[item.customer.name]]
-						<span class="fas fa-info-circle tx-gray"  data-toggle="tooltip" data-placement="right" data-title="e: <b>[[item.customer.email]]</b><br>p: <b>[[item.customer.phone1]]</b> <b ng-show='item.customer.phone2.length>0'> - [[item.customer.phone2]]</b> " data-html="true"></span>
-					</td>
-					<td class="hidden-sm-down text-xs-center line-1">
-						[[item.created_at|date:'d MMM H:m']]<br>
-						[[item.updated_at|date:'d MMM H:m']]
-					</td>
-					<td class="hidden-xs-down text-xs-left">
-						<div class="line-11">
-							<div ng-repeat="item2 in item.salesdetail">
-								<span class="number">[[($index+1)]].</span> 
-								[[item2.cartheader.quantity]] [[item2.cartheader.quantitytypename]] <b>[[item2.cartheader.jobsubtype.name]]</b> [[item2.cartheader.jobtitle]]
+					<td class="line-1" ng-click="showdetail(item)">
+						<div ng-if="item.customer != null">
+							<span class="fas fa-user" ng-class="{'tx-lightmagenta':item.customer.title=='Mrs.'||item.customer.title=='Ms.', 'tx-primary':item.customer.title=='Mr.'}"></span>
+							[[item.customer.name]]
+							<div ng-if="item.customer.company != null">
+								<span class="fas fa-home"></span>
+								[[item.customer.company.name]]
 							</div>
 						</div>
 					</td>
-					<td class="th-action act-4">
-						<div class="btn-group btn-header">
-							<button class="btn btn-sm" ng-class="{'selected':item.showdelivery}" data-toggle="tooltip" data-title="Pengiriman" data-placement="top" data-html="true" ng-click="showdelivery(item)">
-								<span class="fas fa-truck"></span>
+					<td class="text-xs-right line-1" ng-click="showdetail(item)">
+						<div ng-if="item.created_at!=null">
+							[[item.created_at|date:'dd MMM HH:mm']]
+						</div>
+						<div ng-if="item.updated_at!=null">
+							[[item.updated_at|date:'dd MMM HH:mm']]
+						</div>
+					</td>
+				</tr>
+				<tr class="content-header-2">
+					<td colspan="2">
+						<div>
+								<div class="jobdetail" ng-click="showdetail(item)">
+									<div ng-repeat="item2 in item.salesdetail">
+										<span class="number">[[($index+1)]].</span> 
+										[[item2.cartheader.quantity]] [[item2.cartheader.quantitytypename]] <b>[[item2.cartheader.jobsubtype.name]]</b> [[item2.cartheader.jobtitle]]
+									</div>
+								</div>
+								<div class="action">
+									<button class="btn btn-sm" ng-click="deleteheader(item, $index)">
+										<span class="fas fa-trash fa-fw"></span>
+									</button>
+								</div>
+							</div>
+					</td>
+				</tr>
+				<tr class="action-wrapper" ng-show="item.showdetail || item.showpayment || item.showdelivery || item.showtracking">
+					<td colspan="3">
+						<div class="action">
+							<button class="btn" ng-class="{'active':item.showdelivery}" ng-click="showdelivery(item)">
+								Delivery
 							</button>
-							<button class="btn btn-sm" ng-class="{'selected':item.showpayment}" data-toggle="tooltip" data-title="Pembayaran" data-placement="top" data-html="true" ng-click="showpayment(item)">
-								<span class="far fa-credit-card"></span>
+							<button class="btn" ng-class="{'active':item.showpayment}" ng-click="showpayment(item)">
+								Payment
 							</button>
-							<button class="btn btn-sm" ng-class="{'selected':item.showdetail}" data-toggle="tooltip" data-title="Lihat detail" data-placement="top" data-html="true" ng-click="showdetail(item)">
-								<span class="fas fa-th"></span>
+							<button class="btn" ng-class="{'active':item.showdetail}" ng-click="showdetail(item)">
+								Detail
 							</button>
-							<button class="btn btn-sm" ng-class="{'selected':item.showtracking}" data-toggle="tooltip" data-title="Lihat Progress Kerjaan" data-placement="top" data-html="true" ng-click="showtracking(item)">
-								<span class="fas fa-tasks"></span>
+							<button class="btn" ng-class="{'active':item.showtracking}" ng-click="showtracking(item)">
+								Tracking
 							</button>
 						</div>
 					</td>
@@ -145,6 +153,7 @@
 														</td>
 														<td class="text-xs-right">
 															<i class="fas fa-truck tx-lightgray"></i> <b>[[item2.cartheader.deliveryprice|number:0]]</b>
+														</td>
 													</tr>
 													<tr>
 														<td class="text-xs-left">
@@ -184,7 +193,7 @@
 													<tr>
 														<td colspan="4">
 															<table class="table table-subdetail">
-																<tbody ng-repeat="item3 in item2.cartheader.cartheader">
+																<tbody ng-repeat="item3 in item2.cartheader.cartdetail">
 																	<tr>
 																		<td rowspan="3" class="nomor">
 																			#[[zeroFill($index+1, 2)]]<br>

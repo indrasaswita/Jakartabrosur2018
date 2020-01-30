@@ -16,7 +16,7 @@
 				<a class="nav-link active" data-toggle="tab" href="#profile">
 					<i class="fas fa-user-astronaut"></i>
 					<span class="hidden-xs-down">Profile</span>
-					<span class="hidden-sm-up">Profile</span>
+					<span class="hidden-sm-up">Edit</span>
 				</a>
 			</li>
 			<li class="nav-item">

@@ -94,11 +94,11 @@
 					</div>
 					<div class="input-block" ng-class="{'border-red':selected.size.width==null||selected.size.width==0||selected.size.length==null||selected.size.length==0}" ng-show="customsize">
 						<div class="input-group">
-							<input type="number" id="customwidth" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 0, 10000, 0.01)" ng-blur="selected.size.width=checkIfMin(selected.size.width, 3)">
+							<input type="number" id="customwidth" class="form-control" ng-model="selected.size.width" ng-change="selected.size.width=num_validation(selected.size.width, 0, 10000, 0.01)" ng-blur="blurwidth(selected.size)">
 							<span class="input-group-addon">
 								<span class="fas fa-times"></span>
 							</span>
-							<input type="number" id="customlength" class="form-control" ng-model="selected.size.length"  ng-change="selected.size.length=num_validation(selected.size.length, 0, 10000, 0.01)" ng-blur="selected.size.length=checkIfMin(selected.size.length, 3)">
+							<input type="number" id="customlength" class="form-control" ng-model="selected.size.length"  ng-change="selected.size.length=num_validation(selected.size.length, 0, 10000, 0.01)" ng-blur="blurlength(selected.size)">
 							<div class="input-group-btn" ng-show="standardsize">
 								<button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="fas fa-chevron-down"></span>
@@ -287,6 +287,8 @@
 							<div class="select">
 								<select class="form-control" data-width="100%" ng-options="option.optionname disable when option.disabled for option in detailfin.finishing.finishingoption track by option.id" ng-model="selected.jobsubtypedetail[$parent.$index].finishing[$index]" ng-change="finishingchanged(item.finishing.name, selected.finishings[$index], detail.jobsubtypedetailfinishing)">
 								</select>
+
+								[[selected.finishings[$index].optionID]]
 							</div>
 							<div class="info" data-toggle="tooltip" data-title="[[item.finishing.info]]" data-html="true" data-placement="left" tooltip>
 								<span class="far fa-question-circle"></span>

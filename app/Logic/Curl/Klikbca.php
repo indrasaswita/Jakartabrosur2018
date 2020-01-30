@@ -52,14 +52,16 @@ class Klikbca{
 	function login() {
 		$this->logged_in = false;
 
-		$today = Carbon::now();
-		$lastm = Carbon::now()->subDays(30);
+		$today = Carbon::now()->subDays(0);
+		$lastm = Carbon::now()->subDays(29);
 		$data = array(
 			'value(actions)' => 'login',
 			'value(user_id)' => $this->username,
 			'value(user_ip)' => $this->ip,
 			'value(pswd)' => $this->password,
 			'value(Submit)' => 'LOGIN',
+			'value(browser_info)' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+			'value(mobile)' => 'false',
 			'value(D1)'=>'0',
 			'value(r1)'=>'1',
 			'value(startDt)'=>$lastm->day.'',
@@ -67,11 +69,13 @@ class Klikbca{
 			'value(startYr)'=>$lastm->year.'',
 			'value(endDt)'=>$today->day.'',
 			'value(endMt)'=>$today->month.'',
-			'value(endYr)'=>$lastm->year.'',
+			'value(endYr)'=>$today->year.'',
 			'value(fDt)'=>'',
 			'value(tDt)'=>'',
-			'value(submit1)'=>'View+Account+Statement'
+			'value(submit1)'=>'Lihat Mutasi Rekening'
 		);
+
+
 		$data = http_build_query($data);
 		$res = $this->my_curl_post(URL_LOGIN, $data);
 		$this->last_html = $res['response'];

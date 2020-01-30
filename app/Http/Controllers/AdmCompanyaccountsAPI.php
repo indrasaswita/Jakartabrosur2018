@@ -107,9 +107,15 @@ class AdmCompanyaccountsAPI extends Controller
 				array_splice($input, 2, 1);
 				array_splice($input, 4, 1);
 				$input[2] = intval(str_replace(',', '', str_replace('.00', '', $input[2])));
-				if($input[0]!='PEND')
-					$input[0] = '2018-'.substr($input[0], -2).'-'.substr($input[0], 0, 2);
-				else{
+				if($input[0]!='PEND'){
+					$inputyear = $today->year;
+					if($today->month==1){
+						if(substr($input[0], -2)=='12' || substr($input[0], -2)=='11'){
+							$inputyear = $today->year - 1;
+						}
+					}
+					$input[0] = $inputyear.'-'.substr($input[0], -2).'-'.substr($input[0], 0, 2);
+				}else{
 					$input[0] = $today->year.'-'.$today->month.'-'.$today->day;
 				}
 

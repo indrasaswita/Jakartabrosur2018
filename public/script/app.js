@@ -67,6 +67,8 @@ require("./controllers/admin.cart.addbyadmin")(app);
 require("./controllers/admin.master.verifcustomer")(app);
 require("./controllers/admin.sales.index")(app);
 require("./controllers/admin.sales.index.modal-manualpayment")(app);
+require("./controllers/admin.sales.index.modal-addprooffile")(app);
+require("./controllers/admin.sales.index.modal-adddelivery")(app);
 require('./controllers/admin.master.compaccs.index')(app);
 require('./controllers/admin.master.calendar.index')(app);
 require("./controllers/admin.master.paper.changeprice")(app);

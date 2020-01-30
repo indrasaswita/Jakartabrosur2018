@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cartheader extends Model
 {
-	//use SoftDeletes;
+	use SoftDeletes;
 	
 	protected $fillable = ['customerID', 'jobsubtypeID', 'jobtitle', 'quantity', 'quantitytypename', 'customernote', 'itemdescription', 'resellername', 'resellerphone', 'reselleraddress', 'buyprice', 'printprice', 'deliveryprice', 'discount', 'processtype', 'processtime', 'deliveryID', 'deliveryaddressID', 'deliverytime', 'totalpackage', 'totalweight', 'filestatus'];
 	protected $guarded = ['id'];

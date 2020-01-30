@@ -8,8 +8,10 @@ module.exports = function(app){
 				$activeemployee = parseInt($activeemployee);
 
 				$.each($scope.headers, function($i, $item) {
+
 					$scope.headers[$i].updated_at = $scope.makeDateTime($item.updated_at+"");
 					$scope.headers[$i].created_at = $scope.makeDateTime($item.created_at+"");
+					console.log($scope.headers[$i].created_at);
 					$scope.headers[$i].showdetail = false;
 					$scope.headers[$i].showdelivery = false;
 					$scope.headers[$i].showpayment = false;
@@ -24,48 +26,54 @@ module.exports = function(app){
 							$courierID = $activeemployee;
 					});
 
-					var nw = new Date(Date.now());
-					$scope.newdelivery = {
-						"employeeID" : $courierID,
-						"arrivedtime" : new Date(0, 0, 0, nw.getHours(), nw.getMinutes(), nw.getSeconds()),
-						"arriveddate" : new Date(nw.getFullYear(), nw.getMonth(), nw.getDate(), 0, 0, 0),
-						"receiver" : $item.customer.name,
-						"deliveryaddress" : '',
-						"deliveryID" : 1,
-						"employeenote" : '',
-						"suratno" : '',
-						"suratimage" : '',
-						"deliverydetail" : []
-					};
-					$.each($item.salesdetail, function($index, $item2){
-						if ($item2.cartheader != null)
-						{
-							$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
-							$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
-							$item2.cartheader.discount = parseInt($item2.cartheader.discount);
-							$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
 
-							$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
-							$item.deliveryselected = true;
+					if($item.customer != null){
+						var nw = new Date(Date.now());
+						$scope.newdelivery = {
+							"employeeID" : $courierID,
+							"arrivedtime" : new Date(0, 0, 0, nw.getHours(), nw.getMinutes(), nw.getSeconds()),
+							"arriveddate" : new Date(nw.getFullYear(), nw.getMonth(), nw.getDate(), 0, 0, 0),
+							"receiver" : $item.customer.name,
+							"deliveryaddress" : '',
+							"deliveryID" : 1,
+							"employeenote" : '',
+							"suratno" : '',
+							"suratimage" : '',
+							"deliverydetail" : []
+						};
+					}
 
-							$item2.totalkirim = 0;
-							$item2.totalhargakirim = 0;
-							$.each($item2.salesdeliverydetail, function($j, $jj){
-								$item2.totalkirim += parseInt($jj.quantity);
-								$item2.totalhargakirim += parseFloat($jj.actualprice);
-							});
-						}
-						else
-						{
-							// $item2.cartheader.printprice = 0;
-							// $item2.cartheader.deliveryprice = 0;
-							// $item2.cartheader.discount = 0;
-							// $item2.cartheader.buyprice = 0;
-							// $item2.cartheader.totalprice = 0;
-							// $item2.cartheader.totalkirim = 0;
-							// $item2.cartheader.totalhargakirim = 0;
-						}
-					})
+					if($item.salesdetail != null){
+						$.each($item.salesdetail, function($index, $item2){
+							if ($item2.cartheader != null)
+							{
+								$item2.cartheader.printprice = parseInt($item2.cartheader.printprice);
+								$item2.cartheader.deliveryprice = parseInt($item2.cartheader.deliveryprice);
+								$item2.cartheader.discount = parseInt($item2.cartheader.discount);
+								$item2.cartheader.buyprice = parseInt($item2.cartheader.buyprice);
+
+								$item.totalprice += $item2.cartheader.printprice + $item2.cartheader.deliveryprice - $item2.cartheader.discount;
+								$item.deliveryselected = true;
+
+								$item2.totalkirim = 0;
+								$item2.totalhargakirim = 0;
+								$.each($item2.salesdeliverydetail, function($j, $jj){
+									$item2.totalkirim += parseInt($jj.quantity);
+									$item2.totalhargakirim += parseFloat($jj.actualprice);
+								});
+							}
+							else
+							{
+								// $item2.cartheader.printprice = 0;
+								// $item2.cartheader.deliveryprice = 0;
+								// $item2.cartheader.discount = 0;
+								// $item2.cartheader.buyprice = 0;
+								// $item2.cartheader.totalprice = 0;
+								// $item2.cartheader.totalkirim = 0;
+								// $item2.cartheader.totalhargakirim = 0;
+							}
+						});
+					}
 
 					if($item.salesdelivery != null){
 						$.each($item.salesdelivery, function($index, $item2){
@@ -568,6 +576,13 @@ module.exports = function(app){
 				$scope.selectedheaderid = $salesID;
 
 				$('#addDeliveryModal').modal('show');
+				$('#addDeliveryModal').on('shown.bs.modal', function () {
+					if($scope.headers[$scope.selectedheaderindex].customer.customeraddress != null){
+						if($scope.headers[$scope.selectedheaderindex].customer.customeraddress.length > 0){
+							$scope.newdelivery.deliveryaddressID = $scope.headers[$scope.selectedheaderindex].customer.customeraddress[$scope.headers[$scope.selectedheaderindex].customer.customeraddress.length-1].addressID;
+						}
+					}
+				});
 			}
 
 			$scope.updateDelivery = function(){
@@ -605,7 +620,7 @@ module.exports = function(app){
 			$scope.updateDeliveryUniversal = function(){
 				$http({
 					"method" : "POST",
-					"url"    : API_URL+"admin/sales/delivery/update",
+					"url"    : AJAX_URL+"admin/sales/delivery/update",
 					"data"   : $scope.selecteddelivery
 				}).then(function(response){
 					if(typeof response.data === "string")
@@ -629,68 +644,6 @@ module.exports = function(app){
 				$('#updateDeliveryModal').modal('show');
 			}
 
-			$scope.setDeliverydetail = function($detail){
-				$detail.deliveryselected = !$detail.deliveryselected;
-				if($detail.deliveryselected==true)
-				{
-					//cek dulu uda ada ato belom
-					$notfound = true;
-					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
-						if($ii.salesdetailID == $detail.id)
-						{
-							$notfound = false;
-						}
-					});
-
-					if($notfound == true){
-						$temp = $scope.clone($detail);
-						$scope.newdelivery.deliverydetail.push({
-							"salesdetailID" : $temp.id,
-							"deliveryshow" : false,
-							"totalweight" : 0,
-							"totalpackage" : 1,
-							"ammount" : parseInt($temp.cartheader.quantity),
-							"actualprice" : parseInt($temp.cartheader.deliveryprice),
-							"totalquantity" : parseInt($temp.cartheader.quantity),
-							"quantitytypename" : $temp.cartheader.quantitytypename,
-							"jobtitle" : $temp.cartheader.jobsubtype.name + " " + $temp.cartheader.jobtitle
-						});
-					}
-				}
-				else
-				{
-					$.each($scope.newdelivery.deliverydetail, function($i, $ii){
-						if($ii.salesdetailID == $detail.id){
-							$scope.newdelivery.deliverydetail.splice($i, 1);
-							return false;
-						}
-					});
-				}
-			}
-
-			$scope.saveDelivery = function(){
-				//DARI DIALOG BOX, MODAL
-				
-				$time = $scope.newdelivery.arrivedtime;
-				$date = $scope.newdelivery.arriveddate;
-				$scope.newdelivery.delivtime = $date.getFullYear()+"-"+$scope.zeroFill($date.getMonth(),2)+"-"+$scope.zeroFill($date.getDate(),2)+" "+$scope.zeroFill($time.getHours(),2)+":"+$scope.zeroFill($time.getMinutes(),2)+":"+$scope.zeroFill($time.getSeconds(),2);
-
-				$http(
-					{
-						method: "POST",
-						url   : API_URL+"admin/sales/delivery/"+$scope.selectedheaderid+"/store",
-						data  : $scope.newdelivery	
-					}
-				).then(function(response){
-					if(typeof response.data === "string")
-					{
-						if(response.data == "success")
-						{
-							$window.location.href=BASE_URL+"admin/allsales";
-						}
-					}
-				});
-			}
 
 			$scope.getCartData = function($id){
 				$http(
@@ -746,7 +699,7 @@ module.exports = function(app){
 								$scope.selectedcustacc = $scope.customerbankaccs[0];
 						}
 				}, function(error){
-					console.log(error.message);
+					console.log(errormessage);
 				});
 			};
 
@@ -758,6 +711,23 @@ module.exports = function(app){
 					}
 				}
 			});
+
+			$scope.deleteheader = function($salesheader, $index){
+				$http({
+					method: "POST",
+					url: AJAX_URL+"admin/salesheader/"+$salesheader.id+"/delete"
+				}).then(function(response){
+					if(response.data!=null)
+					{
+						if(response.data instanceof Array)
+						{
+							if(response.data[0] == 1){
+								$scope.headers.splice($index, 1);
+							}
+						}
+					}
+				});
+			}
 
 			$scope.verify = function()
 			{
@@ -827,85 +797,7 @@ module.exports = function(app){
 			};
 
 
-			//UPLOAD ON modals/ADDPROOFFILE.blade.php
-			$scope.uploadpreviewClick = function($cartID, $index)
-			{
-				$("#uploadpreview").click();
-				//$scope.activeCustomerID = $custID;
-				$scope.activeCartID = $cartID;
-			}
 			
-			$('#uploadpreview').on('change', function(e) 
-			{ 
-				console.log($(this)[0].files);
-				if ($(this)[0].files){
-					if ($(this)[0].files.length > 0) {
-						$scope.uploadpreview($(this)[0].files, $scope.activeCartID);
-					}
-				} 
-				return false;
-			});
-
-			$scope.uploadpreview = function(files, cartID){
-				var data = new FormData();
-				$scope.uploaderror = '';
-				$scope.uploadwaiting = true;
-
-				angular.forEach(files, function(value){
-					$ext = value.name.substring(value.name.lastIndexOf('.') + 1);
-					if ($ext != 'tiff' &&
-						$ext != 'tif' &&
-						$ext != 'jpg' &&
-						$ext != 'jpeg') //indesign
-					{
-						//FORMAT NGACOK
-						$scope.uploaderror = value.name+" : tidak bisa upload dengan file format "+$ext+".";
-					}
-					else if(value.size > 50 * 1024 * 1024)
-					{
-						$scope.uploaderror = value.name+" : file terlalu besar.";
-					}
-					else 
-					{
-						$scope.uploaderror = "";
-						//BERHASIL -> ADD files[] ke data
-						data.append("files[]", value);
-						//data.append('jobsubtypeID', $scope.selected.jobsubtypeID);
-						//jobsubtypeID -> dibuang, ditambahkan dengan user dapat mengganti filename dan deskripsi
-					}
-				});
-				
-				$http({
-					method: 'POST',
-					url: AJAX_URL+'upload/preview/'+cartID,
-					data: data,
-					withCredentials: true,
-					headers: {'Content-Type': undefined },
-					transformRequest: angular.identity
-				}).then(function(response) {
-					if(response.data!=null)
-					{
-						if(Array.isArray(response.data))
-						{
-							$scope.selectedsalesdetail.cartheader.cartpreview = response.data;
-						}
-						else
-							console.log(response);
-					}
-					else
-					{
-						console.log(response);
-					}
-					$scope.uploadwaiting = false;
-					//$scope.allowed();
-				}, function(error) {
-					$scope.error.files = "Error file (error not detected), call customer service for this error";
-					$scope.uploadwaiting = false;
-				});
-
-				//buat apus file abis d input
-				//$scope.clearFileInput('file');
-			}
 
 
 			$scope.printworkorder = function(item){
@@ -947,7 +839,7 @@ module.exports = function(app){
 				prebarcode += '<br>';
 
 
-				afterbarcode += '<hr class="solid">';
+				afterbarcode += '<hr class="solid"><br>';
 				$.each(item.salesdetail, function($i, $salesdetail){
 					afterbarcode += '<div class="title">'
 						+ $salesdetail.cartheader.jobsubtype.name
@@ -980,7 +872,7 @@ module.exports = function(app){
 							afterbarcode += '> <b>'+$cartdetail.cartname+'</b><br>';
 
 						afterbarcode += ($cartdetail.jobtype=='OF'?"OFFSET":$cartdetail.jobtype=='DG'?"DIGITAL":"OTHER")
-						 + ' ' + $cartdetail.printer.machinename + '<br>'
+							+ ' ' + $cartdetail.printer.machinename + '<br>'
 							+ $cartdetail.totaldruct + ' druct'
 							+ ' +ins. '
 							+ $cartdetail.inschiet + '<br>'
@@ -1020,7 +912,7 @@ module.exports = function(app){
 
 						afterbarcode += '</div>';
 					});
-					afterbarcode += '<hr class="solid">';
+					afterbarcode += '<hr class="solid"><br><br>';
 				});
 
 				afterbarcode += '<div class="text-xs-center">Selamat bekerja</div>';

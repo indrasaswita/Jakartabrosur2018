@@ -38,7 +38,23 @@ class InsertSalesheadersTable extends Migration
 				(6, 'Acara 17 agustus', null, '2020-01-05 10:00:00', '2019-08-15 7:23:00', null, null), 
 				(7, 'Acara Tahun Baru 2020', null, '2020-01-07 10:00:00', '2020-07-22 7:23:00', null, null), 
 				(8, 'Acara Kampus Tahun Lalu', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null), 
-				(9, 'Acara Tahun Lama 2018', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null);
+				(9, 'Acara Tahun Lama 2018', null, '2018-08-01 10:00:00', '2018-07-01 7:23:00', null, null),
+				(10, 'Spongebob 1', null, '2020-01-06 10:00:00', '2019-08-15 7:23:00', null, null), 
+				(11, 'Spongebob 2', null, '2020-01-07 10:00:00', '2020-07-22 7:23:00', null, null), 
+				(12, 'Spongebob 3', null, '2018-01-08 10:00:00', '2018-07-01 7:23:00', null, null), 
+				(13, 'Spongebob ep. 17', null, '2018-01-09 10:00:00', '2018-07-01 7:23:00', null, null),
+				(14, 'Acara 17 agustus', null, '2020-01-10 10:00:00', '2019-08-15 7:23:00', null, null), 
+				(15, 'Spongebob ep. 1', null, '2020-01-11 10:00:00', '2020-07-22 7:23:00', null, null), 
+				(16, 'Mr.Krab Ep 1', null, '2018-08-12 10:00:00', '2018-07-01 7:23:00', null, null), 
+				(17, 'Spongebob ep. 215', null, '2018-08-13 10:00:00', '2018-07-01 7:23:00', null, null),
+				(18, 'Acara 17 agustus 1944', null, '2020-01-14 10:00:00', '2019-08-15 7:23:00', null, null), 
+				(19, 'hello Tron 456456', null, '2020-01-15 10:00:00', '2020-07-22 7:23:00', null, null), 
+				(20, 'Krabby Patty Ep 2', null, '2018-08-16 10:00:00', '2018-07-01 7:23:00', null, null), 
+				(21, 'Patron ep. 12345', null, '2018-08-17 10:00:00', '2018-07-01 7:23:00', null, null),
+				(22, 'Acara sunatan', null, '2020-01-14 10:00:00', '2019-08-15 7:23:00', null, null), 
+				(23, 'Halo dunia 456456', null, '2020-01-15 10:00:00', '2020-07-22 7:23:00', null, null), 
+				(24, 'Mr.Krab Ep 3', null, '2018-08-16 10:00:00', '2018-07-01 7:23:00', null, null), 
+				(25, 'Spongetron ep. 12345', null, '2018-08-17 10:00:00', '2018-07-01 7:23:00', null, null);
 		");
 	}
 

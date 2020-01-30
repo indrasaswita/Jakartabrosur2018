@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Salesheader extends Model
 {
-	//use SoftDeletes;
+	use SoftDeletes;
 
 	protected $fillable = ['customerID', 'name', 'tempo', 'estdate'];
 	protected $guarded = ['id'];

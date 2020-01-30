@@ -17,7 +17,7 @@ class CreateSalespaymentverifTable extends Migration
             CREATE TABLE salespaymentverifs (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 paymentID INT UNSIGNED NOT NULL,
-                customerbankaccID INT UNSIGNED DEFAULT NULL,
+                customerbankmutationID INT UNSIGNED DEFAULT NULL,
                 note VARCHAR(128) NOT NULL DEFAULT '',
                 employeeID INT UNSIGNED NOT NULL,
                 veriftime DATETIME NOT NULL,

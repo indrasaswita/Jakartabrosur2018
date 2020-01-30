@@ -35,6 +35,22 @@ module.exports = function(app){
 			// ==========================================
 			/*Global site tag (gtag.js) - Google Analytics */
 
+			$scope.decompress = function($input){
+				return app.LZUTF8.decompress($scope.replaceAll($input, '$', '+'), {inputEncoding: "Base64", outputEncoding: "String"});
+			}
+
+			$scope.compress = function($input){
+				return $scope.replaceAll(app.LZUTF8.compress($input, {outputEncoding: "Base64"}), '+', '$');
+			}
+
+			$scope.replaceAll = function($input, $find, $with){
+				if($input.indexOf($find)!=-1){
+					$input = $input.replace($find, $with);
+					return $scope.replaceAll($input, $find, $with);
+				}else{
+					return $input;
+				}
+			}
 
 			$scope.showAlertOK = function($title, $detail, $login = false){
 				$scope.alertmessage = {
@@ -189,8 +205,14 @@ module.exports = function(app){
 			}*/
 
 			$scope.clone = function($obj){
-				//GA BISA BUAT ARRAY
-				return jQuery.extend(true, {}, $obj);
+				if($obj instanceof Array){
+					//untuk array
+					$test = JSON.parse(JSON.stringify($obj));
+					return $test;
+				}else{
+					//GA BISA BUAT ARRAY
+					return jQuery.extend(true, {}, $obj);
+				}
 			};
 
 			$scope.isNum = function($input){
@@ -277,7 +299,7 @@ module.exports = function(app){
 				});
 			};
 
-			$scope.fillCities = function()
+			$scope.fillCities = function(whendone=null, whenfailed=null)
 			{
 				$http(
 					{
@@ -285,12 +307,30 @@ module.exports = function(app){
 						url : API_URL + 'cities'
 					}
 				).then(function(response) {
-					if(response.data!=null)
-						if(response.data.length>0)
+					if(response.data!=null){
+						if(response.data.length>0){
 							$scope.cities = response.data;
+							if(whendone instanceof Function){
+								whendone(response);
+							}
+						}else{
+							console.log("return city was none");
+							if(whenfailed instanceof Function){
+								whenfailed(response);
+							}
+						}
+					}else{
+							console.log("return city null");
+						if(whenfailed instanceof Function){
+							whenfailed(response);
+						}
+					}
 				}, function(error){
 					console.log("cannot get city data");
 					console.log(error);
+					if(whenfailed instanceof Function){
+						whenfailed(response);
+					}
 				});
 			};
 

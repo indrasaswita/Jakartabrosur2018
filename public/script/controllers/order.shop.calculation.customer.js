@@ -149,47 +149,82 @@ module.exports = function(app){
 				$scope.getPrice();
 			}
 
-			$scope.decompress = function($input){
-
-				return app.LZUTF8.decompress($input, {inputEncoding: "Base64", outputEncoding: "String"});
-			}
-
-			$scope.compress = function($input){
-				return app.LZUTF8.compress($input, {outputEncoding: "Base64"});
-			}
-
 			$scope.setSelectedByURL = function($input){
-				if(app.isBase64($input)){
+				if(app.isBase64($scope.replaceAll($input, '$', '+'))){
 				
 					$input2 = $scope.decompress($input);
 					$tmps = JSON.parse($input2);
 
-					$finclone = $scope.clone($scope.selected.finishings);
+					$finclone = $scope.clone($tmps.finishings);
 
 					$scope.selected = Object.assign($scope.selected, $tmps);
+					
+					if($scope.selected != null){
+						if($scope.selected.size != null){
+							if($scope.selected.size.width != null){
+								if(typeof $scope.selected.size.width == "string"){
+									$scope.selected.size.width = parseFloat($scope.selected.size.width);
+								}
+							}
+							if($scope.selected.size.length != null){
+								if(typeof $scope.selected.size.length == "string"){
+									$scope.selected.size.length = parseFloat($scope.selected.size.length);
+								}
+							}
+						}
+					}
+
 					$scope.datas = $scope.splitMaster($scope.master, $scope.selected.printtype);
 					$scope.setFinishingRole();
 					$scope.selected.finishings = $tmps.finishings;
 
 					//SELECT SIZE
-					$.each($scope.datas.jobsubtypesize, function($i, $ii){
-						if($ii.size.id == $scope.selected.sizeID){
-							$scope.selected.size = $ii.size;
-						}
-					});
+					if($scope.datas.jobsubtypesize.length>0){
+						$.each($scope.datas.jobsubtypesize, function($i, $ii){
+							if($scope.selected.sizeID != null){
+								if($ii.size.id == $scope.selected.sizeID){
+									$scope.selected.size = $ii.size;
+								}
+							}else{
+								if($scope.selected.size.id != 0){
+									if($ii.size.id == $scope.selected.size.id){
+										$scope.selected.size = $ii.size;
+									}else{
+										$scope.customsize = true;
+									}
+								}else{
+									$scope.customsize = true;
+								}
+							}
+						});
+					}else{
+						$scope.customsize = true;
+					}
 					//SELECT JENIS MATERIAL
 					$.each($scope.datas.jobsubtypepaper,function($i, $ii){
-						if($ii.paper.id == $scope.selected.paperID){
+						if($ii.paper.id == $scope.selected.paper.id){
 							$scope.selected.paper = $ii.paper;
 						}
 					});
 					//SELECT SISI CETAK
 					//sudah langsung cek ke sideprint: 1/2
 					//SELECT FINISHING
+
+					console.log($finclone);
 					$.each($scope.datas.jobsubtypefinishing, function($i, $ii){
 						//$s <- dari url (selected)
 						$tidakadadiurl = true;
-						$.each($scope.selected.finishings, function($s, $ss){
+
+						//INIT DATA KALO DIA TIDAK PAKAI FINISHING (OPTION 0)
+						if($ii.finishing!=null)
+							if($ii.finishing.finishingoption)
+								if($ii.finishing.finishingoption.length>0){
+									$scope.selected.finishings[$i] = $ii.finishing.finishingoption[0];
+									console.log("SET AWAL");
+								}
+
+						$.each($finclone, function($s, $ss){
+							console.log("TEST "+$ii.finishing.id+" == "+$ss.finishingID);
 							if($ss.finishingID == $ii.finishing.id){
 								//jika finishing idnya sama, brarti indexnya ketemu juga.. maka di cek optionnya..
 								$tidakadadiurl = false;
@@ -197,23 +232,25 @@ module.exports = function(app){
 								$.each($ii.finishing.finishingoption, function($j, $jj){
 									if($jj.id == $ss.optionID){
 										//jika optionnya di looping dan idnya ketemu, maka hasilnya di tampung.. selected.finsihings[$s]nya diganti jadi object
-										$scope.selected.finishings[$s] = $scope.clone($jj);
+										$scope.selected.finishings[$i] = $scope.clone($jj);
+										console.log("SAMA "+$jj.id+" == "+$ss.optionID);
+										console.log($scope.clone($jj));
 										$tidakadasama = false;
+										console.log($scope.selected.finishings);
 									}
 									//jika tidak ada yang sama satu pun maka masuk ke bawah
 								});
 								//jika tidak ada yang sama
 								if($tidakadasama == true){
 									//jika optionID tidak ada: error, maka dimasukkan default
-									$scope.selected.finishings[$s] = $scope.clone($finclone[$s]);
+									$scope.selected.finishings[$i] = $scope.clone($finclone[$s]);
 									//finclone sudah di copy di awal
 								}
 							}
 						});
-						if($tidakadadiurl == true){
-							$scope.selected.finishings[$i] = $scope.clone($finclone[$i]);
-						}
 					});
+					console.log($scope.selected.finishings);
+
 					//SELECT DELIVERY TYPE
 					$dlvfound = false;
 					$.each($scope.deliveries, function($i, $ii){
@@ -257,6 +294,7 @@ module.exports = function(app){
 					//END SET SELECTED URL
 
 				}else{
+					alert('WRONG PARAMETER, contact Jakartabrosur.com SUPPORT')
 					console.log("WRONG PARAMETER");
 				}
 			}
@@ -284,7 +322,7 @@ module.exports = function(app){
 				$tmpsf = [];
 				$.each($tmps.finishings, function($i, $ii){
 					$temp = {
-						"finishingID": $ii.finishingID,
+						"finishingID": $ii.finishing.id,
 						"optionID": $ii.id
 					};
 					$tmpsf.push($temp);
@@ -1258,6 +1296,16 @@ module.exports = function(app){
 				$('#easyaccess').modal('show');
 			}
 
+			$scope.blurwidth = function($item){
+				$scope.selected.size.width = $scope.checkIfMin($scope.selected.size.width, 3);
+				$scope.sizeChanged($item);
+			}
+
+			$scope.blurlength = function($item){
+				$scope.selected.size.length = $scope.checkIfMin($scope.selected.size.length, 3);
+				$scope.sizeChanged($item);
+			}
+
 			$scope.sizeChanged = function($item)
 			{
 				if($item.id!=0)
@@ -1287,6 +1335,7 @@ module.exports = function(app){
 					// KALO ID = 0 brarti custom
 					$scope.customsize = true;
 					$scope.selected.size = $item;
+					$scope.getPrice();
 				}
 			}
 

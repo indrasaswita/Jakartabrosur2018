@@ -68,6 +68,24 @@ class FileAJAX extends Controller
 		}
 	}
 
+	public function downloadtest($id){
+		$file = Files::find($id);
+		$filepath = public_path().'/'.$file['path'];
+		$filename = "TEST.jpg";
+
+		if(file_exists($filepath)){
+			$type = "jpg";//pathinfo($filepath, PATHINFO_EXTENSION);
+			$data = file_get_contents($filepath);
+			$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+
+			return $base64;
+		} else {
+			echo $filepath."<br>";
+			return "not exists";
+		}
+	}
+
 	public function downloadByFileID($id){
 		$userid = session()->get('userid');
 		if($userid == null)

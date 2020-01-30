@@ -24,12 +24,15 @@ class CreateSalespaymentsTrigger extends Migration
 				DECLARE done INT DEFAULT FALSE;
 				DECLARE temppay INT DEFAULT 0;
 				DECLARE tempsalesid INT;
+				DECLARE salesheaderID INT DEFAULT (SELECT salesID 
+						FROM salespayments 
+						WHERE id = NEW.id);
 				DECLARE cartID INT;
 				DECLARE salespayment_cur CURSOR FOR 
 					SELECT sp.ammount, sh.id
 					FROM salespayments sp
 						JOIN salesheaders sh ON sp.salesID = sh.id
-					WHERE sp.id = NEW.id;
+					WHERE sp.salesID = salesheaderID;
 				DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 				OPEN salespayment_cur;
@@ -65,12 +68,15 @@ class CreateSalespaymentsTrigger extends Migration
 				DECLARE done INT DEFAULT FALSE;
 				DECLARE temppay INT DEFAULT 0;
 				DECLARE tempsalesid INT;
+				DECLARE salesheaderID INT DEFAULT (SELECT salesID 
+						FROM salespayments 
+						WHERE id = NEW.id);
 				DECLARE cartID INT;
 				DECLARE salespayment_cur2 CURSOR FOR 
 					SELECT sp.ammount, sh.id
 					FROM salespayments sp
 						JOIN salesheaders sh ON sp.salesID = sh.id
-					WHERE sp.id = NEW.id;
+					WHERE sp.salesID = salesheaderID;
 				DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 				OPEN salespayment_cur2;

@@ -17,8 +17,8 @@ class CreateSalesdeliveriesTable extends Migration
             $table->increments('id');
             $table->integer('salesID')->unsigned();
             $table->integer('deliveryID')->unsigned();
-            $table->integer('employeeID')->unsigned();
-            $table->integer('addressID')->unsigned();
+            $table->integer('employeeID')->unsigned()->nullable();
+            $table->integer('addressID')->unsigned()->nullable();
             $table->string('receiver', 64)->nullable();
             $table->string('customernote')->nullable();
             $table->string('employeenote')->nullable();

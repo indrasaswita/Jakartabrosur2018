@@ -282,19 +282,20 @@ Route::group(['middleware'=>"employeeAPI"], function(){
 	Route::post ('API/cartheaders/filestatus/setOK/{id}', 'CartheaderAPI@apiFileStatusSetOk'); //ADMIN + SETTING ONLY
 	Route::post ('API/cartheaders/filestatus/setNOTOK/{id}', 'CartheaderAPI@apiFileStatusSetOk'); // ADMIN + SETTING ONLY
 
-	Route::post ('API/admin/cart/employeenote', 'AdmCartAPI@updateEmployeeNote');
+	Route::post('API/admin/cart/employeenote', 'AdmCartAPI@updateEmployeeNote');
 	Route::post("AJAX/admin/cart/checkout", "AdmCartAJAX@checkout");
 
 
 		//PARAMETER $id => salesID
-	Route::post ("API/admin/sales/delivery/{id}/store", 'AdmSalesdeliveryAPI@store');
-	Route::post ("API/admin/sales/delivery/update", 'AdmSalesdeliveryAPI@update');
+	Route::post("AJAX/admin/salesheader/{id}/delete", "AdmSalesheaderAJAX@delete");
+	Route::post("AJAX/admin/sales/delivery/{id}/store", 'AdmSalesdeliveryAJAX@store');
+	Route::post("AJAX/admin/sales/delivery/update", 'AdmSalesdeliveryAJAX@update');
 
 	//CART ADMIN
 	Route::post("API/admin/cart/store", "AdmCartAPI@addNewCart");
 	Route::get("API/admin/cart/{id}/delete", 'AdmCartAPI@deleteCart');
-	Route::get  ("AJAX/data/customers/name", "CustomerAJAX@getName");
-	Route::get ('AJAX/customer/{id}/sales', 'CustomerAJAX@getSalesByCustID');
+	Route::get("AJAX/data/customers/name", "CustomerAJAX@getName");
+	Route::get('AJAX/customer/{id}/sales', 'CustomerAJAX@getSalesByCustID');
 
 	//AJAX FROM EMPLOYEE ROLE
 	Route::post("AJAX/jobeditor/jobsubtypes/update", 'AdmJobeditorAJAX@updatejobsubtype');
